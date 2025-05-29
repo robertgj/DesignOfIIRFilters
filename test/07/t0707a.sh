@@ -1,7 +1,7 @@
 #!/bin/sh
 
-prog=socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test.m
-depends="test/socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test.m \
+prog=socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test.m
+depends="test/socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test.m \
 ../schurOneMlattice_socp_slb_lowpass_R2_test_k2_coef.m \
 ../schurOneMlattice_socp_slb_lowpass_R2_test_epsilon2_coef.m \
 ../schurOneMlattice_socp_slb_lowpass_R2_test_c2_coef.m \
@@ -64,27 +64,27 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [        0,     4865,        0,    15817, ... 
-                 0,     -160,        0,    10311, ... 
-                 0,    -4474,        0,     3740, ... 
-                 0,    -1688,        0,      476 ]'/16384;
+k_min = [        0,     1216,        0,     3951, ... 
+                 0,      -72,        0,     2560, ... 
+                 0,    -1152,        0,      960, ... 
+                 0,     -446,        0,      132 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [      740,     1473,      976,      112, ... 
-             -4720,    -9233,    -8207,    -1568, ... 
-              3680,     6894,     6236,     5680, ... 
-              3232,     1912,      784,      249, ... 
-                36 ]'/16384;
+c_min = [      200,      388,      254,       25, ... 
+             -1216,    -2392,    -2128,     -448, ... 
+               916,     1744,     1572,     1441, ... 
+               824,      496,      208,       72, ... 
+                14 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 1.1123e-04 & & \\
-15-bit 4-signed-digit & 1.7437e-04 & 92 & 67 \\
-15-bit 4-signed-digit(Lim)& 1.2989e-04 & 95 & 70 \\
-15-bit 4-signed-digit(SOCP-relax) & 1.2635e-04 & 95 & 70 \\
+Exact & 7.3087e-05 & & \\
+13-bit 4-signed-digit & 1.1583e-04 & 83 & 58 \\
+13-bit 4-signed-digit(Ito)& 1.0239e-04 & 74 & 49 \\
+13-bit 4-signed-digit(SOCP-relax) & 1.2210e-04 & 74 & 49 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
@@ -96,7 +96,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="socp_relaxation_schurOneMlattice_lowpass_R2_15_nbits_test"
+nstr="socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi

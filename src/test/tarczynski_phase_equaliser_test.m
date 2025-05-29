@@ -9,6 +9,65 @@ delete("tarczynski_phase_equaliser_test.diary");
 delete("tarczynski_phase_equaliser_test.diary.tmp");
 diary tarczynski_phase_equaliser_test.diary.tmp
 
+function E=WISEJ_PhaseEq(a,_Va,_Qa,_Ra,_x,_Ux,_Vx,_Mx,_Qx,_Rx,_w,_tp)
+% E=WISEJ_PhaseEq(a,Va,Qa,Ra,x,Ux,Vx,Mx,Qx,Rx,w,tp)
+% Objective function for equalising the group delay of the response
+% of an IIR filter with gain, zeros and poles given by x, Ux, Vx, Mx,
+% Qx, Rx, and nominal group delay, tp, over angular frequencies, w, using
+% the method of Tarczynski et al. See "A WISE Method for Designing IIR
+% Filters", A. Tarczynski et al., IEEE Transactions on Signal Processing,
+% Vol. 49, No. 7, pp. 1421-1432
+
+  persistent Va Qa Ra x Ux Vx Mx Qx Rx w tp
+  persistent Px init_done=false
+
+  if (nargin ~= 1) && (nargin ~= 12)
+    print_usage("E=WISEJ_PhaseEq(a[,Va,Qa,Ra,x,Ux,Vx,Mx,Qx,Rx,w,tp])");
+  elseif nargin==12
+    Va=_Va;Qa=_Qa;Ra=_Ra;
+    x=_x;Ux=_Ux;Vx=_Vx;Mx=_Mx;Qx=_Qx;Rx=_Rx;
+    w=_w(:);tp=_tp;
+    Px=iirP(w,x,Ux,Vx,Mx,Qx,Rx);
+    init_done=true;
+     return;
+  elseif ~init_done
+    error("~init_done");    
+  endif
+
+  % Calculate phase or group delay error
+  Pa=allpassP(w,a,Va,Qa,Ra);
+  E=(Pa+Px+(tp*w)).^2;
+  intE=sum(diff(w).*(E(1:(end-1))+E(2:end)))/2;
+  
+  % Heuristics for the barrier function
+  [~,Da]=a2tf(a,Va,Qa,Ra);
+  Da=Da(:)';
+  nDa=length(Da)-1;
+  lambda = 0.001;
+  t = 300;
+  rho = 31/32;
+  % Calculate barrier function state-variable filter
+  Drho=Da./(rho.^(0:nDa));
+  Drho=Drho/Drho(1);
+  nDrho=length(Drho);
+  AD=[zeros(nDrho-2,1) eye(nDrho-2); -Drho(nDrho:-1:2)];
+  bD=[zeros(nDrho-2,1);1];
+  cD=-Drho(nDrho:-1:2);
+  dD=1;
+  % Calculate barrier function error
+  f = zeros(nDa,1);
+  cAD_t = cD*(AD^(t-1));
+  for k=1:nDa
+    f(k) = cAD_t*bD;
+    cAD_t = cAD_t*AD;
+  endfor
+  f = real(f);
+  EJ = sum(f.*f);
+
+  % Return error
+  E=((1-lambda)*intE)+(lambda*EJ); 
+endfunction
+
 tic;
 
 tol=1e-3
@@ -70,7 +129,7 @@ for nh=3:4,
     axis([0 0.5 -60 0]);
     grid("on");
     s=sprintf(["Elliptic filter with all-pass delay equaliser : ", ...
- "nh=%d,na=%d,ftp=%g,tp=%g"],nh,na,ftp,tp);
+               "nh=%d,na=%d,ftp=%g,tp=%g"],nh,na,ftp,tp);
     title(s);
     subplot(212)
     plot(w*0.5/pi,T1(:)-tp);

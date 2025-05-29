@@ -11,14 +11,14 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-ftol=1e-6
-ctol=ftol/20
+ftol=1e-5
+ctol=1e-7
 maxiter=10000
 verbose=false
 
 % Lowpass filter specification
 norder=16,R=2
-fap=0.15,dBap=0.08,Wap=1,Wat=ftol
+fap=0.15,dBap=0.06,Wap=1,Wat=ftol
 fas=0.175,dBas=60,Wasi=1e3,Was=1e6
 
 % Squared-magnitude constraints
@@ -32,14 +32,14 @@ Asqdl=[(10^(-dBap/10))*ones(nap,1); zeros(n-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Find initial filter
-Ad=[ones(nap,1); zeros(n-nap,1)];
+Adi=[ones(nap,1); zeros(n-nap,1)];
 Wai=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Wasi*ones(n-nas+1,1)];
 NDi=[0.1;zeros(norder+(norder/2),1)];
-WISEJ_ND([],norder,norder/2,R,Ad,Wai);
+WISEJ([],norder,norder/2,R,wa,Adi,Wai);
 tol=1e-9;
 maxiter=10000;
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_ND,NDi,opt);
+[ND0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ,NDi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
 elseif (INFO == 2)

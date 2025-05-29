@@ -1,8 +1,9 @@
 #!/bin/sh
 
 prog=tarczynski_phase_equaliser_test.m
-depends="test/tarczynski_phase_equaliser_test.m test_common.m delayz.m WISEJ_PhaseEq.m iirP.m \
-allpassP.m tf2x.m zp2x.m a2tf.m tf2a.m qroots.oct print_polynomial.m"
+depends="test/tarczynski_phase_equaliser_test.m test_common.m delayz.m iirP.m \
+allpassP.m tf2x.m zp2x.m a2tf.m tf2a.m print_polynomial.m \
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -3,7 +3,7 @@
 prog=tarczynski_schurOneMlattice_lowpass_test.m
 
 depends="test/tarczynski_schurOneMlattice_lowpass_test.m test_common.m \
-WISEJ_OneM.m schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlattice2tf.m \
+schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlattice2tf.m \
 H2Asq.m H2T.m delayz.m print_polynomial.m \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct \
 Abcd2tf.oct"

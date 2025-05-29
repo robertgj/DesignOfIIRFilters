@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=WISEJ_PAB_test.m
-depends="test/WISEJ_PAB_test.m WISEJ_PAB.m test_common.m \
+depends="test/WISEJ_PAB_test.m test_common.m \
 delayz.m print_polynomial.m print_pole_zero.m qroots.oct"
 
 tmp=/tmp/$$

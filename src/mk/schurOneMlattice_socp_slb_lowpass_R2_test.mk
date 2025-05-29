@@ -31,6 +31,6 @@ schurOneMlattice_socp_slb_lowpass_plot.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m H2Asq.m print_polynomial.m WISEJ_ND.m tf2Abcd.m delayz.m \
+local_max.m H2Asq.m print_polynomial.m WISEJ.m tf2Abcd.m delayz.m \
 qroots.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct qroots.oct

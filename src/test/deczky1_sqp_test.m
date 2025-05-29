@@ -18,7 +18,7 @@ verbose=false
 
 % Filter specifications
 fap=0.25,ftp=0.25,fas=0.3
-dBap=0.5,dBas=35,tp=8,tpr=1.6
+dBap=1,dBas=35,tp=8,tpr=2
 Wap=1,Wat=0.01,Was=0.5,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
@@ -27,8 +27,9 @@ tarczynski_deczky1_test_x0_coef;
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
              fap,Wap,fas,Was,ftp,tp,Wtp);
-strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,", ...
- "tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
+strP=sprintf(["%%s:fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,", ...
+              "ftp=%g,tp=%g,tpr=%g,Wtp=%g"], ...
+             fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 
 % Frequency points
 n=800;
