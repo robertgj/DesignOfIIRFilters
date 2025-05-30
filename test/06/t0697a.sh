@@ -70,6 +70,13 @@ k_min = [        0,      416,        0,      -57, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
+cat > test.epsilon.ok << 'EOF'
+epsilon_min = [        0,        1,        0,        1, ... 
+                       0,       -1,        0,        1, ... 
+                       0,       -1 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon.ok"; fail; fi
+
 cat > test.c.ok << 'EOF'
 c_min = [      -44,     -449,     -588,      -63, ... 
                148,      -34,      -48,       35, ... 
@@ -97,6 +104,9 @@ nstr="socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+
+diff -Bb test.epsilon.ok $nstr"_epsilon_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon.ok"; fail; fi
 
 diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi

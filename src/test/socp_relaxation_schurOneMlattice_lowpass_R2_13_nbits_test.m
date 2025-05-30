@@ -18,7 +18,7 @@ tic;
 verbose=false
 maxiter=5000
 ftol=1e-4
-ctol=1e-6
+ctol=5e-7
 nbits=13
 nscale=2^(nbits-1);
 ndigits=4
@@ -26,6 +26,7 @@ ndigits=4
 % Options
 socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Lim=false
 socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Ito=true
+socp_relaxation_schurOneMlattice_lowpass_R2_recalc_c=true
 
 %
 % Initial filter
@@ -42,7 +43,7 @@ p_ones=ones(size(k0));
 % Lowpass R=2 filter specification
 %
 % Low-pass filter specification (denominator polynomial in z^-2 only)
-R=2;fap=0.15;dBap=0.1;Wap=1;fas=0.18;dBas=53;Was=5e6;
+R=2;fap=0.15;dBap=0.1;Wap=1;fas=0.18;dBas=55;Was=5e6;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice filter
@@ -82,10 +83,14 @@ k0=k0(:);
 c0=c0(:);
 kc0=[k0;c0];
 Nk=length(k0);
+Rk=1:Nk;
 Nc=length(c0);
+Rc=(Nk+1):(Nk+Nc);
 kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc0_l=-kc0_u;
 kc0_active=[find((k0)~=0);(Nk+(1:Nc))'];
+k0_active=find((k0)~=0);
+c0_active=((Nk+1):(Nk+Nc))';
 
 % Signed-digit coefficients with no allocation
 kc0_sd_no_alloc=flt2SD(kc0,nbits,ndigits);
@@ -180,6 +185,9 @@ kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_l;
 kc_u=kc0_u;
 kc_active=kc0_active;
+k_active=k0_active;
+c_active=c0_active;
+epsilon=epsilon0(:);
 
 % Fix one coefficient at each iteration 
 while ~isempty(kc_active)
@@ -190,19 +198,29 @@ while ~isempty(kc_active)
   kc_b=kc;
   kc_bl=kc_l;
   kc_bu=kc_u;
-  
+
   % Ito et al. suggest ordering the search by max(kc_sdu-kc_sdl)
-  [kc_max,kc_max_n]=max(kc_sdul(kc_active));
-  coef_n=kc_active(kc_max_n);
+  if socp_relaxation_schurOneMlattice_lowpass_R2_recalc_c
+    if any(k_active)
+      [k_max,k_max_n]=max(kc_sdul(k_active));
+      coef_n=k_active(k_max_n);
+    elseif any(c_active)
+      [c_max,c_max_n]=max(kc_sdul(c_active));
+      coef_n=c_active(c_max_n);
+    endif
+  else
+    [kc_max,kc_max_n]=max(kc_sdul(kc_active));
+    coef_n=kc_active(kc_max_n);
+  endif
   kc_bl(coef_n)=kc_sdl(coef_n);
   kc_bu(coef_n)=kc_sdu(coef_n);
-
+  
   % Try to solve the current SOCP problem with bounds kc_bu and kc_bl
   try
     % Find the SOCP PCLS solution for the remaining active coefficients
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
       schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
-                           kc_b(1:Nk),epsilon0,p_ones,kc_b((Nk+1):end), ...
+                           kc_b(1:Nk),epsilon,p_ones,kc_b((Nk+1):end), ...
                            kc_bu,kc_bl,kc_active,dmax, ...
                            wa,Asqd,Asqdu,Asqdl,Wa, ...
                            [],[],[],[],[], ...
@@ -234,20 +252,45 @@ while ~isempty(kc_active)
     nextkc(coef_n)=kc_sdl(coef_n);
   endif
   kc=nextkc;
-  kc_active(kc_max_n)=[];
   printf("Fixed kc(%d)=%13.10f\n",coef_n,kc(coef_n));
-  printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
 
+  if socp_relaxation_schurOneMlattice_lowpass_R2_recalc_c
+    if ~isempty(k_active)
+      k_active(k_max_n)=[];
+      if isempty(k_active)
+        % Rescale epsilon and c coefficients
+        [Ntmp,Dtmp]=schurOneMlattice2tf(kc(Rk),epsilon,p_ones,kc(Rc));
+        [~,epsilontmp,~,ctmp]=tf2schurOneMlattice(Ntmp,Dtmp);
+        kc(Rc)=ctmp;
+        epsilon=int16(epsilontmp(:));
+        printf("k_active=[], epsilon and c rescaled\n");
+        print_polynomial(epsilon,"epsilon");
+        print_polynomial(ctmp,"c");
+      endif
+    elseif ~isempty(c_active)
+      c_active(c_max_n)=[];
+    endif
+    printf("k_active=[ ");printf("%d ",k_active);printf("];\n\n");
+    printf("c_active=[ ");printf("%d ",c_active);printf("];\n\n");
+    kc_active=[k_active(:);c_active(:)];
+  else
+    kc_active(kc_max_n)=[];
+    printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
+  endif
+  
 endwhile
 
 % Show results
-kc_min=kc;
+kc_min=round(kc*nscale)/nscale;
 k_min=kc_min(1:Nk);
+epsilon_min=epsilon;
 c_min=kc_min((Nk+1):end);
-Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa);
+Esq_min=schurOneMlatticeEsq(k_min,epsilon_min,p_ones,c_min,wa,Asqd,Wa);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(epsilon_min,"epsilon_min",1);
+print_polynomial(epsilon_min,"epsilon_min",strcat(strf,"_epsilon_min_coef.m"),1);
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
@@ -280,18 +323,17 @@ u=0.25*u/std(u);
 u=round(u*nscale);
 [yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p_ones,c0,u,"round");
 stdx=std(xx)
-[yapf,yf,xxf]= ...
-  schurOneMlatticeFilter(k_min,epsilon0,ones(size(k0)),c_min,u,"round");
+[yapf,yf,xxf]=schurOneMlatticeFilter(k_min,epsilon_min,p_ones,c_min,u,"round");
 stdxf=std(xxf)
 
 %
 % Amplitude at local peaks
 %
-Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+Asq=schurOneMlatticeAsq(wa,k_min,epsilon,p_ones,c_min);
 vAsql=local_max(Asqdl-Asq);
 vAsqu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAsql);wa(vAsqu);wa([1,nap,nas,end])]);
-AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p_ones,c_min);
+AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fAS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:10*log10(AsqS)=[ ");printf("%f ",10*log10(AsqS'));
 printf(" ] (dB)\n");
@@ -303,7 +345,7 @@ Asq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p_ones,c0);
 Asq_kc0_sd_no_alloc=schurOneMlatticeAsq ...
                       (wa,k0_sd_no_alloc,epsilon0,p_ones,c0_sd_no_alloc);
 Asq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
-Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+Asq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon_min,p_ones,c_min);
 
 % Check constraints after the last truncation
 vS=schurOneMlattice_slb_update_constraints ...
@@ -314,7 +356,7 @@ if ~schurOneMlattice_slb_constraints_are_empty(vS)
 endif
 
 % Check response
-[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
+[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon_min,p_ones,c_min);
 print_polynomial(N_min,"N_min");
 print_polynomial(N_min,"N_min",strcat(strf,"_N_min_coef.m"));
 print_polynomial(D_min,"D_min");
@@ -354,12 +396,12 @@ xlabel("Frequency");
 legend("initial","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","southwest");
 legend("boxoff");
-legend("left");
+legend("right");
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
-[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
+[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon_min,p_ones,c_min);
 zplane(qroots(conv([1;-1],N_min(:))),qroots(D_min(:)));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
@@ -389,7 +431,7 @@ eval(sprintf(["save %s.mat ", ...
  "socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Ito ", ...
  "nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ftol ctol ", ...
  "n fap dBap Wap fas dBas Was k0 epsilon0 c0 k0_sd c0_sd ", ...
- "k_min c_min N_min D_min"], strf));
+ "k_min epsilon_min c_min N_min D_min"], strf));
 
 % Done 
 toc;

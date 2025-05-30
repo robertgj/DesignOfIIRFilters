@@ -73,6 +73,16 @@ k_min = [        0,      329,        0,      256, ...
                  0,       18,        0,        8 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
+
+cat > test.epsilon.ok << 'EOF'
+epsilon_min = [        0,        1,        0,       -1, ... 
+                       0,        1,        0,       -1, ... 
+                       0,        1,        0,       -1, ... 
+                       0,       -1,        0,        1, ... 
+                       0,       -1,        0,       -1 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon.ok"; fail; fi
+
 cat > test.c.ok << 'EOF'
 c_min = [       38,       -8,     -156,     -248, ... 
                -81,       64,      200,      152, ... 
@@ -82,6 +92,7 @@ c_min = [       38,       -8,     -156,     -248, ...
                  2 ]'/512;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
+
 cat > test.cost.ok << 'EOF'
 Exact & 0.0155 & & \\
 10-bit 3-signed-digit&0.0361 & 73 & 42 \\
@@ -102,8 +113,13 @@ nstr="sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+
+diff -Bb test.epsilon.ok $nstr"_epsilon_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon.ok"; fail; fi
+
 diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+
 diff -Bb test.cost.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 

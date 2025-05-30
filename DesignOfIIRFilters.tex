@@ -18920,7 +18920,7 @@ Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-R2-SOCP} with
 $13$-bit $4$-signed-digit coefficients and transfer function denominator
 polynomial coefficients only in $z^{-2}$. The filter coefficients are truncated
 to $13$ bits allocated with an average of $4$ signed-digits by the heuristic of
-\emph{Lim et al.} as shown in Section~\ref{sec:Lim-allocation-signed-digits}. 
+\emph{Ito et al.} as shown in Section~\ref{sec:Ito-allocation-signed-digits}. 
 The filter specification is:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test_spec.m}
@@ -18935,11 +18935,15 @@ optimisation are then passed to \emph{schurOneMlattice\_slb} for PCLS
 optimisation. The resulting PCLS coefficient value selects the closer of the
 upper or lower signed-digit values as the final choice for that coefficient. The
 truncation of the last coefficient is, by necessity, not PCLS optimised so the
-final set of coefficients may not meet the PCLS specifications.
+final set of coefficients may not meet the PCLS specifications. This script
+includes an option to first successively optimise the approximations to the
+reflection coefficients, recalculate the Schur orthogonal basis coefficients
+and the tap coefficients and then successively optimise the approximations to
+the tap coefficients.
 
 \begin{comment}
 The numbers of signed-digits allocated to each coefficient by the heuristic of
-\emph{Lim et al.} are:
+\emph{Ito et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test_k_allocsd_digits.m}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test_c_allocsd_digits.m}
@@ -18959,12 +18963,12 @@ Figure~\ref{fig:socp-relax-schurOneMlattice-lowpass-R2-13-nbits-response}
 compares the pass-band and stop-band responses of the filter with transfer
 function denominator polynomial with coefficients in only $z^{-2}$ andwith
 floating-point coefficients, $13$-bit $4$-signed-digit integer coefficients, $13$-bit signed-digit integer coefficients allocated with the algorithm of
-\emph{Lim et al.} and $13$-bit signed-digit integer coefficients allocated with
-the algorithm of \emph{Lim et al.} and SOCP-relaxation search.
+\emph{Ito et al.} and $13$-bit signed-digit integer coefficients allocated with
+the algorithm of \emph{Ito et al.} and SOCP-relaxation search.
 Table~\ref{tab:socp-relax-schurOneMlattice-lowpass-R2-13-nbits-cost}
 compares the cost and the number of $13$ bit shift-and-add operations required to
 implement the coefficient multiplications found by the signed-digit 
-allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
+allocation heuristic of \emph{Ito et al.} with the SOCP-relaxation search.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test_response}}
@@ -18973,7 +18977,7 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
   polynomial with coefficients in only $z^{-2}$ and with 13-bit 4-signed-digit
   integer coefficients 13-bit integer signed-digit coefficients
   found by allocating an average of 4-signed-digits to each coefficient using the
-  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+  heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMlattice-lowpass-R2-13-nbits-response}
 \end{figure}
 \begin{table}
@@ -18993,7 +18997,7 @@ low-pass filter SOCP-relaxation algorithm example with 13-bit coefficients]
  coefficients in only $z^{-2}$ and with 13-bit integer 4-signed-digit
  integer coefficients 13-bit integer signed-digit coefficients
  found by allocating an average of 4-signed-digits to each coefficient using the
- heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+ heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
 \label{tab:socp-relax-schurOneMlattice-lowpass-R2-13-nbits-cost}
 \end{table}
 \clearpage

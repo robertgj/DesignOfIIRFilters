@@ -67,14 +67,22 @@ cat > test.k.ok << 'EOF'
 k_min = [        0,     1216,        0,     3951, ... 
                  0,      -72,        0,     2560, ... 
                  0,    -1152,        0,      960, ... 
-                 0,     -446,        0,      132 ]'/4096;
+                 0,     -446,        0,      133 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
+cat > test.epsilon.ok << 'EOF'
+epsilon_min = [        0,       -1,        0,        1, ... 
+                       0,        1,        0,       -1, ... 
+                       0,        1,        0,       -1, ... 
+                       0,        1,        0,       -1 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon.ok"; fail; fi
+
 cat > test.c.ok << 'EOF'
-c_min = [      200,      388,      254,       25, ... 
+c_min = [      200,      388,      254,       24, ... 
              -1216,    -2392,    -2128,     -448, ... 
-               916,     1744,     1572,     1441, ... 
+               917,     1744,     1572,     1441, ... 
                824,      496,      208,       72, ... 
                 14 ]'/4096;
 EOF
@@ -84,7 +92,7 @@ cat > test.cost.ok << 'EOF'
 Exact & 7.3087e-05 & & \\
 13-bit 4-signed-digit & 1.1583e-04 & 83 & 58 \\
 13-bit 4-signed-digit(Ito)& 1.0239e-04 & 74 & 49 \\
-13-bit 4-signed-digit(SOCP-relax) & 1.2210e-04 & 74 & 49 \\
+13-bit 4-signed-digit(SOCP-relax) & 1.1498e-04 & 75 & 50 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
@@ -100,6 +108,9 @@ nstr="socp_relaxation_schurOneMlattice_lowpass_R2_13_nbits_test"
 
 diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+
+diff -Bb test.epsilon.ok $nstr"_epsilon_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon.ok"; fail; fi
 
 diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi

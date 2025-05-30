@@ -66,7 +66,9 @@ function print_polynomial(x,name_str,arg3,arg4)
         error("Expected scale to be an integer!");
       endif
       scale=round(arg3);
-      scale_str=sprintf("/%d",arg3);
+      if scale ~= 1
+        scale_str=sprintf("/%d",arg3);
+      endif
       format_str="%8d";
       xs=x*scale;
       if any(abs(mod(xs,1))>tol)
@@ -94,7 +96,9 @@ function print_polynomial(x,name_str,arg3,arg4)
         error("Expected scale to be an integer!");
       endif
       scale=round(arg4);
-      scale_str=sprintf("/%d",arg4);
+      if scale ~= 1
+        scale_str=sprintf("/%d",arg4);
+      endif
       format_str="%8d";      
       xs=x*scale;
       if any(abs(mod(xs,1))>tol)

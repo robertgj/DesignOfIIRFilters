@@ -28,6 +28,7 @@ ndigits=3
 % Options
 socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim=true
 socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito=false
+socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_recalc_c=false
 
 %
 % Initial correction filter
@@ -145,6 +146,8 @@ Rc=((Nk+1):Nkc)';
 kc0_u=[rho*ones(size(k0));10*ones(size(c0))];
 kc0_l=-kc0_u;
 kc0_active=[find(k0(Rk)~=0);Rc];
+k0_active=find((k0)~=0);
+c0_active=((Nk+1):(Nk+Nc))';
 
 % Signed-digit coefficients with no allocation
 kc0_sd_no_alloc=flt2SD(kc0,nbits,ndigits);
@@ -259,11 +262,14 @@ kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_l;
 kc_u=kc0_u;
 kc_active=kc0_active;
+k_active=k0_active;
+c_active=c0_active;
+epsilon=epsilon0(:);
 iter=0;
 
 % Fix one coefficient at each iteration 
 while ~isempty(kc_active)
-  iter=iter+1;
+ iter=iter+1;
 
   % Define filter coefficients 
   [kc_sd,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
@@ -273,8 +279,18 @@ while ~isempty(kc_active)
   kc_bu=kc_u;
   
   % Ito et al. suggest ordering the search by max(kc_sdu-kc_sdl)
-  [kc_max,kc_max_n]=max(kc_sdul(kc_active));
-  coef_n=kc_active(kc_max_n);
+  if socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_recalc_c
+    if any(k_active)
+      [k_max,k_max_n]=max(kc_sdul(k_active));
+      coef_n=k_active(k_max_n);
+    elseif any(c_active)
+      [c_max,c_max_n]=max(kc_sdul(c_active));
+      coef_n=c_active(c_max_n);
+    endif
+  else
+    [kc_max,kc_max_n]=max(kc_sdul(kc_active));
+    coef_n=kc_active(kc_max_n);
+  endif
   kc_bl(coef_n)=kc_sdl(coef_n);
   kc_bu(coef_n)=kc_sdu(coef_n);
 
@@ -283,7 +299,7 @@ while ~isempty(kc_active)
     % Find the SOCP PCLS solution for the remaining active coefficients
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
       schurOneMlattice_slb(@schurOneMlattice_socp_mmse, ...
-                           kc_b(Rk),epsilon0,p_ones,kc_b(Rc), ...
+                           kc_b(Rk),epsilon,p_ones,kc_b(Rc), ...
                            kc_bu,kc_bl,kc_active,dmax, ...
                            wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
                            wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
@@ -315,21 +331,48 @@ while ~isempty(kc_active)
     nextkc(coef_n)=kc_sdl(coef_n);
   endif
   kc=nextkc;
-  kc_active(kc_max_n)=[];
   printf("Fixed kc(%d)=%13.10f\n",coef_n,kc(coef_n));
-  printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
+  if socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_recalc_c
+    if ~isempty(k_active)
+      k_active(k_max_n)=[];
+      if isempty(k_active)
+        % Rescale epsilon and c coefficients
+        [Ntmp,Dtmp]=schurOneMlattice2tf(kc(Rk),epsilon,p_ones,kc(Rc));
+        [~,epsilontmp,~,ctmp]=tf2schurOneMlattice(Ntmp,Dtmp);
+        kc(Rc)=ctmp;
+        epsilon=int16(epsilontmp(:));
+        printf("k_active=[], epsilon and c rescaled\n");
+        print_polynomial(epsilon,"epsilon");
+        print_polynomial(ctmp,"c");
+        if any(epsilon(:)-epsilon0(:))
+          printf("epsilon changed after rescaling\n");
+        endif
+      endif
+    elseif ~isempty(c_active)
+      c_active(c_max_n)=[];
+    endif
+    printf("k_active=[ ");printf("%d ",k_active);printf("];\n\n");
+    printf("c_active=[ ");printf("%d ",c_active);printf("];\n\n");
+    kc_active=[k_active(:);c_active(:)];
+  else
+    kc_active(kc_max_n)=[];
+    printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
+  endif
 
 endwhile
 
 % Show results
-kc_min=kc;
+kc_min=round(kc*nscale)/nscale;
 k_min=kc_min(Rk);
 c_min=kc_min(Rc);
-Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min, ...
+epsilon_min=epsilon;
+Esq_min=schurOneMlatticeEsq(k_min,epsilon_min,p_ones,c_min, ...
                             wa,(Ad./Azm1).^2,Wa,wt,Td-Tzm1,Wt,wp,Pd-Pzm1,Wp);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(epsilon_min,"epsilon_min",1);
+print_polynomial(epsilon_min,"epsilon_min",strcat(strf,"_epsilon_min_coef.m"),1);
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd
@@ -370,42 +413,42 @@ u=round(u*nscale);
 [yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p_ones,c0,u,"round");
 stdx=std(xx)
 [yapf,yf,xxf]= ...
-  schurOneMlatticeFilter(k_min,epsilon0,ones(size(k0)),c_min,u,"round");
+  schurOneMlatticeFilter(k_min,epsilon_min,ones(size(k0)),c_min,u,"round");
 stdxf=std(xxf)
 
 %
 % Amplitude and delay at local peaks
 %
-Csq=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+Csq=schurOneMlatticeAsq(wa,k_min,epsilon_min,p_ones,c_min);
 Asq=Csq.*Azm1sq;
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
-AsqS=schurOneMlatticeAsq(wAS,k_min,epsilon0,p_ones,c_min);
+AsqS=schurOneMlatticeAsq(wAS,k_min,epsilon_min,p_ones,c_min);
 AS=sqrt(AsqS);
 printf("k,c_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:AS=[ ");printf("%f ",AS');printf(" ]\n");
-Tc=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
+Tc=schurOneMlatticeT(wt,k_min,epsilon_min,p_ones,c_min);
 T=Tc+Tzm1;
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=schurOneMlatticeT(wTS,k_min,epsilon0,p_ones,c_min);
+TS=schurOneMlatticeT(wTS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS');printf("] (samples)\n");
-Pc=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
+Pc=schurOneMlatticeP(wp,k_min,epsilon_min,p_ones,c_min);
 P=Pc+Pzm1;
 vPl=local_max(Pdl-P);
 vPu=local_max(P-Pdu);
 wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
-PS=schurOneMlatticeP(wPS,k_min,epsilon0,p_ones,c_min);
+PS=schurOneMlatticeP(wPS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi);printf("] (rad./pi)\n");
-dCsqdw=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p_ones,c_min);
+dCsqdw=schurOneMlatticedAsqdw(wd,k_min,epsilon_min,p_ones,c_min);
 vCl=local_max(Cdl-dCsqdw);
 vCu=local_max(dCsqdw-Cdu);
 wCS=unique([wd(vCl);wd(vCu);wd([1,end])]);
-CS=schurOneMlatticedAsqdw(wCS,k_min,epsilon0,p_ones,c_min);
+CS=schurOneMlatticedAsqdw(wCS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fCS=[ ");printf("%f ",wCS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:CS=[ ");printf("%f ",CS');printf("]\n");
 dAsqdw=(Csq(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
@@ -413,7 +456,7 @@ vDl=local_max(Ddl-dAsqdw);
 vDu=local_max(dAsqdw-Ddu);
 nDS=unique([vDl;vDu;1;length(dAsqdw)]);
 wDS=wd(nDS);
-DS=schurOneMlatticedAsqdw(wDS,k_min,epsilon0,p_ones,c_min).*Azm1sq(nDS);
+DS=schurOneMlatticedAsqdw(wDS,k_min,epsilon_min,p_ones,c_min).*Azm1sq(nDS);
 printf("k,c_min:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:DS=[ ");printf("%f ",DS');printf("]\n");
 
@@ -427,7 +470,7 @@ Csq_kc0_sd_no_alloc=schurOneMlatticeAsq ...
 Asq_kc0_sd_no_alloc=Csq_kc0_sd_no_alloc.*Azm1sq;
 Csq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_kc0_sd=Csq_kc0_sd.*Azm1sq;
-Csq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+Csq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon_min,p_ones,c_min);
 Asq_kc_min=Csq_kc_min.*Azm1sq;
 
 Tc_kc0=schurOneMlatticeT(wt,k0,epsilon0,p_ones,c0);
@@ -437,7 +480,7 @@ Tc_kc0_sd_no_alloc=schurOneMlatticeT ...
 T_kc0_sd_no_alloc=Tc_kc0_sd_no_alloc+Tzm1;
 Tc_kc0_sd=schurOneMlatticeT(wt,k0_sd,epsilon0,p_ones,c0_sd);
 T_kc0_sd=Tc_kc0_sd+Tzm1;
-Tc_kc_min=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
+Tc_kc_min=schurOneMlatticeT(wt,k_min,epsilon_min,p_ones,c_min);
 T_kc_min=Tc_kc_min+Tzm1;
 
 Pc_kc0=schurOneMlatticeP(wp,k0,epsilon0,p_ones,c0);
@@ -447,7 +490,7 @@ Pc_kc0_sd_no_alloc=schurOneMlatticeP ...
 P_kc0_sd_no_alloc=Pc_kc0_sd_no_alloc+Pzm1;
 Pc_kc0_sd=schurOneMlatticeP(wp,k0_sd,epsilon0,p_ones,c0_sd);
 P_kc0_sd=Pc_kc0_sd+Pzm1;
-Pc_kc_min=schurOneMlatticeP(wp,k_min,epsilon0,p_ones,c_min);
+Pc_kc_min=schurOneMlatticeP(wp,k_min,epsilon_min,p_ones,c_min);
 P_kc_min=Pc_kc_min+Pzm1;
 
 dCsqdw_kc0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p_ones,c0);
@@ -459,7 +502,7 @@ dAsqdw_kc0_sd_no_alloc=(Csq_kc0_sd_no_alloc(1:ndp).*dAzm1sqdw(1:ndp))+ ...
 dCsqdw_kc0_sd=schurOneMlatticedAsqdw(wd,k0_sd,epsilon0,p_ones,c0_sd);
 dAsqdw_kc0_sd=(Csq_kc0_sd(1:ndp).*dAzm1sqdw(1:ndp)) + ...
               (dCsqdw_kc0_sd.*Azm1sq(1:ndp));
-dCsqdw_kc_min=schurOneMlatticedAsqdw(wd,k_min,epsilon0,p_ones,c_min);
+dCsqdw_kc_min=schurOneMlatticedAsqdw(wd,k_min,epsilon_min,p_ones,c_min);
 dAsqdw_kc_min=(Csq_kc_min(1:ndp).*dAzm1sqdw(1:ndp)) + ...
               (dCsqdw_kc_min.*Azm1sq(1:ndp));
 
@@ -475,7 +518,7 @@ schurOneMlattice_slb_show_constraints ...
   (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,Dd);
 
 % Check response
-[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon0,p_ones,c_min);
+[N_min,D_min]=schurOneMlattice2tf(k_min,epsilon_min,p_ones,c_min);
 print_polynomial(N_min,"N_min");
 print_polynomial(N_min,"N_min",strcat(strf,"_N_min_coef.m"));
 print_polynomial(D_min,"D_min");
@@ -817,7 +860,8 @@ eval(sprintf(["save %s.mat ", ...
  "socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Ito ", ...
  "nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ftol ctol ", ...
  "n fap Arp Wap Art Wat fas Ars Was ftp tp tpr Wtp fpp pp ppr Wpp ", ...
- "fdp cpr Wdp k0 epsilon0 c0 k0_sd c0_sd k_min c_min N_min D_min"],strf));
+ "fdp cpr Wdp k0 epsilon0 c0 k0_sd c0_sd k_min epsilon_min c_min ", ...
+ "N_min D_min"],strf));
 
 % Done 
 toc;

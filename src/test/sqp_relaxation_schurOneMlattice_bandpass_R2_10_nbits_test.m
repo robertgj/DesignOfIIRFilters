@@ -21,15 +21,27 @@ verbose=false;
 dBass=36;
 Wtp=2;
 use_schurOneMlattice_allocsd_Ito=true
+use_schurOneMlattice_recalc_c=false
 schurOneMlattice_bandpass_R2_10_nbits_common;
 
 % Initial coefficients
+p_ones=ones(size(k0));
 kc=zeros(size(kc0));
 kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_l;
 kc_u=kc0_u;
 kc_active=kc0_active;
-p_ones=ones(size(k0));
+Nk=length(k0);
+Nc=length(c0);
+Nkc=Nk+Nc;
+Rk=(1:Nk)';
+Rc=((Nk+1):Nkc)';
+k0_active=find((k0)~=0);
+c0_active=((Nk+1):(Nk+Nc))';
+k_active=k0_active;
+c_active=c0_active;
+epsilon=epsilon0(:);
+iter=0;
 
 % Fix one coefficient at each iteration 
 while ~isempty(kc_active)
@@ -42,8 +54,18 @@ while ~isempty(kc_active)
   kc_bu=kc_u;
   
   % Ito et al. suggest ordering the search by max(kc_sdu-kc_sdl)
-  [kc_max,kc_max_n]=max(kc_sdul(kc_active));
-  coef_n=kc_active(kc_max_n);
+  if use_schurOneMlattice_recalc_c
+    if any(k_active)
+      [k_max,k_max_n]=max(kc_sdul(k_active));
+      coef_n=k_active(k_max_n);
+    elseif any(c_active)
+      [c_max,c_max_n]=max(kc_sdul(c_active));
+      coef_n=c_active(c_max_n);
+    endif
+  else
+    [kc_max,kc_max_n]=max(kc_sdul(kc_active));
+    coef_n=kc_active(kc_max_n);
+  endif
   kc_bl(coef_n)=kc_sdl(coef_n);
   kc_bu(coef_n)=kc_sdu(coef_n);
 
@@ -52,7 +74,7 @@ while ~isempty(kc_active)
     % Find the SQP PCLS solution for the remaining active coefficients
     [nextk,nextc,slb_iter,opt_iter,func_iter,feasible] = ...
     schurOneMlattice_slb(@schurOneMlattice_sqp_mmse, ...
-                         kc_b(1:Nk),epsilon0,p_ones,kc_b((Nk+1):end), ...
+                         kc_b(1:Nk),epsilon,p_ones,kc_b((Nk+1):end), ...
                          kc_bu,kc_bl,kc_active,dmax, ...
                          wa,Asqd,Asqdu,Asqdl,Wa, ...
                          wt,Td,Tdu,Tdl,Wt, ...
@@ -102,9 +124,34 @@ while ~isempty(kc_active)
     endif
   endif
   kc=nextkc;
-  kc_active(kc_max_n)=[];
   printf("Fixed kc(%d)=%g/%d\n",coef_n,kc(coef_n)*nscale,nscale);
-  printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
+  
+  if use_schurOneMlattice_recalc_c
+    if ~isempty(k_active)
+      k_active(k_max_n)=[];
+      if isempty(k_active)
+        % Rescale epsilon and c coefficients
+        [Ntmp,Dtmp]=schurOneMlattice2tf(kc(Rk),epsilon,p_ones,kc(Rc));
+        [~,epsilontmp,~,ctmp]=tf2schurOneMlattice(Ntmp,Dtmp);
+        kc(Rc)=ctmp;
+        epsilon=int16(epsilontmp(:));
+        printf("k_active=[], epsilon and c rescaled\n");
+        print_polynomial(epsilon,"epsilon");
+        print_polynomial(ctmp,"c");
+        if any(epsilon(:)-epsilon0(:))
+          printf("epsilon changed after rescaling\n");
+        endif
+      endif
+    elseif ~isempty(c_active)
+      c_active(c_max_n)=[];
+    endif  
+    kc_active=[k_active(:);c_active(:)];
+    printf("k_active=[ ");printf("%d ",k_active);printf("];\n\n");
+    printf("c_active=[ ");printf("%d ",c_active);printf("];\n\n");
+  else 
+    kc_active(kc_max_n)=[];
+    printf("kc_active=[ ");printf("%d ",kc_active);printf("];\n\n");
+  endif
 
 endwhile
 
@@ -112,8 +159,9 @@ endwhile
 kc_min=kc;
 k_min=kc(1:Nk);
 c_min=kc((Nk+1):end);
+epsilon_min=epsilon;
 
-Esq_min=schurOneMlatticeEsq(k_min,epsilon0,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
+Esq_min=schurOneMlatticeEsq(k_min,epsilon_min,p_ones,c_min,wa,Asqd,Wa,wt,Td,Wt);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 
 printf("ndigits_alloc=[ ");printf("%d ",ndigits_alloc);printf("]\n");
@@ -132,6 +180,8 @@ print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
 
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
+print_polynomial(epsilon_min,"epsilon_min",1);
+print_polynomial(epsilon_min,"epsilon_min",strcat(strf,"_epsilon_min_coef.m"),1);
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 
@@ -156,22 +206,22 @@ u=round(u*nscale);
 [yap,y,xx]=schurOneMlatticeFilter(k0,epsilon0,p_ones,c0,u,"round");
 stdx=std(xx)
 [yapf,yf,xxf]= ...
-schurOneMlatticeFilter(k_min,epsilon0,p_ones,c_min,u,"round");
+schurOneMlatticeFilter(k_min,epsilon_min,p_ones,c_min,u,"round");
 stdxf=std(xxf)
 
 % Amplitude and delay at local peaks
-Asq=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
+Asq=schurOneMlatticeAsq(wa,k_min,epsilon_min,p_ones,c_min);
 vAl=local_max(Asqdl-Asq);
 vAu=local_max(Asq-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nasl,napl,napu,nasu,end])]);
-AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon0,p_ones,c_min);
+AsqS=schurOneMlatticeAsq(wAsqS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 T=schurOneMlatticeT(wt,k_min,epsilon0,p_ones,c_min);
 vTl=local_max(Tdl-T);
 vTu=local_max(T-Tdu);
 wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
-TS=schurOneMlatticeT(wTS,k_min,epsilon0,p_ones,c_min);
+TS=schurOneMlatticeT(wTS,k_min,epsilon_min,p_ones,c_min);
 printf("k,c_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("k,c_min:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
@@ -202,11 +252,11 @@ nplot=1000;
 wplot=(0:(nplot-1))'*pi/nplot;
 Asq_kc0=schurOneMlatticeAsq(wplot,k0,epsilon0,p0,c0);
 Asq_kc0_sd=schurOneMlatticeAsq(wplot,k0_sd,epsilon0,p_ones,c0_sd);
-Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon0,p_ones,c_min);
+Asq_kc_min=schurOneMlatticeAsq(wplot,k_min,epsilon_min,p_ones,c_min);
 Asq_kc0_3sd=schurOneMlatticeAsq(wplot,k0_3sd,epsilon0,p_ones,c0_3sd);
 T_kc0=schurOneMlatticeT(wplot,k0,epsilon0,p0,c0);
 T_kc0_sd=schurOneMlatticeT(wplot,k0_sd,epsilon0,p_ones,c0_sd);
-T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon0,p_ones,c_min);
+T_kc_min=schurOneMlatticeT(wplot,k_min,epsilon_min,p_ones,c_min);
 T_kc0_3sd=schurOneMlatticeT(wplot,k0_3sd,epsilon0,p_ones,c0_3sd);
 
 % Plot amplitude stop-band response
@@ -354,7 +404,7 @@ eval(sprintf(["save %s.mat ...\n", ...
  "     ftol ctol nbits nscale ndigits ndigits_alloc npoints ...\n", ...
  "     fapl fapu dBap Wap ...\n", ...
  "     fasl fasu dBas fasll fasuu dBass Wasl Wasu ...\n", ...
- "     ftpl ftpu tp tpr Wtp k_min c_min"],strf));
+ "     ftpl ftpu tp tpr Wtp k_min epsilon_min c_min"],strf));
        
 % Done
 toc;
