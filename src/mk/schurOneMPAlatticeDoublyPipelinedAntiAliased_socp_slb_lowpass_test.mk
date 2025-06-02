@@ -1,0 +1,57 @@
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_FIGURES = \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_initial_response \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_pcls_response \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_sanity_check_response
+
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_COEFS = \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test.mat \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_spec.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A1k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A2k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa1k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa2k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_D2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DA1k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DA2k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DAaa1k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DAaa2k2_coef.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_N2_coef.m
+
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_FILES = \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test.m \
+test_common.m \
+WISEJ_PA.m \
+schurOneMPAlatticeAsq.m \
+schurOneMPAlatticeP.m \
+schurOneMPAlatticeT.m \
+schurOneMPAlatticedAsqdw.m \
+schurOneMPAlatticeEsq.m \
+schurOneMPAlatticeDoublyPipelinedAsq.m \
+schurOneMPAlatticeDoublyPipelinedT.m \
+schurOneMPAlatticeDoublyPipelinedP.m \
+schurOneMPAlatticeDoublyPipelineddAsqdw.m \
+schurOneMPAlatticeDoublyPipelinedEsq.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliasedT.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliasedP.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_slb.m \
+schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse.m \
+schurOneMPAlattice_slb_constraints_are_empty.m \
+schurOneMPAlattice_socp_mmse.m \
+schurOneMPAlattice_slb_exchange_constraints.m \
+schurOneMPAlattice_slb_set_empty_constraints.m \
+schurOneMPAlattice_slb_show_constraints.m \
+schurOneMPAlattice_slb_update_constraints.m \
+schurOneMPAlattice2tf.m \
+schurOneMAPlattice2tf.m \
+schurOneMAPlattice2Abcd.m \
+schurOneMAPlatticeDoublyPipelined2Abcd.m \
+schurOneMAPlatticeDoublyPipelined2H.m \
+tf2schurOneMlattice.m \
+schurOneMscale.m \
+delayz.m local_max.m tf2pa.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct Abcd2H.oct Abcd2tf.oct \
+qroots.oct
