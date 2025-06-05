@@ -36,9 +36,10 @@ tol=1e-12;
 M=27;fp=0.2;fs=0.25;kappap=1;kappas=0;etap=0;etas=0.001;
 
 % Filter design
+feasible=false;
 [hM,deltap,deltas,fext,fiter,feasible] = ...
 affineFIRsymmetric_lowpass(M,fp,fs,kappap,etap,kappas,etas,nplot,maxiter,tol);
-if feasible==false
+if ~feasible
   error("hM not feasible");
 endif
 Aext=directFIRsymmetricA(2*pi*fext,hM);
@@ -48,8 +49,9 @@ print_polynomial(Aext,"Aext","%13.10f");
 %
 % Plot response
 %
-strt=sprintf(["Affine lowpass FIR : M=%d,fp=%g,fs=%g,kappap=%g,kappas=%g, ", ...
- "etap=%g,etas=%g,nplot=%d,deltap=%g,deltas=%g"], ...
+strt=sprintf(["Affine lowpass FIR : M=%d,$f_{p}$=%g,$f_{s}$=%g,", ...
+              "$K_{p}$=%g,$K_{s}$=%g,$\\eta_{p}$=%g,$\\eta_{s}$=%g,", ...
+              "nplot=%d,$\\delta_{p}$=%8.6f,$\\delta_{s}$=%g"], ...
              M,fp,fs,kappap,kappas,etap,etas,nplot,deltap,deltas);
 wa=(0:nplot)'*pi/nplot;
 A=directFIRsymmetricA(wa,hM);

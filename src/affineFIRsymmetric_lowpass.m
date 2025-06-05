@@ -1,7 +1,7 @@
 function [hM,deltap,deltas,fext,fiter,feasible]= ...
       affineFIRsymmetric_lowpass(M,fp,fs,kappap,etap,kappas,etas,nf,maxiter,tol)
 % [hM,deltap,deltas,fext,fiter,feasible]= ...
-% affineFIRsymmetric_lowpass(M,fp,fs,kappap,etap,kappas,etas,nf,type,maxiter,tol)
+% affineFIRsymmetric_lowpass(M,fp,fs,kappap,etap,kappas,etas,nf,maxiter,tol)
 % Implement Selesnick and Burrus' modification to the Parks and McClellan
 % algorithm for the design of an even-order, odd-length, symmetric, 
 % linear-phase, low-pass FIR filter with:
