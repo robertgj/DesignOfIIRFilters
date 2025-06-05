@@ -53,6 +53,8 @@ Caught bad type!
 Expected order to be "odd" or "even"
 Caught bad type!
 Expected order to be "odd" or "even"
+Testing even order filter
+Testing odd order filter
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 
