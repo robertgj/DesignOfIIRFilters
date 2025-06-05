@@ -39,7 +39,6 @@ schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_slb.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
-schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \

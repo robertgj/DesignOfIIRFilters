@@ -19,7 +19,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 ftol=1e-3
-ctol=1e-6
+ctol=1e-7
 maxiter=20000
 verbose=false
 
@@ -28,16 +28,16 @@ rho=127/128;
 dmax=inf; % For compatibility with SQP
 
 % Parallel all-pass filter order
-ma=3;mb=4;
+ma=6;mb=7;
 
 % Anti-aliasing filter order
-maa=5;
+maa=7;
 
-% Low-pass filter specification
-fap=0.1;dBap=0.3;Wap=1;Wat=0.01;
-fas=0.2;dBas=40;Was=100;Was_wise=0.1;
+% Low-pass filter specification (dBap=0.08,tpr=0.15,dpr=0.3 takes 20min!)
+fap=0.1;dBap=0.1;Wap=1;Wat=0.01;
+fas=0.175;dBas=60;Was=100;Was_wise=0.1;
 fpp=fap;pp=0;ppr=0.002;Wpp=1;
-ftp=fap;tp=10;tpr=0.2;Wtp=0.1;
+ftp=fap;tp=15;tpr=0.2;Wtp=0.1;
 fdp=fap;dpr=2;Wdp=0.1;
 difference=false;
 
@@ -289,6 +289,24 @@ k_l=-k_u;
 k_active=find(abs([A1k0;A2k0;Aaa1k0;Aaa2k0]) > 10*eps);
 
 %
+% MMSE pass
+%
+printf("\nMMSE pass :\n");
+feasible=false;
+[A1k1,A2k1,Aaa1k1,Aaa2k1,socp_iter,func_iter,feasible]= ...
+  schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse ...
+    ([], ...
+     A1k0,A2k0,difference,Aaa1k0,Aaa2k0,k_u,k_l,k_active,dmax, ...
+     wa,Ad.^2,Adu.^2,Adl.^2,Wa, ...
+     wt,Td+Tz2,Tdu+Tz2,Tdl+Tz2,Wt, ...
+     wp,Pd-Pz2,Pdu-Pz2,Pdl-Pz2,Wp, ...
+     wd,Dd,Ddu,Ddl,Wd, ...
+     maxiter,ftol,ctol,verbose);
+if feasible == 0
+  error("MMSE infeasible");
+endif
+
+%
 % PCLS pass
 %
 printf("\nPCLS pass :\n");
@@ -296,7 +314,7 @@ feasible=false;
 [A1k2,A2k2,Aaa1k2,Aaa2k2,slb_iter,socp_iter,func_iter,feasible]= ...
   schurOneMPAlatticeDoublyPipelinedAntiAliased_slb ...
     (@schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse, ...
-     A1k0,A2k0,difference,Aaa1k0,Aaa2k0,k_u,k_l,k_active,dmax, ...
+     A1k1,A2k1,difference,Aaa1k1,Aaa2k1,k_u,k_l,k_active,dmax, ...
      wa,Ad.^2,Adu.^2,Adl.^2,Wa, ...
      wt,Td+Tz2,Tdu+Tz2,Tdl+Tz2,Wt, ...
      wp,Pd-Pz2,Pdu-Pz2,Pdl-Pz2,Wp, ...
@@ -314,6 +332,8 @@ P2=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
      (wp,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 T2=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
      (wt,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
+dAsqdw2=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
+          (wd,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 
 % Plot PCLS response
 subplot(311)
@@ -324,11 +344,11 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -0.4 0.2]);
-axis(ax(2),[0 0.5 -48 -36]);
+axis(ax(1),[0 0.5 -0.15 0.05]);
+axis(ax(2),[0 0.5 -70 -50]);
 grid("on")
-tstr=sprintf("Lowpass PCLS response : fap=%g,fas=%g,dBap=%g,dBas=%g,tp=%g", ...
-             fap,fas,dBas,dBap,tp);
+tstr=sprintf("Lowpass PCLS response : fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g", ...
+             fap,dBap,tp,fas,dBas);
 title(tstr);
 ylabel("Amplitude(dB)");
 subplot(312)
@@ -359,17 +379,13 @@ D2=conv(conv(DA1k2,DA2k2),Daa2);
 % Sanity check
 H2c=freqz(N2,D2,wa);
 if max(abs(Asq2-(abs(H2c).^2))) > 100*eps
-  error("max(abs(Asq2-(abs(H2c).^2)))(%g*eps) > 100*eps",max(abs(Asq2-(abs(H2c).^2)))/eps);
+  error("max(abs(Asq2-(abs(H2c).^2)))(%g*eps) > 100*eps", ...
+        max(abs(Asq2-(abs(H2c).^2)))/eps);
 endif
 T2c=delayz(N2,D2,wt);
 if max(abs(T2-T2c)) > 1000*eps
-  error("max(abs(T2-T2c))(%g*eps) > 1000*eps",max(abs(T2-T2c))/eps);
-endif
-
-% Check transfer function
-HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq2)) > 20*eps
-  error("max(abs((abs(HH).^2)-Asq2)) > 20*eps");
+  error("max(abs(T2-T2c))(%g*eps) > 1000*eps", ...
+        max(abs(T2-T2c))/eps);
 endif
 
 % Save results
@@ -429,7 +445,8 @@ fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol ma mb maa n fap dBap Wap fas dBas Was_wise Was ", ...
+eval(sprintf(["save %s.mat ftol ctol ma mb maa n ", ...
+              "fap dBap Wap fas dBas Was_wise Was ", ...
               "fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr Wdp ", ...
               "ab0 Da0 Db0 A1k0 A2k0 Aaa1k0 Aaa2k0 A1k2 A2k2 Aaa1k2 Aaa2k2 ", ...
               "DA1k2 DA2k2 Naa2 Daa2 N2 D2"], ...

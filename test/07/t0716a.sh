@@ -22,7 +22,6 @@ schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_slb.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
-schurOneMPAlattice_socp_mmse.m \
 schurOneMPAlattice_slb_exchange_constraints.m \
 schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
@@ -73,22 +72,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k2_coef.m << 'EOF'
-A1k2 = [  -0.4760206713,   0.1877445243,   0.0185339753 ]';
+A1k2 = [  -0.1909752399,   0.1005910405,   0.0962671474,  -0.2031363145, ... 
+           0.2000142439,  -0.0664665304 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k2_coef.m"; fail; fi
 
 cat > test_A2k2_coef.m << 'EOF'
-A2k2 = [  -0.3577672060,   0.3079349406,  -0.2422022688,   0.0465366304 ]';
+A2k2 = [   0.0546169441,   0.5524948846,  -0.2449923964,  -0.1564182816, ... 
+           0.2446354074,  -0.1889996893,   0.0587559528 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k2_coef.m"; fail; fi
 
 cat > test_Aaa1k2_coef.m << 'EOF'
-Aaa1k2 = [   0.0000000000,   0.0890749848 ]';
+Aaa1k2 = [   0.0000000000,   0.6710147378,   0.0000000000,   0.0261214655 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k2_coef.m"; fail; fi
 
 cat > test_Aaa2k2_coef.m << 'EOF'
-Aaa2k2 = [   0.0000000000,   0.5244553627,   0.0000000000 ]';
+Aaa2k2 = [   0.0000000000,   0.2257703302,   0.0000000000 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k2_coef.m"; fail; fi
 
