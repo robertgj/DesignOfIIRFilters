@@ -6931,7 +6931,6 @@ filter have coefficients only in powers of $z^{-2}$.
   [0.1 0.25].}
 \label{fig:freq-transform-structure-bandpass-A}
 \end{figure}
-\clearpage
 \begin{figure}[!ht]
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_B_response}}
@@ -6939,6 +6938,98 @@ filter have coefficients only in powers of $z^{-2}$.
   [0.2 0.3].}
 \label{fig:freq-transform-structure-bandpass-B}
 \end{figure}
+\clearpage
+\section{\label{sec:Examples-coefficient-sensitivity-Schur-lattice-filters}Examples of the coefficient sensitivity of the responses of direct-form and Schur lattice filters}
+The Octave script \emph{filter\_coefficient\_sensitivity\_test.m} shows
+the coefficient sensitivities of a low-pass elliptic IIR filter implemented in
+direct-form, as a tapped Schur one-multiplier lattice and as the combination of
+parallel all-pass Schur one-multiplier lattices\footnote{See
+Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}}. In addition it
+shows the coefficient sensitivities of a symmetric direct-form FIR filter with a
+similar amplitude response.
+\begin{comment}
+The specification of the filters is:
+\begin{small}
+\verbatiminput{filter_coefficient_sensitivity_test_spec.m}
+\end{small}
+\end{comment}
+The numerator and denominator transfer function polynomials of the direct-form
+IIR filter implementation are:
+\begin{small}
+\verbatiminput{filter_coefficient_sensitivity_test_n0_coef.m}
+\verbatiminput{filter_coefficient_sensitivity_test_d0_coef.m}
+\end{small}
+The lattice and tap coefficients of the Schur one-multiplier lattice
+implementation of the elliptic filter are:
+\begin{small}
+\verbatiminput{filter_coefficient_sensitivity_test_k0_coef.m}
+\verbatiminput{filter_coefficient_sensitivity_test_epsilon0_coef.m}
+\verbatiminput{filter_coefficient_sensitivity_test_c0_coef.m}
+\end{small}
+The lattice coefficients of the parallel all-pass Schur one-multiplier lattice
+implementation are:
+\begin{small}
+\verbatiminput{filter_coefficient_sensitivity_test_A1k0_coef.m}
+\verbatiminput{filter_coefficient_sensitivity_test_A2k0_coef.m}
+\end{small}
+The coefficients of the direct-form low-pass FIR filter are:
+\begin{small}
+\verbatiminput{filter_coefficient_sensitivity_test_h0_coef.m}
+\end{small}
+Figure~\ref{fig:Amplitude-group-delay-responses-elliptic-IIR-filter} shows the
+amplitude and group-delay responses of the IIR filter and
+Figure~\ref{fig:Amplitude-response-low-pass-FIR-filter} shows the amplitude
+response of the FIR filter. 
+Figure~\ref{fig:Sensitivity-responses-direct-form-elliptic-IIR-filter} shows
+the squared-amplitude and group-delay coefficient sensitivity responses of the
+direct-form low-pass elliptic IIR filter.
+Figure~\ref{fig:Sensitivity-responses-schur-one-m-lattice-elliptic-IIR-filter}
+shows the squared-amplitude and group-delay coefficient sensitivity responses of
+the tapped Schur one-multiplier lattice low-pass elliptic IIR filter.
+Figure~\ref{fig:Sensitivity-responses-parallel-schur-one-m-elliptic-IIR-filter}
+shows the squared-amplitude and group-delay coefficient sensitivity responses of
+the parallel all-pass Schur one-multiplier lattice low-pass elliptic IIR filter.
+Finally, for comparison,
+Figure~\ref{fig:Sensitivity-responses-direct-form-low-pass-FIR-filter}
+shows the squared-amplitude coefficient sensitivity responses of the direct-form
+low-pass FIR filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_elliptic_response}}
+\caption{Amplitude and group-delay responses of a low-pass elliptic IIR filter.}
+\label{fig:Amplitude-group-delay-responses-elliptic-IIR-filter}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_fir_lowpass_response}}
+\caption{Amplitude response of a direct-form low-pass FIR filter.}
+\label{fig:Amplitude-response-low-pass-FIR-filter}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_elliptic_sensitivity}}
+\caption{Squared amplitude and group-delay coefficient sensitivity responses of a direct-form low-pass elliptic IIR filter.}
+\label{fig:Sensitivity-responses-direct-form-elliptic-IIR-filter}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_schur_one_multiplier_elliptic_sensitivity}}
+\caption{Squared amplitude and group-delay coefficient sensitivity responses of a tapped Schur one-multiplier lattice low-pass elliptic IIR filter.}
+\label{fig:Sensitivity-responses-schur-one-m-lattice-elliptic-IIR-filter}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_schur_parallel_allpass_elliptic_sensitivity}}
+\caption{Squared amplitude and group-delay coefficient sensitivity responses of a parallel all-pass Schur one-multiplier lattice low-pass elliptic IIR filter.}
+\label{fig:Sensitivity-responses-parallel-schur-one-m-elliptic-IIR-filter}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{filter_coefficient_sensitivity_test_fir_lowpass_sensitivity}}
+\caption{Squared amplitude coefficient sensitivity response of a direct-form low-pass FIR filter.}
+\label{fig:Sensitivity-responses-direct-form-low-pass-FIR-filter}
+\end{figure}
+\clearpage
 \section{Summary}
 Given a transfer function $H\left(z\right)=N_{N}\left(z\right)/D_{N}\left(z\right)$ the design procedure
 for the normalised-scaled lattice filter is:
