@@ -57,7 +57,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=${OCTAVE_VER:-10.1.0}
+OCTAVE_VER=${OCTAVE_VER:-10.2.0}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -170,7 +170,7 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.1.1}
+CONTROL_VER=${CONTROL_VER:-4.1.2}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
@@ -281,7 +281,6 @@ EOF
 # Patch
 uudecode lapack-$LAPACK_VER".patch.gz.uue"
 gunzip lapack-$LAPACK_VER".patch.gz"
-uudecode lapack-$LAPACK_VER".patch.uue"
 # Make libblas.a and liblapack.a
 # Patch
 rm -Rf lapack-$LAPACK_VER
@@ -325,7 +324,9 @@ mv -f lapack-$LAPACK_VER/BLAS/SRC/libqblas.a $OCTAVE_LIB_DIR
 mv -f lapack-$LAPACK_VER/SRC/libqlapack.a $OCTAVE_LIB_DIR
 # Cleanup
 rm -Rf lapack-$LAPACK_VER
-rm -f lapack-$LAPACK_VER".patch" lapack-$LAPACK_VER".patch.uue"
+rm -f lapack-$LAPACK_VER".patch" 
+rm -f lapack-$LAPACK_VER".patch.gz"
+rm -f lapack-$LAPACK_VER".patch.gz.uue"
 
 #
 # Build arpack
@@ -489,8 +490,8 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER.patch << 'EOF'
---- octave-10.1.0/libinterp/corefcn/load-save.cc	2025-03-26 07:40:27.000000000 +1100
-+++ octave-10.1.0.new/libinterp/corefcn/load-save.cc	2025-04-20 18:21:42.456406442 +1000
+--- octave-10.2.0/libinterp/corefcn/load-save.cc	2025-05-29 22:16:39.000000000 +1000
++++ octave-10.2.0.new/libinterp/corefcn/load-save.cc	2025-06-07 12:22:27.448166975 +1000
 @@ -129,8 +129,8 @@
  {
    const int magic_len = 10;
@@ -579,8 +580,7 @@ make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
 make install
 popd
 
-rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER
-rm -f octave-$OCTAVE_VER.patch octave-$OCTAVE_VER.patch
+rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER octave-$OCTAVE_VER.patch
 
 #
 # Update ld.so.conf.d

@@ -5,11 +5,11 @@
 
 # Assume these archive files are present:
 export LAPACK_VERSION=3.12.1
-export SUITESPARSE_VERSION=7.10.2
+export SUITESPARSE_VERSION=7.10.3
 export ARPACK_NG_VERSION=3.9.1
 export FFTW_VERSION=3.3.10
 export QRUPDATE_VERSION=1.1.2
-export OCTAVE_VERSION=10.1.0
+export OCTAVE_VERSION=10.2.0
 export SEDUMI_VERSION=1.3.8
 export YALMIP_VERSION=R20230622
 for file in lapack-$LAPACK_VERSION".tar.gz" \
