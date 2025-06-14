@@ -10718,6 +10718,55 @@ and
 \label{fig:iir-socp-slb-lowpass-differentiator-pcls-pz}
 \end{figure}
 \clearpage
+\section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+The Octave script \emph{iir\_socp\_slb\_lowpass\_R2\_test.m} uses the
+\emph{SeDuMi} SOCP solver to design an $R=2$ lowpass filter. After some 
+experimentation, the filter specification is:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_R2_test_spec.m}
+\end{small}
+The \emph{SeDuMi} solver seems to require the initial filter to be a closer
+approximation than that required by the SQP solver. The initial filter was
+calculated by optimising a ``guess'' filter with the WISE method of
+\emph{Tarczynski et al.} described in 
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+The response of the initial filter is shown in
+Figure~\ref{fig:iir-socp-slb-lowpass-R2-test-initial-response}. 
+The response of the filter after PCLS SOCP optimimisation is shown in
+Figure~\ref{fig:iir-socp-slb-lowpass-R2-test-pcls-response}. The corresponding
+pole-zero plot is shown in
+Figure~\ref{fig:iir-socp-slb-lowpass-R2-test-pcls-pz}.
+The estimate of the optimised filter vector, in the gain, zeros and poles
+form of Equation~\ref{eqn:Filter-gain-zeros-poles}, is:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_R2_test_d1_coef.m}
+\end{small}
+and the corresponding transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{iir_socp_slb_lowpass_R2_test_N1_coef.m}
+\verbatiminput{iir_socp_slb_lowpass_R2_test_D1_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_initial_response}}
+\caption{Initial response of an IIR low-pass R=2 after WISE optimisation}
+\label{fig:iir-socp-slb-lowpass-R2-test-initial-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_pcls_response}}
+\caption{Response of an IIR low-pass R=2 after PCLS SOCP optimisation}
+\label{fig:iir-socp-slb-lowpass-R2-test-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_pcls_pz}}
+\caption{Pole-zero plot of an IIR low-pass R=2 decimation filter after PCLS SOCP
+  optimisation}
+\label{fig:iir-socp-slb-lowpass-R2-test-pcls-pz}
+\end{figure}
+\clearpage
 \section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_bandpass\_R2\_test.m} uses the
 \emph{SeDuMi} SOCP solver to design an $R=2$ bandpass filter similar to that

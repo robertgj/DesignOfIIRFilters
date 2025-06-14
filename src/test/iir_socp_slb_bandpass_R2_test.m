@@ -34,14 +34,14 @@ tarczynski_bandpass_R2_test_x_coef;
 U=Ux,V=Vx,M=Mx,Q=Qx,R=Rx;x0=x;
 
 % Plot initial filter
-strM0=sprintf(strM,"x0",Wap,Wasl,Wasu);
+strM0=sprintf(strM,"x0",Wap,Wasl,Wasu,Wtp);
 showZPplot(x0,U,V,M,Q,R,strM0);
 print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strM0);
 print(sprintf(strd,"initial","x0"),"-dpdflatex");
 close
-strMi=sprintf(strM,"x0",Wap,Wasl,Wasu);
+strMi=sprintf(strM,"x0",Wap,Wasl,Wasu,Wtp);
 showResponsePassBands(ftpl,ftpu,-3,3,x0,U,V,M,Q,R,strM0);
 print(sprintf(strd,"initial","x0pass"),"-dpdflatex");
 close
