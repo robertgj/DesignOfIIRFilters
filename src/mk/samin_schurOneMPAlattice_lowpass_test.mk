@@ -3,7 +3,6 @@ samin_schurOneMPAlattice_lowpass_test_passband_response \
 samin_schurOneMPAlattice_lowpass_test_response
 
 samin_schurOneMPAlattice_lowpass_test_COEFS = \
-samin_schurOneMPAlattice_lowpass_test.mat
 
 samin_schurOneMPAlattice_lowpass_test_FILES = \
 samin_schurOneMPAlattice_lowpass_test.m \

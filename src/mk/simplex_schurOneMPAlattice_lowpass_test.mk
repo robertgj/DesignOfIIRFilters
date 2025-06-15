@@ -3,7 +3,6 @@ simplex_schurOneMPAlattice_lowpass_test_passband_response \
 simplex_schurOneMPAlattice_lowpass_test_response
 
 simplex_schurOneMPAlattice_lowpass_test_COEFS = \
-simplex_schurOneMPAlattice_lowpass_test.mat
 
 simplex_schurOneMPAlattice_lowpass_test_FILES = \
 simplex_schurOneMPAlattice_lowpass_test.m test_common.m delayz.m tf2schurOneMlattice.m \

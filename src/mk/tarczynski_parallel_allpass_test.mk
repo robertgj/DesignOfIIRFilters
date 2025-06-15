@@ -12,7 +12,6 @@ tarczynski_parallel_allpass_test_Da0_coef.m \
 tarczynski_parallel_allpass_test_Db0_coef.m \
 tarczynski_parallel_allpass_test_flat_delay_Da0_coef.m \
 tarczynski_parallel_allpass_test_flat_delay_Db0_coef.m \
-tarczynski_parallel_allpass_test.mat
 
 tarczynski_parallel_allpass_test_FILES = tarczynski_parallel_allpass_test.m \
 test_common.m delayz.m print_polynomial.m print_pole_zero.m WISEJ_PA.m \

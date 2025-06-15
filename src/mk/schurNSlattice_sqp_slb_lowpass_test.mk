@@ -7,8 +7,6 @@ schurNSlattice_sqp_slb_lowpass_test_pcls_sxx_2pass \
 schurNSlattice_sqp_slb_lowpass_test_pcls_sxx_2pz
 
 schurNSlattice_sqp_slb_lowpass_test_COEFS = \
-schurNSlattice_sqp_slb_lowpass_test.mat \
-schurNSlattice_sqp_slb_lowpass_test_spec.m \
 schurNSlattice_sqp_slb_lowpass_test_s10_2_coef.m \
 schurNSlattice_sqp_slb_lowpass_test_s11_2_coef.m \
 schurNSlattice_sqp_slb_lowpass_test_s20_2_coef.m \

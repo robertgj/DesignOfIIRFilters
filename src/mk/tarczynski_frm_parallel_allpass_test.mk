@@ -5,8 +5,6 @@ tarczynski_frm_parallel_allpass_test_masking_response \
 tarczynski_frm_parallel_allpass_test_model_response
 
 tarczynski_frm_parallel_allpass_test_COEFS = \
-tarczynski_frm_parallel_allpass_test_spec.m \
-tarczynski_frm_parallel_allpass_test.mat \
 tarczynski_frm_parallel_allpass_test_r_coef.m \
 tarczynski_frm_parallel_allpass_test_s_coef.m \
 tarczynski_frm_parallel_allpass_test_aa_coef.m \

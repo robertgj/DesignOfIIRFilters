@@ -8,8 +8,6 @@ parallel_allpass_socp_slb_bandpass_test_b1pz \
 parallel_allpass_socp_slb_bandpass_test_ab1pz
 
 parallel_allpass_socp_slb_bandpass_test_COEFS = \
-parallel_allpass_socp_slb_bandpass_test.mat \
-parallel_allpass_socp_slb_bandpass_test_spec.m \
 parallel_allpass_socp_slb_bandpass_test_a1_coef.m \
 parallel_allpass_socp_slb_bandpass_test_b1_coef.m \
 parallel_allpass_socp_slb_bandpass_test_Da1_coef.m \

@@ -9,8 +9,6 @@ deczky3_scs_test_pcls_d2pass \
 deczky3_scs_test_pcls_d2pz 
 
 deczky3_scs_test_COEFS = \
-deczky3_scs_test.mat \
-deczky3_scs_test_spec.m \
 deczky3_scs_test_d2_coef.m \
 deczky3_scs_test_D2_coef.m \
 deczky3_scs_test_N2_coef.m

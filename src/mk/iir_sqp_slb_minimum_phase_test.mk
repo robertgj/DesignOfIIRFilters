@@ -7,8 +7,6 @@ iir_sqp_slb_minimum_phase_test_pcls_d1pass \
 iir_sqp_slb_minimum_phase_test_pcls_d1pz
 
 iir_sqp_slb_minimum_phase_test_COEFS = \
-iir_sqp_slb_minimum_phase_test.mat \
-iir_sqp_slb_minimum_phase_test_spec.m \
 iir_sqp_slb_minimum_phase_test_d1_coef.m \
 iir_sqp_slb_minimum_phase_test_D1_coef.m \
 iir_sqp_slb_minimum_phase_test_N1_coef.m

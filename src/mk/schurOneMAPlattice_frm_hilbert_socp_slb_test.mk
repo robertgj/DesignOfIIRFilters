@@ -5,8 +5,6 @@ schurOneMAPlattice_frm_hilbert_socp_slb_test_pcls_response \
 schurOneMAPlattice_frm_hilbert_socp_slb_test_pcls_mask_response 
 
 schurOneMAPlattice_frm_hilbert_socp_slb_test_COEFS = \
-schurOneMAPlattice_frm_hilbert_socp_slb_test.mat \
-schurOneMAPlattice_frm_hilbert_socp_slb_test_spec.m \
 schurOneMAPlattice_frm_hilbert_socp_slb_test_k2_coef.m \
 schurOneMAPlattice_frm_hilbert_socp_slb_test_epsilon2_coef.m \
 schurOneMAPlattice_frm_hilbert_socp_slb_test_p2_coef.m \

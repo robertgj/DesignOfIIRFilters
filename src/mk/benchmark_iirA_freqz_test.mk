@@ -3,7 +3,6 @@ benchmark_iirA_freqz_test_n_10000 \
 benchmark_iirA_freqz_test_n_65536
 
 benchmark_iirA_freqz_test_COEFS = \
-benchmark_iirA_freqz_test.mat
 
 benchmark_iirA_freqz_test_FILES = \
 benchmark_iirA_freqz_test.m \

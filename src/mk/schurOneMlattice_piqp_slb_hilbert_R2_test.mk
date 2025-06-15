@@ -12,8 +12,6 @@ schurOneMlattice_piqp_slb_hilbert_R2_test_p2_coef.m \
 schurOneMlattice_piqp_slb_hilbert_R2_test_c2_coef.m \
 schurOneMlattice_piqp_slb_hilbert_R2_test_n2_coef.m \
 schurOneMlattice_piqp_slb_hilbert_R2_test_d2_coef.m \
-schurOneMlattice_piqp_slb_hilbert_R2_test.mat \
-schurOneMlattice_piqp_slb_hilbert_R2_test_spec.m
 
 schurOneMlattice_piqp_slb_hilbert_R2_test_FILES = \
 schurOneMlattice_piqp_slb_hilbert_R2_test.m test_common.m \

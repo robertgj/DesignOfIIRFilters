@@ -6,8 +6,6 @@ schurOneMlattice_sqp_slb_hilbert_R2_test_pcls_response \
 schurOneMlattice_sqp_slb_hilbert_R2_test_pcls_pz
 
 schurOneMlattice_sqp_slb_hilbert_R2_test_COEFS = \
-schurOneMlattice_sqp_slb_hilbert_R2_test.mat \
-schurOneMlattice_sqp_slb_hilbert_R2_test_spec.m \
 schurOneMlattice_sqp_slb_hilbert_R2_test_k2_coef.m \
 schurOneMlattice_sqp_slb_hilbert_R2_test_epsilon2_coef.m \
 schurOneMlattice_sqp_slb_hilbert_R2_test_p2_coef.m \

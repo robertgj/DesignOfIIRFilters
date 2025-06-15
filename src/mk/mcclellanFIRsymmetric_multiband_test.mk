@@ -4,8 +4,6 @@ mcclellanFIRsymmetric_multiband_test_dual \
 mcclellanFIRsymmetric_multiband_test_zeros
 
 mcclellanFIRsymmetric_multiband_test_COEFS = \
-mcclellanFIRsymmetric_multiband_test.mat \
-mcclellanFIRsymmetric_multiband_test_spec.m \
 mcclellanFIRsymmetric_multiband_test_hM_coef.m \
 mcclellanFIRsymmetric_multiband_test_rho.tab
 

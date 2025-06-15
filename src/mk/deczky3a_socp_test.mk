@@ -7,8 +7,6 @@ deczky3a_socp_test_pcls_d2pass \
 deczky3a_socp_test_pcls_d2pz 
 
 deczky3a_socp_test_COEFS = \
-deczky3a_socp_test.mat \
-deczky3a_socp_test_spec.m \
 deczky3a_socp_test_d2_coef.m \
 deczky3a_socp_test_D2_coef.m \
 deczky3a_socp_test_N2_coef.m

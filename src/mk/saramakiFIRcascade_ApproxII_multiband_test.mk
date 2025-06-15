@@ -5,8 +5,6 @@ saramakiFIRcascade_ApproxII_multiband_test_subfilter_response \
 saramakiFIRcascade_ApproxII_multiband_test_threeway_response
 
 saramakiFIRcascade_ApproxII_multiband_test_COEFS = \
-saramakiFIRcascade_ApproxII_multiband_test.mat \
-saramakiFIRcascade_ApproxII_multiband_test_spec.m \
 saramakiFIRcascade_ApproxII_multiband_test.tab \
 saramakiFIRcascade_ApproxII_multiband_test_tap_coef.m \
 saramakiFIRcascade_ApproxII_multiband_test_prototype_coef.m \

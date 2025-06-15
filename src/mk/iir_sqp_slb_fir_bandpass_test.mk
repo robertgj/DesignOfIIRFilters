@@ -9,7 +9,6 @@ iir_sqp_slb_fir_bandpass_test_complementary_c1 \
 iir_sqp_slb_fir_bandpass_test_combined_d1c1
 
 iir_sqp_slb_fir_bandpass_test_COEFS = \
-iir_sqp_slb_fir_bandpass_test.mat \
 iir_sqp_slb_fir_bandpass_test_c1_coef.m \
 iir_sqp_slb_fir_bandpass_test_d1_coef.m \
 iir_sqp_slb_fir_bandpass_test_Nc1_coef.m \

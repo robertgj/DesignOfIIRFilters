@@ -21,8 +21,6 @@ schurOneMPAlattice_socp_slb_multiband_test_A1d_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_A2d_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_N2_coef.m \
 schurOneMPAlattice_socp_slb_multiband_test_D2_coef.m \
-schurOneMPAlattice_socp_slb_multiband_test_spec.m \
-schurOneMPAlattice_socp_slb_multiband_test.mat
 
 schurOneMPAlattice_socp_slb_multiband_test_FILES = \
 schurOneMPAlattice_socp_slb_multiband_test.m \

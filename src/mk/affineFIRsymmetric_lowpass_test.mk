@@ -4,8 +4,6 @@ affineFIRsymmetric_lowpass_test_dual \
 affineFIRsymmetric_lowpass_test_zeros
 
 affineFIRsymmetric_lowpass_test_COEFS = \
-affineFIRsymmetric_lowpass_test.mat \
-affineFIRsymmetric_lowpass_test_spec.m \
 affineFIRsymmetric_lowpass_test_hM_coef.m \
 affineFIRsymmetric_lowpass_test_deltap.tab \
 affineFIRsymmetric_lowpass_test_deltas.tab

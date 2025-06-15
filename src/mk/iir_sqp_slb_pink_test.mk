@@ -8,8 +8,6 @@ iir_sqp_slb_pink_test_pcls_d1 \
 iir_sqp_slb_pink_test_pcls_d1pz 
 
 iir_sqp_slb_pink_test_COEFS = \
-iir_sqp_slb_pink_test.mat \
-iir_sqp_slb_pink_test_spec.m \
 iir_sqp_slb_pink_test_x0_coef.m \
 iir_sqp_slb_pink_test_x1_coef.m \
 iir_sqp_slb_pink_test_d1_coef.m \

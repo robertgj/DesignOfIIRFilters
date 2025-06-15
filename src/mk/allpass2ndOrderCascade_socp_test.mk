@@ -5,8 +5,6 @@ allpass2ndOrderCascade_socp_test_ab1pz \
 allpass2ndOrderCascade_socp_test_ab1
 
 allpass2ndOrderCascade_socp_test_COEFS = \
-allpass2ndOrderCascade_socp_test.mat \
-allpass2ndOrderCascade_socp_test_spec.m \
 allpass2ndOrderCascade_socp_test_a1_coef.m \
 allpass2ndOrderCascade_socp_test_b1_coef.m \
 allpass2ndOrderCascade_socp_test_Da1_coef.m \

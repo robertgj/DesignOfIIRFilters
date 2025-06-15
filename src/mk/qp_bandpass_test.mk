@@ -4,8 +4,6 @@ qp_bandpass_test_hd_response \
 qp_bandpass_test_hPM_response
 
 qp_bandpass_test_COEFS = \
-qp_bandpass_test.mat \
-qp_bandpass_test_spec.m \
 qp_bandpass_test_h_coef.m \
 qp_bandpass_test_hd_coef.m \
 qp_bandpass_test_hPM_coef.m

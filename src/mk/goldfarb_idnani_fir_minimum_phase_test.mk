@@ -5,8 +5,6 @@ goldfarb_idnani_fir_minimum_phase_test_response \
 goldfarb_idnani_fir_minimum_phase_test_zeros
 
 goldfarb_idnani_fir_minimum_phase_test_COEFS = \
-goldfarb_idnani_fir_minimum_phase_test.mat \
-goldfarb_idnani_fir_minimum_phase_test_spec.m \
 goldfarb_idnani_fir_minimum_phase_test_x_coef.m \
 goldfarb_idnani_fir_minimum_phase_test_b_coef.m
 

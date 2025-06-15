@@ -3,7 +3,6 @@ simplex_schurOneMlattice_lowpass_test_passband_response \
 simplex_schurOneMlattice_lowpass_test_response
 
 simplex_schurOneMlattice_lowpass_test_COEFS = \
-simplex_schurOneMlattice_lowpass_test.mat
 
 simplex_schurOneMlattice_lowpass_test_FILES = \
 simplex_schurOneMlattice_lowpass_test.m test_common.m delayz.m print_polynomial.m \

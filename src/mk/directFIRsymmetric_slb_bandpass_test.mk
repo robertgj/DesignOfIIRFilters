@@ -3,8 +3,6 @@ directFIRsymmetric_slb_bandpass_test_response \
 directFIRsymmetric_slb_bandpass_test_truncated
 
 directFIRsymmetric_slb_bandpass_test_COEFS = \
-directFIRsymmetric_slb_bandpass_test.mat \
-directFIRsymmetric_slb_bandpass_test_spec.m \
 directFIRsymmetric_slb_bandpass_test_hM1_coef.m \
 directFIRsymmetric_slb_bandpass_test_hM2_coef.m 
 

@@ -6,7 +6,6 @@ tarczynski_lowpass_differentiator_alternate_test_pz
 tarczynski_lowpass_differentiator_alternate_test_COEFS = \
 tarczynski_lowpass_differentiator_alternate_test_D0_coef.m \
 tarczynski_lowpass_differentiator_alternate_test_N0_coef.m \
-tarczynski_lowpass_differentiator_alternate_test.mat
 
 tarczynski_lowpass_differentiator_alternate_test_FILES = \
 tarczynski_lowpass_differentiator_alternate_test.m test_common.m delayz.m \

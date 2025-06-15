@@ -3,8 +3,6 @@ selesnickFIRsymmetric_lowpass_alternate_test_response \
 selesnickFIRsymmetric_lowpass_alternate_test_dual
 
 selesnickFIRsymmetric_lowpass_alternate_test_COEFS = \
-selesnickFIRsymmetric_lowpass_alternate_test.mat \
-selesnickFIRsymmetric_lowpass_alternate_test_spec.m \
 selesnickFIRsymmetric_lowpass_alternate_test_hM_coef.m \
 selesnickFIRsymmetric_lowpass_alternate_test_fapx.tab \
 selesnickFIRsymmetric_lowpass_alternate_test_fasx.tab

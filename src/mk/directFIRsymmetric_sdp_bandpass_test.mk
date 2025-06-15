@@ -8,13 +8,10 @@ directFIRsymmetric_sdp_bandpass_test_hM80_dual_response
 
 directFIRsymmetric_sdp_bandpass_test_COEFS = \
 directFIRsymmetric_sdp_bandpass_test_hM15.mat \
-directFIRsymmetric_sdp_bandpass_test_hM15_spec.m \
 directFIRsymmetric_sdp_bandpass_test_hM15_coef.m \
 directFIRsymmetric_sdp_bandpass_test_hM30.mat \
-directFIRsymmetric_sdp_bandpass_test_hM30_spec.m \
 directFIRsymmetric_sdp_bandpass_test_hM30_coef.m \
 directFIRsymmetric_sdp_bandpass_test_hM80.mat \
-directFIRsymmetric_sdp_bandpass_test_hM80_spec.m \
 directFIRsymmetric_sdp_bandpass_test_hM80_coef.m 
 
 directFIRsymmetric_sdp_bandpass_test_FILES = \

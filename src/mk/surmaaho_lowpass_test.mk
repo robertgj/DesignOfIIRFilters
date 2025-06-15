@@ -3,7 +3,6 @@ surmaaho_lowpass_test_resp \
 surmaaho_lowpass_test_pz
 
 surmaaho_lowpass_test_COEFS = \
-surmaaho_lowpass_test_spec.m \
 surmaaho_lowpass_test_x_coef.m
 
 surmaaho_lowpass_test_FILES = \

@@ -6,8 +6,6 @@ tuqanFIRnonsymmetric_dare_minimum_phase_test_g_zeros \
 tuqanFIRnonsymmetric_dare_minimum_phase_test_hg_response 
 
 tuqanFIRnonsymmetric_dare_minimum_phase_test_COEFS = \
-tuqanFIRnonsymmetric_dare_minimum_phase_test.mat \
-tuqanFIRnonsymmetric_dare_minimum_phase_test_spec.m \
 tuqanFIRnonsymmetric_dare_minimum_phase_test_h_coef.m \
 tuqanFIRnonsymmetric_dare_minimum_phase_test_g_coef.m \
 

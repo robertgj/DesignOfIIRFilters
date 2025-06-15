@@ -9,8 +9,6 @@ decimator_R2_interpolated_test_remez_comparison_direct_FIR_multipliers \
 decimator_R2_interpolated_test_remez_comparison_direct_FIR 
 
 decimator_R2_interpolated_test_COEFS = \
-decimator_R2_interpolated_test.mat \
-decimator_R2_interpolated_test_spec.m \
 decimator_R2_interpolated_test_xi_coef.m \
 decimator_R2_interpolated_test_d1_coef.m \
 decimator_R2_interpolated_test_N1_coef.m \

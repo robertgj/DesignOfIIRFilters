@@ -12,8 +12,6 @@ deczky3_sqp_test_pcls_d1pass \
 deczky3_sqp_test_pcls_d1pz
 
 deczky3_sqp_test_COEFS = \
-deczky3_sqp_test.mat \
-deczky3_sqp_test_spec.m \
 deczky3_sqp_test_d1_coef.m \
 deczky3_sqp_test_D1_coef.m \
 deczky3_sqp_test_N1_coef.m

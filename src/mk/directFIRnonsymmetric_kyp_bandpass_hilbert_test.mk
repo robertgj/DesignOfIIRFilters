@@ -2,8 +2,6 @@ directFIRnonsymmetric_kyp_bandpass_hilbert_test_FIGURES = \
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_response
 
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_COEFS = \
-directFIRnonsymmetric_kyp_bandpass_hilbert_test.mat \
-directFIRnonsymmetric_kyp_bandpass_hilbert_test_spec.m \
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_h_coef.m\
 directFIRnonsymmetric_kyp_bandpass_hilbert_test_max_passband_squared_error.tab
 

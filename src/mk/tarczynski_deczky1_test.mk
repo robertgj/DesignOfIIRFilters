@@ -3,7 +3,6 @@ tarczynski_deczky1_test_pz \
 tarczynski_deczky1_test_response
 
 tarczynski_deczky1_test_COEFS = \
-tarczynski_deczky1_test.mat \
 tarczynski_deczky1_test_D0_coef.m \
 tarczynski_deczky1_test_N0_coef.m \
 tarczynski_deczky1_test_x0_coef.m

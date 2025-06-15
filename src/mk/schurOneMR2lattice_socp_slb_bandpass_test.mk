@@ -3,8 +3,6 @@ schurOneMR2lattice_socp_slb_bandpass_test_pcls_response \
 schurOneMR2lattice_socp_slb_bandpass_test_pcls_pz
 
 schurOneMR2lattice_socp_slb_bandpass_test_COEFS = \
-schurOneMR2lattice_socp_slb_bandpass_test.mat \
-schurOneMR2lattice_socp_slb_bandpass_test_spec.m \
 schurOneMR2lattice_socp_slb_bandpass_test_k3_coef.m \
 schurOneMR2lattice_socp_slb_bandpass_test_epsilon3_coef.m \
 schurOneMR2lattice_socp_slb_bandpass_test_p3_coef.m \

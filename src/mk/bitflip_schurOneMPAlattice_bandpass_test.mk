@@ -29,7 +29,6 @@ bitflip_schurOneMPAlattice_bandpass_test_adders_Ito.tab \
 bitflip_schurOneMPAlattice_bandpass_test_adders_Lim.tab \
 bitflip_schurOneMPAlattice_bandpass_test_adders_rd.tab \
 bitflip_schurOneMPAlattice_bandpass_test_cost.tab \
-bitflip_schurOneMPAlattice_bandpass_test.mat 
 
 bitflip_schurOneMPAlattice_bandpass_test_FILES = \
 bitflip_schurOneMPAlattice_bandpass_test.m test_common.m delayz.m print_polynomial.m \

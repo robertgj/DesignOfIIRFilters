@@ -3,7 +3,6 @@ samin_schurNSPAlattice_lowpass_test_passband_response \
 samin_schurNSPAlattice_lowpass_test_response
 
 samin_schurNSPAlattice_lowpass_test_COEFS = \
-samin_schurNSPAlattice_lowpass_test.mat  
 
 samin_schurNSPAlattice_lowpass_test_FILES = \
 samin_schurNSPAlattice_lowpass_test.m test_common.m delayz.m \

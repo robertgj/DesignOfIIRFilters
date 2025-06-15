@@ -6,8 +6,6 @@ frm2ndOrderCascade_socp_test_x1mask \
 frm2ndOrderCascade_socp_test_remez_comparison
 
 frm2ndOrderCascade_socp_test_COEFS = \
-frm2ndOrderCascade_socp_test.mat \
-frm2ndOrderCascade_socp_test_spec.m \
 frm2ndOrderCascade_socp_test_a_coef.m \
 frm2ndOrderCascade_socp_test_d_coef.m \
 frm2ndOrderCascade_socp_test_aa_coef.m \

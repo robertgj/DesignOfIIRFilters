@@ -8,8 +8,6 @@ iir_socp_slb_lowpass_differentiator_test_pcls_response \
 iir_socp_slb_lowpass_differentiator_test_pcls_pz
 
 iir_socp_slb_lowpass_differentiator_test_COEFS = \
-iir_socp_slb_lowpass_differentiator_test.mat \
-iir_socp_slb_lowpass_differentiator_test_spec.m \
 iir_socp_slb_lowpass_differentiator_test_d1z_coef.m \
 iir_socp_slb_lowpass_differentiator_test_N1_coef.m \
 iir_socp_slb_lowpass_differentiator_test_D1_coef.m

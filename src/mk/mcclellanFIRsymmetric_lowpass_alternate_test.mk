@@ -3,8 +3,6 @@ mcclellanFIRsymmetric_lowpass_alternate_test_response \
 mcclellanFIRsymmetric_lowpass_alternate_test_dual
 
 mcclellanFIRsymmetric_lowpass_alternate_test_COEFS = \
-mcclellanFIRsymmetric_lowpass_alternate_test.mat \
-mcclellanFIRsymmetric_lowpass_alternate_test_spec.m \
 mcclellanFIRsymmetric_lowpass_alternate_test_hM_coef.m \
 mcclellanFIRsymmetric_lowpass_alternate_test_rho.tab
 

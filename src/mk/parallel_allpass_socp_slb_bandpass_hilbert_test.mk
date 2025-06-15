@@ -7,8 +7,6 @@ parallel_allpass_socp_slb_bandpass_hilbert_test_a1pz \
 parallel_allpass_socp_slb_bandpass_hilbert_test_b1pz \
 
 parallel_allpass_socp_slb_bandpass_hilbert_test_COEFS = \
-parallel_allpass_socp_slb_bandpass_hilbert_test.mat \
-parallel_allpass_socp_slb_bandpass_hilbert_test_spec.m \
 parallel_allpass_socp_slb_bandpass_hilbert_test_a1_coef.m \
 parallel_allpass_socp_slb_bandpass_hilbert_test_b1_coef.m \
 parallel_allpass_socp_slb_bandpass_hilbert_test_Da1_coef.m \

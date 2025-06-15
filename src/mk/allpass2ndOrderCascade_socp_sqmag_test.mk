@@ -9,8 +9,6 @@ allpass2ndOrderCascade_socp_sqmag_test_ellipdual \
 allpass2ndOrderCascade_socp_sqmag_test_ellippz
 
 allpass2ndOrderCascade_socp_sqmag_test_COEFS = \
-allpass2ndOrderCascade_socp_sqmag_test.mat \
-allpass2ndOrderCascade_socp_sqmag_test_spec.m \
 allpass2ndOrderCascade_socp_sqmag_test_a1_coef.m \
 allpass2ndOrderCascade_socp_sqmag_test_b1_coef.m \
 allpass2ndOrderCascade_socp_sqmag_test_Da1_coef.m \

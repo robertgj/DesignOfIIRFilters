@@ -8,7 +8,10 @@
 #
 # Use the following to find out if running on Linux with sys_vendor as "QEMU":
 # VENDOR=$(shell cat /sys/class/dmi/id/sys_vendor)
-
+#
+# The apparently hardwired limit of 131071 characters in the bash command
+# buffer caused problems with the make $(test_COEFS) variable. The work
+# around is to remove the _spec.m and _test.mat file names from the _test.mk
 
 #
 # Top-level variables
@@ -30,7 +33,7 @@ DIA_FILES:=$(notdir $(basename $(wildcard fig/*.dia)))
 
 # clean suffixes
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
-_spec.m -core .tab .elg .results
+_spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B
@@ -231,7 +234,7 @@ gitignore:
 	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
 	echo $(DIA_FILES:%=%.pdf) >> gitignore.tmp
 	sed -i -e "s/\ /\n/g" gitignore.tmp
-	cat gitignore.tmp | sort >> .gitignore
+	sort gitignore.tmp  >> .gitignore
 	rm gitignore.tmp
 
 .PHONY: jekyll

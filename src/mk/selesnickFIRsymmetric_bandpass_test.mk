@@ -10,13 +10,9 @@ selesnickFIRsymmetric_bandpass_test_hMc_dual \
 selesnickFIRsymmetric_bandpass_test_hMc_zeros
 
 selesnickFIRsymmetric_bandpass_test_COEFS = \
-selesnickFIRsymmetric_bandpass_test.mat \
 selesnickFIRsymmetric_bandpass_test_hMa_coef.m \
-selesnickFIRsymmetric_bandpass_test_hMa_spec.m \
 selesnickFIRsymmetric_bandpass_test_hMb_coef.m \
-selesnickFIRsymmetric_bandpass_test_hMb_spec.m \
 selesnickFIRsymmetric_bandpass_test_hMc_coef.m \
-selesnickFIRsymmetric_bandpass_test_hMc_spec.m 
 
 selesnickFIRsymmetric_bandpass_test_FILES = \
 selesnickFIRsymmetric_bandpass_test.m test_common.m \

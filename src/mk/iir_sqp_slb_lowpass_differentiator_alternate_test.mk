@@ -11,8 +11,6 @@ iir_sqp_slb_lowpass_differentiator_alternate_test_COEFS = \
 iir_sqp_slb_lowpass_differentiator_alternate_test_d1z_coef.m \
 iir_sqp_slb_lowpass_differentiator_alternate_test_N1_coef.m \
 iir_sqp_slb_lowpass_differentiator_alternate_test_D1_coef.m \
-iir_sqp_slb_lowpass_differentiator_alternate_test_spec.m \
-iir_sqp_slb_lowpass_differentiator_alternate_test.mat
 
 iir_sqp_slb_lowpass_differentiator_alternate_test_FILES = \
 iir_sqp_slb_lowpass_differentiator_alternate_test.m \

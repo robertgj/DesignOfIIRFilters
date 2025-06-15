@@ -7,8 +7,6 @@ iir_socp_slb_hilbert_R2_test_pcls_response \
 iir_socp_slb_hilbert_R2_test_pcls_pz 
 
 iir_socp_slb_hilbert_R2_test_COEFS = \
-iir_socp_slb_hilbert_R2_test.mat \
-iir_socp_slb_hilbert_R2_test_spec.m \
 iir_socp_slb_hilbert_R2_test_d1_coef.m \
 iir_socp_slb_hilbert_R2_test_D1_coef.m \
 iir_socp_slb_hilbert_R2_test_N1_coef.m \

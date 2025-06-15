@@ -4,9 +4,7 @@ tarczynski_allpass_phase_shift_test_pz \
 tarczynski_allpass_phase_shift_test_phase_error
 
 tarczynski_allpass_phase_shift_test_COEFS = \
-tarczynski_allpass_phase_shift_test_spec.m \
 tarczynski_allpass_phase_shift_test_Da0_coef.m \
-tarczynski_allpass_phase_shift_test.mat
 
 tarczynski_allpass_phase_shift_test_FILES = \
 tarczynski_allpass_phase_shift_test.m test_common.m delayz.m \

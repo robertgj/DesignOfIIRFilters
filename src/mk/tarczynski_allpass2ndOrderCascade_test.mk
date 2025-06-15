@@ -20,12 +20,9 @@ tarczynski_allpass2ndOrderCascade_test_COEFS = \
 tarczynski_allpass2ndOrderCascade_test_ab0_coef.m \
 tarczynski_allpass2ndOrderCascade_test_Da0_coef.m \
 tarczynski_allpass2ndOrderCascade_test_Db0_coef.m \
-tarczynski_allpass2ndOrderCascade_test_spec.m \
 tarczynski_allpass2ndOrderCascade_test_flat_delay_ab0_coef.m \
 tarczynski_allpass2ndOrderCascade_test_flat_delay_Da0_coef.m \
 tarczynski_allpass2ndOrderCascade_test_flat_delay_Db0_coef.m \
-tarczynski_allpass2ndOrderCascade_test_flat_delay_spec.m \
-tarczynski_allpass2ndOrderCascade_test.mat
 
 tarczynski_allpass2ndOrderCascade_test_FILES = \
 tarczynski_allpass2ndOrderCascade_test.m test_common.m delayz.m \

@@ -3,7 +3,6 @@ bitflip_directFIRsymmetric_bandpass_test_response \
 bitflip_directFIRsymmetric_bandpass_test_response_allocsd
 
 bitflip_directFIRsymmetric_bandpass_test_COEFS= \
-bitflip_directFIRsymmetric_bandpass_test.mat \
 bitflip_directFIRsymmetric_bandpass_test_adders_Ito.tab \
 bitflip_directFIRsymmetric_bandpass_test_adders_Lim.tab \
 bitflip_directFIRsymmetric_bandpass_test_bf_adders.tab \

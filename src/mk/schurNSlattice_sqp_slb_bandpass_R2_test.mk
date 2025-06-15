@@ -17,8 +17,6 @@ schurNSlattice_sqp_slb_bandpass_R2_test_s02_2_coef.m \
 schurNSlattice_sqp_slb_bandpass_R2_test_s22_2_coef.m \
 schurNSlattice_sqp_slb_bandpass_R2_test_N2_coef.m \
 schurNSlattice_sqp_slb_bandpass_R2_test_D2_coef.m \
-schurNSlattice_sqp_slb_bandpass_R2_test.mat \
-schurNSlattice_sqp_slb_bandpass_R2_test_spec.m
 
 schurNSlattice_sqp_slb_bandpass_R2_test_FILES = \
 schurNSlattice_sqp_slb_bandpass_R2_test.m \

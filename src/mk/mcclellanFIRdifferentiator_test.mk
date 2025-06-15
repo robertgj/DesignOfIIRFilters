@@ -4,8 +4,6 @@ mcclellanFIRdifferentiator_test_dual \
 mcclellanFIRdifferentiator_test_zeros
 
 mcclellanFIRdifferentiator_test_COEFS = \
-mcclellanFIRdifferentiator_test.mat \
-mcclellanFIRdifferentiator_test_spec.m \
 mcclellanFIRdifferentiator_test_hM_coef.m \
 mcclellanFIRdifferentiator_test_rho.tab
 

@@ -3,8 +3,6 @@ dumitrescu_MA_estimation_test_response \
 dumitrescu_MA_estimation_test_zeros
 
 dumitrescu_MA_estimation_test_COEFS = \
-dumitrescu_MA_estimation_test.mat \
-dumitrescu_MA_estimation_test_spec.m \
 dumitrescu_MA_estimation_test_rstar_coef.m \
 dumitrescu_MA_estimation_test_hstar_coef.m
 

@@ -5,8 +5,6 @@ schurOneMAPlattice_frm_socp_slb_test_pcls_model_response \
 schurOneMAPlattice_frm_socp_slb_test_pcls_mask_response 
 
 schurOneMAPlattice_frm_socp_slb_test_COEFS = \
-schurOneMAPlattice_frm_socp_slb_test.mat \
-schurOneMAPlattice_frm_socp_slb_test_spec.m \
 schurOneMAPlattice_frm_socp_slb_test_b_coef.m \
 schurOneMAPlattice_frm_socp_slb_test_k1_coef.m \
 schurOneMAPlattice_frm_socp_slb_test_epsilon1_coef.m \

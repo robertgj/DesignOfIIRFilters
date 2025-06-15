@@ -8,8 +8,6 @@ saramakiFIRcascade_ApproxI_lowpass_test_subfilter_PM_response \
 saramakiFIRcascade_ApproxI_lowpass_test_threeway_response
 
 saramakiFIRcascade_ApproxI_lowpass_test_COEFS = \
-saramakiFIRcascade_ApproxI_lowpass_test.mat \
-saramakiFIRcascade_ApproxI_lowpass_test_spec.m \
 saramakiFIRcascade_ApproxI_lowpass_test.tab \
 saramakiFIRcascade_ApproxI_lowpass_test_tap_coef.m \
 saramakiFIRcascade_ApproxI_lowpass_test_prototype_coef.m \

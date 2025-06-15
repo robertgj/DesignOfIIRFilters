@@ -8,8 +8,6 @@ parallel_allpass_delay_sqp_slb_test_a1phase \
 parallel_allpass_delay_sqp_slb_test_a1pz
 
 parallel_allpass_delay_sqp_slb_test_COEFS = \
-parallel_allpass_delay_sqp_slb_test.mat \
-parallel_allpass_delay_sqp_slb_test_spec.m \
 parallel_allpass_delay_sqp_slb_test_a1_coef.m \
 parallel_allpass_delay_sqp_slb_test_Da1_coef.m
 

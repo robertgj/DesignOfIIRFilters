@@ -3,8 +3,6 @@ affine_mcclellanFIRsymmetric_lowpass_test_response \
 affine_mcclellanFIRsymmetric_lowpass_test_dual
 
 affine_mcclellanFIRsymmetric_lowpass_test_COEFS = \
-affine_mcclellanFIRsymmetric_lowpass_test.mat \
-affine_mcclellanFIRsymmetric_lowpass_test_spec.m \
 affine_mcclellanFIRsymmetric_lowpass_test_hM_coef.m \
 affine_mcclellanFIRsymmetric_lowpass_test_del_p.tab
 

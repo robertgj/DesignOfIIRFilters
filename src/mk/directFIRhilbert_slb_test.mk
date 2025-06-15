@@ -2,8 +2,6 @@ directFIRhilbert_slb_test_FIGURES = \
 directFIRhilbert_slb_test_response
 
 directFIRhilbert_slb_test_COEFS = \
-directFIRhilbert_slb_test.mat \
-directFIRhilbert_slb_test_spec.m \
 directFIRhilbert_slb_test_hM0_coef.m \
 directFIRhilbert_slb_test_hM1_coef.m \
 directFIRhilbert_slb_test_hM2_coef.m

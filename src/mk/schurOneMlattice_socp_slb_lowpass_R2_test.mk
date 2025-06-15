@@ -4,8 +4,6 @@ schurOneMlattice_socp_slb_lowpass_R2_test_pcls_k2c2 \
 schurOneMlattice_socp_slb_lowpass_R2_test_pcls_k2c2pz
 
 schurOneMlattice_socp_slb_lowpass_R2_test_COEFS = \
-schurOneMlattice_socp_slb_lowpass_R2_test.mat \
-schurOneMlattice_socp_slb_lowpass_R2_test_spec.m \
 schurOneMlattice_socp_slb_lowpass_R2_test_k2_coef.m \
 schurOneMlattice_socp_slb_lowpass_R2_test_epsilon2_coef.m \
 schurOneMlattice_socp_slb_lowpass_R2_test_p2_coef.m \

@@ -2,7 +2,6 @@ herrmannFIRsymmetric_flat_lowpass_test_FIGURES = \
 herrmannFIRsymmetric_flat_lowpass_test_M_10_K_1_M
 
 herrmannFIRsymmetric_flat_lowpass_test_COEFS = \
-herrmannFIRsymmetric_flat_lowpass_test.mat \
 herrmannFIRsymmetric_flat_lowpass_test_hM18K11_coef.m \
 herrmannFIRsymmetric_flat_lowpass_test_aM18K11_coef.m \
 herrmannFIRsymmetric_flat_lowpass_test_hM18K12_coef.m \

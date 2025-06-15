@@ -3,8 +3,6 @@ selesnickFIRsymmetric_flat_bandpass_test_response \
 selesnickFIRsymmetric_flat_bandpass_test_dual
 
 selesnickFIRsymmetric_flat_bandpass_test_COEFS = \
-selesnickFIRsymmetric_flat_bandpass_test.mat \
-selesnickFIRsymmetric_flat_bandpass_test_spec.m \
 selesnickFIRsymmetric_flat_bandpass_test_hM_coef.m \
 selesnickFIRsymmetric_flat_bandpass_test_hA_coef.m
 

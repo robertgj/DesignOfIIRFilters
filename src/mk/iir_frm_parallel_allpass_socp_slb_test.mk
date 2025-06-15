@@ -11,8 +11,6 @@ iir_frm_parallel_allpass_socp_slb_test_pcls_mask_filters \
 iir_frm_parallel_allpass_socp_slb_test_pcls_model_response
 
 iir_frm_parallel_allpass_socp_slb_test_COEFS = \
-iir_frm_parallel_allpass_socp_slb_test.mat \
-iir_frm_parallel_allpass_socp_slb_test_spec.m \
 iir_frm_parallel_allpass_socp_slb_test_r_coef.m \
 iir_frm_parallel_allpass_socp_slb_test_s_coef.m \
 iir_frm_parallel_allpass_socp_slb_test_aa_coef.m \

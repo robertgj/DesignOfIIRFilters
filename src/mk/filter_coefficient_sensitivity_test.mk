@@ -7,8 +7,6 @@ filter_coefficient_sensitivity_test_schur_one_multiplier_elliptic_sensitivity \
 filter_coefficient_sensitivity_test_schur_parallel_allpass_elliptic_sensitivity
 
 filter_coefficient_sensitivity_test_COEFS = \
-filter_coefficient_sensitivity_test.mat \
-filter_coefficient_sensitivity_test_spec.m \
 filter_coefficient_sensitivity_test_n0_coef.m \
 filter_coefficient_sensitivity_test_d0_coef.m \
 filter_coefficient_sensitivity_test_k0_coef.m \

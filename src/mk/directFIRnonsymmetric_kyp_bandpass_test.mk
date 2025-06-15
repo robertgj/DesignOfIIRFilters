@@ -3,8 +3,6 @@ directFIRnonsymmetric_kyp_bandpass_test_response \
 directFIRnonsymmetric_kyp_bandpass_test_k_kc_response
 
 directFIRnonsymmetric_kyp_bandpass_test_COEFS = \
-directFIRnonsymmetric_kyp_bandpass_test.mat \
-directFIRnonsymmetric_kyp_bandpass_test_spec.m \
 directFIRnonsymmetric_kyp_bandpass_test_max_passband_squared_error.tab \
 directFIRnonsymmetric_kyp_bandpass_test_h_coef.m \
 directFIRnonsymmetric_kyp_bandpass_test_k_coef.m \

@@ -3,7 +3,6 @@ tarczynski_ex2_standalone_test_response \
 tarczynski_ex2_standalone_test_pz
 
 tarczynski_ex2_standalone_test_COEFS = \
-tarczynski_ex2_standalone_test.mat \
 tarczynski_ex2_standalone_test_x_coef.m
 
 tarczynski_ex2_standalone_test_FILES = \

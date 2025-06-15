@@ -12,7 +12,6 @@ iir_sqp_slb_fir_17_bandpass_test_COEFS = \
 iir_sqp_slb_fir_17_bandpass_test_b0_coef.m \
 iir_sqp_slb_fir_17_bandpass_test_b1_coef.m \
 iir_sqp_slb_fir_17_bandpass_test_d1_coef.m \
-iir_sqp_slb_fir_17_bandpass_test.mat
 
 iir_sqp_slb_fir_17_bandpass_test_FILES = iir_sqp_slb_fir_17_bandpass_test.m \
 test_common.m print_polynomial.m print_pole_zero.m \

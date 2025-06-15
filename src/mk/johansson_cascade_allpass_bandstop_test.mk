@@ -8,7 +8,6 @@ johansson_cascade_allpass_bandstop_test_zp \
 johansson_cascade_allpass_bandstop_test_zp_dual
 
 johansson_cascade_allpass_bandstop_test_COEFS = \
-johansson_cascade_allpass_bandstop_test_spec.m \
 johansson_cascade_allpass_bandstop_test_f1_coef.m \
 johansson_cascade_allpass_bandstop_test_bsA0_coef.m \
 johansson_cascade_allpass_bandstop_test_bsA1_coef.m

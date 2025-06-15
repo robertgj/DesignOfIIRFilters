@@ -10,8 +10,6 @@ fir_socp_slb_lowpass_test_pcls_d1pass \
 fir_socp_slb_lowpass_test_pcls_d1pz
 
 fir_socp_slb_lowpass_test_COEFS = \
-fir_socp_slb_lowpass_test.mat \
-fir_socp_slb_lowpass_test_spec.m \
 fir_socp_slb_lowpass_test_d1_coef.m \
 fir_socp_slb_lowpass_test_D1_coef.m \
 fir_socp_slb_lowpass_test_N1_coef.m 

@@ -5,8 +5,6 @@ mcclellanFIRsymmetric_lowpass_test_zeros \
 mcclellanFIRsymmetric_lowpass_test_extremal
 
 mcclellanFIRsymmetric_lowpass_test_COEFS = \
-mcclellanFIRsymmetric_lowpass_test.mat \
-mcclellanFIRsymmetric_lowpass_test_spec.m \
 mcclellanFIRsymmetric_lowpass_test_hM_coef.m \
 mcclellanFIRsymmetric_lowpass_test_hM_LD_coef.m \
 mcclellanFIRsymmetric_lowpass_test_rho.tab
