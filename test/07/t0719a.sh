@@ -53,7 +53,7 @@ d1 = [   0.0034966427, ...
          0.4846775314,   0.6841759164,   0.8991355655, ...
          0.4891849365,   1.1124996121,   1.3338403119 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.d1.ok"; fail; fi
 
 #
 # run and see if the results match

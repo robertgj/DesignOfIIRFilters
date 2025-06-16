@@ -70,10 +70,10 @@ axis([0 0.5 -80 10]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt= ...
-  sprintf(["Schur one-multiplier lattice lowpass filter initial response : ", ...
-           "fap=%g,fas=%g"],fap,fas);
-title(strt);
+strI=sprintf(["Schur one-multiplier lattice lowpass filter initial ", ...
+              "response : fapfap=%g,fas=%g"], ...
+             fap,fas);
+title(strI);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -121,8 +121,8 @@ ax=plotyy(wa(1:nap)*0.5/pi,10*log10(Asq2(1:nap)), ...
 % Set axis
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 -0.1 0.02]);
-axis(ax(2),[0 0.5 -75 -45]);
+axis(ax(1),[0 0.5 -0.08 0.02]);
+axis(ax(2),[0 0.5 -70 -45]);
 grid("on");
 strP=sprintf(["Lowpass Schur one-multiplier R=2 filter : ", ...
  "fap=%g,dBap=%g,fas=%g,dBas=%g"],fap,dBap,fas,dBas);
@@ -135,7 +135,7 @@ close
 
 % Pole-zero plot
 zplane(qroots(N2),qroots(D2));
-title(strt);
+title(strP);
 print(strcat(strf,"_pcls_k2c2pz"),"-dpdflatex");
 close
 

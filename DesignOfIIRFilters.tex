@@ -9344,6 +9344,52 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-R2-test-compare-magnitude}.
 \label{fig:iir-sqp-slb-bandpass-R2-test-compare-magnitude}
 \end{figure}
 \clearpage
+\section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SQP}SQP PCLS design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SQP}}
+The Octave script \emph{iir\_sqp\_slb\_lowpass\_R2\_test.m} designs an $R=2$
+lowpass filter. After some experimentation, the filter specification is:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_R2_test_spec.m}
+\end{small}
+The initial filter was calculated by optimising a ``guess'' filter with the WISE
+method of \emph{Tarczynski et al.} described in 
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+The response of the initial filter is shown in
+Figure~\ref{fig:iir-sqp-slb-lowpass-R2-test-initial-response}. 
+The response of the filter after MMSE and PCLS SQP optimimisation is shown in
+Figure~\ref{fig:iir-sqp-slb-lowpass-R2-test-pcls-response}. The corresponding
+pole-zero plot is shown in
+Figure~\ref{fig:iir-socp-slb-lowpass-R2-test-pcls-pz}.
+The estimate of the optimised filter vector, in the gain, zeros and poles
+form of Equation~\ref{eqn:Filter-gain-zeros-poles}, is:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_R2_test_d1_coef.m}
+\end{small}
+and the corresponding transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{iir_sqp_slb_lowpass_R2_test_N1_coef.m}
+\verbatiminput{iir_sqp_slb_lowpass_R2_test_D1_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_R2_test_initial_response}}
+\caption{Initial response of an IIR low-pass R=2 filter after WISE optimisation}
+\label{fig:iir-sqp-slb-lowpass-R2-test-initial-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_R2_test_pcls_response}}
+\caption{Response of an IIR low-pass R=2 filter after PCLS SQP optimisation}
+\label{fig:iir-sqp-slb-lowpass-R2-test-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_sqp_slb_lowpass_R2_test_pcls_pz}}
+\caption{Pole-zero plot of an IIR low-pass R=2 filter after PCLS SQP
+  optimisation}
+\label{fig:iir-sqp-slb-lowpass-R2-test-pcls-pz}
+\end{figure}
+\clearpage
 \subsection{\label{sec:Hilbert-transform-R2-decimation-filter}Hilbert transform R=2 decimation filter}
 A Hilbert transform filter\cite[p.118]{Papoulis_SignalAnalysis} has the transfer
 function 
@@ -10720,8 +10766,9 @@ and
 \clearpage
 \section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_lowpass\_R2\_test.m} uses the
-\emph{SeDuMi} SOCP solver to design an $R=2$ lowpass filter. After some 
-experimentation, the filter specification is:
+\emph{SeDuMi} SOCP solver to design an $R=2$ lowpass filter, similar to that
+shown in Section~\ref{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SQP}.
+After some experimentation, the filter specification is:
 \begin{small}
 \verbatiminput{iir_socp_slb_lowpass_R2_test_spec.m}
 \end{small}
@@ -10750,19 +10797,19 @@ are:
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_initial_response}}
-\caption{Initial response of an IIR low-pass R=2 after WISE optimisation}
+\caption{Initial response of an IIR low-pass R=2 filter after WISE optimisation}
 \label{fig:iir-socp-slb-lowpass-R2-test-initial-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_pcls_response}}
-\caption{Response of an IIR low-pass R=2 after PCLS SOCP optimisation}
+\caption{Response of an IIR low-pass R=2 filter after PCLS SOCP optimisation}
 \label{fig:iir-socp-slb-lowpass-R2-test-pcls-response}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_socp_slb_lowpass_R2_test_pcls_pz}}
-\caption{Pole-zero plot of an IIR low-pass R=2 decimation filter after PCLS SOCP
+\caption{Pole-zero plot of an IIR low-pass R=2 filter after PCLS SOCP
   optimisation}
 \label{fig:iir-socp-slb-lowpass-R2-test-pcls-pz}
 \end{figure}
@@ -12870,6 +12917,55 @@ The corresponding transfer function numerator and denominator polynomials are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_test_D2_coef.m}
 \end{small}
 
+\subsubsection{Design of an alternative one-multiplier IIR Schur lattice low-pass R=2 filter using SOCP\label{sec:Design-alternative-IIR-one-multiplier-Schur-lattice-lowpass-R2-SOCP}}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_lowpass\_R2\_alternate\_test.m} uses the
+\emph{SeDuMi} SOCP solver to design an $R=2$ lowpass filter, similar to that
+shown in Section~\ref{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}.
+The filter specification is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_spec.m}
+\end{small}
+The initial filter was calculated with the WISE method of
+\emph{Tarczynski et al.} described in 
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+The response of the initial filter is shown in
+Figure~\ref{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-initial-response}. 
+The response of the filter after PCLS SOCP optimimisation is shown in
+Figure~\ref{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-pcls-response}.
+The corresponding pole-zero plot is shown in
+Figure~\ref{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-pcls-pz}.
+The optimised Schur one-multiplier lattice filter coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_c2_coef.m}
+\end{small}
+The corresponding transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_D2_coef.m}
+\end{small}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_initial_response}}
+\caption{Initial response of a Schur one-multiplier lattice low-pass R=2 filter after WISE optimisation}
+\label{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-initial-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_pcls_response}}
+\caption{Response of a Schur one-multiplier lattice low-pass R=2 filter after PCLS SOCP optimisation}
+\label{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-pcls-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_R2_alternate_test_pcls_pz}}
+\caption{Pole-zero plot of a Schur one-multiplier lattice low-pass R=2 filter after PCLS SOCP optimisation}
+\label{fig:schurOneMlattice-socp-slb-lowpass-R2-alternate-test-pcls-pz}
+\end{figure}
+\clearpage
 \subsubsection{Design of a one-multiplier IIR Schur lattice band-pass filter using SOCP\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-SOCP}}
 The Octave script \emph{schurOneMlattice\_socp\_slb\_bandpass\_test.m}
 implements the design of a band-pass IIR one-multiplier Schur lattice filter

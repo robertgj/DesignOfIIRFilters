@@ -88,9 +88,9 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -80 10]);
 grid("on");
-strT=sprintf(["Low-pass tapped Schur lattice filter initial response : ", ...
+strI=sprintf(["Low-pass IIR filter initial response : ", ...
               "U=%d,V=%d,M=%d,Q=%d,R=%d,fap=%g,fas=%g"],U,V,M,Q,R,fap,fas);
-title(strT);
+title(strI);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -118,21 +118,28 @@ printf("d1:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
 printf("d1:AS=[ ");printf("%f ",20*log10(AS'));printf(" ] (dB)\n");
 
 % Plot response
+subplot(211)
 [ax,h1,h2]=plotyy(wa*0.5/pi,20*log10(abs(A)),wa*0.5/pi,20*log10(abs(A)));
 ylabel("Amplitude(dB)");
-xlabel("Frequency");
 axis(ax(1),[0 0.5 -0.06 0.01]);
 axis(ax(2),[0 0.5 -68 -54]);
 grid("on");
-strT=sprintf(["Low-pass tapped Schur lattice filter : ", ...
+strP=sprintf(["Low-pass IIR filter : ", ...
               "U=%d,V=%d,M=%d,Q=%d,R=%d,fap=%g,dBap=%g,fas=%g,dBas=%g"], ...
              U,V,M,Q,R,fap,dBap,fas,dBas);
-title(strT);
+title(strP);
+subplot(212)
+T=iirT(wa,d1,U,V,M,Q,R);
+plot(wa*0.5/pi,T);
+axis([0 0.5 0 30])
+grid("on");
+ylabel("Group-delay(samples)");
+xlabel("Frequency");
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
 % Plot pole-zero
-showZPplot(d1,U,V,M,Q,R,strT);
+showZPplot(d1,U,V,M,Q,R,strP);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
