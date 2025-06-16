@@ -80,7 +80,7 @@ for M=1:2,
   wd=[];Dd=[];Ddu=[];Ddl=[];Wd=[];
 
   % Initial all-pass filter
-  Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,tp,ftp,Wtp);
+  Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,tp,ftp,Wtp);
   
   % Lattice decomposition of Da0
   A1k0=schurdecomp(Da0);

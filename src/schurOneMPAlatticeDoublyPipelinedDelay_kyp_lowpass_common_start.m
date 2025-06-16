@@ -18,7 +18,7 @@ Td=[];
 Wt=[];
 
 % Initial allpass filter
-Da0=schurOneMPAlatticeDelay_wise_lowpass(N,DD,fap,fas,Was);
+Da0=allpass_delay_wise_lowpass(N,DD,fap,fas,Was);
 print_polynomial(Da0,"Da0");
 
 % Calculate initial response

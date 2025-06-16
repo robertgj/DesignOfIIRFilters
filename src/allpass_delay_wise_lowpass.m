@@ -1,5 +1,5 @@
-function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
-% Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
+function Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
+% Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
 % Design a lowpass filter consisting of an allpass filter in parallel
 % with a delay using the method of Tarczynski et al. 
 % Inputs:
@@ -34,8 +34,7 @@ function Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   if ((nargin~=5) && (nargin~=8)) || (nargout~=1)
-    print_usage ..
-      ("Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)");
+    print_usage("Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)");
   endif
 
   maxiter=5000;

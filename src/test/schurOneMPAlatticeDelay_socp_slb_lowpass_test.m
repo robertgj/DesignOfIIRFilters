@@ -60,7 +60,7 @@ for M=1:3,
   endif
 
   % Initial all-pass filter
-  Da0=schurOneMPAlatticeDelay_wise_lowpass(m,DD,fap,fas,Was);
+  Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was);
   
   % Amplitude constraints
   wa=(0:(n-1))'*pi/n;
