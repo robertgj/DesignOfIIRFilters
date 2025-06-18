@@ -31,13 +31,8 @@ T=(Tap+TDD)/2;
 subplot(211)
 [ax,h1,h2]=plotyy(fplot,logH_s,fplot,logH_s);
 ylabel("Amplitude(dB)");
-set(h1,"linestyle","-");
-set(h2,"linestyle","-.");
-legend("$A^{2}_{min}(dB)$","$A^{2}_{max}(dB)$");
-legend("box","off");
-legend("location","northeast");
-axis(ax(1),[0 0.5 -0.25 0]);
-axis(ax(2),[0 0.5 -60 -35]);
+axis(ax(1),[0 0.5 -0.2 0.1]);
+axis(ax(2),[0 0.5 -60 -30]);
 grid("on");
 tstr=sprintf("Response of parallel all-pass filter and delay : N=%d, DD=%d", ...
              N, DD);
@@ -64,7 +59,11 @@ print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
 % Plot convergence
-[ax,h1,h2]=plotyy(1:length(list_norm_dk),list_norm_dk,1:length(list_Esq),list_Esq);
+list_len=length(list_norm_dk);
+if list_len ~= length(list_Esq)
+  error("list_len ~= length(list_Esq)");
+endif
+[ax,h1,h2]=plotyy(1:list_len,list_norm_dk,1:list_len,list_Esq);
 set(h1,"linestyle","-");
 set(h2,"linestyle","-.");
 legend("$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$","$\\mathcal{E}^2$");
@@ -73,29 +72,58 @@ legend("location","northeast");
 ylabel(ax(1),"$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$");
 ylabel(ax(2),"$\\mathcal{E}^2$");
 xlabel("Iteration");
-axis(ax(1),[0 maxiter_kyp 0 0.004]);
-axis(ax(2),[0 maxiter_kyp 0 0.00002]);
+axis(ax(1),[0 list_len 0 0.004]);
+axis(ax(2),[0 list_len 0 0.00004]);
 grid("on");
-tstr=sprintf("Convergence of parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
+tstr=sprintf(["Convergence of parallel all-pass filter and delay : ", ...
+              "N=%d, DD=%d"], N, DD);
 title(tstr);
 print(strcat(strf,"_convergence"),"-dpdflatex");
 close
 
-% Plot amplitude min,max
-[ax,h1,h2]=plotyy(1:length(list_Asq_min),10*log10(list_Asq_min), ...
-                  1:length(list_Asq_max),10*log10(list_Asq_max));
+% Plot Objective
+list_len=length(list_norm_dz);
+if list_len ~= length(list_Objective)
+  error("list_len ~= length(list_Objective)");
+endif
+[ax,h1,h2]=plotyy(1:list_len,list_norm_dz, ...
+                  1:list_len,list_Objective);
 set(h1,"linestyle","-");
 set(h2,"linestyle","-.");
-legend("$A_{min}$(dB)","$A_{max}$(dB)");
+legend("$\\mathnorm{\\Delta_{\\boldsymbol{z}}}$","Objective");
+legend("box","off");
+legend("location","northeast");
+ylabel(ax(1),"$\\mathnorm{\\Delta_{\\boldsymbol{k}}}$");
+ylabel(ax(2),"Objective");
+xlabel("Iteration");
+axis(ax(1),[0 list_len 0 0.8]);
+axis(ax(2),[0 list_len 0 4e-5]);
+grid("on");
+tstr=sprintf("Objective of parallel all-pass filter and delay : N=%d, DD=%d",...
+             N, DD);
+title(tstr);
+print(strcat(strf,"_Objective"),"-dpdflatex");
+close
+
+% Plot amplitude pass-band min. and stop-band max.
+list_len=length(list_Asq_min);
+if list_len ~= length(list_Asq_max)
+  error("list_len ~= length(list_Asq_max)");
+endif
+[ax,h1,h2]=plotyy(1:list_len,10*log10(list_Asq_min), ...
+                  1:list_len,10*log10(list_Asq_max));
+set(h1,"linestyle","-");
+set(h2,"linestyle","-.");
+legend("$A_{min. pass}$(dB)","$A_{max}$(dB)");
 legend("box","off");
 legend("location","northwest");
-ylabel(ax(1),"Minimum Amplitude(dB)");
-ylabel(ax(2),"Maximum Amplitude(dB)");
+ylabel(ax(1),"Pass-band amplitude(dB)");
+ylabel(ax(2),"Maximum stop-band amplitude(dB)");
 xlabel("Iteration");
-axis(ax(1),[0 maxiter_kyp -0.5 0]);
-axis(ax(2),[0 maxiter_kyp -45 -40]);
+axis(ax(1),[0 list_len -0.5 0]);
+axis(ax(2),[0 list_len -45 -40]);
 grid("on");
-tstr=sprintf(["Pass-band $A_{min}$(dB) and stop-band $A_{max}$(dB) of ", ...
+tstr=sprintf(["Pass-band min. and stop-band max. (dB) of ", ...
  "parallel all-pass filter and delay : N=%d, DD=%d"],N, DD);
 title(tstr);
 print(strcat(strf,"_Asq_min_max"),"-dpdflatex");
@@ -132,8 +160,12 @@ print_polynomial(k0,"k0",strcat(strf,"_k0_coef.m"));
 print_polynomial(k,"k");
 print_polynomial(k,"k",strcat(strf,"_k_coef.m"));
 
+print_polynomial(list_Objective,"list_Objective");
+print_polynomial(list_norm_dz,"list_norm_dz");
 print_polynomial(list_norm_dk,"list_norm_dk");
 print_polynomial(list_Esq,"list_Esq");
+print_polynomial(list_Esq_p,"list_Esq_p");
+print_polynomial(list_Esq_s,"list_Esq_s");
 print_polynomial(list_Asq_min,"list_Asq_min");
 print_polynomial(list_Asq_max,"list_Asq_max");
 for u=1:length(list_k)

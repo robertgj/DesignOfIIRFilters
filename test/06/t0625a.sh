@@ -65,8 +65,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k_coef.m << 'EOF'
-k = [  -0.5590415658,   0.4177035965,   0.2281384912,   0.0940832984, ... 
-        0.0193019506 ];
+k = [  -0.5587865811,   0.4149916911,   0.2259884090,   0.0921483938, ... 
+        0.0177132903 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k_coef.m"; fail; fi
 

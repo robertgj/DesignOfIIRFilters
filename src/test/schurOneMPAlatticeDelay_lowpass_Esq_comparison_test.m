@@ -74,7 +74,7 @@ Asq_kyp_LeeHu = schurOneMPAlatticeAsq(wa,k_kyp_LeeHu,ones_m,ones_m, ...
 Amin_dB_kyp_LeeHu = 10*log10(min(Asq_kyp_LeeHu(1:nap)))
 Amax_dB_kyp_LeeHu = 10*log10(max(Asq_kyp_LeeHu(nas:n)))
 
-% Make LaTeX table for overall noise gains
+% Make LaTeX table
 fname=strcat(strf,".tab");
 fid=fopen(fname,"wt");
 fprintf(fid,"Initial & %8.3g & %5.2f & %6.3f \\\\ \n", ...

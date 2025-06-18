@@ -41115,14 +41115,21 @@ The resulting filter frequency response is acceptable. These numerical problems
 occurred for all combinations of $N$ and $d$ that I tried.
 \clearpage
 \section{Design of one-multiplier Schur lattice  filters with the KYP lemma}
-This section considers the use of the KYP lemma to design IIR filters
-implemented as the parallel combination of two all-pass one-multiplier Schur
-lattice filters. The matrix inequality part of the KYP lemma shown in
+This section considers the use of the KYP lemma to design one-multiplier Schur
+lattice IIR filters. The matrix inequality part of the KYP lemma shown in
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} is not linear in the state
-transition matrix, $A$, coefficients and the design problem requires the
-solution of bilinear matrix inequality (BMI) constraints. The design of robust
-feedback control systems has motivated much research into the solution of BMI
-constraints derived from the KYP lemma. See, for example, \emph{Van Antwerp} and
+variable coefficients. The design problem can be approximated by the solution of
+a system of bilinear matrix inequality (BMI) constraints if the state-variable
+coefficients can be expressed as linear combinations of the Schur lattice
+filter coefficients. This is the case for the $R=2$, tapped, one-multiplier
+Schur lattice filter, described in
+Section~\ref{sec:Pipelining-OneM-Schur-lattice-filter}, the doubly-pipelined,
+tapped, one-multiplier Schur lattice filter, described in
+Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter},
+and the parallel combination of two doubly-pipelined all-pass Schur lattice
+filters. The design of robust feedback control systems has motivated much
+research into the solution of BMI constraints derived
+from the KYP lemma. See, for example, \emph{Van Antwerp} and
 \emph{Braatz}~\cite{VanAntwerpBraatz_LinearBilinearMatrixInequalities} or
 \emph{Dinh et
  al.}~\cite[Section 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.
@@ -41369,7 +41376,7 @@ where $N_{\mathcal{C}}\left(x\right)$ is the normal cone of $\mathcal{C}$:
   \end{split}
   \label{eqn:Linearised-BMI-optimisation}
 \end{align}
-where the linearised concave part is an upper approximation:
+where $Q_{m}\succ 0$. The linearised concave part is an upper approximation:
 \begin{align*}
   -H\left(x\right)\preceq -H\left(x_{m}\right) -
   \nabla H\left(x_{m}\right)\Delta_{x},
@@ -41644,16 +41651,14 @@ or, simply:
             GY & -G \end{array}\right]\right) \prec 0
 \end{align*}
 
-\subsection{Design of Schur lattice filters with  BMI constraints derived from the KYP lemma}
-In this Section I apply the successive convex optimisation
-to the design of filters implemented as the parallel combination of the doubly
-pipelined all-pass one-multiplier Schur lattice filters described in
-Section~\ref{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}\footnote{This design procedure can also be applied to the tapped
-  doubly pipelined one-multiplier Schur lattice filters described in
-Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}
-with the added complication that the tap coefficients, $c_{n}$, depend on the
-$\epsilon_{n}\in\left\{-1,1\right\}$.}. The filters are assumed to have a single
-input and a single output. For such filters, the state transition matrix, $A$,
+\subsection{Design of one-multiplier Schur lattice filters with  BMI constraints derived from the KYP lemma}
+In this Section I apply the successive convex optimisation to the design of
+filters, based on the one-multiplier Schur lattice filter, for which the
+corresponding state-variable coefficients can be expressed as linear
+combinations of the lattice coefficients. For example, the state transition
+matrix, $A$, of a parallel all-pass, doubly-pipelined, one-multiplier, Schur
+lattice filter, described in 
+Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter},
 is:
 \begin{align*}
   A\left(\boldsymbol{k}\right) = A_{0}+\sum_{l=1}^{N} k_{l}A_{l}
@@ -41661,106 +41666,88 @@ is:
 where
 $\boldsymbol{k}=\left[\begin{array}{ccc}k_{1} & \hdots & k_{N}\end{array}\right]$
 are the Schur lattice filter reflection coefficients, $A\in\mathbb{R}^{n\times n}$
-and the $A_{0},\hdots,A_{N}$ matrixes and the state-variable $B$, $C$ and $D$
-matrixes are constant. After applying Finsler's transformation to the KYP lemma
+and the $A_{0},A_{1},\hdots$ matrixes and the state-variable $B$, $C$ and $D$
+matrixes are constant\footnote{The Octave function
+  \emph{schurOneMAPlatticeDoublyPipelined2Abcd} returns the $A_{0},\hdots,A_{N}$
+  matrixes of the all-pass, doubly-pipelined, one-multiplier, Schur lattice
+  filter shown in
+Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}.
+If this filter has order $N$, then it has $3N+2$ states.
+The Octave function \emph{schurOneMR2lattice2Abcd} returns the corresponding
+state variable $A_{0},A_{1},\hdots$, $B_{0},B_{1},\hdots$,
+$C_{0},C_{1},\hdots$ and $D_{0},D_{1},\hdots$ matrixes for the $\boldsymbol{k}$
+and $\boldsymbol{c}$ coefficients of the $R=2$ pipelined tapped one-multiplier
+Schur lattice shown in
+Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-lattice}.
+If this filter has order $N$, then it has $\frac{3}{2}N-1$ states.}.
+
+After applying Finsler's transformation to the KYP lemma
 matrix inequality of Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}, as
 shown in Section~\ref{sec:Finslers-lemma-transformation-generalised-KYP}, the
 optimisation problem is:
 \begin{align*}
   \textbf{minimise}\quad
-  & \mathcal{E}^{2}\left(\boldsymbol{k}\right) \\
+  & \mathcal{E}^{2}\left(\boldsymbol{x}\right) \\
   \textbf{subject to}\quad
   &-1 < \boldsymbol{k} < 1 \\
   & P,Q\in\mathbb{S}^{n}\text{ and } Q\succeq 0 \\
   & \text{Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}}
 \end{align*}
-where $\mathcal{E}^{2}\left(\boldsymbol{k}\right)$ is the filter squared error at
-$\boldsymbol{k}=\boldsymbol{k}_{m}+\Delta_{\boldsymbol{k}}$:
+where $\boldsymbol{x}$ represents the Schur lattice reflection coefficients,
+$\boldsymbol{k}$, and, for a tapped lattice, the tap coefficients,
+$\boldsymbol{c}$. $\mathcal{E}^{2}\left(\boldsymbol{x}\right)$ is, after $m$
+iterations, the filter squared error at
+$\boldsymbol{x}=\boldsymbol{x}_{m}+\Delta_{\boldsymbol{x}}$:
 \begin{align*}
-  \mathcal{E}^{2}\left(\boldsymbol{k}_{m}+\Delta_{\boldsymbol{k}}\right)
-  &\approx \mathcal{E}^{2}\left(\boldsymbol{k}_{m}\right)
-+\nabla_{\mathcal{E}^{2}}\left(\boldsymbol{k}_{m}\right)^{\top}\Delta_{\boldsymbol{k}}
-    +\frac{1}{2}\Delta_{\boldsymbol{k}}^{\top}\nabla^{2}_{\mathcal{E}^{2}}
-    \left(\boldsymbol{k}_{m}\right)\Delta_{\boldsymbol{k}}
+  \mathcal{E}^{2}\left(\boldsymbol{x}_{m}+\Delta_{\boldsymbol{x}}\right)
+  &\approx \mathcal{E}^{2}\left(\boldsymbol{x}_{m}\right)
++\nabla_{\mathcal{E}^{2}}\left(\boldsymbol{x}_{m}\right)^{\top}\Delta_{\boldsymbol{x}}
+    +\frac{1}{2}\Delta_{\boldsymbol{x}}^{\top}\nabla^{2}_{\mathcal{E}^{2}}
+    \left(\boldsymbol{x}_{m}\right)\Delta_{\boldsymbol{x}}
 \end{align*}
-Assume that $\boldsymbol{k}_{0}$ is a known feasible initial point. Set
-$\Delta_{z}=\mathvec\left(\Delta_{\boldsymbol{k}},\Delta_{\varepsilon^{2}},\Delta_{P},
-  \Delta_{Q},\Delta_{X},\Delta_{Y},\Delta_{Z}\right)$ and, after the $m$'th
-iteration,  $z_{m}=\mathvec\left(\boldsymbol{k}_{m},\varepsilon_{m}^{2},P_{m},Q_{m},
+Assume that $\boldsymbol{x}_{0}$ is a known feasible initial point. Set
+$\Delta_{z}=\mathvec\left(\Delta_{\boldsymbol{x}},\Delta_{\varepsilon^{2}},
+  \Delta_{X},\Delta_{Y},\Delta_{Z}\right)$ and, after the $m$'th
+iteration,  $z_{m}=\mathvec\left(\boldsymbol{x}_{m},\varepsilon_{m}^{2},P_{m},Q_{m},
   X_{m},Y_{m},Z_{m}\right)$.
 
 \subsubsection{Successive convex optimisation with the algorithm of \emph{Dinh et al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}\label{sec:Successive-convex optimisation-Dinh}}
 Apply Equation~\ref{eqn:Dinh-bilinear-convex-concave-c} to
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}:
 \begin{align*}
-  \begin{split}
-   & \left[\begin{array}{ccc}
-      L\left(P,Q\right) & 0 & 0\\
-      0 & -\varepsilon^{2}I & 0 \\
-      0 & 0 & I \end{array}\right] + \hdots \\
-   & \frac{1}{2}\left\{
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]+
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)^{\mathconj}
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]+
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)\right\} - \hdots \\
-    & \frac{1}{2}\left\{
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]-
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)^{\mathconj}
-      \left(\left[\begin{array}{cccc}
-        -I & A & B & 0 \\
-         0 & C & D & -I \end{array}\right]-
-      \left[\begin{array}{cccc}
-        X & 0 \\
-        Y & 0 \\
-        Z & 0 \\
-        0 & I\end{array}\right]^{\mathconj}
-      \right)\right\} \preceq 0
-  \end{split}
+  & \left[\begin{array}{ccc}
+    L\left(P,Q\right) & 0 & 0\\
+    0 & -\varepsilon^{2}I & 0 \\
+    0 & 0 & I \end{array}\right] +
+    \frac{1}{2}\left(U^{\mathconj}+V\right)^{\mathconj}\left(U^{\mathconj}+V\right) -
+    \frac{1}{2}\left(U^{\mathconj}-V\right)^{\mathconj}\left(U^{\mathconj}-V\right)
+    \preceq 0
 \end{align*}
+where $U=\left[\begin{array}{cccc}
+  -I_{n} & A & B & 0 \\
+  0 & C & D & -I_{m}\end{array}\right]^{\mathconj}$ and
+$ V=\left[\begin{array}{cc}
+    X & 0 \\
+    Y & 0 \\
+    Z & 0 \\
+  0 & I_{p} \end{array}\right]^{\mathconj}$.
+
 Applying the Schur complement to the first and second terms:
 \begin{align*}
   \left[\begin{array}{cc}
     \left[\begin{array}{ccc}
-      L\left(P,Q\right) & 0 & 0 \\
+      0 & 0 & 0 \\
       0 & -\varepsilon^{2}I & 0 \\
-      0 &                 0 & I \end{array}\right] & \ast \\
-    \frac{1}{\sqrt{2}}\left[\begin{array}{cccc}
-      -I+X^{\mathconj}  & A+Y^{\mathconj} & B+Z^{\mathconj} & 0 \\
-      0 &  C  &  D  & 0 \end{array}\right] & -I \end{array}\right]
+      0 &                 0 & I \end{array}\right] &
+    \frac{1}{\sqrt{2}}\left(U^{\mathconj}+V\right)^{\mathconj}\\
+    \frac{1}{\sqrt{2}}\left(U^{\mathconj}+V\right) & -I \end{array}\right]
   -\frac{1}{2}\left[\begin{array}{cc}
     R^{\mathconj}R & 0 \\
     0 & 0  \end{array}\right] \preceq 0
 \end{align*}
-where:
-\begin{align*}
-  R &=\left[\begin{array}{cccc}
-      -I-X^{\mathconj} & A-Y^{\mathconj} & B-Z^{\mathconj} & 0 \\
-                   0 &             C &             D & -2I\end{array}\right]
-\end{align*}
+where $R=\left(U^{\mathconj}-V\right)^{\mathconj}$.
 After the $m$'the iteration, at $z=z_{m}+\Delta_{z}$,
-$A\left(\boldsymbol{k}\right)\approx
-A\left(\boldsymbol{k}_{m}\right)+\sum_{l=1}^{N}\Delta_{k_{l}}A_{l}$,
+$A\left(\boldsymbol{x}\right)\approx A\left(\boldsymbol{x}_{m}\right)+\sum_{l} \Delta_{x_{l}}A_{l}$, etc. and
 $X\left(z\right)\approx X\left(z_{m}\right)+\Delta_{X}$, etc.
 The linear approximation to the bilinear term,
 $R\left(z\right)^{\mathconj}R\left(z\right)$, is:
@@ -41772,18 +41759,123 @@ $R\left(z\right)^{\mathconj}R\left(z\right)$, is:
 \end{align*}
 At each iteration, the SDP decision variables are $\Delta_{z}$.
 
+\subsubsection{Successive convex optimisation with the algorithm of
+  \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}}
+Alternatively, apply the algorithm of \emph{Lee} and \emph{Hu} to
+Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}.
+After the $m$'the iteration, at  $z=z_{m}+\Delta_{z}$, the linear part is:
+
+\begin{align*}
+  \begin{split}
+   \nabla  F\left(z_{m}\right)\Delta_{z}
+  \approx & \left[\begin{array}{ccc}
+      0 & 0 & 0\\
+      0 & -\Delta_{\varepsilon^{2}} & 0 \\
+      0 & 0 & 0 \end{array}\right] + \hdots \\
+    & \mathhe{ \left( \left[ \begin{array}{cc}
+      X_{m} & 0 \\
+      Y_{m} & 0 \\
+      Z_{m} & 0 \\
+      0 & 1 \end{array} \right]
+      \left[\begin{array}{cccc}
+        0 & \Delta_{A} & \Delta_{B} & 0 \\
+        0 & \Delta_{C} & \Delta_{D} & 0 \end{array}\right]\right) } + 
+      \mathhe{ \left( \left[ \begin{array}{cc}
+        \Delta_{X} & 0 \\
+        \Delta_{Y} & 0 \\
+        \Delta_{Z} & 0 \\
+        0 & 0\end{array} \right]
+      \left[\begin{array}{cccc}
+        -I & A & B & 0 \\
+        0 & C & D & -1 \end{array}\right]\right) }
+  \end{split}
+\end{align*}
+
+The overall bilinear matrix inequality is:
+\begin{align}
+  \label{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality}
+  F\left(z_{m}+\Delta_{z}\right)
+  \approx & F\left(z_{m}\right) + \nabla  F\left(z_{m}\right)\Delta_{z} +
+    \mathhe{ \left( \left[ \begin{array}{cc}
+      \Delta_{X} & 0 \\
+      \Delta_{Y} & 0 \\
+      \Delta_{Z} & 0 \\
+      0 & 0 \end{array} \right]
+    \left[ \begin{array}{cccc}
+      0 & \Delta_{A} & \Delta_{B} & 0 \\
+      0 & \Delta_{C} & \Delta_{D} & 0 \end{array} \right] \right) }
+    \preceq 0
+\end{align}
+With the convex upper-approximation of \emph{Lee} and
+\emph{Hu}~\cite[Lemma 2]{Lee_SequentialConvexApproxBMI}, shown in
+Equation~\ref{eqn:Lee-Hu-lemma-2} the bilinear part of
+Equation~\ref{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality} is:
+\begin{align*}
+  \begin{split}
+    \mathhe{ \left( \left[ \begin{array}{cc}
+      \Delta_{X}& 0 \\
+      \Delta_{Y}& 0 \\
+      \Delta_{Z}& 0 \\
+      0 & 0 \end{array} \right]
+    \left[ \begin{array}{cccc}
+      0 & \Delta_{A} & \Delta_{B} & 0 \\
+      0 & \Delta_{C} & \Delta_{D} & 0\end{array} \right] \right) } \preceq
+    & \left[ \begin{array}{cc}
+      \Delta_{X} & 0 \\
+      \Delta_{Y} & 0 \\
+      \Delta_{Z} & 0 \\
+      0 & 0 \end{array} \right] S \left[ \begin{array}{cc}
+        \Delta_{X} & 0 \\
+        \Delta_{Y} & 0 \\
+        \Delta_{Z} & 0 \\
+        0 & 0 \end{array} \right]^{\top}+ \hdots \\
+    & \left[ \begin{array}{cccc}
+      0 & \Delta_{A} & \Delta_{B} & 0 \\
+      0 & \Delta_{C} & \Delta_{D} & 0\end{array}\right]^{\top}S^{-1}
+      \left[ \begin{array}{cccc}
+        0 & \Delta_{A} & \Delta_{B} & 0 \\
+        0 & \Delta_{C} & \Delta_{D} & 0 \end{array}\right]\preceq 0
+  \end{split}
+\end{align*}
+where $S\in\mathbb{S}_{++}^{n+1}$ is a positive definite, symmetric matrix.
+After linearising $S^{-1}$ and applying the Schur complement, as shown in
+Equation~\ref{eqn:Lee-Hu-linearised-bilinear-mapping}, at the $m$'th iteration
+the convex upper-approximation at $z=z_{m}+\Delta_{z}$ satisfies:
+\begin{align}
+  \label{eqn:Lee-Hu-linearised-pipelined-all-pass-Schur-lattice}
+  \left[\begin{array}{ccc}
+  F\left(z_{m}\right)+ \nabla F\left(z_{m}\right)\Delta_{z} & \ast & \ast \\
+    S_{m}\left[ \begin{array}{cc}
+      \Delta_{X} & 0 \\
+      \Delta_{Y} & 0 \\
+      \Delta_{Z} & 0 \\
+      0 & 0 \end{array} \right]^{\top} & -2S_{m}+S & \ast \\
+   \left[ \begin{array}{cccc}
+     0 & \Delta_{A} & \Delta_{B} & 0 \\
+     0 & \Delta_{C} & \Delta_{D} & 0 \end{array} \right] & 0 & -S \end{array}\right] & \preceq 0
+\end{align}
+The SDP decision variables are $\Delta_{z}$ and $S$.
+\clearpage
+\subsection{Examples of the design of one-multiplier Schur lattice filters with  BMI constraints derived from the KYP lemma}
+\subsubsection{Design of parallel all-pass, doubly-pipelined, one-multiplier Schur lattice filters with  BMI constraints derived from the KYP lemma}
 The Octave script
 \emph{schurOneMPAlatticeDoublyPipelinedDelay\_kyp\_Dinh\_lowpass\_test.m}
 implements the successive convex approximation algorithm of
-\emph{Dinh et al.} with YALMIP in order to design a filter consisting of
-the parallel combination of a delay and a Schur one-multiplier all-pass lattice
-filter. The initial filter is designed with the \emph{WISE} method shown in
-Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
-function is an approximation to the summed squared error of the amplitude
-response. The script finds initial values for the symmetric and real SDP
-decision variables $P$, $Q$, $X$ etc. with \emph{SeDuMi} and then uses the
-\emph{SDPT3} solver for successive convex approximation. The filter
-specification is:
+\emph{Dinh et al.} with YALMIP and the SDPT3 solver in order to design a filter
+consisting of the parallel combination of a delay and a Schur one-multiplier
+all-pass lattice filter. The all-pass lattice state-transition matrix, $A_{ap}$,
+is a linear combination of the reflection coefficients, $\boldsymbol{k}$, and
+the other state variable matrixes, $B_{ap}$, $C_{ap}$, and $D_{ap}$, are constant.
+The initial filter is designed with the \emph{WISE} method shown in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The $P$ and
+$Q$ KYP lemma symmetric matrixes are recalculated at each BMI iteration. The
+$dX$, $dY$, etc matrixes are initialised with YALMIP and the SeDuMi solver. The
+objective function is an approximation to the summed squared error of the
+amplitude response. It appears that, for this IIR filter, this objective
+function  sufficiently close to convex that SDPT3 can optimise it, whereas
+the SeDuMi solver cannot.
+
+The filter specification is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_spec.m}
 \end{small}
@@ -41794,9 +41886,9 @@ The initial reflection coefficients are:
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
 shows the initial filter amplitude response.
 The optimised reflection coefficients are:
-\begin{small}
-\verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m}
+\begin{small} \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_k_coef.m}
 \end{small}
+
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
 shows the filter amplitude and delay responses.
 Figure~\ref{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-pz}
@@ -41814,7 +41906,6 @@ amplitude of the filter design.
   of a Schur one-multiplier lattice all-pass filter in parallel with a delay.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-initial}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_response}}
@@ -41824,7 +41915,6 @@ amplitude of the filter design.
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-response}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_pz}}
@@ -41834,7 +41924,6 @@ amplitude of the filter design.
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
 \label{fig:schurOneMPA-DoublyPipelinedDelay-kyp-Dinh-lowpass-pz}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_convergence}}
@@ -41845,7 +41934,6 @@ amplitude of the filter design.
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
 \label{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Esq}
 \end{figure}
-
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_Dinh_lowpass_test_Asq_min_max}}
@@ -41856,114 +41944,20 @@ amplitude of the filter design.
     al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
 \label{fig:schurOneMPADoublyPipelinedDelay-Dinh-lowpass-convergence-Asq}
 \end{figure}
-
-\subsubsection{Successive convex optimisation with the algorithm of
-  \emph{Lee} and \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}}
-Alternatively, apply the algorithm of \emph{Lee} and \emph{Hu} to
-Equation~\ref{eqn:Lee-Hu-partially-linearised-bilinear-mapping}.
-After the $m$'the iteration, at  $z=z_{m}+\Delta_{z}$, the linear part is:
-
-\begin{align*}
-  \begin{split}
-   \nabla  F\left(z_{m}\right)\Delta_{z}
-  \approx & \left[\begin{array}{ccc}
-      L\left(\Delta_{P},\Delta_{Q}\right) & 0 & 0\\
-      0 & -\Delta_{\varepsilon^{2}} & 0 \\
-      0 & 0 & 0 \end{array}\right] + \hdots \\
-    & \mathhe{ \left( \left[ \begin{array}{cc}
-      X_{m} & 0 \\
-      Y_{m} & 0 \\
-      Z_{m} & 0 \\
-      0 & 1 \end{array} \right]
-      \left[\begin{array}{cccc}
-        0 & \Delta_{A} & 0 & 0 \\
-        0 & 0 & 0 & 0 \end{array}\right]\right) } + 
-      \mathhe{ \left( \left[ \begin{array}{cc}
-        \Delta_{X} & 0 \\
-        \Delta_{Y} & 0 \\
-        \Delta_{Z} & 0 \\
-        0 & 0\end{array} \right]
-      \left[\begin{array}{cccc}
-        -I & A\left(\boldsymbol{k}_{m}\right) & B & 0 \\
-        0 & C & D & -1 \end{array}\right]\right) }
-  \end{split}
-\end{align*}
-
-The overall bilinear matrix inequality is:
-\begin{align}
-  \label{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality}
-  F\left(z_{m}+\Delta_{z}\right)
-  \approx & F\left(z_{m}\right) + \nabla  F\left(z_{m}\right)\Delta_{z} +
-    \mathhe{ \left( \left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right]
-    \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-    0 & 0 & 0 & 0 \end{array} \right] \right) }
-    \preceq 0
-\end{align}
-With the convex upper-approximation of \emph{Lee} and
-\emph{Hu}~\cite[Lemma 2]{Lee_SequentialConvexApproxBMI}, shown in
-Equation~\ref{eqn:Lee-Hu-lemma-2} the bilinear part of
-Equation~\ref{eqn:One-multiplier-Schur-lattice-bilinear-matrix-inequality} is:
-\begin{align*}
-  \begin{split}
-    \mathhe{ \left( \left[ \begin{array}{cc}
-      \Delta_{X}& 0 \\
-      \Delta_{Y}& 0 \\
-      \Delta_{Z}& 0 \\
-      0 & 0 \end{array} \right]
-    \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-      0 & 0 & 0 & 0\end{array} \right] \right) } \preceq
-    & \left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right] S \left[ \begin{array}{cc}
-        \Delta_{X} & 0 \\
-        \Delta_{Y} & 0 \\
-        \Delta_{Z} & 0 \\
-        0 & 0 \end{array} \right]^{\top}+ \hdots \\
-    & \left[ \begin{array}{cccc}
-      0 & \Delta_{A} & 0 & 0 \\
-      0 & 0 & 0 & 0\end{array}\right]^{\top}S^{-1}
-      \left[ \begin{array}{cccc}
-        0 & \Delta_{A} & 0 & 0 \\
-        0 & 0 & 0 & 0 \end{array}\right]\preceq 0
-  \end{split}
-\end{align*}
-where $S\in\mathbb{S}_{++}^{n+1}$ is a positive definite, symmetric matrix.
-After linearising $S^{-1}$ and applying the Schur complement, as shown in
-Equation~\ref{eqn:Lee-Hu-linearised-bilinear-mapping}, at the $m$'th iteration
-the convex upper-approximation at $z=z_{m}+\Delta_{z}$ satisfies:
-\begin{align}
-  \label{eqn:Lee-Hu-linearised-pipelined-all-pass-Schur-lattice}
-  \left[\begin{array}{ccc}
-  F\left(z_{m}\right)+ \nabla F\left(z_{m}\right)\Delta_{z} & \ast & \ast \\
-    S_{m}\left[ \begin{array}{cc}
-      \Delta_{X} & 0 \\
-      \Delta_{Y} & 0 \\
-      \Delta_{Z} & 0 \\
-      0 & 0 \end{array} \right]^{\top} & -2S_{m}+S & \ast \\
-   \left[ \begin{array}{cccc}
-     0 & \Delta_{A} & 0 & 0 \\
-     0 & 0 & 0 & 0 \end{array} \right] & 0 & -S \end{array}\right] & \preceq 0
-\end{align}
-The SDP decision variables are $\Delta_{z}$ and $S$.
-
+\clearpage
 The Octave script
 \emph{schurOneMPAlatticeDoublyPipelinedDelay\_kyp\_LeeHu\_lowpass\_test.m}
 implements the successive convex approximation algorithm of
-\emph{Lee} and \emph{Hu} with YALMIP in order to design a filter consisting of
-the parallel combination of a delay and a Schur one-multiplier all-pass lattice
-filter. The initial filter is designed with the \emph{WISE} method shown in
+\emph{Lee} and \emph{Hu} with YALMIP and the SDPT3 solver in order to design a
+filter consisting of the parallel combination of a delay and a Schur
+one-multiplier all-pass lattice filter. The initial filter is designed with the
+\emph{WISE} method shown in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The objective
-function is an approximation to the summed squared error of the amplitude response. The script finds initial values for the SDP decision variables $P$, $Q$ etc. with \emph{SeDuMi} and then uses the \emph{SDPT3} solver for successive convex approximation. The filter specification and the initial filter are those
-of Section~\ref{sec:Successive-convex optimisation-Dinh}. The optimised
-reflection coefficients are:
+function is an approximation to the summed squared error of the amplitude
+response. The filter specification and the initial filter are those
+of Section~\ref{sec:Successive-convex optimisation-Dinh}. 
+
+The optimised reflection coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_k_coef.m}
 \end{small}
@@ -41976,6 +41970,7 @@ shows the convergence of the squared-error and $\Delta_{z}$ of the filter design
 Figure~\ref{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
 shows the convergence of the minimum pass-band amplitude and maximum stop-band
 amplitude of the filter design.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_response}}
@@ -42007,7 +42002,7 @@ et al.}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
 \label{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Esq}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedDelay_kyp_LeeHu_lowpass_test_Asq_min_max}}
 \caption{Convergence of the minimum pass-band amplitude and maximum stop-band
@@ -42017,27 +42012,30 @@ et al.}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
   \emph{Hu}~\cite[Algorithm 1]{Lee_SequentialConvexApproxBMI}.}
 \label{fig:schurOneMPADoublyPipelinedDelay-LeeHu-lowpass-convergence-Asq}
 \end{figure}
-\vspace{3cm}
-\subsubsection{Comparison with SOCP PCLS design}
+\clearpage
 For comparison, the Octave script
 \emph{schurOneMPAlatticeDelay\_socp\_slb\_lowpass\_test.m} uses the
 PCLS algorithm and SOCP optimisation to design a lowpass filter comprised of a
-Schur one-multiplier lattice all-pass filter in parallel with a delay.
-The filter specification is similar to that of
-Section~\ref{sec:Successive-convex optimisation-Dinh}. The initial filter is
-designed with the \emph{WISE} method and the initial reflection coefficients
-are those found in Section~\ref{sec:Successive-convex optimisation-Dinh}.
-
+Schur one-multiplier lattice all-pass filter in parallel with a delay. The
+initial filter is designed with the WISE method of \emph{Tarczynski et al.},
+shown in Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}, and
+the filter specification is similar to the previous examples in this section.
 The optimised reflection coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_A1k_coef.m}
 \end{small}
+Table~\ref{tab:SOCP-KYP-Dinh-KYP-LeeHu-low-pass-filter-comparison} compares the
+mean-squared-error, the maximum in the stop-band and the minimum in the
+pass-band of the amplitude responses of the SOCP(PCLS), KYP(Dinh) and KYP(Lee
+and Hu) designs of a low-pass Schur one-multiplier all-pass lattice filter in
+parallel with a delay.
 Figure~\ref{fig:schurOneMPA-delay-m-5-lowpass-response}
 shows the filter amplitude response.
 Figure~\ref{fig:schurOneMPA-delay-m-5-lowpass-pz} shows the filter pole-zero
 plot.
+The SOCP(PCLS) design procedure is much faster than the KYP design procedure.
 
-\begin{figure}[!hb]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_response}}
 \caption{Amplitude response of a lowpass filter comprised of a
@@ -42046,7 +42044,7 @@ plot.
 \label{fig:schurOneMPA-delay-m-5-lowpass-response}
 \end{figure}
 
-\begin{figure}[!hb]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDelay_socp_slb_lowpass_test_m_5_pz}}
 \caption{Pole-zero plot of a lowpass filter comprised of a
@@ -42055,12 +42053,6 @@ plot.
 \label{fig:schurOneMPA-delay-m-5-lowpass-pz}
 \end{figure}
 
-Table~\ref{tab:SOCP-KYP-Dinh-KYP-LeeHu-low-pass-filter-comparison} compares the
-mean-squared-error, the maximum in the stop-band and the minimum in the
-pass-band of the amplitude responses of the SOCP(PCLSa), KYP(Dinh) and KYP(Lee
-and Hu) designs of a low-pass Schur one-multiplier all-pass lattice filter in
-parallel with a delay. The SOCP(PCLS) design procedure is much faster than the
-KYP design procedure.
 \begin{table}
 \centering
 \begin{threeparttable}
@@ -42075,6 +42067,104 @@ KYP design procedure.
   filter in parallel with a delay.}
 \label{tab:SOCP-KYP-Dinh-KYP-LeeHu-low-pass-filter-comparison}
 \end{table}
+\clearpage
+\subsubsection{Design of R=2 tapped one-multiplier Schur lattice filters with  BMI constraints derived from the KYP lemma}
+The Octave script
+\emph{schurOneMlattice\_kyp\_Dinh\_lowpass\_R2\_test.m}
+implements the successive convex approximation algorithm of
+\emph{Dinh et al.} with YALMIP and the SDPT3 solver in order to design a
+tapped one-multiplier Schur lattice filter with transfer function denominator
+polynomial coefficients only in $z^{-2}$. The initial filter is designed with the
+\emph{WISE} method of \emph{Tarczynski et al.}, shown in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The $dX$,
+$dY$, etc matrixes are initialised with YALMIP and the SeDuMi solver.
+The objective function is the weighted sum of the pass band and stop band
+errors, $\varepsilon_{z}^{2}$ and $\varepsilon_{s}^{2}$, and the regularisation
+factor shown in Equation~\ref{eqn:Linearised-BMI-optimisation}.
+The filter specification is;
+\begin{small}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_spec.m}
+\end{small}
+The initial filter coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_k0_coef.m}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_c0_coef.m}
+\end{small}
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-initial-response} shows the
+amplitude and delay responses of the initial filter.
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-initial-pz} shows the pole-zero
+plot of the initial filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_initial_response}}
+\caption{Amplitude and delay responses of the initial R=2 tapped one-multiplier
+  Schur lattice lowpass filter designed with the WISE method.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-initial-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_initial_pz}}
+\caption{Pole-zero plot of the initial R=2 tapped one-multiplier Schur
+  lattice lowpass filter designed with the WISE method.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-initial-pz}
+\end{figure}
+The optimised filter coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_k_coef.m}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_c_coef.m}
+\end{small}
+The corresponding filter transfer function numerator and denominator polynomials
+are:
+\begin{small}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_n1_coef.m}
+\verbatiminput{schurOneMlattice_kyp_Dinh_lowpass_R2_test_d1R_coef.m}
+\end{small}
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-response}
+shows the filter amplitude and delay responses.
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-pz}
+shows the filter pole-zero plot.
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-convergence-Esq}
+shows the convergence of the squared-error and $\Delta_{z}$ of the filter design.
+Figure~\ref{fig:schurOneM-kyp-Dinh-lowpass-R2-convergence-Asq}
+shows the convergence of the minimum pass-band amplitude and maximum stop-band
+amplitude of the filter design.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_response}}
+\caption{Amplitude and delay responses of an R=2 tapped one-multiplier Schur
+  lattice lowpass filter designed with the generalised KYP lemma and the
+  bilinear algorithm of \emph{Dinh et
+    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_pz}}
+\caption{Pole-zero plot of an R=2 tapped one-multiplier Schur
+  lattice lowpass filter designed with the generalised KYP lemma amd the algorithm of \emph{Dinh et
+    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-pz}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_convergence}}
+\caption{Convergence of the mean-squared-error of the amplitude response and the
+  $\mathnorm{\Delta_{\boldsymbol{x}}}$ of an R=2 tapped one-multiplier Schur
+  lattice lowpass filter designed with the generalised KYP lemma and the
+  algorithm of \emph{Dinh et
+    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-convergence-Esq}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_kyp_Dinh_lowpass_R2_test_Asq_min_max}}
+\caption{Convergence of the minimum pass-band amplitude and maximum stop-band
+  amplitudes of an R=2 tapped one-multiplier Schur lattice lowpass filter
+  designed with the generalised KYP lemma and the algorithm of \emph{Dinh et
+    al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}.}
+\label{fig:schurOneM-kyp-Dinh-lowpass-R2-convergence-Asq}
+\end{figure}
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}

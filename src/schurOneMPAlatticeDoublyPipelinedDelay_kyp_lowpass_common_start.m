@@ -2,7 +2,7 @@
 % Copyright (C) 2024-2025 Robert G. Jenssen
 
 % Filter specification
-tol=5e-6,N=5,DD=4,fap=0.10,Wap=0.1,fas=0.20,Was=200
+k_max=0.999,tol=5e-6,N=5,DD=4,fap=0.10,Wap=0.1,fas=0.20,Was=200
 
 % Frequency points
 nplot=1000;
@@ -38,8 +38,8 @@ T0=(Ta0+TDD)/2;
 ax=plotyy(fplot,logH0_s,fplot,logH0_s);
 ylabel("Amplitude response(dB)");
 xlabel("Frequency");
-axis(ax(1),[0 0.5 -1 0]);
-axis(ax(2),[0 0.5 -60 -35]);
+axis(ax(1),[0 0.5 -1 0.2]);
+axis(ax(2),[0 0.5 -60 -30]);
 grid("on");
 tstr=sprintf(["Initial response of parallel all-pass filter and delay : ", ...
  "N=%d, DD=%d"],N, DD);
@@ -52,6 +52,9 @@ close
 DaDD=[zeros((2*DD)+2,1);1];
 [ADD,BDD,CDD,DDD]=tf2Abcd(DaDD,1);
 nDD=rows(ADD);
+if any(DDD)
+  error("Expected any(DDD) == 0");
+endif
 % Initial filter reflection coefficients
 k0=schurdecomp(Da0);
 print_polynomial(k0,"k0");
@@ -63,10 +66,13 @@ n=rows(A);
 if n~=((2*N)+2+(2*DD)+2)
   error("n~=((2*N)+2+(2*DD)+2)");
 endif
+if any(apDi)
+  error("Expected any(apDi) == 0");
+endif
 B=[apBi;BDD];
 C_p=0.5*[apCi,-CDD];
 C_s=0.5*[apCi, CDD];
-D=[apDi+DDD];
+D=0;
 % Sanity checks on the z^-2 doubly pipelined implementation
 nplot2=2*nplot;
 fplot2=0.5*(0:(nplot-1))'/nplot2;
@@ -89,17 +95,16 @@ endif
 % Calculate initial Asq, Esq and gradient
 k1=ones(length(k0),1);kDD=zeros(DD,1);kDD1=ones(DD,1);diff=false;
 Asq=schurOneMPAlatticeAsq(wplot,k0,k1,k1,kDD,kDD1,kDD1);
-printf("10*log10(min(Asq))(pass)=%g,10*log10(max(Asq))(stop)=%g\n", ...
-        10*log10(min(Asq(1:nap))),10*log10(max(Asq(nas:end))));
+printf("10*log10(min(Asq))(pass)=%g dB\n",10*log10(min(Asq(1:nap))));
+printf("10*log10(max(Asq))(stop)=%g dB\n",10*log10(max(Asq(nas:end))));
 [Esq,gradEsq,diagHessEsq,hessEsq]= ...
   schurOneMPAlatticeEsq(k0,k1,k1,kDD,kDD1,kDD1,diff,wplot,Ad,Wa);
 printf("Esq=%g\n",Esq);
 print_polynomial(gradEsq(1:N),"gradEsq","%g");
 print_polynomial(diagHessEsq(1:N),"diagHessEsq","%g");
- % Initialise BFGS update
-last_gradEsq=zeros(size(gradEsq(1:N)));
-W=diag(diagHessEsq(1:N));
-invW=diag(1./diagHessEsq(1:N));
+if ~isdefinite(hessEsq(1:N,1:N))
+  warning("~isdefinite(hessEsq(1_N,1_N))");
+endif
 
 %
 % Find initial values for Esq_p,Esq_s,P_p,P_p,Q_p,Q_s,XYZ_p,XYZ_s
@@ -109,17 +114,13 @@ Phi=[-1,0;0,1];
 % Pass band with z^-2 (frequencies scaled by 0.5)
 Psi_p=[0, 1; 1,-2*cos(2*pi*fap/2)];
 Esq_p=tol*ceil((max(abs(H0_p(1:nap)))^2)/tol);
-dP_p=sdpvar(n,n,"symmetric","real");
-dQ_p=sdpvar(n,n,"symmetric","real");
-if 0
-  dXYZ_p=sdpvar((2*n)+1,n,"full","real");
-else
-  dX_p=sdpvar(n,n,"symmetric","real");
-  dY_p=sdpvar(n,n,"symmetric","real");
-  dZ_p=sdpvar(1,n,"full","real");
-  dXYZ_p=[dX_p;dY_p;dZ_p];
-endif
-L_p=(kron(Phi,dP_p)+kron(Psi_p,dQ_p));
+P_p=sdpvar(n,n,"symmetric","real");
+Q_p=sdpvar(n,n,"symmetric","real");
+dX_p=sdpvar(n,n,"symmetric","real");
+dY_p=sdpvar(n,n,"symmetric","real");
+dZ_p=sdpvar(1,n,"full","real");
+dXYZ_p=[dX_p;dY_p;dZ_p];
+L_p=(kron(Phi,P_p)+kron(Psi_p,Q_p));
 U_p=[[-eye(n),A,B,zeros(n,1)];[zeros(1,n),C_p,D,-1]]';
 V_p=[[dXYZ_p,zeros((2*n)+1,1)];[zeros(1,n),1]]';
 UV_p=U_p*V_p;
@@ -133,24 +134,20 @@ wm_s=2*pi*(f2-f1)/2;
 ec_s=exp(i*wc_s);
 Psi_s=[0,conj(ec_s);ec_s,-2*cos(wm_s)];
 Esq_s=tol*ceil((max(abs(H0_s(nas:end)))^2)/tol);
-dP_s=sdpvar(n,n,"symmetric","real");
-dQ_s=sdpvar(n,n,"symmetric","real");
-if 0
-  dXYZ_s=sdpvar((2*n)+1,n,"full","real");
-else
-  dX_s=sdpvar(n,n,"symmetric","real");
-  dY_s=sdpvar(n,n,"symmetric","real");
-  dZ_s=sdpvar(1,n,"full","real");
-  dXYZ_s=[dX_s;dY_s;dZ_s];
-endif
-L_s=(kron(Phi,dP_s)+kron(Psi_s,dQ_s));
+P_s=sdpvar(n,n,"symmetric","real");
+Q_s=sdpvar(n,n,"symmetric","real");
+dX_s=sdpvar(n,n,"symmetric","real");
+dY_s=sdpvar(n,n,"symmetric","real");
+dZ_s=sdpvar(1,n,"full","real");
+dXYZ_s=[dX_s;dY_s;dZ_s];
+L_s=(kron(Phi,P_s)+kron(Psi_s,Q_s));
 U_s=[[-eye(n),A,B,zeros(n,1)];[zeros(1,n),C_s,D,-1]]';
 V_s=[[dXYZ_s,zeros((2*n)+1,1)];[zeros(1,n),1]]';
 UV_s=U_s*V_s;
 F_s=[[L_s,zeros(2*n,2)]; [zeros(2,2*n),diag([-Esq_s,1])]] + UV_s+(UV_s');
 
 % Solve for the initial SDP variables
-Constraints=[ F_p<=tol, dQ_p>=0, F_s<=tol, dQ_s>=0 ];
+Constraints=[ F_p<=tol, Q_p>=0, F_s<=tol, Q_s>=0 ];
 Options=sdpsettings("solver","sedumi","sedumi.eps",tol);
 Objective=[];
 sol=optimize(Constraints,Objective,Options)
@@ -162,13 +159,9 @@ check(Constraints)
 printf("Initial Esq_p=%g, Esq_s=%g\n\n",Esq_p,Esq_s);
 
 % Initialise pass band constraints
-P_p=value(dP_p);
-Q_p=value(dQ_p);
 XYZ_p=value(dXYZ_p);
 
 % Initialise stop band constraints
-P_s=value(dP_s);
-Q_s=value(dQ_s);
 XYZ_s=value(dXYZ_s);
 
 % Reflection coefficients
@@ -189,13 +182,15 @@ dEsq_p=sdpvar(1,1,"full","real");
 dEsq_s=sdpvar(1,1,"full","real");
 
 % Make a vector of SDP decision variables
-dz=[dEsq_p;dEsq_s;vec(dk); ...
-    vec(dP_p);vec(dQ_p);vec(dXYZ_p); ...
-    vec(dP_s);vec(dQ_s);vec(dXYZ_s)];
+dz=[dEsq_p;dEsq_s;vec(dk);vec(dXYZ_p);vec(dXYZ_s)];
 
 % Store norm(dk) and Esq in a list
+list_Objective=[];
+list_norm_dz=[];
 list_norm_dk=[];
 list_Esq=[];
+list_Esq_s=[];
+list_Esq_p=[];
 list_Asq_min=[];
 list_Asq_max=[];
 list_k=cell();
