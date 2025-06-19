@@ -17,14 +17,13 @@ schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice2tf.m \
 schurOneMlattice2Abcd.m \
-schurOneMlattice2H.m \
 schurOneMR2lattice2Abcd.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 tf_wise_lowpass.m local_max.m tf2pa.m print_polynomial.m \
 Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ.m delayz.m \
 Abcd2H.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct"
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -60,15 +59,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k_coef.m << 'EOF'
-k = [   0.0000000000,  -0.3706391454,   0.0000000000,   0.6002041516, ... 
-        0.0000000000,  -0.3256574852,   0.0000000000,   0.1366535300 ];
+k = [   0.0000000000,  -0.3709291459,   0.0000000000,   0.5995266555, ... 
+        0.0000000000,  -0.3228875589,   0.0000000000,   0.1375876146 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k_coef.m"; fail; fi
 
 cat > test_c_coef.m << 'EOF'
-c = [  -0.0040000129,   0.1095410164,   0.1614035043,   0.1792047332, ... 
-        0.2657944347,   0.1733152288,   0.0561325860,   0.0145301177, ... 
-       -0.0025257963 ];
+c = [  -0.0059237030,   0.1083595957,   0.1621684100,   0.1799780728, ... 
+        0.2657098972,   0.1704985791,   0.0541938219,   0.0127833150, ... 
+       -0.0049715841 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_c_coef.m"; fail; fi
 
