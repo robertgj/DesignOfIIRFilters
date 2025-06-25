@@ -3,7 +3,6 @@ bitflip_directIIR_bandpass_R2_test_amplitude \
 bitflip_directIIR_bandpass_R2_test_delay
 
 bitflip_directIIR_bandpass_R2_test_COEFS= \
-bitflip_directIIR_bandpass_R2_test.mat \
 bitflip_directIIR_bandpass_R2_test_n_ex_coef.m \
 bitflip_directIIR_bandpass_R2_test_d_ex_coef.m \
 bitflip_directIIR_bandpass_R2_test_n_rd_coef.m \

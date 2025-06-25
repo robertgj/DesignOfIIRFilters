@@ -3,7 +3,6 @@ bitflip_schurNSlattice_bandpass_R2_test_amplitude \
 bitflip_schurNSlattice_bandpass_R2_test_delay
 
 bitflip_schurNSlattice_bandpass_R2_test_COEFS = \
-bitflip_schurNSlattice_bandpass_R2_test.mat \
 bitflip_schurNSlattice_bandpass_R2_test_s10_bfsd_coef.m \
 bitflip_schurNSlattice_bandpass_R2_test_s11_bfsd_coef.m \
 bitflip_schurNSlattice_bandpass_R2_test_s20_bfsd_coef.m \

@@ -5,7 +5,6 @@ bitflip_schurOneMlattice_bandpass_R2_test_amplitude_allocsd \
 bitflip_schurOneMlattice_bandpass_R2_test_delay_allocsd
 
 bitflip_schurOneMlattice_bandpass_R2_test_COEFS= \
-bitflip_schurOneMlattice_bandpass_R2_test.mat \
 bitflip_schurOneMlattice_bandpass_R2_test_k_rd_coef.m \
 bitflip_schurOneMlattice_bandpass_R2_test_c_rd_coef.m \
 bitflip_schurOneMlattice_bandpass_R2_test_k_ex_coef.m \

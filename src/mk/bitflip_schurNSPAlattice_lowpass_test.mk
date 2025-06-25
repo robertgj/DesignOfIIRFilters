@@ -2,8 +2,7 @@ bitflip_schurNSPAlattice_lowpass_test_FIGURES= \
 bitflip_schurNSPAlattice_lowpass_test_passband_response \
 bitflip_schurNSPAlattice_lowpass_test_response 
 
-bitflip_schurNSPAlattice_lowpass_test_COEFS = \
-bitflip_schurNSPAlattice_lowpass_test.mat
+bitflip_schurNSPAlattice_lowpass_test_COEFS =
 
 bitflip_schurNSPAlattice_lowpass_test_FILES = \
 bitflip_schurNSPAlattice_lowpass_test.m test_common.m delayz.m truncation_test_common.m \

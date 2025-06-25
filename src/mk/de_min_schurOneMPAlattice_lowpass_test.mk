@@ -2,8 +2,7 @@ de_min_schurOneMPAlattice_lowpass_test_FIGURES= \
 de_min_schurOneMPAlattice_lowpass_test_passband_response \
 de_min_schurOneMPAlattice_lowpass_test_response
 
-de_min_schurOneMPAlattice_lowpass_test_COEFS = \
-de_min_schurOneMPAlattice_lowpass_test.mat
+de_min_schurOneMPAlattice_lowpass_test_COEFS =
 
 de_min_schurOneMPAlattice_lowpass_test_FILES = \
 de_min_schurOneMPAlattice_lowpass_test.m \

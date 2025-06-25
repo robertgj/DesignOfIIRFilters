@@ -8,8 +8,7 @@ minphase_test_COEFS= \
 minphase_test_brz_coef.m \
 minphase_test_brzc_coef.m \
 minphase_test_k_coef.m \
-minphase_test_khat_coef.m \
-minphase_test_spec.m
+minphase_test_khat_coef.m
 
 # Add minphase.oct to minphase_test_FILES to build octfile (assumes eigen3)
 minphase_test_FILES = minphase_test.m test_common.m minphase.m \
