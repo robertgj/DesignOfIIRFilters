@@ -360,7 +360,7 @@ axis(ax(1),[0 0.5 -0.03 0.01]);
 axis(ax(2),[0 0.5 -95 -75]);
 xlabel("Frequency");
 legend("Initial",sprintf("s-d%s",sd_str),"s-d(min)");
-legend("location","southwest");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");

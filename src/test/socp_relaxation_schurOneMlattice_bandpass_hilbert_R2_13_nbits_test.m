@@ -24,7 +24,7 @@ nbits=13;
 ndigits=3;
 
 %
-% Band-pass filter specification for parallel all-pass filters
+% Band-pass filter specification
 %
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
 dBap=0.26,Wap=1,dBas=32,Watl=1e-3,Watu=1e-3,Wasl=10,Wasu=10
@@ -338,9 +338,9 @@ strt=sprintf(["Schur lattice bandpass Hilbert R=2 filter stop-band : ", ...
  "nbits=%d,ndigits=%d,fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
-legend("location","southeast");
+legend("location","southwest");
 legend("boxoff");
-legend("left");
+legend("right");
 grid("on");
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
@@ -365,13 +365,13 @@ print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi)-pp,"linestyle","-", ...
-     wp*0.5/pi,((P_kc0_sd+(wp*tp))/pi)-pp,"linestyle",":", ...
-     wp*0.5/pi,((P_kc0_sd_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
-     wp*0.5/pi,((P_kc_sd_min+(wp*tp))/pi)-pp,"linestyle","-.");
+plot(wp*0.5/pi,rem((P_kc0+(wp*tp))/pi,2),"linestyle","-", ...
+     wp*0.5/pi,rem((P_kc0_sd+(wp*tp))/pi,2),"linestyle",":", ...
+     wp*0.5/pi,rem((P_kc0_sd_Ito+(wp*tp))/pi,2),"linestyle","--", ...
+     wp*0.5/pi,rem((P_kc_sd_min+(wp*tp))/pi,2),"linestyle","-.");
 xlabel("Frequency");
-ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), 0.004*[-1,1]]);
+ylabel("Phase(rad./$\\pi$)");
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), rem(pp,2)+(0.004*[-1,1])]);
 strt=sprintf(["Schur lattice bandpass Hilbert R=2 filter pass-band phase :", ...
  " nbits=%d,ndigits=%d,fppl=%g,fppu=%g"],nbits,ndigits,fppl,fppu);
 title(strt);
