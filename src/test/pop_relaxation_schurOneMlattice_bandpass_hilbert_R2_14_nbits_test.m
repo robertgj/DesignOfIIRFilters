@@ -314,8 +314,6 @@ while ~isempty(kc_active)
   % If this problem was not solved then give up
   if ~feasible
     error("POP problem infeasible!");
-    %warning("POP problem infeasible!");
-    %break
   endif
 
   % Update coefficients
@@ -410,7 +408,7 @@ vPu=local_max(P_kc_sd_min-Pdu);
 wPS=sort(unique([wp(vPl);wp(vPu);wp([1,end])]));
 PS=schurOneMlatticeP(wPS,kc_sd_min(Rk),epsilon0,p_ones,kc_sd_min(Rc));
 printf("kc_sd_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kc_sd_min:PS=[ ");printf("%f ",mod((PS+(wPS*tp))'/pi,2));
+printf("kc_sd_min:PS=[ ");printf("%f ",rem((PS+(wPS*tp))'/pi,2));
 printf("] (rad./pi)\n");
 
 vTl=local_max(Tdl-T_kc_sd_min);
@@ -436,13 +434,13 @@ max_sb_Asq_kc_sd_min=10*log10(max(abs(Asq_kc_sd_min(rsb))))
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %8.6f & %4.1f & & \\\\\n",Esq0,max_sb_Asq_kc0);
-fprintf(fid,"%d-bit %d-signed-digit & %8.6f & %4.1f & %d & %d \\\\\n", ...
+fprintf(fid,"Exact & %10.4e & %6.2f & & \\\\\n",Esq0,max_sb_Asq_kc0);
+fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %6.2f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,max_sb_Asq_kc0_sd,kc0_sd_digits,kc0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(Ito) & %8.6f & %4.1f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.4e & %6.2f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd_Ito,max_sb_Asq_kc0_sd_Ito, ...
         kc0_sd_Ito_digits,kc0_sd_Ito_adders);
-fprintf(fid,"%d-bit %d-signed-digit(POP min.) & %8.6f & %4.1f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(POP min.) & %10.4e & %6.2f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_sd_min,max_sb_Asq_kc_sd_min, ...
         kc_sd_min_digits,kc_sd_min_adders);
 fclose(fid);
@@ -486,13 +484,13 @@ print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wp*0.5/pi,mod((P_kc0+(wp*tp))/pi,2),"linestyle","-", ...
-     wp*0.5/pi,mod((P_kc0_sd+(wp*tp))/pi,2),"linestyle",":", ...
-     wp*0.5/pi,mod((P_kc0_sd_Ito+(wp*tp))/pi,2),"linestyle","--", ...
-     wp*0.5/pi,mod((P_kc_sd_min+(wp*tp))/pi,2),"linestyle","-.");
+plot(wp*0.5/pi,rem((P_kc0+(wp*tp))/pi,2),"linestyle","-", ...
+     wp*0.5/pi,rem((P_kc0_sd+(wp*tp))/pi,2),"linestyle",":", ...
+     wp*0.5/pi,rem((P_kc0_sd_Ito+(wp*tp))/pi,2),"linestyle","--", ...
+     wp*0.5/pi,rem((P_kc_sd_min+(wp*tp))/pi,2),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
-axis([min([fapl fppl ftpl]), max([fapu fppu fppu]), mod(pp,2)+(0.004*[-1,1])]);
+axis([min([fapl fppl ftpl]), max([fapu fppu fppu]), rem(pp,2)+(0.004*[-1,1])]);
 strt=sprintf(["Bandpass Hilbert R=2 filter :", ...
               " nbits=%d,ndigits=%d,fppl=%g,fppu=%g"],nbits,ndigits,fppl,fppu);
 title(strt);

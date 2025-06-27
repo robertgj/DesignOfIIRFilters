@@ -70,7 +70,7 @@ k_sd_min = [        0,     5824,        0,     3424, ...
                     0,     2135,        0,     2027, ... 
                     0,      800,        0,      497 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
 c_sd_min = [     -344,      800,     3868,     2208, ... 
@@ -80,7 +80,15 @@ c_sd_min = [     -344,      800,     3868,     2208, ...
                   -96,      -48,      -48,     -114, ... 
                   -55 ]'/8192;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
+
+cat > test.cost.ok << 'EOF'
+Exact & 1.4062e-03 & -33.99 & & \\
+14-bit 4-signed-digit & 1.4114e-03 & -33.27 & 110 & 79 \\
+14-bit 4-signed-digit(Ito) & 1.6814e-03 & -33.25 & 94 & 63 \\
+14-bit 4-signed-digit(POP min.) & 1.2420e-03 & -32.12 & 96 & 65 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -97,6 +105,9 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
 diff -Bb test.c.ok $nstr"_c_sd_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+
+diff -Bb test.cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #
 # this much worked
