@@ -22,6 +22,7 @@ schurOneMlatticeEsq.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Lim.m \
 print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
@@ -62,10 +63,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.cost.ok << 'EOF'
-Exact & 2.5139 & 4.50e-04 & 3.51e-03 & 3.03e-04 & 3.00e-03 & & \\
-Branch-and-bound & 2.5134 & 9.56e-04 & 5.82e-03 & 5.26e-04 & 2.87e-03 & 36 & 20 \\
-SOCP-relaxation & 2.5152 & 6.22e-04 & 6.24e-03 & 6.15e-04 & 4.64e-03 & 37 & 21 \\
-POP-relaxation & 2.5138 & 7.81e-04 & 4.51e-03 & 5.84e-04 & 5.58e-03 & 40 & 24 \\
+Exact &2.69e-05&4.50e-04&3.51e-03&9.64e-05&3.00e-03&&\\
+Signed-Digit &1.05e-04&1.21e-03&8.39e-03&9.61e-04&1.61e-02&41&25\\
+Signed-Digit(Lim) &1.83e-04&7.08e-03&8.23e-03&1.50e-03&2.35e-02&38&22\\
+Branch-and-bound &4.05e-05&9.56e-04&5.82e-03&1.67e-04&2.87e-03&36&20\\
+SOCP-relaxation &3.22e-05&6.22e-04&6.24e-03&1.96e-04&4.64e-03&37&21\\
+POP-relaxation &6.60e-05&1.05e-03&5.07e-03&8.99e-04&1.13e-02&40&24\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

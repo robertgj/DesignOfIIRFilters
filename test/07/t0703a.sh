@@ -63,24 +63,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k_min.ok << 'EOF'
-k_min = [        0,      424,        0,      -58, ... 
+k_min = [        0,      416,        0,      -56, ... 
                  0,       20,        0,       -8, ... 
                  0,        2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k_min.ok"; fail; fi
 
 cat > test.c_min.ok << 'EOF'
-c_min = [      -44,     -449,     -588,      -63, ... 
-               149,      -35,      -47,       35, ... 
-                 2,      -12,        4 ]'/2048;
+c_min = [      -44,     -450,     -588,      -63, ... 
+               150,      -36,      -47,       35, ... 
+                 3,      -13,        5 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c_min.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
 Exact & 4.0719e-06 & -49.11 & & \\
-12-bit 3-signed-digit & 1.8268e-05 & -41.52 & 41 & 25 \\
-12-bit 3-signed-digit(Lim)& 1.2123e-05 & -46.36 & 42 & 26 \\
-12-bit 3-signed-digit(POP-relax) & 4.4948e-06 & -46.93 & 40 & 24 \\
+12-bit 3-signed-digit & 1.6830e-05 & -41.52 & 41 & 25 \\
+12-bit 3-signed-digit(Lim)& 1.0954e-05 & -45.09 & 41 & 25 \\
+12-bit 3-signed-digit(POP-relax) & 1.0937e-05 & -45.90 & 40 & 24 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

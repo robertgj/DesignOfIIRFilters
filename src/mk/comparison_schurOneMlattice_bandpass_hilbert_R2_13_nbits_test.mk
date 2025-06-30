@@ -1,0 +1,37 @@
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_FIGURES = \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_pass \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_stop \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_phase \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_delay \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_dAsqdw \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_pass \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_stop \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_phase \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_delay \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_dAsqdw 
+
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_COEFS = \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_cost.tab
+
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_FILES = \
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m \
+test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
+schurOneMlatticeEsq.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Ito.m \
+print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct
+
+comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.diary : \
+schurOneMlattice_socp_slb_bandpass_hilbert_R2_test.diary \
+branch_bound_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.diary \
+socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.diary \
+pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.diary

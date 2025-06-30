@@ -1,9 +1,10 @@
 % branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.m
-% Copyright (C) 2025 Robert G. Jenssen
-
+%
 % Branch-and-bound search of Schur one-multiplier lattice lowpass differentiator
 % filter response with denominator polynomial having coefficients only in
 % z^2 and 12-bit signed-digit coefficients with Ito et al. allocation
+%
+% Copyright (C) 2025 Robert G. Jenssen
 
 test_common;
 

@@ -45,7 +45,7 @@ while ~isempty(kc_active)
   kc_sdul=kc_sdu-kc_sdl;
 
   % Sanity check on kc_sdul
-  [~,n_kc_sdul_0]=find(kc_sdul(kc_active)==0);
+  n_kc_sdul_0=find(kc_sdul(kc_active)==0);
   if ~isempty(n_kc_sdul_0)
     kc_active(n_kc_sdul_0) = [];
     if isempty(kc_active)

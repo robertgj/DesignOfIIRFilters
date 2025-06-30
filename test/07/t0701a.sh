@@ -63,23 +63,31 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_sd_min = [        0,     2880,        0,     1744, ... 
-                    0,     1184,        0,     2044, ... 
-                    0,     1371,        0,     1745, ... 
-                    0,     1073,        0,     1016, ... 
-                    0,      400,        0,      249 ]'/4096;
+k_min = [        0,     2880,        0,     1744, ... 
+                 0,     1184,        0,     2044, ... 
+                 0,     1371,        0,     1745, ... 
+                 0,     1073,        0,     1016, ... 
+                 0,      400,        0,      249 ]'/4096;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_sd_min = [     -168,      400,     1936,     1088, ... 
-                 -720,    -1796,    -1022,     -128, ... 
-                  808,      640,      128,       16, ... 
-                  272,      208,        4,     -144, ... 
-                  -32,      -16,      -14,      -52, ... 
-                  -32 ]'/4096;
+c_min = [     -168,      400,     1936,     1088, ... 
+              -720,    -1796,    -1022,     -128, ... 
+               808,      640,      128,       16, ... 
+               272,      208,        4,     -144, ... 
+               -32,      -16,      -14,      -52, ... 
+               -32 ]'/4096;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
+
+cat > test.cost.ok << 'EOF'
+Exact & 0.001115 & -34.0 & & \\
+13-bit 3-signed-digit & 0.003104 & -31.4 & 88 & 57 \\
+13-bit 3-signed-digit(Ito) & 0.001434 & -29.3 & 80 & 49 \\
+13-bit 3-signed-digit(min) & 0.001660 & -32.0 & 81 & 50 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -91,11 +99,14 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test"
 
-diff -Bb test.k.ok $nstr"_k_sd_min_coef.m"
+diff -Bb test.k.ok $nstr"_k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
 
-diff -Bb test.c.ok $nstr"_c_sd_min_coef.m"
+diff -Bb test.c.ok $nstr"_c_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+
+diff -Bb test.cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
 
 #
 # this much worked
