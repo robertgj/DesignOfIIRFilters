@@ -1,9 +1,14 @@
 % comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m 
 %
-% Compare branch-and-bound, SOCP-relaxation and POP-relaxation search for the
+% Compare branch-and-bound and SOCP-relaxation search for the
 % 13-bit, average of 3-signed-digit, coefficients of a band-pass Hilbert
 % filter implemented as a Schur one-multiplier lattice correction filter having
 % transfer function denominator polynomial coefficients only in z^-2.
+%
+% This comparison originally included the results of 
+% pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m
+% Unfortunately, I could not find a good filter specification that converged
+% under QEMU.
 %
 % Copyright (C) 2025 Robert G. Jenssen
 
@@ -52,13 +57,6 @@ socp_k=k_min;
 socp_epsilon=exact_epsilon;
 socp_c=c_min;
 [socp_sd_digits,socp_sd_adders]=SDadders([socp_k;socp_c],nbits);
-
-eval(strcat("pop_relaxation_",strs,"_k_min_coef;"));
-eval(strcat("pop_relaxation_",strs,"_c_min_coef;"));
-pop_k=k_min;
-pop_epsilon=exact_epsilon;
-pop_c=c_min;
-[pop_sd_digits,pop_sd_adders]=SDadders([pop_k;pop_c],nbits);
 
 clear k_min epsilon_min c_min ;
 
@@ -238,44 +236,8 @@ socp_dAsqdw_pass_error=max(abs(socp_dAsqdw-Dd));
 socp_Esq=schurOneMlatticeEsq(socp_k,socp_epsilon,p_ones,socp_c, ...
                              wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
-% Calculate POP-relaxation response
-pop_Asq=schurOneMlatticeAsq(wa,pop_k,pop_epsilon,p_ones,pop_c);
-pop_P=schurOneMlatticeP(wp,pop_k,pop_epsilon,p_ones,pop_c);
-pop_T=schurOneMlatticeT(wt,pop_k,pop_epsilon,p_ones,pop_c);
-pop_dAsqdw=schurOneMlatticedAsqdw(wd,pop_k,pop_epsilon,p_ones,pop_c);
-
-% Calculate POP-relaxation errors
-pop_Asq_pass_error=10*log10(min(pop_Asq(Rap)));
-pop_Asq_stop_error=10*log10(max(pop_Asq(Ras)));
-pop_P_pass_error=max(abs(pop_P-Pd)/pi);
-pop_T_pass_error=max(abs(pop_T-Td));
-pop_dAsqdw_pass_error=max(abs(pop_dAsqdw-Dd));
-pop_Esq=schurOneMlatticeEsq(pop_k,pop_epsilon,p_ones,pop_c, ...
-                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
-
-% Plot amplitude pass-band response error for signed-digit responses
-ha=plot(wa*0.5/pi,10*log10([exact_Asq,sd_Asq,sd_Ito_Asq]));
-hls={"-",":","--","-."};
-for l=1:3
-  set(ha(l),"linestyle",hls{l});
-endfor
-axis([fapl fapu [-0.3,0]]);
-grid("on");
-xlabel("Frequency");
-ylabel("Amplitude(dB)");
-strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter : ", ...
-              "ndigits=%d,nbits=%d,fapl=%g,fapu=%g"], ...
-             nbits,ndigits,fapl,fapu);
-title(strt);
-legend("Exact","S-D","S-D(Ito)");
-legend("location","southwest");
-legend("boxoff");
-legend("left");
-print(strcat(strf,"_sd_pass"),"-dpdflatex");
-close
-
-% Plot amplitude pass-band response error for search methods
-ha=plot(wa*0.5/pi,10*log10([exact_Asq,bandb_Asq,socp_Asq,pop_Asq]));
+% Plot amplitude pass-band response error
+ha=plot(wa*0.5/pi,10*log10([exact_Asq,sd_Ito_Asq,bandb_Asq,socp_Asq]));
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
@@ -288,36 +250,15 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fapl=%g,fapu=%g"], ...
              nbits,ndigits,fapl,fapu);
 title(strt);
-legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_search_pass"),"-dpdflatex");
+print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
-% Plot amplitude stop-band response for signed-digit responses
-ha=plot(wa*0.5/pi,10*log10([exact_Asq,sd_Asq,sd_Ito_Asq]));
-hls={"-",":","--","-."};
-for l=1:3
-  set(ha(l),"linestyle",hls{l});
-endfor
-axis([0 0.5 -36 -30]);
-grid("on");
-xlabel("Frequency");
-ylabel("Amplitude(dB)");
-strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
-             nbits,ndigits,fasl,fapl,fapu,fasu);
-title(strt);
-legend("Exact","S-D","S-D(Ito)");
-legend("location","northeast");
-legend("boxoff");
-legend("left");
-print(strcat(strf,"_sd_stop"),"-dpdflatex");
-close
-
-% Plot amplitude stop-band response for search methods
-ha=plot(wa*0.5/pi,10*log10([exact_Asq,bandb_Asq,socp_Asq,pop_Asq]));
+% Plot amplitude stop-band response
+ha=plot(wa*0.5/pi,10*log10([exact_Asq,sd_Ito_Asq,bandb_Asq,socp_Asq]));
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
@@ -330,36 +271,15 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
              nbits,ndigits,fasl,fapl,fapu,fasu);
 title(strt);
-legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_search_stop"),"-dpdflatex");
+print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
 % Plot phase pass-band response for signed-digit responses
-ha=plot(wp*0.5/pi,mod(([exact_P,sd_P,sd_Ito_P]+(wp*tp))/pi,2));
-hls={"-",":","--","-."};
-for l=1:3
-  set(ha(l),"linestyle",hls{l});
-endfor
-axis([fppl fppu mod(pp,2)+0.004*[-1 1]]);
-grid("on");
-xlabel("Frequency");
-ylabel("Phase(rad./$\\pi$)");
-strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
-             nbits,ndigits,fppl,fppu);
-title(strt);
-legend("Exact","S-D","S-D(Ito)");
-legend("location","southeast");
-legend("boxoff");
-legend("left");
-print(strcat(strf,"_sd_phase"),"-dpdflatex");
-close
-
-% Plot phase pass-band response for search methods
-ha=plot(wp*0.5/pi,mod(([exact_P,bandb_P,socp_P,pop_P]+(wp*tp))/pi,2));
+ha=plot(wp*0.5/pi,mod(([exact_P,sd_Ito_P,bandb_P,socp_P]+(wp*tp))/pi,2));
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
@@ -372,36 +292,15 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
              nbits,ndigits,fppl,fppu);
 title(strt);
-legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_search_phase"),"-dpdflatex");
+print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
 % Plot delay pass-band response for signed-digit responses
-ha=plot(wt*0.5/pi,[exact_T,sd_T,sd_Ito_T]);
-hls={"-",":","--","-."};
-for l=1:3
-  set(ha(l),"linestyle",hls{l});
-endfor
-axis([ftpl ftpu tp+0.2*[-1 1]]);
-grid("on");
-xlabel("Frequency");
-ylabel("Delay(samples)");
-strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
-             nbits,ndigits,ftpu,ftpu);
-title(strt);
-legend("Exact","S-D","S-D(Ito)");
-legend("location","southwest");
-legend("boxoff");
-legend("left");
-print(strcat(strf,"_sd_delay"),"-dpdflatex");
-close
-
-% Plot delay pass-band response for search methods
-ha=plot(wt*0.5/pi,[exact_T,bandb_T,socp_T,pop_T]);
+ha=plot(wt*0.5/pi,[exact_T,sd_Ito_T,bandb_T,socp_T]);
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
@@ -414,36 +313,16 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
              nbits,ndigits,ftpu,ftpu);
 title(strt);
-legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_search_delay"),"-dpdflatex");
+print(strcat(strf,"_delay"),"-dpdflatex");
 close
+
 
 % Plot dAsqdw pass-band signed-digit responses
-ha=plot(wd*0.5/pi,[exact_dAsqdw,sd_dAsqdw,sd_Ito_dAsqdw]);
-hls={"-",":","--","-."};
-for l=1:3
-  set(ha(l),"linestyle",hls{l});
-endfor
-axis([fdpl fdpu -0.6 0.6]);
-grid("on");
-xlabel("Frequency");
-ylabel("$\\frac{d|A|^{2}}{d\\omega}$");
-strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fdpl=%g,fdpu=%g"], ...
-             nbits,ndigits,fdpl,fdpu);
-title(strt);
-legend("Exact","S-D","S-D(Ito)");
-legend("location","southwest");
-legend("boxoff");
-legend("left");
-print(strcat(strf,"_sd_dAsqdw"),"-dpdflatex");
-close
-
-% Plot dAsqdw pass-band response
-ha=plot(wd*0.5/pi,[exact_dAsqdw,bandb_dAsqdw,socp_dAsqdw,pop_dAsqdw]);
+ha=plot(wd*0.5/pi,[exact_dAsqdw,sd_Ito_dAsqdw,bandb_dAsqdw,socp_dAsqdw]);
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
@@ -456,11 +335,11 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fdpl=%g,fdpu=%g"], ...
              nbits,ndigits,fdpl,fdpu);
 title(strt);
-legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
-print(strcat(strf,"_search_dAsqdw"),"-dpdflatex");
+print(strcat(strf,"_dAsqdw"),"-dpdflatex");
 close
 
 % Make a LaTeX table for cost
@@ -487,10 +366,6 @@ fprintf(fid,"SOCP-relaxation &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&%d&%d\\\\\n", ...
         socp_Esq,socp_Asq_pass_error,socp_Asq_stop_error, ...
         socp_P_pass_error,socp_T_pass_error, ...
         socp_sd_digits,socp_sd_adders);
-fprintf(fid,"POP-relaxation &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        pop_Esq,pop_Asq_pass_error,pop_Asq_stop_error, ...
-        pop_P_pass_error,pop_T_pass_error, ...
-        pop_sd_digits,pop_sd_adders);
 fclose(fid);
 
 % Filter specification

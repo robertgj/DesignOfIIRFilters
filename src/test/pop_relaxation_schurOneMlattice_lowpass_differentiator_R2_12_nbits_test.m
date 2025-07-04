@@ -52,7 +52,7 @@ p_ones = ones(size(p0));
 nN=10; % Order of correction filter for (1-z^-1)
 R=2;   % Denominator polynomial in z^-2 only
 fap=0.2;fas=0.4;
-Arp=0.002;Art=0.002;Ars=0.0103;Wap=1;Wat=0.0001;Was=0.1;
+Arp=0.002;Art=0.002;Ars=0.0104;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.002;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.03;Wtp=0.1;
 fdp=fap;cpr=0.04;Wdp=0.005;

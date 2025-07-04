@@ -10,8 +10,6 @@ depends="test/comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m \
 ../branch_bound_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_min_coef.m \
 ../socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_k_min_coef.m \
 ../socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_min_coef.m \
-../pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_k_min_coef.m \
-../pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_min_coef.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
@@ -67,7 +65,6 @@ Signed-Digit & 9.41e-03 &  -0.29 & -31.39 & 7.30e-03 & 2.18e-01 &88&57\\
 Signed-Digit(Ito) &4.28e-03& -0.26&-30.77&4.05e-03&1.90e-01&81&50\\
 Branch-and-bound &4.03e-03& -0.24&-33.60&2.04e-03&1.32e-01&89&58\\
 SOCP-relaxation &4.44e-03& -0.26&-32.04&2.30e-03&1.44e-01&81&50\\
-POP-relaxation &3.70e-03& -0.17&-31.03&2.63e-03&1.32e-01&81&50\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

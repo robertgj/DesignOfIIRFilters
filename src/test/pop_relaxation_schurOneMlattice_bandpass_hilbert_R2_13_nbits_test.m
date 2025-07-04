@@ -1,9 +1,13 @@
 % pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m
-% Copyright (C) 2025 Robert G. Jenssen
 %
 % POP relaxation optimisation of a Schur one-multiplier tapped allpass
 % lattice bandpass Hilbert filter with 13-bit signed-digit coefficients having
 % an average of 4 signed-digits
+%
+% Unfortunately, I could not find a good filter specification for this script
+% that would run under QEMU.
+%
+% Copyright (C) 2025 Robert G. Jenssen
 
 
 test_common;
@@ -43,6 +47,9 @@ dBap=0.3,dBas=32,Wasl=20,Watl=0.001,Wap=1,Watu=0.001,Wasu=10
 fppl=0.1,fppu=0.2,pp=3.5,ppr=0.0048,Wpp=2
 ftpl=0.1,ftpu=0.2,tp=16,tpr=0.32,Wtp=1
 fdpl=0.1,fdpu=0.2,dp=0,dpr=1.2,Wdp=0.001
+
+% The following works under QEMU:
+% alpha_min=0.8,dBap=1,dBas=30,ppr=0.01,tpr=0.8,dpr=2
 
 %
 % Initial coefficients
@@ -236,6 +243,9 @@ while ~isempty(kc_active)
   % Find the limits of the signed-digit approximations to k and c
   [~,kc_sdu,kc_sdl]=flt2SD(kc,nbits,ndigits_alloc);
   kc_sdul=kc_sdu-kc_sdl;
+  printf("kc_sdl=[ ");printf("%g ",nscale*kc_sdl');printf("]'/%d;\n",nscale);
+  printf("kc_sdu=[ ");printf("%g ",nscale*kc_sdu');printf("]'/%d;\n",nscale);
+  printf("kc_sdul=[ ");printf("%g ",nscale*kc_sdul');printf("]'/%d;\n",nscale);
   
   % Sanity check on kc_sdul
   n_kc_sdul_0=find(kc_sdul(kc_active)==0);
@@ -252,7 +262,9 @@ while ~isempty(kc_active)
     % Lu suggests fixing the coefficients for which alpha>alpha_min
     alpha=abs((2*kc)-kc_sdu-kc_sdl);
     alpha=alpha(kc_active)./kc_sdul(kc_active);
+    printf("alpha=[ ");printf(" %g",alpha(:)');printf(" ]\n");
     kc_fixed_alpha=find(alpha>alpha_min);
+    printf("kc_fixed_alpha=[ ");printf(" %d",kc_fixed_alpha(:)');printf(" ]\n");
     if use_maximum_number_of_fixed_coefficients_is_alpha_num
       [kc_fixed_sorted,kc_fixed_sorted_i]=sort(alpha(kc_fixed_alpha),"descend");
       if length(kc_fixed_sorted) > alpha_num
@@ -265,7 +277,18 @@ while ~isempty(kc_active)
     if isempty(kc_fixed)
       [~,kc_fixed]=max(kc_sdul(kc_active));
     endif
+    printf("kc_sdl_fixed=[ ");
+    printf("%g ",nscale*kc_sdl(kc_active(kc_fixed))');
+    printf("]'/%d;\n",nscale);
+    printf("kc_sdu_fixed=[ ");
+    printf("%g ",nscale*kc_sdu(kc_active(kc_fixed))');
+    printf("]'/%d;\n",nscale);
+    printf("kc_sdul_fixed=[ ");
+    printf("%g ",nscale*kc_sdul(kc_active(kc_fixed))');
+    printf("]'/%d;\n",nscale);
     printf("kc_fixed=[ ");printf("%d ",kc_fixed(:)');printf(" ]\n");
+    alpha_kc_fixed=alpha(kc_fixed)(:)';
+    printf("Selected alpha=[ ");printf(" %g",alpha_kc_fixed);printf(" ]\n");
   else 
     % Ito et al. suggest ordering the search by max(kc_sdu-kc_sdl)
     [~,kc_fixed]=max(kc_sdul(kc_active));

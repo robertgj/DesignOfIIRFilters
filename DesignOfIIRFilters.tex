@@ -23667,7 +23667,9 @@ $3$-signed-digits.
 The Octave script
 \emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test}
 performs POP-relaxation search for $13$-bit coefficients with an average of
-$3$-signed-digits.
+$3$-signed-digits. Unfortunately, I could not find a good filter specification
+for this example that completed successfully when run under QEMU, so the results
+of this script are not included here.
 
 In each script the number signed-digits of each coefficient is allocated by
 the method of \emph{Ito et al.}, described in
@@ -23679,46 +23681,33 @@ in each case.  The common filter specification is:
 \verbatiminput{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_spec.m}
 \end{small} 
 
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-pass}
-compares the pass-band amplitude response of each filter for $13$-bit,
-$3$-signed-digit coefficients and $13$-bit coefficients with an average of
-$3$-signed-digits allocated by the method of \emph{Ito et al.}.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-pass}
-compares the stop-band amplitude response of each filter for $13$-bit
-coefficients with an average of $3$-signed-digits allocated by the method of
-\emph{Ito et al.} found with \emph{Branch-and-Bound} search,
-\emph{SOCP-relaxation} search and \emph{POP-relaxation} search.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-stop}
-compares the stop-band amplitude response of each filter for signed-digit
-coefficients.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-stop}
-compares the stop-band amplitude response of each filter found by
-searching for $13$-bit coefficients with an average of $3$-signed-digits
-allocated by the method of \emph{Ito et al.}\;.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-phase}
-compares the pass-band phase response of each filter for signed-digit
-coefficients.
-The phase shown is adjusted for the nominal filter group-delay.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-phase}
-compares the pass-band phase response of each filter found by searching for
-$13$-bit coefficients with an average of $3$-signed-digits allocated by the
-method of \emph{Ito et al.}\;.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-delay}
-compares the pass-band group-delay response of each filter for signed-digit
-coefficients.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-delay}
-compares the pass-band group-delay response of each filter found by searching for
-$13$-bit coefficients with an average of $3$-signed-digits allocated by the
-method of \emph{Ito et al.}\;.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-dAsqdw}
-compares the gradient of the pass-band squared-amplitude response
-with-respect-to angular frequency, $\frac{d|A|^{2}}{d\omega}$, of each filter for
-signed-digit coefficients.
-Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-dAsqdw}
-compares the gradient of the pass-band squared-amplitude response
-with-respect-to angular frequency of each filter found by searching for $13$-bit
-coefficients with an average of $3$-signed-digits allocated by the method of
-\emph{Ito et al.}\;.
+Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-pass}
+compares the pass-band amplitude response of each filter with $13$-bit
+coefficients each having an average of $3$-signed-digits allocated by the method
+of \emph{Ito et al.} found with branch-and-bound search and SOCP-relaxation
+search.
+Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-stop}
+compares the stop-band amplitude response of each filter with $13$-bit
+coefficients each having an average of $3$-signed-digits allocated by the method
+of \emph{Ito et al.} found with branch-and-bound search and SOCP-relaxation
+search.
+Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-phase}
+compares the pass-band phase response of each filter with $13$-bit
+coefficients each having an average of $3$-signed-digits allocated by the method
+of \emph{Ito et al.} found with branch-and-bound search
+and SOCP-relaxation search. The phase response is adjusted for the
+nominal delay.
+Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-delay}
+compares the pass-band group-delay response of each filter with $13$-bit
+coefficients each having an average of $3$-signed-digits allocated by the method
+of \emph{Ito et al.} found with branch-and-bound search and SOCP-relaxation
+search.
+Figure~\ref{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-dAsqdw}
+compares the gradient of the pass-band squared-amplitude response 
+with-respect-to angular frequency, $\frac{d|A|^{2}}{d\omega}$, of each filter
+with  $13$-bit coefficients each having an average of $3$-signed-digits
+allocated by the method of \emph{Ito et al.} found with
+branch-and-bound search and SOCP-relaxation search.
 Table~\ref{tab:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-cost}
 compares, for each filter, a cost function, the maximum pass-band and stop-band
 responses, the total number of signed-digits required by the $13$-bit 
@@ -23726,101 +23715,54 @@ coefficients and the number of shift-and-add operations required to implement
 the filter coefficient multiplications.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_pass}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_pass}}
 \caption{Comparison of the pass-band amplitude response errors of a tapped, Schur
   one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having 3-signed-digits or an average of 3-signed-digits,
-  allocated by the method of \emph{Ito et al.}.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-pass}
+  coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-pass}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_pass}}
-\caption{Comparison of the pass-band amplitude response errors of a tapped, Schur
-  one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.}, found by branch-and-bound, SOCP-relaxation
-  and POP-relaxation search.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-pass}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_stop}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_stop}}
 \caption{Comparison of the stop-band amplitude response errors of a tapped, Schur
   one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having 3-signed-digits or an average of 3-signed-digits,
-  allocated by the method of \emph{Ito et al.}.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-stop}
+  coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-stop}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_stop}}
-\caption{Comparison of the stop-band amplitude response errors of a tapped, Schur
-  one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.}, found by branch-and-bound, SOCP-relaxation
-  and POP-relaxation search.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-stop}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_phase}}
 \caption{Comparison of the pass-band phase response of a tapped, Schur
   one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having 3-signed-digits or an average of 3-signed-digits,
-  allocated by the method of \emph{Ito et al.}. The phase response shown is
-  adjusted for the nominal delay.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-phase}
+  coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.
+  The phase response shown is adjusted for the nominal delay.}
+\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-phase}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_phase}}
-\caption{Comparison of the pass-band phase response of a tapped, Schur
-  one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.}, found by branch-and-bound, SOCP-relaxation
-  and POP-relaxation search. The phase response shown is adjusted for the
-  nominal delay.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-phase}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_delay}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_delay}}
 \caption{Comparison of the pass-band group-delay response of a tapped, Schur
   one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having 3-signed-digits or an average of 3-signed-digits,
-  allocated by the method of \emph{Ito et al.}.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-delay}
+  coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-delay}
 \end{figure}
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_delay}}
-\caption{Comparison of the pass-band group-delay response of a tapped, Schur
-  one-multiplier, R=2, lattice band-pass Hilbert filter with 13-bit
-  coefficients, each having an average of 3-signed-digits allocated by the
-  method of \emph{Ito et al.}, found by branch-and-bound, SOCP-relaxation
-  and POP-relaxation search.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-delay}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_sd_dAsqdw}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_dAsqdw}}
 \caption{Comparison of the gradient of the pass-band squared-amplitude response
   error with-respect-to angular frequency of a tapped, Schur one-multiplier, R=2,
-  lattice band-pass Hilbert filter with 13-bit 3-signed-digit coefficients
-  and 13-bit coefficients, each having an average of 3-signed-digits allocated
-  by the method of \emph{Ito et al.}\;.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-sd-dAsqdw}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_search_dAsqdw}}
-\caption{Comparison of the gradient of the pass-band squared-amplitude response
-  error with-respect-to angular frequency of a tapped, Schur one-multiplier, R=2,
-  lattice band-pass Hilbert filter with 13-bit coefficients, each having
-  an average of 3-signed-digits allocated by the method of \emph{Ito et al.},
-  found by branch-and-bound, SOCP-relaxation and POP-relaxation search.}
-\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-search-dAsqdw}
+  lattice band-pass Hilbert filter with 13-bit coefficients, each having an
+  average of 3-signed-digits allocated by the method of \emph{Ito et al.}, found
+  with branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-dAsqdw}
 \end{figure}
 \begin{table}
 \centering
@@ -23838,8 +23780,8 @@ the filter coefficient multiplications.
 {Comparison of the responses and the total number of signed digits in the
   13-bit coefficients, each having an average of 3-signed digits, allocated by
   the method of \emph{Ito et al.}, required for a tapped, Schur one-multiplier
-  lattice, R=2, band-pass Hilbert filter found by branch-and-bound,
-  SOCP-relaxation and POP-relaxation search.}
+  lattice, R=2, band-pass Hilbert filter found by branch-and-bound search and
+  SOCP-relaxation search.}
 \label{tab:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-cost}
 \end{table}
 
