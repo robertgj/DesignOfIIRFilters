@@ -40,7 +40,7 @@ for Nk=1:13
   [n,dd]=butter(Nk,2*fc);
   [k,epsilon,~,c]=tf2schurOneMlattice(n,dd);
   try
-    [A,B,C,D,Aap,Bap,Cap,DDap]= ...
+    [A,B,C,D,Aap,Bap,Cap,Dap]= ...
        schurOneMlatticeDoublyPipelined2Abcd(k,epsilon,c);
   catch
     err=lasterror();
@@ -74,9 +74,9 @@ for Nk=1:13
     error("max(abs(DD(nzD)-dd)) > tol");
   endif
   % All-pass filter transfer function 
-  [Nap,DDap]=Abcd2tf(Aap,Bap,Cap,DDap);
+  [Nap,DDap]=Abcd2tf(Aap,Bap,Cap,Dap);
   if max(abs(fliplr(Nap)-DDap)) > tol
-    error("max(abs(fliplr(Nap)-Dap)) > tol");
+    error("max(abs(fliplr(Nap)-DDap)) > tol");
   endif 
   if max(abs(DDap(nzD)-dd)) > tol
     error("max(abs(DDap(nzD)-dd)) > tol");
