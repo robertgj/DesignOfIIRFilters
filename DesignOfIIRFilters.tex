@@ -5442,9 +5442,11 @@ and lower branches of the signal flow graph. The total delay in each loop of
 the signal flow graph is unchanged so the transfer function of the filter is
 also unchanged. This pipelining limits the maximum latency of each filter update
 calculation to the latency of two sections and changes the round-off noise
-performance of the filter\footnote{The tapped output could alse be retimed by
+performance of the filter\footnote{The tapped output could also be retimed by
   pipelining the arithmetic operations in a tree structure. The all-pass
-  lattice ouput calculation is recursive and cannot be retimed in that way.}.
+  lattice ouput calculation is recursive and cannot be retimed in that way.
+  See \emph{Kimura} and
+  \emph{Osada}~\cite{KimuraOsada_CanonicalPipeliningLatticeFilters}.}.
 
 \begin{figure}[!ht]
 \begin{subfigure}{\textwidth}
@@ -6064,6 +6066,19 @@ presented by \emph{Roberts} and
 \emph{Mullis}~\cite{RobertsMullis_DigitalSignalProcessing},~\cite{MullisRoberts_RoundoffNoiseInDigitalFiltersFrequencyTransformations},~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
 and the transposed signal flow graph analysis of
 \emph{Parhi}~\cite[Section 12.7]{Parhi_VLSIDigitalSignalProcessingSystems}.
+\emph{Markel} and
+\emph{Gray}~\cite{MarkelGray_RoundoffNoiseOrthogonalPolynomialStructures} show
+the results of an experimental comparison of the roundoff noise performance of
+direct-form, parallel and lattice filter implementations of elliptic filters.
+They conclude that ``the direct form is inferior to all the other structures
+studied'' and that ``the normalized structure (having four multiplications and
+two additions per section), appears to have remarkably robust roundoff noise
+characteristics''. \emph{Kimura} and
+\emph{Osada}~\cite{KimuraOsada_CanonicalPipeliningLatticeFilters} show that the
+the pipelined or, so-called, \emph{symmetric} lattice shown in 
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}
+has improved roundoff noise performance compared to the lattice of
+Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
 
 Lattice filter roundoff noise can be calculated by the $K$ and $W$
 matrices derived from the state variable description of the filter.
@@ -6556,20 +6571,26 @@ stdxf =   131.21   129.39   127.96
 Note that the noise gain for the low-pass filter is slightly smaller than
 for the normalised-scaled lattice filter. 
 \subsubsection{Calculation of the one multiplier lattice filter round-off noise with a retimed state-variable description}
-The single-multiplier lattice round-off noise variance can also be determined
+The one-multiplier lattice round-off noise variance can also be determined
 from the state variable representation if the signal flow graph is slowed
-and retimed as shown in Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}.
-Each intermediate node is now associated with a state. The additional
-states alter the overall transfer function but the round-off noise
-gains are unchanged.
-
-\begin{figure}[!ht]
+and retimed. Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} shows
+an example of slowing and retiming a $3$-order Butterworh filter.
+\begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3OneM_SV_retimed}
 \caption{Slowed and retimed single-multipler lattice for the 3rd order
   Butterworth example.}
 \label{fig:Slowed-and-retimed-3rdButt-Single-Mult}
 \end{figure}
+Each intermediate node in the filter is now associated with a state. The
+additional states alter the overall transfer function but the round-off noise
+gains are unchanged\footnote{Retiming is equivalent to a change of variables
+  from $z^{-1}$ to $z^{-2}$ in the filter transfer function.
+  \emph{Parhi}~\cite[Chapter 4]{Parhi_VLSIDigitalSignalProcessingSystems} calls
+  this ``slowing'' because it doubles the digital sample rate. Retiming is
+  distinct from pipelining because the latter does not change the transfer
+  function except for the addition of an integer number of samples of
+  group-delay.}.
 
 The state-variable equations for this single-multiplier lattice example
 after slowing and re-timing are calculated in the Octave function 
@@ -6577,16 +6598,16 @@ after slowing and re-timing are calculated in the Octave function
 \emph{schurOneMlatticeFilter} calculates the upper, Butterworth output, edge of 
 Figure~\ref{fig:One-multiplier-lattice-structure} in a single operation,
 ie: with a single large accumulator, and the lower, all-pass output, edge
-with separate truncated accumulations. On the other hand, the Octave function
-\emph{svf} implements a general
+with separate truncated accumulations.
+
+On the other hand, the Octave function \emph{svf} implements a general
 state-variable filter with truncated accumulations for each state and a wide
 accumulator for both the outputs. The round-off noise estimation in 
 \emph{schurOneMlatticeRetimedNoiseGain} illustrates that the retiming method of 
 calculating noise gain is much more flexible than the transposed filter 
 method. In addition, as noted in 
 Section~\ref{sec:Round-off-normalised-scaled-lattice}, the Schur basis is not 
-truncated at the same time as the lattice coefficients but is still used
-to calculate the noise gain after truncation. Consequently, it is 
+truncated at the same time as the lattice coefficients but is still used to calculate the noise gain after truncation. Consequently, it is 
 simpler to use the state-variable description to calculate the round-off noise
 of the one multiplier lattice with truncated coefficients. 
 
@@ -6661,7 +6682,7 @@ filter outputs when the filter is calculated as a Schur scaled one multiplier
 lattice with 10-bit 3-signed-digit truncated coefficients in the Octave 
 function \emph{schurOneMlatticeFilter}.
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3OneMSV_test_response_schur_lattice}}
 \caption{Amplitude responses of the slowed and retimed one multiplier lattice
@@ -6676,6 +6697,7 @@ calculation of the round-off noise of the pipelined one-multiplier lattice
 filter from the state variable description, as shown in
 Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}.
 
+\clearpage
 \section{\label{sec:Examples-pipelining-Schur-lattice-filters}Examples of pipelining Schur lattice filters}
 \subsection{\label{sec:Pipelining-NS-Schur-lattice-filter}Pipelining a
 4th order Schur normalised-scaled lattice filter}
@@ -6700,7 +6722,7 @@ in the resulting filter has the form \emph{$pq+rs$}. In this case the filter
 group delay is increased by $2$ samples. In general, this pipelining scheme
 increases the group delay by $1$ sample for each second-order section.
 
-\begin{figure}[!ht]
+\begin{figure}
 \begin{subfigure}{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Schur_pipelinedA}
@@ -6757,14 +6779,14 @@ function is implemented in Octave function \emph{WISEJ.m}.
 Figure~\ref{fig:schur-pipelined-output-response} shows the simulated amplitude 
 response of the pipelined Schur lattice filter.
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schur_pipelined_test_output_response}}
 \caption{Simulated amplitude response of the pipelined 4th order
   normalised-scaled Schur lattice filter.} 
 \label{fig:schur-pipelined-output-response}
 \end{figure}
-\clearpage
+
 \subsection{\label{sec:Pipelining-OneM-Schur-lattice-filter}Pipelining a
 6th-order Schur one-multiplier lattice filter}
 Figure~\ref{fig:example-pipelining-a-one-multplier-Schur-lattice-filter} shows
@@ -6776,7 +6798,7 @@ calculation of the outputs and does not change the amplitude and group delay
 responses. If $N$ is the filter order then the pipelined filter has an additional
 $\frac{N}{2}-1$ states.
 
-\begin{figure}[!htbp]
+\begin{figure}
 \centering
 \begin{subfigure}{\textwidth}
 \centering
@@ -6813,7 +6835,7 @@ $\frac{N}{2}-1$ states.
 Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-lattice}
 shows a state variable description of the pipelined Schur one-multiplier lattice
 filter with coefficients in $z^{-2}$.
-\begin{algorithm}[!htbp]
+\begin{algorithm}
 Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{2},\epsilon_{4},\hdots,\epsilon_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
@@ -6844,7 +6866,7 @@ Similarly,
 Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-all-pass-lattice}
 shows a state variable description of the pipelined Schur one-multiplier all-pass
 lattice filter with coefficients in $z^{-2}$.
-\begin{algorithm}[!htbp]
+\begin{algorithm}
 Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$ and
 $\left\{\epsilon_{2},\epsilon_{4},\hdots,\epsilon_{N}\right\}$:
 \begin{algorithmic}
@@ -6917,21 +6939,21 @@ pB = [ 1.0000e+00   0.0000e+00   5.0953e-01 ]
 \end{small}
 In this case, both the numerator and denominator polynomials of the band-pass
 filter have coefficients only in powers of $z^{-2}$. 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_lowpass_response}}
 \caption{Amplitude response of a low-pass filter prototype having denominator
   polynomial coefficients in $z^{-2}$.}
 \label{fig:freq-transform-structure-lowpass}
 \end{figure}
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_A_response}}
 \caption{Amplitude response of a band-pass filter with frequency transformation
   [0.1 0.25].}
 \label{fig:freq-transform-structure-bandpass-A}
 \end{figure}
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{freq_transform_structure_test_bandpass_B_response}}
 \caption{Amplitude response of a band-pass filter with frequency transformation
