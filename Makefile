@@ -16,7 +16,7 @@
 #
 # Top-level variables
 #
-VPATH=src:src/test:fig
+VPATH=src:src/test:fig/dia
 TARGET=DesignOfIIRFilters
 
 # Octave script files that generate figures. Each has an associated .mk file
@@ -29,7 +29,7 @@ OCTAVE_SCRIPTS:=$(notdir $(basename $(wildcard src/mk/*.mk)))
 OCT_FILES:=$(notdir $(basename $(wildcard src/*.cc)))
 
 # GNU dia figure files
-DIA_FILES:=$(notdir $(basename $(wildcard fig/*.dia)))
+DIA_FILES:=$(notdir $(basename $(wildcard fig/dia/*.dia)))
 
 # clean suffixes
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
