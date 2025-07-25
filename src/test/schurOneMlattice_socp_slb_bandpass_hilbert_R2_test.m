@@ -137,15 +137,15 @@ printf("\nBefore recalculating epsilon and c:\n");
 print_polynomial(epsilon0,"epsilon0");
 print_polynomial(c2,"c2");
 printf("\n");
-[N1,D1]=schurOneMlattice2tf(k2,epsilon0,p_ones,c2);
-[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N1,D1);
+[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p_ones,c2);
+[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
 if max(abs(k2-k2r))>10*eps
   error("max(abs(k2-k2r))(%g*eps)>10*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Pole-zero plot
-zplane(qroots(N1(:)),qroots(D1(:)));
+zplane(qroots(N2(:)),qroots(D2(:)));
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -156,7 +156,7 @@ T1=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 dAsqdw1=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
 
 % Check amplitude of transfer function
-H1=freqz(N1,D1,wa);
+H1=freqz(N2,D2,wa);
 if max(abs((abs(H1).^2)-Asq1)) > 1000*eps
   error("max(abs((abs(H1).^2)-Asq1))(%g*eps) > 1000*eps", ...
         max(abs((abs(H1).^2)-Asq1))/eps);
@@ -166,29 +166,27 @@ endif
 subplot(411);
 ax=plotyy(wa*0.5/pi,10*log10(Asq1), ...
           wa*0.5/pi,10*log10(Asq1));
-%set(ax(1),"ycolor","black");
-%set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 -36 -34]);
-axis(ax(2),[0 0.5 -0.2 0]);
+axis(ax(1),[0 0.5 -37 -32]);
+axis(ax(2),[0 0.5 -0.2 0.05]);
 grid("on");
 strP=sprintf(["Bandpass hilbert response : ", ...
  "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
 title(strP);
-ylabel("Amplitude(dB)");
+ylabel("Ampl.(dB)");
 subplot(412);
 plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
-axis([0 0.5 mod(pp,2)+(ppr/2)*[-1,1]]);
+axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 subplot(413);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
-axis([0 0.5 tp+(tpr/2)*[-1,1]]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
 subplot(414);
 plot(wd*0.5/pi,[dAsqdw1 Ddl Ddu]);
-axis([0 0.5 dp+(dpr/2)*[-1,1]]);
+axis([0 0.5 dp+(dpr*[-1,1])]);
 grid("on");
 ylabel("dAsqdw");
 xlabel("Frequency");
@@ -205,10 +203,10 @@ print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
 
-print_polynomial(N1,"N1");
-print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
-print_polynomial(D1,"D1");
-print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
@@ -247,7 +245,7 @@ fclose(fid);
 eval(strcat(sprintf("save %s.mat ftol ctol n ",strf), ...
             " fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ", ...
             " fppl fppu pp ppr Wpp ftpl ftpu tp tpr Wtp fdpl fdpu dpr Wdp ", ...
-            " N0 D0 D0R k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N1 D1"));
+            " N0 D0 D0R k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"));
 
 % Done
 toc;

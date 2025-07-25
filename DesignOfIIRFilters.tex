@@ -13176,6 +13176,53 @@ coefficients are:
 \verbatiminput{schurOneMlattice_socp_slb_hilbert_R2_test_N2_coef.m}
 \verbatiminput{schurOneMlattice_socp_slb_hilbert_R2_test_D2_coef.m}
 \end{small}
+\subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-SOCP}Design of an IIR Schur one-multiplier lattice band-pass Hilbert filter using SOCP}
+The Octave script
+\emph{schurOneMlattice\_socp\_slb\_bandpass\_hilbert\_test.m}
+implements the design of an IIR Schur one-multiplier lattice
+band-pass Hilbert filter with SOCP and PCLS. The specification of the filter is:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_spec.m}
+\end{small}
+The initial filter is that found by the Octave script 
+\emph{tarczynski\_bandpass\_hilbert\_test.m}.
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-hilbert-filter-SOCP-PCLS} 
+shows the response of the band-pass Hilbert filter after SOCP PCLS
+optimisation and
+Figure~\ref{fig:Schur-one-multiplier-lattice-band-pass-hilbert-filter-SOCP-PCLS-pz} 
+shows the pole-zero plot of the band-pass Hilbert filter.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_hilbert_test_response}}
+\caption{Response of the Schur one-multiplier lattice band-pass Hilbert
+  filter after SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-band-pass-hilbert-filter-SOCP-PCLS}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_hilbert_test_pz}}
+\caption{Pole-zero plot of the Schur one-multiplier lattice band-pass
+  Hilbert filter after SOCP PCLS optimisation.}
+\label{fig:Schur-one-multiplier-lattice-band-pass-hilbert-filter-SOCP-PCLS-pz}
+\end{figure}
+
+The SOCP PCLS optimised Schur one-multiplier allpass lattice and numerator
+tap coefficients of the band-pass Hilbert filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_p2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_c2_coef.m}
+\end{small}
+
+The corresponding overall transfer function numerator and denominator
+polynomial coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_hilbert_test_D2_coef.m}
+\end{small}
+
 \subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-R2-SOCP}Design of an R=2 IIR Schur one-multiplier lattice band-pass Hilbert filter using SOCP}
 The Octave script
 \emph{schurOneMlattice\_socp\_slb\_bandpass\_hilbert\_R2\_test.m}
