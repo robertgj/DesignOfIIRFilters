@@ -14,12 +14,12 @@ function plot_response(B,A,fname)
   [h,w]=freqz(B,A,1024);
   subplot(211);
   plot(0.5*w/pi,20*log10(abs(h)))
-  axis([0 0.5 -50 5]);
+  axis([0 0.5 -50 10]);
   grid("on");
   ylabel("Amplitude(dB)")
   subplot(212);
   plot(0.5*w/pi,20*log10(abs(h)))
-  axis([0 0.5 -1 0.5]);
+  axis([0 0.5 -0.5 0.1]);
   grid("on");
   ylabel("Amplitude(dB)")
   xlabel("Frequency")
@@ -29,7 +29,7 @@ endfunction
 
 % Prototype lowpass (fp=0.5 corresponds to 0.5*Fs/2)
 printf("Prototype lowpass (phi=0.5)\n");
-[b,a]=ellip(5,0.5,40,0.5)
+[b,a]=ellip(5,0.4,40,0.5)
 plot_response(b,a,"tfp2g_test_lpproto");
 
 % Lowpass-lowpass
