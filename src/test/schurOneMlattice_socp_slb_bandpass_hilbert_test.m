@@ -13,7 +13,7 @@ tic;
 
 ftol=1e-4
 ctol=ftol/100
-maxiter=2000
+maxiter=10000
 verbose=false
 dmax=0.1; % For compatibility with SQP
 rho=0.999;
@@ -28,13 +28,11 @@ k0=k0(:);epsilon0=epsilon0(:);p0=p0(:);c0=c0(:);
 p_ones=ones(size(k0));
 
 % Band-pass hilbert filter specification
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
-dBap=0.16,dBas=34,Wasl=100,Watl=0.001,Wap=1,Watu=0.001,Wasu=100
+fasl=0.05,fapl=0.09,fapu=0.21,fasu=0.25
+dBap=0.15,dBas=37,Wasl=100,Watl=0.001,Wap=1,Watu=0.001,Wasu=100
 fppl=0.1,fppu=0.2,pp=1.5,ppr=0.002,Wpp=1
 ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=1
-fdpl=0.1,fdpu=0.2,dp=0,dpr=0.8,Wdp=0.001
-
-dBap=0.15,dBas=37,dpr=0.7
+fdpl=0.09,fdpu=0.21,dp=0,dpr=0.6,Wdp=0.001
 
 % Frequency points
 n=1000;
