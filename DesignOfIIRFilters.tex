@@ -9499,66 +9499,6 @@ and in transfer function form the numerator and denominator polynomials are:
 \label{fig:iir-sqp-slb-hilbert-R2-pcls-pz}
 \end{figure}
 \clearpage
-\subsubsection{PCLS optimisation of the Hilbert transform R=2 decimator with PIQP}
-The Octave script \emph{iir\_piqp\_slb\_hilbert\_R2\_test.m} calls the
-\emph{iir\_piqp\_mmse} and \emph{iir\_slb} functions to design an R=2 Hilbert
-IIR filter similar to that of \emph{iir\_sqp\_slb\_hilbert\_R2\_test.m} with the
-PIQP solver of
-\emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}. 
-PIQP solves quadratic programs like:
-\begin{align*}
-\begin{split}
-  \textbf{minimise}\quad &\frac{1}{2}x^{\top}Px+c^{\top}x \\
-  \textbf{subject to}\quad &Ax=b \\
-                         & Gx\le h \\
-                         & x_{lb}\le x \le x_{ub}
-\end{split}
-\end{align*}
-where $x\in\mathbb{R}^{n}$, $P\in\mathbb{S}^{n}_{+}$ (i.e.: $P\succ 0$),
-$A\in\mathbb{R}^{p\times n}$, $G\in\mathbb{R}^{m\times n}$, $c\in\mathbb{R}^{n}$,
-$b\in\mathbb{R}^{p}$, $h\in\mathbb{R}^{m}$, $x_{lb}\in\mathbb{R}^{n}$ and
-$x_{ub}\in\mathbb{R}^{n}$. In this case, $P$ corresponds to the Hessian,
-$\nabla^{2}_{x}\mathcal{E}\left(x\right)$, shown in
-Equation~\ref{eqn:Quasi-Newton-second-order-Taylor-expansion}. When
-designing an IIR, as opposed to FIR, filter, the squared-error,
-$\mathcal{E}\left(x\right)$, represents a complicated surface that may not be
-convex when $x$ is not particularly close to a local minimum. In other words, it
-is possible that $\nabla^{2}_{x}\mathcal{E}\left(x\right)$ is not
-positive-definite. PIQP appears to have difficulty accommodating a $P$ matrix
-that is symmetric but not positive-definite. The filter specification is:
-\begin{small}
-\verbatiminput{iir_piqp_slb_hilbert_R2_test_spec.m}
-\end{small}
-The initial filter is designed by the method of \emph{Tarczynski et al.} with
-the Octave script \emph{tarczynski\_hilbert\_R2\_test.m}, as shown in 
-Section~\ref{sec:Hilbert-transform-R2-decimation-filter}.
-The resulting amplitude  and delay responses are shown in
-Figure~\ref{fig:IIR-R2-Hilbert-PCLS-PIQP-response}. The corresponding
-pole-zero plot is shown in Figure~\ref{fig:IIR-R2-Hilbert-PCLS-PIQP-pz}. 
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_piqp_slb_hilbert_R2_test_pcls_response}}
-\caption{IIR R=2 Hilbert filter PCLS PIQP optimised response.}
-\label{fig:IIR-R2-Hilbert-PCLS-PIQP-response}
-\end{figure}
-\begin{figure}[!ht]
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{iir_piqp_slb_hilbert_R2_test_pcls_pz}}
-\caption{IIR R=2 Hilbert filter PCLS PIQP optimised pole-zero plot.}
-\label{fig:IIR-R2-Hilbert-PCLS-PIQP-pz}
-\end{figure}
-
-The PCLS optimised filter vector is, in gain-zero-pole form:
-\begin{small}
-\verbatiminput{iir_piqp_slb_hilbert_R2_test_d1_coef.m}
-\end{small}
-and the corresponding transfer function numerator and denominator polynomials
-are:
-\begin{small}
-\verbatiminput{iir_piqp_slb_hilbert_R2_test_N1_coef.m}
-\verbatiminput{iir_piqp_slb_hilbert_R2_test_D1_coef.m}
-\end{small}
-\clearpage
 \subsection{\label{sec:iir-R-2-differentiator-filter}R=2 differentiator filter}
 A differentiator filter has transfer function
 $H_{d}\left(\omega\right)=\frac{\imath\omega}{\pi}e ^{-\imath\omega t_{d}}$.
@@ -12782,56 +12722,6 @@ coefficients are:
 \begin{small}
 \verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_N2_coef.m}
 \verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_D2_coef.m}
-\end{small}
-\clearpage
-\subsubsection{\label{sec:Design-IIR-one-multiplier-Schur-lattice-hilbert-R2-PIQP}Design of a one-multiplier IIR Schur lattice Hilbert R=2 filter using PIQP} 
-The Octave script \emph{schurOneMlattice\_piqp\_slb\_hilbert\_R2\_test.m}
-implements the design of an $R=2$ IIR one-multiplier Schur lattice Hilbert
-filter with PCLS optimisation using the PIQP solver of
-\emph{Schwan et al.}~\cite{Schwan_PIQP2023,OctaveForge_PIQPPackage}.
-The denominator polynomial of the filter has coefficients in $z^{-2}$ only.
-The specification of the filter is:
-\begin{small}
-\verbatiminput{schurOneMlattice_sqp_slb_hilbert_R2_test_spec.m}
-\end{small}
-The initial filter is designed by the method of \emph{Tarczynski et al.} with
-the Octave script \emph{tarczynski\_hilbert\_R2\_test.m}, as shown in 
-Section~\ref{sec:Hilbert-transform-R2-decimation-filter}.
-Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS} 
-shows the response of the $R=2$ Hilbert filter after PIQP PCLS optimisation. The
-phase response shown has been adjusted by the nominal pass-band group delay,
-$\omega{}\tau_{p}$.
-Figure~\ref{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS-pz}
-shows the pole-zero plot of the $R=2$ Hilbert filter after PIQP PCLS optimisation.
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_piqp_slb_hilbert_R2_test_pcls_response}}
-\caption{R=2 Schur one-multiplier lattice Hilbert filter, response after PIQP
-  PCLS optimisation.}
-\label{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_piqp_slb_hilbert_R2_test_pcls_pz}}
-\caption{R=2 Schur one-multiplier lattice Hilbert filter, pole-zero plot after
-  PIQP PCLS optimisation.}
-\label{fig:Schur-one-multiplier-lattice-hilbert-R2-filter-PIQP-PCLS-pz}
-\end{figure}
-
-The PIQP PCLS optimised $R=2$ Schur one-multiplier all-pass lattice and numerator
-tap coefficients of the Hilbert filter are:
-\begin{small}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_k2_coef.m}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_epsilon2_coef.m}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_p2_coef.m}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_c2_coef.m}
-\end{small}
-
-The corresponding denominator and numerator transfer function polynomial
-coefficients are:
-\begin{small}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_N2_coef.m}
-\verbatiminput{schurOneMlattice_piqp_slb_hilbert_R2_test_D2_coef.m}
 \end{small}
 \clearpage
 \subsection{Design of one-multiplier IIR Schur lattice filters with SOCP optimisation}
@@ -43379,8 +43269,8 @@ constraints . It is written in C++ template header files and is based on the
 Eigen C++ template header library~\cite{EigenWeb}. It is available as an
 Octave-Forge package~\cite{OctaveForge_PIQPPackage}.
 \subsubsection*{Problems with PIQP}
-The documentation is incomplete. In general, the design of IIR filters is a
-non-convex problem that is unsuited to quadratic programming optimisation.
+In general, the design of IIR filters is a non-convex problem that is unsuited
+to quadratic programming optimisation.
 
 \begin{comment}
 

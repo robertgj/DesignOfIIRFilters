@@ -102,7 +102,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.10.3}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.11.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -131,7 +131,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.3.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.4.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -198,7 +198,7 @@ if ! test -f $PARALLEL_ARCHIVE; then
   wget -c $PARALLEL_URL 
 fi
 
-PIQP_VER=${PIQP_VER:-0.5.0}
+PIQP_VER=${PIQP_VER:-0.6.0}
 PIQP_ARCHIVE=piqp-$PIQP_VER.tar.gz
 PIQP_URL=https://github.com/PREDICT-EPFL/piqp/releases/download/v$PIQP_VER/piqp-octave.tar.gz
 if ! test -f $PIQP_ARCHIVE; then
@@ -213,7 +213,7 @@ if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.7.4}
+STATISTICS_VER=${STATISTICS_VER:-1.7.5}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -607,6 +607,7 @@ rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_DEL
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PIQP_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 
 #
@@ -663,40 +664,6 @@ rm -Rf signal-$SIGNAL_VER signal-$SIGNAL_VER.patch
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
 rm -f $NEW_SIGNAL_ARCHIVE
-
-#
-# Fix piqp package and install the new piqp package
-#
-tar -xf $PIQP_ARCHIVE
-mv piqp-octave piqp-$PIQP_VER
-cat > piqp-$PIQP_VER.patch << 'EOF'
---- piqp-octave/make_piqp.m	2025-03-18 00:42:39.000000000 +1100
-+++ piqp-octave.new/make_piqp.m	2025-04-20 23:17:10.752698138 +1000
-@@ -55,7 +55,7 @@
- if any(strcmpi(what,'oct')) || any(strcmpi(what,'all'))
-    fprintf('Compiling PIQP Octave interface...\n');
- 
--    mkoctfile('-O3', '-DNDEBUG', '-march=native', '-std=gnu++14', ...
-+    mkoctfile('-O3', '-DNDEBUG', '-march=native', '-std=gnu++17', ...
-              ['-I', fullfile(piqp_dir, 'include')], ...
-              ['-I', eigen_include_dir], ...
-              '-o', 'piqp_oct.oct', fullfile(piqp_dir, 'interfaces/octave/piqp_oct.cpp'));
-@@ -80,4 +80,5 @@
- %% Go back to the original directory
- cd(current_dir);
- 
--end
-\ No newline at end of file
-+end
-+
-EOF
-pushd piqp-$PIQP_VER
-patch -p1 < ../piqp-$PIQP_VER.patch
-popd
-NEW_PIQP_ARCHIVE=piqp-$PIQP_VER".new.tar.gz"
-tar -czf $NEW_PIQP_ARCHIVE piqp-$PIQP_VER
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_PIQP_ARCHIVE
-rm -Rf piqp-$PIQP_VER piqp-$PIQP_VER.patch $NEW_PIQP_ARCHIVE
 
 #
 #

@@ -197,7 +197,8 @@ rowsG=length(vS.au)+length(vS.al) + ...
       length(vS.pu)+length(vS.pl) + ...
       length(vS.du)+length(vS.dl);
 G0=zeros(rowsG,length(xkc));
-h0=zeros(rowsG,1);
+h_l=-inf*ones(rowsG,1);
+h_u= inf*ones(rowsG,1);
 A0=[];
 b0=[];
 xkc_lb=kc_l(kc_active);
@@ -205,7 +206,7 @@ xkc_ub=kc_u(kc_active);
 solver=piqp("dense");
 solver.update_settings("max_iter", maxiter);
 solver.update_settings("verbose", false, "compute_timings", verbose);
-solver.setup(P0, c0, A0, b0, G0, h0, xkc_lb, xkc_ub);
+solver.setup(P0, c0, A0, b0, G0, h_l, h_u, xkc_lb, xkc_ub);
 
 %
 % PIQP loop
@@ -293,7 +294,7 @@ while 1
   delta_ub=min(kc_u(kc_active)-xkc, dmax);
 
   % Update solver
-  solver.update("P",Pk,"c",ck,"G",Gk,"h",hk,"x_lb",delta_lb,"x_ub",delta_ub);
+  solver.update("P",Pk,"c",ck,"G",Gk,"h_u",hk,"x_l",delta_lb,"x_u",delta_ub);
 
   %
   % Call PIQP
