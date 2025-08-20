@@ -589,7 +589,7 @@ grep $OCTAVE_LIB_DIR /etc/ld.so.conf.d/usr_local_octave_lib.conf
 if test $? -ne 0; then \
     echo $OCTAVE_LIB_DIR >> /etc/ld.so.conf.d/usr_local_octave_lib.conf ; \
 fi
-ldconfig 
+ldconfig $OCTAVE_LIB_DIR
 
 #
 # Compiling octave is done
@@ -606,7 +606,6 @@ rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_ADD
 rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_DEL
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PARALLEL_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PIQP_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 
@@ -634,6 +633,31 @@ NEW_OPTIM_ARCHIVE=optim-$OPTIM_VER".new.tar.gz"
 tar -czf $NEW_OPTIM_ARCHIVE optim-$OPTIM_VER
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_OPTIM_ARCHIVE
 rm -Rf optim-$OPTIM_VER optim-$OPTIM_VER.patch $NEW_OPTIM_ARCHIVE
+
+#
+# Fix parallel package and install the new parallel package
+#
+cat > parallel-$PARALLEL_VER.patch << 'EOF'
+--- parallel-4.0.2/src/octave-pserver.cc	2023-09-10 02:01:50.000000000 +1000
++++ parallel-4.0.2.new/src/octave-pserver.cc	2025-08-15 12:36:19.425637344 +1000
+@@ -380,7 +380,7 @@
+ static
+ char * copy_to_non_const (const char *str)
+ {
+-  char *ret = new char [strlen (str)];
++  char *ret = new char [strlen (str)+1];
+ 
+   strcpy (ret, str);
+ 
+EOF
+tar -xf $PARALLEL_ARCHIVE
+pushd parallel-$PARALLEL_VER
+patch -p1 < ../parallel-$PARALLEL_VER.patch
+popd
+NEW_PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".new.tar.gz"
+tar -czf $NEW_PARALLEL_ARCHIVE parallel-$PARALLEL_VER
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_PARALLEL_ARCHIVE
+rm -Rf parallel-$PARALLEL_VER parallel-$PARALLEL_VER.patch $NEW_PARALLEL_ARCHIVE
 
 #
 # Fix signal package and install the new signal package
