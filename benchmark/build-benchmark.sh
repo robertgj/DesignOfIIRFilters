@@ -3,6 +3,13 @@
 # Assume these packages are installed:
 #  dnf install atlas blas lapack gsl gsl-devel openblas openblas-threads
 
+export CPU_TYPES="x86-64 nehalem haswell skylake"
+export BUILD_TYPES="dbg shared shared-lto shared-pgo shared-lto-pgo"
+
+# Default CPU_TYPE and BUILD
+export CPU_TYPE=nehalem
+export BUILD=shared-lto-pgo
+
 # Assume these archive files are present:
 export LAPACK_VERSION=3.12.1
 export SUITESPARSE_VERSION=7.11.0
@@ -42,7 +49,7 @@ export LOCAL_PREFIX=`pwd`
 source ./build-lapack.sh
 
 # Build local versions of the other libraries used by octave
-export LAPACK_DIR=$LOCAL_PREFIX/lapack/generic/lapack-$LAPACK_VERSION
+export LAPACK_DIR=$LOCAL_PREFIX/lapack/$CPU_TYPE/lapack-$LAPACK_VERSION
 export LD_LIBRARY_PATH=$LOCAL_PREFIX"/lib:"$LAPACK_DIR
 source ./build-other-libs.sh
 
@@ -106,24 +113,24 @@ popd
 
 # Build the benchmark versions
 OCTAVE_DIR=$LOCAL_PREFIX/octave-$OCTAVE_VERSION ;
-for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
+for build in $BUILD_TYPES ;
 do
     #
-    echo "Building" $BUILD
+    echo "Building" $build
     #
-    OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$BUILD
+    OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$build
     OCTAVE_BIN_DIR=$OCTAVE_INSTALL_DIR/bin
     OCTAVE_SHARE_DIR=$OCTAVE_INSTALL_DIR/share/octave
     OCTAVE_PACKAGE_DIR=$OCTAVE_SHARE_DIR/packages 
     OCTAVE_PACKAGES=$OCTAVE_SHARE_DIR/octave_packages
     #
-    rm -Rf build-$BUILD
+    rm -Rf build-$build
     #
-    mkdir -p build-$BUILD
+    mkdir -p build-$build
     #
-    pushd build-$BUILD
+    pushd build-$build
     #
-    source ../build-$BUILD.sh
+    source ../build-$build.sh
     #
     make install
     # 
@@ -133,7 +140,7 @@ do
     #
 done
 
-# Benchmark the builds with the generic lapack library
+# Benchmark the builds with the $CPU_TYPE lapack library
 cat > iir_benchmark.m << 'EOF'
 % Define a filter
 fc=0.10;U=2;V=2;M=20;Q=8;R=3;tol=1e-6;
@@ -159,17 +166,21 @@ toc(id)
 EOF
 cp -f ../src/{fixResultNaN,iirA,iirP,iirT}.m .
 
-for BUILD in dbg shared shared-lto shared-pgo shared-lto-pgo ;
-do
+for build in $BUILD_TYPES ; do
     #
-    echo "Testing " $BUILD
+    benchmark=iir_benchmark;
+    logname="$benchmark.$CPU_TYPE.$build"
+    echo "Testing $logname"
     #
-    OCTAVE_BIN_DIR=$LOCAL_PREFIX/octave-$BUILD/bin
+    OCTAVE_BIN_DIR=$LOCAL_PREFIX/octave-$build/bin
+    OCTAVE="$OCTAVE_BIN_DIR/octave-cli --no-gui -q "
     for k in `seq 1 10`; do \
-        LD_PRELOAD=$LAPACK_DIR"/liblapack.so:"$LAPACK_DIR"/libblas.so" \
-                              $OCTAVE_BIN_DIR/octave-cli iir_benchmark.m
-    done | awk -v build_var=$BUILD '{elapsed=elapsed+$4;}; \
-      END {printf("iir_benchmark %s elapsed=%g\n",build_var,elapsed/10);}'
+        LD_PRELOAD="$LAPACK_DIR/liblapack.so:$LAPACK_DIR/libblas.so" \
+        $OCTAVE $benchmark.m
+    done > $logname.log
+    grep Elapsed $logname.log | \
+    awk -v name_var=$logname '{elapsed=elapsed+$4;}; \
+      END {printf("%s elapsed=%g\n", name_var, elapsed/10);}'
     #
 done
 

@@ -1,20 +1,36 @@
 #!/bin/sh
 
-BLDOPTS="-m64 -mtune=generic -O2"
-export CFLAGS="-I"$LOCAL_PREFIX"/include  "$BLDOPTS
-export CXXFLAGS="-I"$LOCAL_PREFIX"/include "$BLDOPTS
+BLDOPTS="-m64 -march=$CPU_TYPE -O2"
+export CFLAGS="-I$LOCAL_PREFIX/include $BLDOPTS"
+export CXXFLAGS="-I$LOCAL_PREFIX/include $BLDOPTS"
 export FFLAGS=$BLDOPTS
-export LDFLAGS="-L"$LAPACK_DIR" -L"$LOCAL_PREFIX"/lib"
+export LDFLAGS="-L$LAPACK_DIR -L$LOCAL_PREFIX/lib"
                       
+PGO_GEN_FLAGS="-pthread -fprofile-generate"
+XTRA_CFLAGS=$PGO_GEN_FLAGS \
+XTRA_CXXFLAGS=$PGO_GEN_FLAGS \
 $OCTAVE_DIR/configure $OCTAVE_CONFIG_OPTIONS \
-  --prefix=$OCTAVE_INSTALL_DIR --with-blas="-lblas" --with-lapack="-llapack"
+  --prefix=$OCTAVE_INSTALL_DIR --with-blas=-lblas --with-lapack=-llapack
 
-make XTRA_CFLAGS="-pthread -fopenmp -fprofile-generate" \
-     XTRA_CXXFLAGS="-pthread -fopenmp -fprofile-generate" V=1 -j6
+make V=1 -j6 -O
+
 find . -name \*.gcda -exec rm {} ';'
-make V=1 -j6 check
+make check
+
 find . -name \*.o -exec rm -f {} ';'
 find . -name \*.lo -exec rm -f {} ';'
 find . -name \*.la -exec rm -f {} ';'
-make XTRA_CFLAGS="-pthread -fopenmp -fprofile-use" \
-     XTRA_CXXFLAGS="-pthread -fopenmp -fprofile-use" V=1 -j6
+find . -name moc* -exec rm -f {} ';'
+
+PGO_USE_FLAGS="-pthread -fopenmp -fprofile-use"
+XTRA_CFLAGS=$PGO_USE_FLAGS \
+XTRA_CXXFLAGS=$PGO_USE_FLAGS \
+$OCTAVE_DIR/configure $OCTAVE_CONFIG_OPTIONS \
+--prefix=$OCTAVE_INSTALL_DIR --with-blas=-lblas --with-lapack=-llapack
+
+make V=1 -j6 -O
+
+# Hack to remove LTO profiling from mkoctfile
+sed -i -e "s/$PGO_USE_FLAGS//" ./src/mkoctfile.cc
+make V=1 src/mkoctfile
+

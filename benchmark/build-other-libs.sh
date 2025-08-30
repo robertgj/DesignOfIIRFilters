@@ -18,12 +18,12 @@ rm -Rf SuiteSparse-$SUITESPARSE_VERSION
 tar -xf SuiteSparse-$SUITESPARSE_VERSION.tar.gz
 pushd SuiteSparse-$SUITESPARSE_VERSION
 cd SuiteSparse_config
-export BUILD_OTHER_LIBS_OPTIM="\" -m64 -march=nehalem -O3 \""
+export BUILD_OTHER_LIBS_OPTIM="\" -m64 -march=$CPU_TYPE -O2 \""
 export CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_C_FLAGS=$BUILD_OTHER_LIBS_OPTIM \
 -DCMAKE_CXX_FLAGS=$BUILD_OTHER_LIBS_OPTIM \
 -DCMAKE_Fortran_FLAGS=$BUILD_OTHER_LIBS_OPTIM \
--DBLA_VENDOR=generic \
+-DBLA_VENDOR=$CPU_TYPE \
 -DALLOW_64BIT_BLAS=1 \
 -DBLAS_LIBRARIES=$LAPACK_DIR/libblas.so \
 -DLAPACK_LIBRARIES=$LAPACK_DIR/liblapack.so \
@@ -44,7 +44,7 @@ pushd qrupdate-$QRUPDATE_VERSION
 rm -f Makeconf
 cat > Makeconf << 'EOF'
 FC=gfortran
-FFLAGS=-fimplicit-none -O2 -funroll-loops 
+FFLAGS=-fimplicit-none -O2 -march=$(CPU_TYPE) -m64 -funroll-loops 
 FPICFLAGS=-fPIC
 
 ifeq ($(strip $(PREFIX)),)

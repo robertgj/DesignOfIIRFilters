@@ -76,7 +76,7 @@ fi
 #
 # Set Octave directories
 #
-OCTAVE_INSTALL_DIR="/usr/local/octave-"$OCTAVE_VER
+OCTAVE_INSTALL_DIR=/usr/local/octave-$OCTAVE_VER
 OCTAVE_INCLUDE_DIR=$OCTAVE_INSTALL_DIR/include
 OCTAVE_LIB_DIR=$OCTAVE_INSTALL_DIR/lib
 OCTAVE_BIN_DIR=$OCTAVE_INSTALL_DIR/bin
@@ -249,36 +249,36 @@ mkdir -p $OCTAVE_INSTALL_DIR
 #
 cat > lapack-$LAPACK_VER.patch.gz.uue << 'EOF'
 begin-base64 644 lapack-3.12.1.patch.gz
-H4sICGr7G2gAA2xhcGFjay0zLjEyLjEucGF0Y2gA7VZbb+o4EH4++RUjnR6p
-aXDA4RaQKpUG2mWXAgL2cl62coOBqLk1CW05v37HTkKBpt3tZd8OQrFjj2cm
-3zf2Z0IIuCxk9i2p6tTQafl80JmWpxOrfMVu+cJx+RejYtQINUilCobRrrba
-lOqV/AcapZWKomnavh/d5w/Fvuqkgn8TaKVNG+1KQzeqVbPWMlpV9IUelbMz
-ILTWKjXwHZsWnJ0p8OXouDNRQTwvBp3LKXbP4OhvOTHpDAf9czGigKIdHftB
-MncitBXxcab9TWen3/Q4UNW28DAYjM5/VRUNl15YKpB4xSI+B/KnWyJx4DOP
-l9A5CbIQmgL6+JfR8HsbYsdfuhzmwfoGGzvwQpc/5i1tKJmBiDIVwamaxhN9
-NR80tr2qWvhhed6qiE6eMdQfTmfos+whqLrj2/pyEURJxHxyt2bzD9D17453
-uWu2aV2v0YppNA2zssNds9QErVkyJW9fASwLnBiSFQdLQoV1EJXADyKPue4G
-HP8+uEX4H5xkBUGYOIEfgyWx0HG9ItafwtK2FZKO4hsZVRXtfNAdjWfydTHu
-W0C8Rg0fLLJXpz5fMZd7ira7RCIr1yDuMrWrYO4sNjK3CwuYP4eL1H6O5eo7
-aS5JIA3mPHZEmeSfIB2IJYcT249A9GATrCPwmL1yfK4DDEcYHiK+4JFwLPEy
-aiWK+Bl10WSYxSdl+yT1flL+cQLcT6INhIHjJzEi5brAH0NuJ0ANk9w4CSzc
-gCVYfETaSB/JJuQSQXIhEczIxNcnTAzELuL2Ooqdey77zCU1IhvayAfMfEDR
-9lztLd4BV3sWYc9JBvJ1d/IHmuAmTAs/T+w6BUksrrw5vWIP++ElOl3BMIdB
-N031gGTX8W9fY1LAKrgzKda5ZholWs2py0xIjPw4C8cuSS+e8wPdio2Nvm8i
-hmzGq2DtzuGGwzoW9b/iPr/P6ioM4tjBM0ZXJYHZgQDyJyCbjcZ4rnb7E7Us
-3PHFjctineEW2TV9bmnndoPOuGP9lhk+t0sPB2E4u7rcRi4wTLwlPp889lLj
-lzxytNQOvgYn77K0tIP0xVSesnaQspjbpqkdpCkmt6lpB6k9rZTpKJooh5H1
-+1VvOOvM+qMhYNI9azaafBdz/YXgHpZIT8QSDqvEcyFkSx7DsTgq5YBaQlWw
-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
+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
+ByVlDwAA
 ====
 EOF
-# Patch
 uudecode lapack-$LAPACK_VER".patch.gz.uue"
 gunzip lapack-$LAPACK_VER".patch.gz"
 # Make libblas.a and liblapack.a
@@ -291,11 +291,11 @@ mv -f make.inc.example make.inc
 popd
 # Make libblas.so
 pushd lapack-$LAPACK_VER/BLAS/SRC
-make -j 6 libblas.a libblas.so
+LAPACK_OPTFLAGS=$OPTFLAGS make -j 6 libblas.a libblas.so
 popd
 # Make liblapack.so
 pushd lapack-$LAPACK_VER/SRC
-make -j 6 liblapack.a liblapack.so
+LAPACK_OPTFLAGS=$OPTFLAGS make -j 6 liblapack.a liblapack.so
 popd
 # Install
 mkdir -p $OCTAVE_LIB_DIR
@@ -313,11 +313,11 @@ mv -f INSTALL/make.inc.gfortran-quad make.inc
 popd
 # Make libqblas.a
 pushd lapack-$LAPACK_VER/BLAS/SRC
-make -j 6 libqblas.a
+LAPACK_OPTFLAGS=$OPTFLAGS make -j 6 libqblas.a
 popd
 # Make libqlapack.a
 pushd lapack-$LAPACK_VER/SRC
-make -j 6 libqlapack.a
+LAPACK_OPTFLAGS=$OPTFLAGS make -j 6 libqlapack.a
 popd
 # Install
 mv -f lapack-$LAPACK_VER/BLAS/SRC/libqblas.a $OCTAVE_LIB_DIR
@@ -335,9 +335,10 @@ rm -Rf arpack-ng-$ARPACK_VER
 tar -xf $ARPACK_ARCHIVE
 pushd arpack-ng-$ARPACK_VER
 sh ./bootstrap
-CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
-LDFLAGS=-L$OCTAVE_LIB_DIR F77=gfortran \
-./configure --prefix=$OCTAVE_INSTALL_DIR --with-blas=-lblas --with-lapack=-llapack
+CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS
+LDFLAGS="-L"$OCTAVE_LIB_DIR F77=gfortran \
+./configure --prefix=$OCTAVE_INSTALL_DIR \
+            --with-blas=-lblas --with-lapack=-llapack
 make && make install
 popd
 rm -Rf arpack-ng-$ARPACK_VER
@@ -376,7 +377,8 @@ pushd qrupdate-$QRUPDATE_VER
 rm -f Makeconf
 cat > Makeconf << 'EOF'
 FC=gfortran
-FFLAGS=-fimplicit-none -funroll-loops -m64 -march=nehalem -O2
+QRUPDATE_OPTFLAGS ?= -m64 -march=nehalem -O2
+FFLAGS=-fimplicit-none -funroll-loops $(QRUPDATE_OPTFLAGS)
 FPICFLAGS=-fPIC
 
 ifeq ($(strip $(PREFIX)),)
@@ -391,7 +393,7 @@ MAJOR=1
 LIBDIR=lib
 DESTDIR=
 EOF
-make PREFIX=$OCTAVE_INSTALL_DIR solib install
+PREFIX=$OCTAVE_INSTALL_DIR QRUPDATE_OPTFLAGS=$OPTFLAGS make solib install
 popd
 rm -Rf qrupdate-$QRUPDATE_VER
 
@@ -489,39 +491,54 @@ rm -Rf build-GraphicsMagick-$GRAPHICSMAGICK_VER \
 rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
-cat > octave-$OCTAVE_VER.patch << 'EOF'
---- octave-10.2.0/libinterp/corefcn/load-save.cc	2025-05-29 22:16:39.000000000 +1000
-+++ octave-10.2.0.new/libinterp/corefcn/load-save.cc	2025-06-07 12:22:27.448166975 +1000
-@@ -129,8 +129,8 @@
- {
-   const int magic_len = 10;
-   char magic[magic_len+1];
--  is.read (magic, magic_len);
-   magic[magic_len] = '\0';
-+  is.read (magic, magic_len);
- 
-   if (strncmp (magic, "Octave-1-L", magic_len) == 0)
-     swap = mach_info::words_big_endian ();
+cat > octave-$OCTAVE_VER".patch.gz.uue" << 'EOF'
+begin-base64 644 octave-10.2.0.patch.gz
+H4sICJMmrmgAA29jdGF2ZS0xMC4yLjAucGF0Y2gAtVbbctMwEH0mX7GEB5Kx
+5djKxYlLO2V4ZYYPAMaj2IorsGVXUkI7/DwrOUmdJpAWih7kaFd78Tm76xBC
+oM4M23AShQENwqBWohiVYimk4aoZZbXiq0yOyprlROO9IMte0ZBOSTgldAGU
+JtEsGS+CcLfAi3DveZ536PlpTueExhDGSUQTOg9m40mEcjreOr2+BhLRhT/H
+s3tcX/fgZw8AslpqA+gfKlaILC25hEuIwgunvGGqlX/ea73o60WPAAgdKM5y
+GDiN/2A+dKaPrL6i07dfwrcXPe+MqTUWKxhoo2RWNftL/U9bUMjHftcELi8h
+HForAP2DNRioYtlNKuSqTpIftcp1uhRFymUumIQBxiDnyNsqN6xc81GW8xWp
+l994Zl6Cw/O+kcoZRPOETpLJNJjGdDKPZ/O4Q+WEzv0Ig9nnwnHZXaMREIiQ
+U+iz/qFKFBJLKM3qRnCNSFELOHnQa5MnSSm0edemmbo0Uyu5AsnvTCryOxjg
+ZmHsWu6UAVdMcxjsz0teCAu7M/CeHcpds0cX9cGb3/X1xOXSk3mbjAddaLo5
+gKlsFSEtgV4vNdMFRjT3DXdHo2AQDf19in7vt/FOLHWj/UMWXM1bUmeThSN1
+Njkm9edhkINsccdsG1U3QcHNVjjA7H0was2xc3Zv0R8+ovsMC0wV+iTZ4FQ7
+qt3v39H8pBAvR/IfKIYtUrgHTGthWe1mlCR1kzItU357ltOjarDv4Vt2W4if
+NWDqDcl4Wb74cDnyuxssIfqlQbyIIkonUdgZLGPqz8DDPXYF+EbIrFznHN5p
+fFPOqquubINTq1YHots1X/OrnvcgEZgXa691LvbfK8XuydqIMrjpdxXLe8OJ
+neNWblOi0xjbwaPT+TapI8rxY/Ha9mwgdIrzVEju+D/F4bazD1jnVWPusRnl
+5kSX7xl97OnvJ2W7njIvj4r/X2fmYXvAMUIWxYp95+lails7RvbTicZjR0NM
+T9BQpRUzStwd23bXByxGGyGzn+idhZA5b3EKVqrGvyGDYTu3njmrzkD+bLj/
+K9TOCmtMyKL1ZesOUXlUftbuFzZKoeNpCgAA
+====
 EOF
+uudecode octave-$OCTAVE_VER".patch.gz.uue"
+gunzip octave-$OCTAVE_VER".patch.gz"
+# Patch
 pushd octave-$OCTAVE_VER
 patch -p1 < ../octave-$OCTAVE_VER.patch
 popd
+
 # Build
 rm -Rf build-octave-$OCTAVE_VER
 mkdir build-octave-$OCTAVE_VER
 pushd build-octave-$OCTAVE_VER
-export CFLAGS="$OPTFLAGS -I$OCTAVE_INCLUDE_DIR"
-export CXXFLAGS="$OPTFLAGS -I$OCTAVE_INCLUDE_DIR -Wno-deprecated-declarations"
-# Suppress warning for deprecated std::wbuffer_convert<convfacet_u8, char>
-export FFLAGS=$OPTFLAGS
-export LDFLAGS="-L$OCTAVE_LIB_DIR"
+
 # Add --enable-address-sanitizer-flags for address sanitizer build
 # To disable checking in atexit(): export ASAN_OPTIONS="leak_check_at_exit=0"
 # See: https://wiki.octave.org/Finding_Memory_Leaks
-JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
-../octave-$OCTAVE_VER/configure \
-      PACKAGE_VERSION=$OCTAVE_VER"-robj" \
-      PACKAGE_STRING="GNU Octave "$OCTAVE_VER"-robj" \
+
+export CFLAGS="$OPTFLAGS -I$OCTAVE_INCLUDE_DIR"
+# Suppress warning for deprecated std::wbuffer_convert<convfacet_u8, char>
+export CXXFLAGS="$OPTFLAGS -I$OCTAVE_INCLUDE_DIR -Wno-deprecated-declarations -fno-diagnostics-color"
+export FFLAGS=$OPTFLAGS
+export LDFLAGS="-L$OCTAVE_LIB_DIR"
+
+export JAVA_HOME=/usr/lib/jvm/java
+export PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig
+OCTAVE_CONFIG_OPTIONS="\
     --prefix=$OCTAVE_INSTALL_DIR \
     --without-fltk \
     --disable-openmp \
@@ -559,28 +576,47 @@ JAVA_HOME=/usr/lib/jvm/java PKG_CONFIG_PATH=$OCTAVE_LIB_DIR/pkgconfig \
     --with-sundials_ida-includedir=$OCTAVE_INCLUDE_DIR \
     --with-sundials_ida-libdir=$OCTAVE_LIB_DIR \
     --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
-    --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR 
+    --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR"
+
+PGO_GEN_FLAGS="-pthread -fprofile-generate"
+XTRA_CFLAGS="$PGO_GEN_FLAGS" \
+XTRA_CXXFLAGS="$PGO_GEN_FLAGS" \
+../octave-$OCTAVE_VER/configure $OCTAVE_CONFIG_OPTIONS \
+PACKAGE_VERSION="$OCTAVE_VER-robj" \
+PACKAGE_STRING="GNU Octave $OCTAVE_VER-robj"
 
 #
 # Generate profile
 #
-export PGO_GEN_FLAGS="-pthread -fprofile-generate"
-make XTRA_CFLAGS="$PGO_GEN_FLAGS" XTRA_CXXFLAGS="$PGO_GEN_FLAGS" V=1 -j6
+make V=1 -j6 -O
 find . -name \*.gcda -exec rm -f {} ';'
-make V=1 check
+make check
 
 #
-# Use profile
+# Use profile. Qt files change after configure triggering -Wcoverage-mismatch
 #
 find . -name \*.o -exec rm -f {} ';'
 find . -name \*.lo -exec rm -f {} ';'
 find . -name \*.la -exec rm -f {} ';'
-export PGO_LTO_FLAGS="-pthread -flto=6 -ffat-lto-objects -fprofile-use"
-make XTRA_CFLAGS="$PGO_LTO_FLAGS" XTRA_CXXFLAGS="$PGO_LTO_FLAGS" V=1 -j6
+find . -name moc* -exec rm -f {} ';'
+
+PGO_USE_FLAGS="-pthread -flto=6 -ffat-lto-objects -fprofile-use -Wno-error=coverage-mismatch"
+XTRA_CFLAGS="$PGO_USE_FLAGS" \
+XTRA_CXXFLAGS="$PGO_USE_FLAGS" \
+../octave-$OCTAVE_VER/configure $OCTAVE_CONFIG_OPTIONS \
+PACKAGE_VERSION="$OCTAVE_VER-robj" \
+PACKAGE_STRING="GNU Octave $OCTAVE_VER-robj"
+
+make V=1 -j6 -O 
+
+# Hack to remove LTO profiling from mkoctfile
+sed -i -e "s/$PGO_USE_FLAGS//" ./src/mkoctfile.cc
+make V=1 src/mkoctfile
+
 make install
 popd
 
-rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER octave-$OCTAVE_VER.patch
+rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER octave-$OCTAVE_VER.patch*
 
 #
 # Update ld.so.conf.d
