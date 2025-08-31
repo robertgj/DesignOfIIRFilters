@@ -194,7 +194,6 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  % Esq_min=0.00342404
   branches_min=438;
   A1k_min = [   -232,      432,     -134,       33, ... 
                  352,     -168,       38,      271, ... 

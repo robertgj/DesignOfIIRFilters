@@ -15,11 +15,6 @@ delete(strcat(strf,"diary"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
-use_best_branch_and_bound_found=true
-if use_best_branch_and_bound_found
-  warning(["Reporting the best branch-and-bound filter found so far. \n", ...
- "           Set \"use_best_branch_and_bound_found\"=false to re-run."]);
-endif
 enforce_pcls_constraints_on_final_filter=true
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Lim=false
 branch_bound_schurOneMPAlattice_elliptic_lowpass_16_nbits_test_allocsd_Ito=true
@@ -175,160 +170,147 @@ printf("Initial k_active=[ ");printf("%d ",k_active);printf("];\n");
 printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
-if use_best_branch_and_bound_found
-  branches_min=24; 
-  A1k_min = [   -19584,    32384,   -25648,    28180, ... 
-                -23296,    11328 ]'/32768;
-  A2k_min = [   -22528,    30722,   -26544,    23684, ... 
-                -11264 ]'/32768;
-  k_min=[A1k_min(:);A2k_min(:)];
-  Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
-                                A2k_min,A2epsilon0,A2p_ones, ...
-                                difference,wa,Asqd,Wa);
-  improved_solution_found=true;
-else
-  % At each node of a branch, define two SQP sub-problems, one of which is
-  % stacked and one of which is solved immediately. If the solved problem
-  % reduces Esq_min, then continue to the next node on that branch. If the
-  % solved problem does not improve Esq_min then give up on this branch and
-  % continue by solving the problem on top of the stack.
-  do
+% At each node of a branch, define two SQP sub-problems, one of which is
+% stacked and one of which is solved immediately. If the solved problem
+% reduces Esq_min, then continue to the next node on that branch. If the
+% solved problem does not improve Esq_min then give up on this branch and
+% continue by solving the problem on top of the stack.
+do
 
-    % Choose the sub-problem to solve
-    if branch_tree  
-      n_branch=n_branch+1;
-      [k_sd,k_sdu,k_sdl]=flt2SD(k_b,nbits,ndigits_alloc);
-      if 1
-        % Ito et al. suggest ordering the tree branches by max(k_sdu-k_sdl)
-        k_sdul=k_sdu-k_sdl;
-        if any(k_sdul<0)
-          error("any(k_sdul<0)");
-        endif
-        [k_max,k_max_n]=max(k_sdul(k_active));
-      else
-        % Use the active coefficient with the largest absolute gradient of Esq
-        % This method did not find an improved solution despite running the
-        % MMSE case for several hours without completing.
-        [~,gradEsq]=schurOneMPAlatticeEsq ...
-                      (k_sd(R1),A1epsilon0,A1p_ones, ...
-                       k_sd(R2),A2epsilon0,A2p_ones, ...
-                       difference,wa,Asqd,Wa);
-        [k_max,k_max_n]=max(abs(gradEsq(k_active)));
+  % Choose the sub-problem to solve
+  if branch_tree  
+    n_branch=n_branch+1;
+    [k_sd,k_sdu,k_sdl]=flt2SD(k_b,nbits,ndigits_alloc);
+    if 1
+      % Ito et al. suggest ordering the tree branches by max(k_sdu-k_sdl)
+      k_sdul=k_sdu-k_sdl;
+      if any(k_sdul<0)
+        error("any(k_sdul<0)");
       endif
-      coef_n=k_active(k_max_n);
-      k_active(k_max_n)=[];  
-      k_b(coef_n)=k_sdl(coef_n); 
-      % Push a problem onto the stack
-      k_depth=k_depth+1;
-      if k_depth>n_active
-        error("k_depth(%d)>n_active(%d)",k_depth,n_active);
-      endif
-      printf("\nBranch %d:coef_n=%d,",n_branch,coef_n);
-      k_problem.k_b=k_b;
-      k_problem.k_active=k_active;
-      k_stack{k_depth}=k_problem;
-      % Set up current problem
-      k_b(coef_n)=k_sdu(coef_n);
+      [k_max,k_max_n]=max(k_sdul(k_active));
     else
-      % Pop a problem off the stack 
-      if k_depth<=0
-        error("k_depth(%d)<=0",k_depth);
-      endif
-      k_problem=k_stack{k_depth};
-      k_depth=k_depth-1;
-      k_b=k_problem.k_b;
-      k_active=k_problem.k_active;
-      printf("\nBacktrack:");
+      % Use the active coefficient with the largest absolute gradient of Esq
+      % This method did not find an improved solution despite running the
+      % MMSE case for several hours without completing.
+      [~,gradEsq]=schurOneMPAlatticeEsq ...
+                    (k_sd(R1),A1epsilon0,A1p_ones, ...
+                     k_sd(R2),A2epsilon0,A2p_ones, ...
+                     difference,wa,Asqd,Wa);
+      [k_max,k_max_n]=max(abs(gradEsq(k_active)));
     endif
-    printf("k_depth=%d\n",k_depth);
-    printf("k_active=[ ");printf("%d ",k_active);printf("];\n");
-    printf("k_b=[ ");printf("%g ",nscale*k_b');printf("]'/%d;\n",nscale);
+    coef_n=k_active(k_max_n);
+    k_active(k_max_n)=[];  
+    k_b(coef_n)=k_sdl(coef_n); 
+    % Push a problem onto the stack
+    k_depth=k_depth+1;
+    if k_depth>n_active
+      error("k_depth(%d)>n_active(%d)",k_depth,n_active);
+    endif
+    printf("\nBranch %d:coef_n=%d,",n_branch,coef_n);
+    k_problem.k_b=k_b;
+    k_problem.k_active=k_active;
+    k_stack{k_depth}=k_problem;
+    % Set up current problem
+    k_b(coef_n)=k_sdu(coef_n);
+  else
+    % Pop a problem off the stack 
+    if k_depth<=0
+      error("k_depth(%d)<=0",k_depth);
+    endif
+    k_problem=k_stack{k_depth};
+    k_depth=k_depth-1;
+    k_b=k_problem.k_b;
+    k_active=k_problem.k_active;
+    printf("\nBacktrack:");
+  endif
+  printf("k_depth=%d\n",k_depth);
+  printf("k_active=[ ");printf("%d ",k_active);printf("];\n");
+  printf("k_b=[ ");printf("%g ",nscale*k_b');printf("]'/%d;\n",nscale);
 
-    % Try to solve the current sub-problem
-    try  
-      % Find the SOCP PCLS solution for the remaining active coefficients
-      [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
-        schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
-                               k_b(R1),A1epsilon0,A1p_ones, ...
-                               k_b(R2),A2epsilon0,A2p_ones, ...
-                               difference,k0_u,k0_l,k_active,dmax, ...
-                               wa,Asqd,Asqdu,Asqdl,Wa+Wae, ...
-                               [],[],[],[],[],[],[],[],[],[],[],[],[],[],[], ...
-                               maxiter,del,ctol,verbose);
-      printf("nextA1k=[ ");printf("%g ",nextA1k');printf("]';\n");
-      printf("nextA2k=[ ");printf("%g ",nextA2k');printf("]';\n");
-    catch
-      feasible=false;
-      warning("Branch and bound SOCP failed!\n");
-      err=lasterror();
-      fprintf(stderr,"%s\n", err.message);
-      for e=1:length(err.stack)
-        fprintf(stderr,"Called %s at line %d\n", ...
-                err.stack(e).name,err.stack(e).line);
-      endfor
-    end_try_catch
+  % Try to solve the current sub-problem
+  try  
+    % Find the SOCP PCLS solution for the remaining active coefficients
+    [nextA1k,nextA2k,slb_iter,opt_iter,func_iter,feasible] = ...
+         schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
+                                k_b(R1),A1epsilon0,A1p_ones, ...
+                                k_b(R2),A2epsilon0,A2p_ones, ...
+                                difference,k0_u,k0_l,k_active,dmax, ...
+                                wa,Asqd,Asqdu,Asqdl,Wa+Wae, ...
+                                [],[],[],[],[],[],[],[],[],[],[],[],[],[],[], ...
+                                maxiter,del,ctol,verbose);
+    printf("nextA1k=[ ");printf("%g ",nextA1k');printf("]';\n");
+    printf("nextA2k=[ ");printf("%g ",nextA2k');printf("]';\n");
+  catch
+    feasible=false;
+    warning("Branch and bound SOCP failed!\n");
+    err=lasterror();
+    fprintf(stderr,"%s\n", err.message);
+    for e=1:length(err.stack)
+      fprintf(stderr,"Called %s at line %d\n", ...
+              err.stack(e).name,err.stack(e).line);
+    endfor
+  end_try_catch
 
-    % If this problem was not solved then pop a new sub-problem off the stack 
-    if feasible==false
-      printf("Filter not feasible!\n"); 
+  % If this problem was not solved then pop a new sub-problem off the stack 
+  if feasible==false
+    printf("Filter not feasible!\n"); 
+    branch_tree=false;
+  endif
+  
+  % Update the active coefficients
+  if feasible && ~isempty(k_active)
+  % Update k_b
+    nextk=[nextA1k(:);nextA2k(:)];
+    k_b(k_active)=nextk(k_active);
+    % Check bound on Esq 
+    Esq=schurOneMPAlatticeEsq ...
+          (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
+           difference,wa,Asqd,Wa);
+    printf("Found Esq=%g\n",Esq); 
+    if Esq<Esq_min
+      branch_tree=true;
+    else
       branch_tree=false;
     endif
-      
-    % Update the active coefficients
-    if feasible && ~isempty(k_active)
-      % Update k_b
-      nextk=[nextA1k(:);nextA2k(:)];
-      k_b(k_active)=nextk(k_active);
-      % Check bound on Esq 
-      Esq=schurOneMPAlatticeEsq ...
-            (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
-             difference,wa,Asqd,Wa);
-      printf("Found Esq=%g\n",Esq); 
-      if Esq<Esq_min
-        branch_tree=true;
-      else
-        branch_tree=false;
+  endif
+  
+  % At maximum depth there are no active coefficients
+  if feasible && isempty(k_active)
+    % Update Esq_min
+    branch_tree=false;
+    Esq=schurOneMPAlatticeEsq ...
+          (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
+           difference,wa,Asqd,Wa);
+    printf("At maximum depth Esq=%g\n",Esq);  
+    % Check constraints
+    if enforce_pcls_constraints_on_final_filter
+      Asq=schurOneMPAlatticeAsq(wa,k_b(R1),A1epsilon0,A1p_ones, ...
+                                k_b(R2),A2epsilon0,A2p_ones,difference);
+      vS=schurOneMPAlattice_slb_update_constraints ...
+           (Asq,Asqdu,Asqdl,Wa,[],[],[],[],[],[],[],[],[],[],[],[],ctol);
+      if ~schurOneMPAlattice_slb_constraints_are_empty(vS)
+        printf("At maximum depth constraints are not empty!\n");
+        schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,[],[],[],[],[],[]);
       endif
+    else
+      vS=schurOneMPAlattice_slb_set_empty_constraints();
     endif
-    
-    % At maximum depth there are no active coefficients
-    if feasible && isempty(k_active)
-      % Update Esq_min
-      branch_tree=false;
-      Esq=schurOneMPAlatticeEsq ...
-            (k_b(R1),A1epsilon0,A1p_ones,k_b(R2),A2epsilon0,A2p_ones, ...
-             difference,wa,Asqd,Wa);
-      printf("At maximum depth Esq=%g\n",Esq);  
-      % Check constraints
-      if enforce_pcls_constraints_on_final_filter
-        Asq=schurOneMPAlatticeAsq(wa,k_b(R1),A1epsilon0,A1p_ones, ...
-                                  k_b(R2),A2epsilon0,A2p_ones,difference);
-        vS=schurOneMPAlattice_slb_update_constraints ...
-             (Asq,Asqdu,Asqdl,Wa,[],[],[],[],[],[],[],[],[],[],[],[],ctol);
-        if ~schurOneMPAlattice_slb_constraints_are_empty(vS)
-          printf("At maximum depth constraints are not empty!\n");
-          schurOneMPAlattice_slb_show_constraints(vS,wa,Asq,[],[],[],[],[],[]);
-        endif
-      else
-        vS=schurOneMPAlattice_slb_set_empty_constraints();
-      endif
-      % Update the best solution
-      if Esq<Esq_min && schurOneMPAlattice_slb_constraints_are_empty(vS)
-        improved_solution_found=true;
-        Esq_min=Esq;
-        k_min=k_b;
-        branches_min=n_branch;
-        printf("Improved solution: k_depth=%d, Esq_min=%g\n",k_depth,Esq_min);
-        print_polynomial(k_min,"k_min",nscale);
-      endif
+    % Update the best solution
+    if Esq<Esq_min && schurOneMPAlattice_slb_constraints_are_empty(vS)
+      improved_solution_found=true;
+      Esq_min=Esq;
+      k_min=k_b;
+      branches_min=n_branch;
+      printf("Improved solution: k_depth=%d, Esq_min=%g\n",k_depth,Esq_min);
+      print_polynomial(k_min,"k_min",nscale);
     endif
+  endif
 
   % Exit the loop when there are no sub-problems left
-  until (isempty(k_active)||(branch_tree==false)) && (k_depth==0)
-  printf("Branch-and-bound search completed with %d branches\n",n_branch);
-endif
+until (isempty(k_active)||(branch_tree==false)) && (k_depth==0)
+printf("Branch-and-bound search completed with %d branches\n",n_branch);
   
-  % Show results
+% Show results
 if ~improved_solution_found
   error("Did not find an improved solution!\n");
 endif
@@ -512,7 +494,7 @@ fprintf(fid,"Wase=%d %% Extra amplitude stop band weight\n",Wase);
 fclose(fid);
 
 % Save results
-eval(sprintf(["save %s.mat use_best_branch_and_bound_found ", ...
+eval(sprintf(["save %s.mat ", ...
  "n fape fap dBap Wap Wape Wat fas fase dBas Was Wase rho tol ctol ", ...
  "improved_solution_found A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 ", ...
  "difference nbits ndigits ndigits_alloc A1k_min A2k_min"],strf));

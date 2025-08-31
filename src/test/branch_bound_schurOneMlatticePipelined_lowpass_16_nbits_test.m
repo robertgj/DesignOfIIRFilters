@@ -14,6 +14,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
+
 % Low-pass filter specification
 N=9;dBap=0.02;dBas=84;fap=0.15;Wap=1;Wat=0.01;fas=0.2;Was=1e8;
 ndigits=4;nbits=16;nscale=2^(nbits-1);
@@ -240,9 +241,11 @@ printf("k,c_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.8f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit&%10.8f & %d & %d \\\\\n", ...
+fprintf(fid, ...
+        "%d-bit %d-signed-digit&%10.8f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,kc0_digits,kc0_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.8f & %d & %d \\\\\n", ...
+fprintf(fid, ...
+        "%d-bit %d-signed-digit(branch-and-bound)&%10.8f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kc_digits,kc_adders);
 fclose(fid);
 
@@ -257,16 +260,15 @@ Asq_kc_min=schurOneMlatticePipelinedAsq ...
              (wplot,k_min,epsilon0,c_min,kk_min,ck_min);
 
 % Plot amplitude stop-band response
-strt=sprintf(["Schur one-multiplier pipelined lattice bandpass filter %%s ", ...
- " : nbits=%d,fap=%g,fas=%g"], nbits,fap,fas);
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc0_sd)),"linestyle","--", ...
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -100 -20]);
-strt=sprintf(strt,"stop-band");
-title(strt);
+strT=sprintf(["Schur one-multiplier pipelined lattice bandpass filter ", ...
+              "stop-band : nbits=%d,fap=%g,fas=%g"], nbits,fap,fas);
+title(strT);
 legend("exact","s-d","s-d(BandB)");
 legend("location","northeast");
 legend("boxoff");
@@ -282,8 +284,9 @@ plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ...
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.4 0.2]);
-strt=sprintf(strt,"pass-band");
-title(strt);
+strT=sprintf(["Schur one-multiplier pipelined lattice bandpass filter ", ...
+              "pass-band : nbits=%d,fap=%g,fas=%g"], nbits,fap,fas);
+title(strT);
 legend("exact","s-d","s-d(BandB)");
 legend("location","northeast");
 legend("boxoff");

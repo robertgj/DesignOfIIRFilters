@@ -252,7 +252,7 @@ v_allocsd_digits=int16(ndigits_alloc(Rv));
 printf("v_allocsd_digits=[ ");printf("%2d ",v_allocsd_digits);printf("]';\n");
 
 if use_best_branch_and_bound_found
-  branches_min=1683;
+  branches_min=1737;
   k_min = [      -34,     1200,       32,     -291, ... 
                  -16,      121,       14,      -52, ... 
                  -13,       22 ]'/2048;
