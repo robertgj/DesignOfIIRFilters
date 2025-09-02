@@ -1,0 +1,196 @@
+% schur_OneMultiplier_2nd_Order.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{dsp,chains}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+	\matrix (m1) [row sep=5mm, column sep=5mm]
+	{
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m000) {};          &
+		\node[dspnodeopen, dsp/label=left]  (m001) {$y$};       &
+		\node[dspadder]                     (m002) {};          &
+		\node[coordinate]                   (m003) {};          &
+		\node[coordinate]                   (m004) {};          &
+		\node[coordinate]                   (m005) {};          &
+		\node[coordinate]                   (m006) {};          &
+		\node[coordinate]                   (m007) {};          &
+		\node[coordinate]                   (m008) {};          &
+		\node[coordinate]                   (m009) {};          &
+		\node[dspadder]                     (m010) {};          &
+		\node[coordinate]                   (m011) {};          &
+		\node[coordinate]                   (m012) {};          &
+		\node[coordinate]                   (m013) {};          &
+		\node[coordinate]                   (m014) {};          &
+		\node[coordinate]                   (m015) {};          &
+		\node[coordinate]                   (m016) {};          &
+		\node[coordinate]                   (m017) {};          &
+		\node[coordinate]                   (m018) {};          &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m100) {};           &
+		\node[coordinate]                   (m101) {};           &
+		\node[coordinate]                   (m102) {};           &
+		\node[coordinate]                   (m103) {};           &
+		\node[coordinate]                   (m104) {};           &
+		\node[coordinate]                   (m105) {};           &
+		\node[coordinate]                   (m106) {};           &
+		\node[coordinate]                   (m107) {};           &
+		\node[coordinate]                   (m108) {};           &
+		\node[coordinate]                   (m109) {};           &
+		\node[coordinate]                   (m110) {};           &	
+		\node[coordinate]                   (m111) {};           &
+		\node[coordinate]                   (m112) {};           &
+		\node[coordinate]                   (m113) {};           &
+		\node[coordinate]                   (m114) {};           &
+		\node[coordinate]                   (m115) {};           &
+		\node[coordinate]                   (m116) {};           &
+		\node[coordinate]                   (m117) {};           &
+		\node[coordinate]                   (m118) {};           &
+	%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m200) {};          &
+		\node[coordinate]                   (m201) {};          &
+		\node[dspnodefull]                  (m202) {};          &
+		\node[coordinate]                   (m203) {};          &
+		\node[coordinate]                   (m204) {};          &
+		\node[coordinate]                   (m205) {};          &
+		\node[coordinate]                   (m206) {};          &
+		\node[coordinate]                   (m207) {};          &
+		\node[coordinate]                   (m208) {};          &
+		\node[coordinate]                   (m209) {};          &
+		\node[dspnodefull]                  (m210) {};          &
+		\node[coordinate]                   (m211) {};          &
+		\node[coordinate]                   (m212) {};          &
+		\node[coordinate]                   (m213) {};          &
+		\node[coordinate]                   (m214) {};          &
+		\node[coordinate]                   (m215) {};          &
+		\node[coordinate]                   (m216) {};          &
+		\node[coordinate]                   (m217) {};          &
+		\node[coordinate]                   (m218) {};          &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m300) {};          &
+		\node[dspnodeopen, dsp/label=left]  (m301) {$u$};       &
+		\node[dspnodefull]                  (m302) {};          &
+		\node[dspadder]                     (m303) {};          &
+		\node[coordinate]                   (m304) {};          &
+		\node[dspnodefull]                  (m305) {};          &
+		\node[coordinate]                   (m306) {};          &
+		\node[dspadder]                     (m307) {};          &
+		\node[dspsquare]                    (m308) {$z^{-1}$};   &
+		\node[dspnodefull, dsp/label=above] (m309) {$x_{1}$};    &
+		\node[dspnodefull]                  (m310) {};          &
+		\node[dspadder]                     (m311) {};          &
+		\node[coordinate]                   (m312) {};          &
+		\node[dspnodefull]                  (m313) {};          &
+		\node[coordinate]                   (m314) {};          &
+		\node[dspadder]                     (m315) {};          &
+		\node[dspsquare]                    (m316) {$z^{-1}$};   &
+		\node[dspnodefull, dsp/label=above] (m317) {$x_{0}$};    &
+		\node[dspnodefull]                  (m318) {};          &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m400) {};           &
+		\node[dspnodeopen, dsp/label=left]  (m401) {$\hat{y}$};  &
+		\node[coordinate]                   (m402) {};           &
+		\node[dspadder]                     (m403) {};           &
+		\node[coordinate]                   (m404) {};           &
+		\node[dspnodefull]                  (m405) {};           &
+		\node[coordinate]                   (m406) {};           &
+		\node[coordinate]                   (m407) {};           &
+		\node[coordinate]                   (m408) {};           &
+		\node[coordinate]                   (m409) {};           &
+		\node[coordinate]                   (m410) {};           &
+		\node[dspadder]                     (m411) {};           &
+		\node[coordinate]                   (m412) {};           &
+		\node[dspnodefull]                  (m413) {};           &
+		\node[coordinate]                   (m414) {};           &
+		\node[coordinate]                   (m415) {};           &
+		\node[coordinate]                   (m416) {};           &
+		\node[coordinate]                   (m417) {};           &
+		\node[coordinate]                   (m418) {};           &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+	};
+
+	% Draw connections
+
+	\begin{scope}[start chain]
+		\chainin (m010);
+		\chainin (m002) [join=by dspconn];
+		\chainin (m001) [join=by dspconn];
+	\end{scope}
+
+    \draw[dspline] (m302) -- (m202);
+    \draw[dspconn] (m202) -- node[midway,right] {$c_{2}$} (m002);
+    \draw[dspconn] (m202) -| (m307);
+
+	\begin{scope}[start chain]
+		\chainin (m301);
+		\chainin (m302) [join=by dspconn];
+		\chainin (m303) [join=by dspconn];
+    \end{scope}
+
+    \draw[dspconn] (m303) -- node[above] {$k_{2}$} (m305);
+    \draw[dspconn] (m305) -- node[above] {$\epsilon_{2}$} (m307);
+      
+	\begin{scope}[start chain]
+		\chainin (m307);
+		\chainin (m308) [join=by dspconn];
+		\chainin (m309) [join=by dspconn];
+		\chainin (m310) [join=by dspconn];
+    \end{scope}
+      
+    \draw[dspline] (m310) -- (m210);
+    \draw[dspconn] (m210) -- node[midway,right] {$c_{1}$} (m010);
+
+	\begin{scope}[start chain]
+		\chainin (m410);
+		\chainin (m405) [join=by dspconn];
+		\chainin (m403) [join=by dspconn];
+		\chainin (m401) [join=by dspconn];
+	\end{scope}
+    
+    \draw[dspconn] (m405) -- node[right,pos=0.4] {$-\epsilon_{2}$} (m303);
+    \draw[dspconn] (m305) -- (m403);
+    
+    \draw[dspline] (m318) -- (m218);
+    \draw[dspline] (m218) -- node[midway,right] {$c_{0}$} (m018);
+    \draw[dspconn] (m018) -- (m010);
+    \draw[dspconn] (m210) -| (m315);
+
+    \draw[dspconn] (m310) -- (m311);
+    \draw[dspconn] (m311) -- node[above] {$k_{1}$} (m313);
+    \draw[dspconn] (m313) -- node[above] {$\epsilon_{1}$} (m315);
+    
+	\begin{scope}[start chain]
+		\chainin (m315);
+		\chainin (m316) [join=by dspconn];
+		\chainin (m317) [join=by dspconn];
+		\chainin (m318) [join=by dspconn];
+    \end{scope}
+
+	\begin{scope}[start chain]
+		\chainin (m318);
+		\chainin (m418) [join=by dspline];
+		\chainin (m413) [join=by dspconn];
+		\chainin (m411) [join=by dspconn];
+		\chainin (m410) [join=by dspline];
+    \end{scope}
+
+    \draw[dspconn] (m413) -- node[right,pos=0.4] {$-\epsilon_{1}$}(m311);
+    \draw[dspconn] (m313) -- (m411);
+
+\end{tikzpicture}
+
+\end{document}

@@ -40,8 +40,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_N_4.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_N_4.latex.ok.lz
+cat > test_N_4.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_N_4.tex.ok.lz
 TFpJUAEMACCQhHa6APVkpNhAdmReM+f5D6k8L5/nQ+9ofZjpJCjfTwoZWT6P
 2sFz7ecL53AQQ9Mh/MuBlhMcVVke7LMu9sfn+a4eP7vFu2pd8xiyLPwBylVL
 3BnhPWVhqC+Au9P/c6jC6gn+SZ9pT3wtlhvqu7vwrAG6R81y9FOof//toq5g
@@ -49,11 +49,11 @@ uNxHaTABAAAAAAAAmwAAAAAAAAA=
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_N_4.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_N_4.tex.ok.lz.uue"; fail;
 fi
 
-cat > test_KYP_apG_N_4.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_KYP_apG_N_4.latex.ok.lz
+cat > test_KYP_apG_N_4.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_KYP_apG_N_4.tex.ok.lz
 TFpJUAEMADCcBOi0m+Pjl2PFMDZmpeVYC5j6CFJ74yn0ek+qTsGmR+MlqvLn
 AdUGZwKiQrGWtjPBYsEMMq1l5ufJLofMkqEtrDvoKm98CiiMK8BCG7Wvu/GR
 ecyeztB3lYLkayzyvu/dPC+PAiIwjQ0FN6jaDscTt8Cz8ygy8tAmulW9MsVq
@@ -68,11 +68,11 @@ ygEAAAAAAAA=
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_KYP_apG_N_4.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_KYP_apG_N_4.tex.ok.lz.uue"; fail;
 fi
 
-cat > test_N_6.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_N_6.latex.ok.lz
+cat > test_N_6.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_N_6.tex.ok.lz
 TFpJUAEMACCQhHa6APVkpNhAdmReM+f5D6k8L5/nQ+9ofZjpJCjfTwoZzfqU
 mDaeCQOHerclOGEjK0DUPUMZ5/vHIrtbpWJ/N0KtTHGzTS+KZ39wiYFAmbzL
 9f+gIzvfw5UQRQpfX/xy5iCQnCpRILE2nhXxB+N38SFZLRAn/yOXiDRK/eFn
@@ -81,11 +81,11 @@ AAA=
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_N_6.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_N_6.tex.ok.lz.uue"; fail;
 fi
 
-cat > test_KYP_apG_N_6.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_KYP_apG_N_6.latex.ok.lz
+cat > test_KYP_apG_N_6.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_KYP_apG_N_6.tex.ok.lz
 TFpJUAHuADCcBOi0m+Pjl2PFMDZmpeVYC5j6CFJ74yn0ek+qTsGmR+MlqvLn
 AdUGZwKiQrGWtjPBYsEMMq1l5ufJLofMkqEtr3tGs3d2E+37lQHlj1rPLa1o
 Bvlbr75WtMZ4NntolsF6cOSF08EWIZWKcVlhCHnWUmBnGMip7ZE82iZrPU0E
@@ -108,11 +108,11 @@ AA==
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_KYP_apG_N_6.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_KYP_apG_N_6.tex.ok.lz.uue"; fail;
 fi
 
-cat > test_N_12.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_N_12.latex.ok.lz
+cat > test_N_12.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_N_12.tex.ok.lz
 TFpJUAEMACCQhHa6APVkpNhAdmReM+f5D6k7IW7DBxnCmh7wQ66nfVMl7RF6
 3f4OYrheBNeE7UxGtBxQmwLOIrQJkmNRyliVNKgP4z5OFMwWDGW6jhhLXVrR
 HPs0i63gxo/2cw8T0jgSrI8Pcqv10zXsq8T7V8zxEfQPY/nOjhaGeqY3IXRp
@@ -122,11 +122,11 @@ RuJAunNgsHOQKkM1HENG4bLZSzxjcOmniRTYgCILr11IEZlg3yCH6OviChTc
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_N_12.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_N_12.tex.ok.lz.uue"; fail;
 fi
 
-cat > test_N_20.latex.ok.lz.uue << 'EOF'
-begin-base64 644 test_N_20.latex.ok.lz
+cat > test_N_20.tex.ok.lz.uue << 'EOF'
+begin-base64 644 test_N_20.tex.ok.lz
 TFpJUAHtACCQhHa6APVkpNhAdmReM+f5D6k7IW7DBxnCmh9cMZ8/DzYzqA0A
 1GqYZmTNxppwciTO6r/lEjtKmVwbNgc/UlMNueMLmtCKb89PvOqkaxlz0oTU
 7U+HurU0yAXnBpwNlVl+8SgWh8hQG7A/LzlAqse3fnJcwBWY1uTxuVTI/bi4
@@ -139,30 +139,30 @@ AHEBAAAAAAAA
 ====
 EOF
 if [ $? -ne 0 ]; then
-    echo "Failed output cat test_N_20.latex.ok.lz.uue"; fail;
+    echo "Failed output cat test_N_20.tex.ok.lz.uue"; fail;
 fi
 
 for n in 4 6 12 20;
 do 
-    uudecode test_N_$n".latex.ok.lz.uue"
+    uudecode test_N_$n".tex.ok.lz.uue"
     if [ $? -ne 0 ]; then
-        echo "Failed uudecode test_N_"$n".latex.ok.lz.uue"; fail;
+        echo "Failed uudecode test_N_"$n".tex.ok.lz.uue"; fail;
     fi
-    lzip -d test_N_$n".latex.ok.lz"
+    lzip -d test_N_$n".tex.ok.lz"
     if [ $? -ne 0 ]; then
-        echo "Failed lzip -d test_N_"$n".latex.ok.lz"; fail;
+        echo "Failed lzip -d test_N_"$n".tex.ok.lz"; fail;
     fi
 done
 
 for n in 4 6;
 do 
-    uudecode test_KYP_apG_N_$n".latex.ok.lz.uue"
+    uudecode test_KYP_apG_N_$n".tex.ok.lz.uue"
     if [ $? -ne 0 ]; then
-        echo "Failed uudecode test_KYP_apG_"$n".latex.ok.lz.uue"; fail;
+        echo "Failed uudecode test_KYP_apG_"$n".tex.ok.lz.uue"; fail;
     fi
-    lzip -d test_KYP_apG_N_$n".latex.ok.lz"
+    lzip -d test_KYP_apG_N_$n".tex.ok.lz"
     if [ $? -ne 0 ]; then
-        echo "Failed lzip -d test_KYP_apG_N_"$n".latex.ok.lz"; fail;
+        echo "Failed lzip -d test_KYP_apG_N_"$n".tex.ok.lz"; fail;
     fi
 done
 
@@ -177,23 +177,23 @@ nstr="schurOneMR2lattice2Abcd_symbolic_test"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_N_4.latex.ok $nstr"_N_4.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_4.latex.ok"; fail; fi
+diff -Bb test_N_4.tex.ok $nstr"_N_4.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_4.tex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_4.latex.ok $nstr"_KYP_apG_N_4.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_4.latex.ok"; fail; fi
+diff -Bb test_KYP_apG_N_4.tex.ok $nstr"_KYP_apG_N_4.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_4.tex.ok"; fail; fi
 
-diff -Bb test_N_6.latex.ok $nstr"_N_6.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_6.latex.ok"; fail; fi
+diff -Bb test_N_6.tex.ok $nstr"_N_6.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_6.tex.ok"; fail; fi
 
-diff -Bb test_KYP_apG_N_6.latex.ok $nstr"_KYP_apG_N_6.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_6.latex.ok"; fail; fi
+diff -Bb test_KYP_apG_N_6.tex.ok $nstr"_KYP_apG_N_6.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_KYP_apG_N_6.tex.ok"; fail; fi
 
-diff -Bb test_N_12.latex.ok $nstr"_N_12.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_12.latex.ok"; fail; fi
+diff -Bb test_N_12.tex.ok $nstr"_N_12.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_12.tex.ok"; fail; fi
 
-diff -Bb test_N_20.latex.ok $nstr"_N_20.latex"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_20.latex.ok"; fail; fi
+diff -Bb test_N_20.tex.ok $nstr"_N_20.tex"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_N_20.tex.ok"; fail; fi
 
 #
 # this much worked

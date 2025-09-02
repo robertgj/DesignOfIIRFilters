@@ -1,0 +1,1621 @@
+\pdfminorversion=7 % Suppress warning messages
+\documentclass[a4paper,twoside,10pt,english]{article}
+%\usepackage{showframe} % Helps debug vbox and hbox warnings
+\usepackage{geometry}
+\geometry{verbose,nomarginpar,tmargin=1.5cm,bmargin=1.5cm,lmargin=1.5cm,
+rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
+
+\usepackage[section]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{appendix}
+\usepackage{array}
+\usepackage{babel}
+\usepackage{booktabs}
+\usepackage{color} % For monochrome printing
+\usepackage{enumitem}
+\usepackage{esint}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{framed}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{mathtools}
+\usepackage{mflogo}
+\usepackage{multirow}
+\usepackage{nag}
+\usepackage{needspace}
+\usepackage{subcaption}
+\usepackage{threeparttable}
+\usepackage{times}
+\usepackage[nottoc,notbib]{tocbibind}
+\usepackage{upquote}
+\usepackage{verbatim}
+
+\ifdefined\DesignOfSchurLatticeFiltersMono{}
+  \begin{comment}
+  To build a monochrome version:
+  1. Set 'export OCTAVE_ENABLE_MONOCHROME=1' in the shell to enable the
+     following line in src/test_common.m:
+   if getenv("OCTAVE_ENABLE_MONOCHROME")
+     set(0,"defaultaxescolororder",zeros(size(get(0,"defaultaxescolororder"))));
+   endif
+  2. Use the command 'make DesignOfSchurLatticeFilters_monochrome' to call:
+   pdflatex '\newcommand\DesignOfSchurLatticeFiltersMono{} \
+             \input{DesignOfSchurLatticeFilters}'
+  \end{comment}
+  \usepackage[hidelinks,colorlinks=false]{hyperref}
+\else
+  \usepackage[unicode=true,pdfusetitle,bookmarks=true,backref=page,
+              bookmarksnumbered=false,bookmarksopen=false,breaklinks=false,
+              pdfborder={1 0 0},colorlinks=true]{hyperref}
+  \usepackage[all]{hypcap} % Needed to help hyperlinks direct correctly
+\fi
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{\bigskipamount}
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\floatname{algorithm}{Algorithm}
+
+\newcommand{\DesignOfSchurLatticeFiltersPdfScale}{1}
+\newcommand{\DesignOfSchurLatticeFiltersIncludeScale}{0.85}
+
+\newcommand{\coloneq}{\mathrel{\resizebox{\widthof{$\mathord{=}$}}
+    {\height}{ $\!\!\resizebox{1.2\width}{0.8\height}
+      {\raisebox{0.23ex}{$\mathop{:}$}}\!\!=\!\!$ }}}
+
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\jsn}{sn}
+\DeclareMathOperator{\jns}{ns}
+\DeclareMathOperator{\jcn}{cn}
+\DeclareMathOperator{\jnc}{nc}
+\DeclareMathOperator{\jdn}{dn}
+\DeclareMathOperator{\jnd}{nd}
+\DeclareMathOperator{\jsd}{sd}
+\DeclareMathOperator{\jds}{ds}
+\DeclareMathOperator{\jcd}{cd}
+\DeclareMathOperator{\jdc}{dc}
+\DeclareMathOperator{\jsc}{sc}
+\DeclareMathOperator{\jcs}{cs}
+\DeclareMathOperator{\jam}{am}
+\DeclareMathOperator{\jarcsn}{arcsn}
+\DeclareMathOperator{\jarcsc}{arcsc}
+\DeclareMathOperator{\jarccn}{arccn}
+\DeclareMathOperator{\jarcdn}{arcdn}
+\DeclareMathOperator{\jarccd}{arccd}
+\DeclareMathOperator{\jarccs}{arccs}
+\DeclareMathOperator{\cosec}{cosec}
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\sign}{sign}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\nint}{\lfloor}{\rceil}
+\DeclarePairedDelimiter{\mathabs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\mathnorm}{\lVert}{\rVert}
+\DeclareMathOperator{\mathnull}{null}
+\DeclareMathOperator{\mathspan}{span}
+\DeclareMathOperator{\mathrank}{rank}
+\DeclareMathOperator{\mathrange}{range}
+\DeclareMathOperator{\mathtrace}{trace}
+\DeclareMathOperator{\mathadj}{adj}
+\DeclareMathOperator{\mathdiag}{diag}
+\DeclareMathOperator{\mathtpltz}{Toeplitz}
+\DeclareMathOperator{\mathcohull}{cohull}
+\DeclareMathOperator{\mathcone}{cone}
+\DeclareMathOperator{\mathri}{ri}
+\DeclareMathOperator{\mathaff}{aff}
+\DeclareMathOperator{\mathconv}{conv}
+\DeclareMathOperator{\mathhe}{He}
+\DeclareMathOperator{\mathsq}{Sq}
+\DeclareMathOperator{\mathvec}{vec}
+\DeclareMathOperator{\mathconj}{\ast} % {\textsf{\tiny{H}}}
+\DeclareMathOperator{\mathreverse}{\textsf{\tiny{F}}}
+
+\title{On the design of Schur lattice digital filters}
+\author{Robert G. Jenssen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This article describes a computer-aided procedure for approximating an
+  arbitrary transfer function by a tapped one-multiplier all pass lattice
+  filter with integer coefficients. The all pass lattice has a simple
+  stability criterion, that the lattice coefficients have magnitude less
+  than unity, and, in addition, has good coefficient sensitivity and round-off
+  noise properties. The procedure consists of finding an initial filter
+  transfer function, performing constrained minimum-mean-squared-error
+  optimisation of the filter response and searching for the fixed point
+  filter coefficients.
+\end{abstract}
+
+\section{Introduction}
+
+The Infinite Impulse Response (IIR) digital filter transfer function is
+a rational polynomial:
+\begin{align}
+  F\left(z\right) = \frac{B_{N}\left(z\right)}{A_{N}\left(z\right)}
+  &= \frac{b_{0}+b_{1}z^{-1}+\cdots + b_{N}z^{-N}}
+    {1+a_{1}z^{-1} + \cdots + a_{N}z^{-N}}
+\label{eqn:Transfer-function-F}
+\end{align}
+Here $z$ is a complex number and the response of the filter with respect to
+angular frequency, $\omega$, is $F\left(e^{\imath\omega}\right)$, where
+$\omega=2\pi$ corresponds to the digital sampling frequency. 
+This article describes a method for computer-aided design of the frequency
+response of $F\left(e^{\imath\omega}\right)$. If the filter has
+$A_{N}\left(z\right)=1$ then it is a Finite Impulse Response (FIR) filter and
+the optimisation problem is convex, has no constraints on the coefficients and
+is solved by well-known algorithms that minimise the peak error or the
+least-squared-error~\cite{Medlin_LagrangeMultiplierFIRMultirate,SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters,SelesnickLangBurrus_ConstrainedLeastSquareFIRFilters,SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters,McClellanParks_ComputerProgramFIRLinearPhaseFilters,Iwasaki_GeneralizedKYPFrequencyDomainInequalities,Davidson_LMISpectralConstraints,ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters}.
+Otherwise, the filter is an Infinite Impulse (IIR) filter. An IIR filter is
+stable if the roots, $P_{k}$, of the denominator polynomial,
+$A_{N}\left(z\right)$, lie within the unit circle, $\left|P_{k}\right|<1$.
+\emph{Lang}~\cite{Lang_LSDesignIIRDigitalFiltersPoleRadiusConstraint} applies
+Rouch\'{e}'s theorem to constrain the zeros of $A_{N}\left(z\right)$ during
+optimisation. \emph{Lu} and
+\emph{Hinamoto}~\cite{LuHinamoto_IIRRobustStabilityQuadraticProgramming}
+decompose $F\left(z\right)$ into a series connection of second-order sections
+and apply the ``stabiliy triangle'' to each section to ensure filter stability
+after optimisation. If the transfer function is represented in gain-pole-zero
+form:
+\begin{align*}
+  F\left(z\right)&= G\frac{\prod_{k=1}^{N}\left(z-Z_{k}\right)}
+                   {\prod_{k=1}^{N}\left(z-P_{k}\right)}
+\end{align*}
+where $G$ is the gain factor, the $Z_{k}$ are the roots of $B_{N}\left(z\right)$
+and the $P_{k}$ are the roots of $A_{N}\left(z\right)$, then the constraints on
+the pole locations of $F\left(z\right)$ are $\left|P_{k}\right|<1$. 
+\emph{Deczky}~\cite{Deczky_MinPSynthesisIIRDigitalFilters} and
+\emph{Richards}~\cite{Richards_DeczkyRecursiveDecimator} demonstrate the
+optimisation of stable IIR filter transfer functions expressed in gain-pole-zero
+form.
+Lattice filters are an alternative implementation of the IIR filter
+transfer function~\cite{VaidyanathanMitra_RobustFilterStructures}.
+\emph{Vaidyanathan et
+  al.}~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters,
+  RegaliaMitraVaidyanathan_DigitalAllPassFilterVersatileSignalProcessing} show
+that a subset of the $F\left(z\right)$ transfer functions can be factored into
+the parallel sum of two all pass filters and that the resulting implementation
+has good coefficient sensitivity properties. They show lattice filter
+implementations of these all pass sections that are ``structurally bounded''
+meaning that the section is all pass regardless of the values of the
+coefficients. \emph{Gray} and
+\emph{Markel}~\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis,
+  MarkelGray_AutocorrelationSpeechAnalysis} describe the implementation of
+$F\left(z\right)$ as a tapped all pass lattice filter based on the Schur
+polynomial decomposition algorithm~\cite{SchurMethodsInOperatorTheory_Kailath,
+  SchurMethodsInOperatorTheory_Schur_I}.
+The Schur algorithm enables the decomposition of the denominator polynomial of
+the transfer function, $F\left(z\right)$, into a set of orthogonal
+polynomials. A result of this decompostion is a set of coefficients, often
+called ``reflection coefficients'', that have magnitude less than unity
+if-and-only-if the poles of the transfer function lie within the unit circle in
+the complex plane. Further, the numerator polynomial of $F\left(z\right)$ can be
+expressed as a weighted sum of the orthogonal polynomials. These coefficients and
+orthogonal polynomials correspond to a tapped all pass lattice filter
+implementation of the transfer function that has good round-off noise and
+coefficient sensitivity when the coefficients are truncated to integer values.
+This article reviews computer-aided techniques for designing tapped Schur
+lattice filters with integer coefficients : finding an initial IIR filter
+transfer function, constrained minimum-mean-squared-error optimisation of the
+filter frequency response in terms of the lattice coefficients and searching for
+integer filter coefficients. As an example, I demonstrate the design of a tapped
+Schur lattice implementation of a low pass differentiator filter. The
+coefficients and frequency response plots for this example are created with
+Octave~\cite{Eaton_Octave,Octave_OptimPackage,Octave_SignalPackage}.
+The source code for this article is available at
+\url{https://github.com/robertgj/DesignOfIIRFilters}.
+
+\section{Schur lattice filters}
+\subsection{The Schur polynomial decomposition}
+In 1918 \emph{Issai Schur}~\cite{SchurMethodsInOperatorTheory_Schur_I}
+published a paper entitled ``\emph{On power series which are bounded in the
+  interior of the unit circle}''. From the abstract:
+\begin{quotation}
+  The continued fraction algorithm introduced here very easily supplies an
+  intrinsically important parametric representation for the coefficients of the
+  power series to be considered.
+\end{quotation}
+\emph{Kailath}~\cite{SchurMethodsInOperatorTheory_Kailath} reviews the impact of
+this algorithm on modern signal processing. \emph{Gray} and \emph{Markel}
+describe the application of a similar algorithm to the autocorrelation analysis
+of speech~\cite{MarkelGray_AutocorrelationSpeechAnalysis} and to the synthesis
+of lattice digital
+filters~\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}. 
+In the following I use the inner product method of \emph{Markel} and
+\emph{Gray}~\cite{MarkelGray_AutocorrelationSpeechAnalysis} and
+\emph{Parhi}~\cite[Chapter 12 and Appendix
+D]{Parhi_VLSIDigitalSignalProcessingSystems}.
+
+Initialise an $N$'th order polynomial as:
+\begin{align*}
+  \Phi_{N}\left(z\right) &= A_{N}\left(z\right) = \sum_{n=0}^{N}\phi_{n}z^{n}
+\end{align*}
+and define the reverse polynomial:
+\begin{align*}
+\hat{\Phi}_{N}\left(z\right)=z^{N}\Phi_{N}\left(z^{-1}\right)
+\end{align*}
+The transfer function $\hat{\Phi}_{N}\left(z\right)/\Phi_{N}\left(z\right)$ 
+represents an all pass filter.
+The Schur decomposition forms the polynomial $\Phi_{N-1}\left(z\right)$ as:
+\begin{align*}
+  \Phi_{N-1}\left(z\right) &= \frac{z^{-1}\left[\Phi_{N}\left(z\right)-
+                             k_{N}\hat{\Phi}_{N}\left(z\right)\right]}
+                             {s_{N}} \\
+\end{align*}
+where $s_{N}$ is a scaling constant and
+$k_{N}=\phi_{0}/\phi_{N}=\Phi_{N}\left(0\right)/\hat{\Phi}_{N}\left(0\right)$.
+The degree of $\Phi_{N-1}\left(z\right)$ is $1$ less than that of
+$\Phi_{N}\left(z\right)$ since, by a change of variables, the numerator is:
+\begin{align*}
+ z^{-1}\left\{ \phi_{N}\Phi_{N}\left(z\right)-\phi_{0}\hat{\Phi}_{N}\left(z\right)\right\}
+& = z^{-1}\sum^{N}_{n=0}\left\{\phi_{N}\phi_{n}z^{n}-\phi_{0}\phi_{N-i}z^{n}\right\}\\
+& = \sum^{N}_{n=1}\left\{\phi_{N}\phi_{n}-\phi_{0}\phi_{N-i}\right\}z^{n-1}\\
+\end{align*}
+This degree reduction procedure is continued, resulting in the set of
+polynomials $\left\{\Phi_{N}\left(z\right),\Phi_{N-1}\left(z\right),\ldots,
+ \Phi_{0}\left(z\right)\right\}$:
+\begin{align}
+  \Phi_{n-1}\left(z\right) &= \frac{z^{-1}\left\{\Phi_{n}\left(z\right)-
+                             k_{n}\hat{\Phi}_{n}\left(z\right)\right\}}
+                             {s_{n}}
+\label{eq:SchurDegreeReduction}
+\end{align}
+and
+\begin{align*}
+  \hat{\Phi}_{n-1}\left(z\right) &= \frac{\left\{\hat{\Phi}_{n}\left(z\right)-
+                                         k_{n}\Phi_{n}\left(z\right)\right\}}
+                                        {s_{n}}
+\end{align*}
+
+\emph{Markel} and \emph{Gray}~\cite[Equations 13a and 13b]
+{MarkelGray_AutocorrelationSpeechAnalysis} define an inner product of two
+polynomials, $P\left(z\right)$ and $Q\left(z\right)$:
+\begin{align*}
+  \langle P\left(z\right),Q\left(z\right)\rangle &= \frac{1}{2\pi \imath}
+    \ointctrclockwise_{C}\frac{P\left(z\right)Q\left(z^{-1}\right)}
+    {A_{N}\left(z\right)A_{N}\left(z^{-1}\right)}\frac{dz}{z}
+\end{align*}
+where all the zeros of $A_{N}\left(z\right)$ lie within the contour $C$.
+Two properties of $\Phi_{n}\left(z\right)$ under this inner product are:
+\begin{enumerate}
+\item The $\Phi_{n}\left(z\right)$ polynomials are
+  orthogonal~\cite[Appendix D]{Parhi_VLSIDigitalSignalProcessingSystems}:
+  \begin{align*}
+    \langle \Phi_{m}\left(z\right),\Phi_{n}\left(z\right)\rangle = 0
+    \;\text{if}\; m \ne n
+  \end{align*}
+\item For $1\le n \le N$, $\mathabs{k_{n}} < 1$ if-and-only-if the zeros of
+  $A_N\left(z\right)$ lie within the unit
+  circle~\cite[pages 72 and 74]{MarkelGray_AutocorrelationSpeechAnalysis}
+\end{enumerate}
+In addition, if $s_{n}=\sqrt{1-k_{n}^{2}}$\;, then the $\Phi_{n}$ polynomials are
+orthonormal~\cite[Appendix D]{Parhi_VLSIDigitalSignalProcessingSystems}:
+\begin{align*}
+  \langle \Phi_{n}\left(z\right),\Phi_{n}\left(z\right)\rangle = 1
+\end{align*}
+
+\subsection{The Schur one-multiplier lattice filter}
+
+In Equation~\ref{eq:SchurDegreeReduction}, choose $s_{n}=1-\epsilon_{n}k_{n}$,
+where $\epsilon_{n}=\pm 1$, and initialise $\Lambda_{N}\left(z\right)=A_{N}\left(z\right)$. Then:
+\begin{subequations}
+\begin{align}
+  \Lambda_{n-1}\left(z\right) &= \frac{z^{-1}\left\{\Lambda_{n}\left(z\right)-
+                             k_{n}\hat{\Lambda}_{n}\left(z\right)\right\}}
+                                {1-\epsilon_{n}k_{n}}
+  \label{eqn:SchurOneMLambda} \\
+  \hat{\Lambda}_{n-1}\left(z\right)
+                              &= \frac{\left\{\hat{\Lambda}_{n}\left(z\right)-
+                                       k_{n}\Lambda_{n}\left(z\right)\right\}}
+                                      {1-\epsilon_{n}k_{n}}
+  \label{eqn:SchurOneMLambdaHat}
+\end{align}
+\end{subequations}
+where:
+\begin{align*}
+  k_{n}=\frac{\Lambda_{n}\left(0\right)}{\hat{\Lambda}_{n}\left(0\right)}
+  =\frac{\Phi_{n}\left(0\right)}{\hat{\Phi}_{n}\left(0\right)}
+\end{align*}
+Rearranging Equation~\ref{eqn:SchurOneMLambdaHat} and substituting it into
+Equation~\ref{eqn:SchurOneMLambda} gives:
+\begin{align*}
+  z\Lambda_{n-1}\left(z\right)
+  &=\left(1+\epsilon_{n}k_{n}\right)\Lambda_{n}\left(z\right)-
+    k_{n}\hat{\Lambda}_{n-1}\left(z\right)\\
+  \hat{\Lambda}_{n}\left(z\right) & = k_{n}\Lambda_{n}\left(z\right)+
+              \left(1-\epsilon_{n}k_{n}\right)\hat{\Lambda}_{n-1}\left(z\right)
+\end{align*}
+Figure~\ref{fig:Schur-one-multiplier-lattice-section} shows the corresponding
+\emph{all pass Schur one multiplier lattice} filter section.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{schur_OneMultiplier_lattice_section}
+\caption{All pass Schur one multiplier lattice filter section}
+\label{fig:Schur-one-multiplier-lattice-section}
+\end{figure}
+
+The expansion of the numerator polynomial of the transfer function,
+$F\left(z\right)$, in the orthogonal basis, $\Lambda_{n}\left(z\right)$, is:
+\begin{align*}
+B_{N}\left(z\right) & = \sum_{n=0}^{N}c_{n}\Lambda_{n}\left(z\right)
+\end{align*}
+
+Algorithm~\ref{alg:Schur-Polynomial-Expansion} shows the expansion of an
+arbitrary polynomial in a set of Schur orthogonal basis polynomials.
+ 
+\begin{algorithm}[!ht]
+For any polynomial $N_{m}\left(z\right)$ of degree $m,\:(0<m\leq N)$:
+\begin{algorithmic}
+\State $Q\left(z\right)=N_{m}\left(z\right)$ 
+\State $c_{n}=0$, for $m<n\leq N$
+\For {$n=m,m-1,\hdots,0$}
+  \State $c_{n}=\frac{\hat{Q}(0)}{\hat{\Lambda}_{n}(0)}$
+  \State $Q\left(z\right)=Q\left(z\right)-c_{n}\Lambda_{n}\left(z\right)$
+\EndFor
+\end{algorithmic}
+$\hat{Q}\left(z\right)$ and $\hat{\Lambda}_{n}\left(z\right)$ are
+the reverse polynomials of $Q\left(z\right)$ and $\Lambda_{n}\left(z\right)$.
+\caption{Schur polynomial expansion (see 
+\emph{Parhi}~\cite[Section 12.2.3]{Parhi_VLSIDigitalSignalProcessingSystems}).}
+\label{alg:Schur-Polynomial-Expansion}
+\end{algorithm}
+
+Figure~\ref{fig:Second-order-tapped-Schur-one-multiplier-lattice-filter}
+shows the tapped Schur one multiplier lattice filter implementation of a
+second order transfer function.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{schur_OneMultiplier_2nd_Order}
+\caption{Second-order tapped Schur one-multiplier lattice filter}
+\label{fig:Second-order-tapped-Schur-one-multiplier-lattice-filter}
+\end{figure}
+
+The relation between $\Lambda_{n}\left(z\right)$ and $\Phi_{n}\left(z\right)$ is:
+\begin{align*}
+\Lambda_{N}\left(z\right) & = \Phi_{N}\left(z\right)\\
+  \Lambda_{n}\left(z\right)
+  &= \Phi_{n}\left(z\right)\sqrt{\frac{\left(1+\epsilon_{N}k_{N}\right)
+    \left(1+\epsilon_{N-1}k_{N-1}\right)\cdots
+    \left(1+\epsilon_{n+1}k_{n+1}\right)}
+    {\left(1-\epsilon_{N}k_{N}\right)
+    \left(1-\epsilon_{N-1}k_{N-1}\right)\cdots
+    \left(1-\epsilon_{n+1}k_{n+1}\right)}}
+\end{align*}
+The $\Lambda_{n}\left(z\right)$ polynomials are orthogonal but not orthonormal
+since:
+\begin{align*}
+\langle \Lambda_{n}\left(z\right),\Lambda_{n}\left(z\right)\rangle
+&= \langle\hat{\Lambda}_{n}\left(z\right),\hat{\Lambda}_{n}\left(z\right)\rangle\\
+&=\frac{\left(1+\epsilon_{N}k_{N}\right)\left(1+\epsilon_{N-1}k_{N-1}\right)
+  \cdots\left(1+\epsilon_{n+1}k_{n+1}\right)}
+  {\left(1-\epsilon_{N}k_{N}\right)\left(1-\epsilon_{N-1}k_{N-1}\right)
+  \cdots\left(1-\epsilon_{n+1}k_{n+1}\right)}
+\end{align*}
+
+If the input signal is random and white with unit power then the average power
+at an internal node, $x_{n}$, is
+$\langle\Lambda_{n}\left(z\right),\Lambda_{n}\left(z\right)\rangle$. The
+magnitude of $\langle\Lambda_{n}\left(z\right),\Lambda_{n}\left(z\right)\rangle$
+can be adjusted by choosing the sign parameters,
+$\epsilon_{N},\epsilon_{N-1}\hdots,\epsilon_{n+1}$.
+\emph{Gray} and
+\emph{Markel}~\cite[p. 496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}
+suggest that one criterion for choosing the sign parameters is to require that
+the node associated with the largest $k_{n}$ parameter in magnitude have the
+largest amplitude. The sign parameters are found recursively by requiring that
+the amplitudes at other nodes be as large as possible without exceeding the
+maximum value. If the maximum occurs for $k_{l}$ then the recursion proceeds
+for $n=l-1,l-2,\ldots,0$ and again for $n=l+1,l+2,\ldots,N$. The
+recursion is simple because:
+\begin{align*}
+  \frac{\langle \Lambda_{n}\left(z\right),\Lambda_{n}\left(z\right)\rangle}
+       {\langle \Lambda_{n+1}\left(z\right),\Lambda_{n+1}\left(z\right)\rangle}
+  &= \frac{1+\epsilon_{n+1}k_{n+1}}{1-\epsilon_{n+1}k_{n+1}}
+\end{align*}
+By changing the sign parameter, this ratio can always be made smaller or larger 
+than one. Algorithm~\ref{alg:One-multiplier-sign-assignment} shows the method
+used to assign the sign parameters described by \emph{Gray} and
+\emph{Markel}~\cite[p. 496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.
+\begin{algorithm}[!ht]
+Assume that $k_{l}$ has the largest magnitude of the $k_{n}$ for
+$n=1,2,\ldots,N$. Define the quantities
+\begin{align*}
+  Q_{n}&=\frac{\langle\Lambda_{n}\left(z\right),\Lambda_{n}\left(z\right)\rangle}
+             {\langle\Lambda_{l}\left(z\right),\Lambda_{l}\left(z\right)\rangle}\\
+  q_{n}&=\frac{1+\left|k_{n}\right|}{1-\left|k_{n}\right|}
+\end{align*}
+
+so that $Q_{l}=1$. Each $Q_{n}$ should be as large as possible without
+exceeding $Q_{l}$. Successive ratios are:
+\begin{align}
+\frac{Q_{n}}{Q_{n+1}} = \begin{cases}
+q_{n} & if\,\epsilon_{n}=\phantom{-}\sign\left(k_{n}\right)\\
+1/q_{n} & if\,\epsilon_{n}=-\sign\left(k_{n}\right)
+\end{cases}\label{eq:OneMultRecursiveKCalc}
+\end{align}
+
+Now assign the $\epsilon_{n}$:
+\begin{algorithmic}
+\For {$n=l-1,l-2,\hdots,1$}
+  \If {$Q_{n+1}<1/q_{n}$}
+    \State $\epsilon_{n}=-\sign\left(k_{n}\right)$
+  \Else
+    \State $\epsilon_{n}=\sign\left(k_{n}\right)$
+  \EndIf
+\EndFor
+\For {$n=l+1,l+2,\hdots,N$}
+  \If {$Q_{n}<1/q_{n}$}
+    \State $\epsilon_{n}=\sign\left(k_{n}\right)$
+  \Else
+    \State $\epsilon_{n}=-\sign\left(k_{n}\right)$
+  \EndIf
+\EndFor
+\end{algorithmic}
+\caption{One multiplier lattice sign
+  assignment~\cite[p. 496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.} 
+\label{alg:One-multiplier-sign-assignment}
+\end{algorithm}
+
+\clearpage
+
+\subsection{State variable descriptions of the Schur one multiplier lattice filter}
+The state variable representation of a filter is:
+\begin{align}
+\left[\begin{array}{c}
+\mathbf{x}^{\prime}\\
+\mathbf{y}\end{array}\right] &= \left[\begin{array}{cc}
+    \mathbf{A} & \mathbf{B} \\
+    \mathbf{C} & \mathbf{D} \\
+\end{array}\right]\left[\begin{array}{c}
+\mathbf{x}\\
+\mathbf{u}\end{array}\right]
+\label{eqn:State-variable-representation}
+\end{align}
+where $\mathbf{u}$ is the input, $\mathbf{x}$ is the filter state, for
+convenience $\mathbf{x}^{\prime}=z\,\mathbf{x}$, and $\mathbf{y}$ is the filter
+output. $\mathbf{u}$ and $\mathbf{y}$ may be vectors. $\mathbf{A}$ is called
+the state transition matrix.
+Examination of Figure~\ref{fig:Schur-one-multiplier-lattice-section} and
+Figure~\ref{fig:Second-order-tapped-Schur-one-multiplier-lattice-filter}
+suggests that the calculation of the all pass output, $\hat{y}$, of the
+tapped Schur lattice filter can be represented as a matrix product:
+
+\begin{align*}
+\left[\begin{array}{c}
+\hat{y}_{0}\\
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{N-1}\\
+u \end{array}\right] & = \left[\begin{array}{cccccc}
+1 & 0 & \cdots &  & \cdots & 0\\
+0 & 1 &  &  &  & \vdots\\
+\vdots &  & \ddots\\
+ &  &  & \ddots &  & \vdots\\
+0 &  &  &  & 1 & 0\\
+0 & \cdots &  & \cdots & 0 & 1
+\end{array}\right]\left[\begin{array}{c}
+x_{0}\\
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{N-1}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{0}^{\prime}\\
+\hat{y}_{1}\\
+x_{2}\\
+\vdots\\
+x_{N-1}\\
+u
+\end{array}\right] & = \left[\begin{array}{cccccc}
+-k_{1} & \left(1+k_{1}\epsilon_{1}\right) & 0 & \cdots & \cdots & 0\\
+\left(1-k_{1}\epsilon_{1}\right) & k_{1} & 0 &  &  & \vdots\\
+0 & 0 & 1\\
+\vdots &  &  & \ddots &  & \vdots\\
+0 &  &  &  & 1 & 0\\
+0 & \cdots &  & \cdots & 0 & 1
+\end{array}\right]\left[\begin{array}{c}
+\hat{y}_{0}\\
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{N-1}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{0}^{\prime}\\
+x_{1}^{\prime}\\
+\hat{y}_{2}\\
+\vdots\\
+x_{N-1}\\     
+u
+\end{array}\right] & = \left[\begin{array}{cccccc}
+1 & 0 & 0 & 0 & \cdots & 0\\
+0 & -k_{2} & \left(1+k_{2}\epsilon_{2}\right) & 0 &  & \vdots\\
+0 & \left(1-k_{2}\epsilon_{2}\right) & k_{2} & 0\\
+\vdots &  &  & \ddots &  & \vdots\\
+0 &  &  &  & 1 & 0\\
+0 & \cdots &  & \cdots & 0 & 1
+\end{array}\right]\left[\begin{array}{c}
+x_{0}^{\prime}\\
+\hat{y}_{1}\\
+x_{2}\\
+\vdots\\
+x_{N-1}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+  \vdots\\
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{0}^{\prime}\\
+x_{1}^{\prime}\\
+\vdots\\
+x_{N-2}^{\prime}\\
+\hat{y}_{N-1}\\
+u
+\end{array}\right] & = \left[\begin{array}{cccccc}
+1 & 0 & \cdots &  & \cdots & 0\\
+0 & 1 &  &  &  & \vdots\\
+\vdots &  & \ddots &  &  & \vdots\\
+0 &  &  & -k_{N-1} & \left(1+k_{N-1}\epsilon_{N-1}\right) & 0\\
+0 &  &  & \left(1-k_{N-1}\epsilon_{N-1}\right) & k_{N-1} & 0\\
+0 & \cdots & \cdots & 0 & 0 & 1
+\end{array}\right]\left[\begin{array}{c}
+x_{0}^{\prime}\\
+\vdots\\
+x_{N-3}^{\prime}\\
+\hat{y}_{N-2}\\
+x_{N-1}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{0}^{\prime}\\
+x_{1}^{\prime}\\
+x_{2}^{\prime}\\
+\vdots\\
+x_{N-1}^{\prime}\\
+\hat{y}
+\end{array}\right] & = \left[\begin{array}{cccccc}
+1 & 0 & \cdots &  & \cdots & 0\\
+0 & 1 &  &  &  & \vdots\\
+\vdots &  & \ddots & & & \vdots\\
+0 &  &  & 1 & 0 & 0\\
+0 &  &  &  0 & -k_{N} & \left(1+k_{N}\epsilon_{N}\right)\\
+0 & \cdots &  & 0 & \left(1-k_{N}\epsilon_{N}\right) & k_{N}
+\end{array}\right]\left[\begin{array}{c}
+x_{0}^{\prime}\\
+x_{1}^{\prime}\\
+\vdots\\
+x_{N-2}^{\prime}\\
+\hat{y}_{N-1}\\
+u
+\end{array}\right]
+\end{align*}
+The construction of the state variable description of the Schur one multiplier
+lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
+
+\begin{algorithm}
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
+\begin{algorithmic}
+\State $\hat{y}_{0} = x_{0}$
+\For{$n=1,\hdots,N-1$}
+  \State $x_{n-1}^{\prime}=-k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{n}$
+  \State $\hat{y}_{n}= \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{n}$
+\EndFor
+\State $x_{N-1}^{\prime} = -k_{N}\hat{y}_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{N-1}+k_{N}u$
+\State $y  = c_{0}x_{0}+c_{1}x_{1}+\cdots+c_{N-1}x_{N-1}+c_{N}u$
+\end{algorithmic}
+\caption{Construction of a state variable description of the Schur
+  one multiplier lattice filter.}
+\label{alg:Construction-state-variable-One-Multiplier-lattice}
+\end{algorithm}
+
+The state variable matrix calculations for a second order tapped Schur one
+muliplier lattice filter are:
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{0}^{\prime} \\
+    x_{1}^{\prime} \\
+    \hat{y} \\
+    y\end{array}\right] &= 
+  \left[\begin{array}{ccc}- k_{1} & 1+\epsilon_{1} k_{1} & 0\\
+-k_{2}\left(1-\epsilon_{1}k_{1}\right) & -k_{1}k_{2}& 1+\epsilon_{2}k_{2} \\
+ \left(1-\epsilon_{1}k_{1}\right)\left(1-\epsilon_{2}k_{2}\right) &
+   k_{1}\left(1-\epsilon_{2}k_{2}\right) & k_{2} \\
+ c_{0} & c_{1} & c_{2} \end{array}\right] \left[\begin{array}{c}
+    x_{0} \\
+    x_{1} \\
+    u \end{array} \right]
+\end{align*}
+The latency in the arithmetic calculation of $y$ and $\hat{y}$
+increases with the filter order. \emph{Parhi}~\cite[Chapter 4 and Section 12.8]
+{Parhi_VLSIDigitalSignalProcessingSystems} describes the retiming and pipelining
+of lattice filters for reduced latency. One method is to design the lattice
+filter with coefficients of the denominator polynomial, $A_{N}\left(z\right)$,
+only in $z^{-2n}$, where $N$ is even and $n=1,\hdots,\frac{N}{2}$.
+\emph{Deczky}~\cite{Deczky_MinPSynthesisIIRDigitalFilters} and
+\emph{Richards}~\cite{Richards_DeczkyRecursiveDecimator} describe such filters
+as $R=2$.
+Figure~\ref{fig:Fourth-order-tapped-Schur-one-multiplier-lattice-filter-R2}
+shows such a fourth order tapped Schur one multiplier lattice filter with and
+without pipelining.
+
+\begin{figure}[!ht]
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfSchurLatticeFiltersIncludeScale]{schur_OneMultiplier_4th_Order_R2}
+\caption{Without pipelining}
+\label{subfig:Fourth-order-tapped-Schur-one-multiplier-lattice-R2-without}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[scale=\DesignOfSchurLatticeFiltersIncludeScale]{schur_OneMultiplier_4th_Order_R2_Pipelined}
+\caption{With pipelining}
+\label{subfig:Fourth-order-tapped-Schur-one-multiplier-lattice-R2-with}
+\end{subfigure}
+\caption{Fourth-order tapped Schur one-multiplier lattice filter with denominator
+  coefficients only for $z^{-2n}$}
+\label{fig:Fourth-order-tapped-Schur-one-multiplier-lattice-filter-R2}
+\end{figure}
+
+The state variable matrix calculations for a pipelined fourth order tapped Schur
+one-muliplier lattice filter with denominator polynomial coefficients only for
+$z^{-2n}$ are:
+
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{0}^{\prime} \\
+    x_{1}^{\prime} \\
+    x_{2}^{\prime} \\
+    x_{3}^{\prime} \\
+    x_{4}^{\prime} \\
+    \hat{y} \\
+    y\end{array}\right] &= 
+  \left[\begin{array}{cccccc} 0 & 1 & 0 & 0 & 0 & 0\\
+    -k_{2} & 0 & 0 & 0 & 1+\epsilon_{2}k_{2} & 0\\
+    1-\epsilon_{2}k_{2} & 0 & 0 & 0 & k_{2} & 0\\
+    c_{0} & c_{1} & 0 & 0 & c_{2} & 0 \\
+    0 & 0 & -k_{4} & 0 & 0 & 1+\epsilon_{4}k_{4}\\
+    0 & 0 & 1-\epsilon_{4}k_{4}  & 0 & 0 & k_{4} \\
+    0 & 0 & 0 & 1 & c_{3} & c_{4}\end{array}\right] \left[\begin{array}{c}
+    x_{0} \\
+    x_{1} \\
+    x_{2} \\
+    x_{3} \\
+    x_{4} \\
+    u \end{array} \right]
+\end{align*}
+
+The construction of the state variable description of the pipelined tapped Schur
+one multiplier lattice filter with denominator polynomial coefficients only for
+$z^{-2n}$ is summarised in
+Algorithm~\ref{alg:State-variable-pipelined-One-Multiplier-R2-lattice}.
+
+\begin{algorithm}
+Given $N$ even, $\left\{k_{2},k_{4}\hdots,k_{N}\right\}$,
+$\left\{\epsilon_{2},\epsilon_{4},\hdots,\epsilon_{N}\right\}$ and
+$\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
+\begin{algorithmic}
+\State $x^{\prime}_{0}=x_{1}$
+\State $x^{\prime}_{1}=-k_{2}x_{0}+\left(1+k_{2}\epsilon_{2}\right)x_{4}$
+\State $x^{\prime}_{2}=\left(1-k_{2}\epsilon_{2}\right)x_{0}+k_{2}x_{4}$
+\State $x^{\prime}_{3}=c_{0}x_{0}+c_{1}x_{1}+c_{2}x_{4}$
+
+\For{$n=2,\hdots,\frac{N}{2}-1$}
+\State $x^{\prime}_{3n-2}=-k_{2n}x_{3n-4}+\left(1+k_{2n}\epsilon_{2n}\right)x_{3n+1}$
+\State $x^{\prime}_{3n-1}=\left(1-k_{2n}\epsilon_{2n}\right)x_{3n-4}+ k_{2n}x_{3n+1}$
+\State $x^{\prime}_{3n}=x_{3n-3}+c_{2n-1}x_{3n-2}+c_{2n}x_{3n+1}$
+\EndFor
+
+\State $x_{3\frac{N}{2}-2}^{\prime} = -k_{N}x_{3\frac{N}{2}-4}+
+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{3\frac{N}{2}-4}+k_{N}u$
+\State $y = x_{3\frac{N}{2}-3}+c_{N-1}x_{3\frac{N}{2}-2}+c_{N}u$
+\end{algorithmic}
+\caption{Construction of a state variable description of the pipelined tapped
+  Schur one multiplier lattice filter with denominator polynomial coefficients
+  only for $z^{-2n}$.}
+\label{alg:State-variable-pipelined-One-Multiplier-R2-lattice}
+\end{algorithm}
+
+\subsection{Frequency response of the tapped Schur one multiplier lattice filter\label{sec:Frequency-response-of-tapped-Schur-one-multiplier}}
+Eliminating the filter state, $\mathbf{x}$, from
+Equation~\ref{eqn:State-variable-representation} gives:
+\begin{align}
+\mathbf{F}\left(z\right) &= 
+    \mathbf{C}\left(z\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{B}+\mathbf{D}
+\label{eqn:State-variable-response}
+\end{align}
+\emph{Thiele}~\cite{Theile_SensitivityLinearStateSpaceSystems} uses the identity:
+\begin{align*}
+  \mathbf{R}\mathbf{R}^{-1} &= \mathbf{I} \\
+\frac{\partial\mathbf{R}}{\partial\chi}\mathbf{R}^{-1} 
+  +\mathbf{R}\frac{\partial\mathbf{R}^{-1}}{\partial\chi} &= 0 \\
+  \frac{\partial\mathbf{R}}{\partial\chi} 
+    &=-\mathbf{R}\frac{\partial\mathbf{R}^{-1}}{\partial\chi}\mathbf{R}
+\end{align*}
+\emph{Theile} shows the sensitivity functions of $\mathbf{F}\left(z\right)$ with
+respect to the components $\alpha$, $\beta$, $\gamma$ and $\delta$ of
+$\mathbf{A}$, $\mathbf{B}$, $\mathbf{C}$ and $\mathbf{D}$ respectively:
+\begin{align*}
+\frac{\partial\mathbf{F}}{\partial{}z} &= 
+-\mathbf{C}\left(z\mathbf{I}-\mathbf{A}\right)^{-2}\mathbf{B} \\
+  \frac{\partial\mathbf{F}}{\partial\alpha} &= 
+\mathbf{C}\left(z\mathbf{I}-\mathbf{A}\right)^{-1}\frac{\partial\mathbf{A}}{\partial\alpha}
+\left(z\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{B} \\
+\frac{\partial\mathbf{F}}{\partial\beta} &= 
+\mathbf{C}\left(z\mathbf{I}-\mathbf{A}\right)^{-1}\\
+\frac{\partial\mathbf{F}}{\partial\gamma} &= 
+\left(z\mathbf{I}-\mathbf{A}\right)^{-1}\mathbf{B}\\
+\frac{\partial\mathbf{F}}{\partial\delta} &= \mathbf{I}
+\end{align*}
+Substituting $z=e^{\imath\omega}$ into Equation~\ref{eqn:State-variable-response}
+gives the complex frequency response of the state variable filter on the unit
+circle. In the following I will use
+$\mathbf{R}=\left(e^{\imath\omega}\mathbf{I}-\mathbf{A}\right)^{-1}$. The
+components $\alpha$ of $\mathbf{A}$, etc. may themselves be functions of other
+variables (for example, the $c$ and $k$ coefficients of a tapped Schur one
+multiplier lattice filter) that I will represent by $\chi$. The sensitivity
+functions of the complex frequency response
+$\mathbf{F}\left(e^{\imath\omega}\right)$ with respect to $\omega$ and $\chi$ are:
+\begin{align*}
+  \frac{\partial\mathbf{R}}{\partial{}\omega}
+  =& -\imath{}e^{\imath\omega}\mathbf{R}\mathbf{R}\\
+\frac{\partial\mathbf{F}}{\partial\omega}=&
+-\imath e^{\imath\omega}\mathbf{C}\mathbf{R}\mathbf{R}\mathbf{B} \\
+  \frac{\partial\mathbf{F}}{\partial{}\chi}=
+   &\frac{\partial\mathbf{C}}{\partial\chi}\mathbf{R}\mathbf{B}+
+\mathbf{C}\mathbf{R}\frac{\partial\mathbf{A}}{\partial\chi}\mathbf{R}\mathbf{B}+
+\mathbf{C}\mathbf{R}\frac{\partial\mathbf{B}}{\partial\chi}+
+     \frac{\partial\mathbf{D}}{\partial\chi}\\
+\frac{\partial{}^{2}\mathbf{F}}{\partial\chi\partial\omega}=&
+-\imath{}e^{\imath\omega}\left[
+\frac{\partial\mathbf{C}}{\partial\chi}\mathbf{R}\mathbf{R}\mathbf{B}+
+\mathbf{C}\mathbf{R}\mathbf{R}\frac{\partial\mathbf{A}}{\partial\chi}\mathbf{R}\mathbf{B}+
+\mathbf{C}\mathbf{R}\frac{\partial\mathbf{A}}{\partial\chi}\mathbf{R}\mathbf{R}\mathbf{B}+
+\mathbf{C}\mathbf{R}\mathbf{R}\frac{\partial\mathbf{B}}{\partial\chi}\right]
+\end{align*}
+
+The complex frequency response of the filter is:
+\begin{align*}
+\mathbf{F} &=\Re\mathbf{F} + \imath\Im\mathbf{F}
+\end{align*}
+
+The squared-magnitude response of the filter is:
+\begin{align*}
+\left|\mathbf{F}\right|^{2} &=\Im \mathbf{F}^{2} + \Re \mathbf{F}^{2}
+\end{align*}
+
+The gradients of the squared-magnitude response of the filter with respect to 
+the Schur lattice filter coefficients are:
+\begin{align*}
+\frac{\partial\left|\mathbf{F}\right|^{2}}{\partial\chi}
+&= 2\left[\Im \mathbf{F}\Im\frac{\partial\mathbf{F}}{\partial\chi}+
+          \Re \mathbf{F}\Re\frac{\partial\mathbf{F}}{\partial\chi}\right]
+\end{align*}
+
+The gradient of the squared-magnitude response of the filter with respect to 
+the angular frequency is:
+\begin{align*}
+\frac{\partial\left|\mathbf{F}\right|^{2}}{\partial\omega}
+&= 2\left[\Im \mathbf{F}\Im\frac{\partial{}\mathbf{F}}{\partial\omega}+
+          \Re \mathbf{F}\Re\frac{\partial{}\mathbf{F}}{\partial\omega}\right]
+\end{align*}
+so that:
+\begin{align*}
+  \frac{\partial^{2}  \left|\mathbf{F}\right|^{2}}
+  {\partial\omega\partial\chi}
+  &= 2\left[ \Im\frac{\partial{}\mathbf{F}}{\partial\chi}
+             \Im\frac{\partial{}\mathbf{F}}{\partial\omega}+
+    \Im \mathbf{F}\Im\frac{\partial^{2}\mathbf{F}}{\partial\omega\partial\chi}+
+    \Re\frac{\partial{}\mathbf{F}}{\partial\chi}
+    \Re\frac{\partial{}\mathbf{F}}{\partial\omega}+
+    \Re \mathbf{F}\Re\frac{\partial^{2}\mathbf{F}}{\partial\omega\partial\chi}
+  \right]
+\end{align*}
+
+The phase response, $P$, of the filter is:
+\begin{align*}%
+P&=\arctan\frac{\Im \mathbf{F}}{\Re \mathbf{F}}
+\end{align*}
+
+The gradients of the phase response of the filter with respect to 
+the Schur lattice filter coefficients are given by:
+\begin{align*}
+\left|\mathbf{F}\right|^{2}\frac{\partial{}P}{\partial\chi}&=
+\Re \mathbf{F}\Im\frac{\partial{}\mathbf{F}}{\partial\chi}-
+\Im \mathbf{F}\Re\frac{\partial{}\mathbf{F}}{\partial\chi}
+\end{align*}
+
+The group delay response, $T$, of the filter is:
+\begin{align*}
+T &= -\frac{\partial P}{\partial\omega}
+\end{align*}
+so that:
+\begin{align*}
+\left|\mathbf{F}\right|^{2}T &= -\left[\Re \mathbf{F}\Im\frac{\partial \mathbf{F}}{\partial\omega} -
+                              \Im \mathbf{F}\Re\frac{\partial \mathbf{F}}{\partial\omega}\right]
+\end{align*}
+
+The gradients of the group delay response with respect to the Schur lattice
+filter coefficients are given by:
+\begin{align*}
+  \frac{\partial\left|\mathbf{F}\right|^{2}}{\partial\chi}T+
+  \left|\mathbf{F}\right|^{2}\frac{\partial{}T}{\partial\chi} = 
+&-\left[\Re\frac{\partial{}\mathbf{F}}{\partial\chi}
+\Im\frac{\partial{}\mathbf{F}}{\partial\omega} +
+\Re \mathbf{F} \Im\frac{\partial^{2}\mathbf{F}}{\partial\chi\partial\omega} -
+  \Im\frac{\partial{}\mathbf{F}}{\partial\chi}
+  \Re\frac{\partial{}\mathbf{F}}{\partial\omega} -
+  \Im \mathbf{F}\Re\frac{\partial^{2}\mathbf{F}}
+                        {\partial\chi\partial\omega}\right]
+\end{align*}
+
+\section{Computer-Aided-Design of Schur lattice filters}
+The filter design procedure commences with the specification of the required
+filter amplitude, phase and group delay responses. The optimisation of an IIR
+frequency response with respect to the coefficients is not a convex problem. I
+hope to find a ``good enough'' design rather than a global optimum.
+
+One formulation of the filter optimisation problem is to minimise the
+\emph{weighted squared error} of the frequency response of $F\left(z\right)$:
+\begin{align}
+\begin{split}
+  \textbf{minimise}\quad &\mathcal{E}_{F}\left(\chi\right) =
+  \int W\left(\omega\right)\left|F\left(\omega\right)
+    -F_{d}\left(\omega\right)\right|^{2}d\omega \\
+\textbf{subject to}\quad &F\left(\omega\right)\text{ is stable} 
+\end{split}
+\label{eqn:Definition-of-squared-response-error}
+\end{align}
+where $\chi$ is the coefficient vector of the filter, $F\left(z\right)$,
+$\mathcal{E}_{F}\left(\chi\right)$ is the weighted sum of the squared error,
+$F\left(\omega\right)$ is the filter frequency response,
+$W\left(\omega\right)$ is the frequency weighting and
+$F_{d}\left(\omega\right)$ is the desired filter complex frequency response.
+The integrand of Equation~\ref{eqn:Definition-of-squared-response-error} could
+be the weighted sum of one or more of the squared-magnitude, phase or group
+delay responses.
+
+The filter response optimisation problem can also be expressed as a
+\emph{mini-max} optimisation problem:
+\begin{align}
+\label{eqn:Definition-of-minimax-response-error}
+\begin{split}
+\textbf{minimise}\quad &\max\;\left|F\left(\omega\right)
+  -F_{d}\left(\omega\right)\right|\\
+\textbf{subject to}\quad &F\left(\omega\right)\text{ is stable} 
+\end{split}
+\end{align}
+
+I begin by finding an initial filter design that approximates the desired
+response, then optimising the minimum mean-squared-error of the
+calculated response and, if desired, finding a mini-max approximation to
+the desired response. Finally, I describe two methods of
+searching for integer valued filter coefficients: a depth-first branch-and-bound
+search and a successive relaxation method.
+
+\subsection{Finding an initial filter\label{sec:Finding-initial-filter}}
+The initial filter could be an FIR filter or a ``classical'' Butterworth,
+Chebyshev, etc. IIR filter design.
+\emph{Deczky}~\cite{Deczky_MinPSynthesisIIRDigitalFilters} and
+\emph{Richards}~\cite{Richards_DeczkyRecursiveDecimator} begin with an
+initial filter consisting of a ``by-eye'' arrangement of the filter poles and
+zeros. \emph{Tarczynski et
+  al.}~\cite{TarczynskiCainHermanowiczRojewski_WISEMethodDesignIIRFilters}
+propose minimising the filter response mean-squared-error, $\mathcal{E}_{F}$,
+weighted with a barrier function:
+\begin{align}
+\label{eqn:WISE-barrier-function}
+\left(1-\lambda\right)\mathcal{E}_{F}+\lambda\sum^{T+M}_{t=T+1}h^{2}\left(t\right)
+\end{align}
+where $\lambda$, $T$ and $M$ are suitable constants and $h\left(t\right)$ is the
+impulse response of the filter $H\left(z\right)=\frac{1}{A_{N}\left(z\right)}$.
+The barrier function (the second part of
+Equation ~\ref{eqn:WISE-barrier-function}) is intended to be small when the
+filter, $F\left(z\right)$, is stable and increase rapidly when the poles
+approach the unit circle. \emph{Tarczynski et al.} provide heuristics for
+selecting $\lambda$, $T$ and $M$. Typically,
+$\lambda \in \left[10^{-10},10^{-3}\right]$, $T\in \left[ 100, 500 \right]$ and
+$M=NR$. \emph{Roberts and Mullis}~\cite[Section 8.3]
+{RobertsMullis_DigitalSignalProcessing} show that the state space description of
+the direct-form implementation of $H\left(z\right)$ is:
+\begin{align*}
+\left[\begin{array}{c}
+x\left(t+1\right)\\
+y\left(t\right)
+\end{array}\right] &= \left[\begin{array}{cc}
+A & B\\
+C & D
+\end{array}\right]\left[\begin{array}{c}
+x\left(t\right)\\
+u\left(t\right)
+\end{array}\right]
+\end{align*}
+where:
+\begin{align*}
+A &= \left[\begin{array}{cccc}
+0 & 1 & \cdots & 0\\
+\vdots & \vdots & \ddots & \vdots\\
+0 & 0 & \cdots & 1\\
+-a_{N} & -a_{N-1} & \cdots & -a_{1}
+\end{array}\right]\\
+B &= \left[\begin{array}{ccccc}0 & 0 & \cdots & 0 & 1\end{array}\right]^{\top}\\
+C &= \left[\begin{array}{ccc}-a_{N} & \cdots & -a_{1}\end{array}\right]\\
+D &= 1
+\end{align*}
+
+The corresponding impulse response
+is~\cite[Equation 8.3.21]{RobertsMullis_DigitalSignalProcessing}:
+\begin{align*}
+h\left(t\right) &= \begin{cases}
+0 & t<0\\
+D & t=0\\
+CA^{t-1}B & t>0
+\end{cases}
+\end{align*}
+
+\subsection{Minimum-Mean-Squared-Error optimisation of IIR filters}
+Minimisation of the mean squared error of the filter response proceeds by
+successive solution of the following linear approximation problem
+for $\Delta_{\chi}$:
+\begin{align}
+\begin{split}
+  \textbf{minimise}\quad & \epsilon+\beta \\
+  \textbf{subject to}\quad & \mathnorm{\mathcal{E}_{F}\left(\chi\right) +
+          \Delta_{\chi}\nabla\mathcal{E}_{F}\left(\chi\right)}\le\epsilon \\
+  & \mathnorm{\Delta_{\chi}}\le\beta \\
+  & F\left(\omega\right)\text{ is stable}
+\end{split}
+\label{eqn:Optimisation-of-minimum-mean-squared-response-error}
+\end{align}
+After each step the new coefficient vector is $\chi+\Delta_{\chi}$. 
+
+In fact I replace $\mathcal{E}_{F}$ with an approximation to the sum at discrete
+frequencies of the weighted squared error of the real valued squared magnitude,
+phase, group delay and the gradient of the squared magnitude with respect to
+angular frequency. For example, the first order approximation to the squared
+error of the group delay, $T$, is:
+\begin{align*}
+  \bar{\mathcal{E}}_{T}\left(\chi+\Delta_{\chi}\right)
+  &\approx \sum_{\omega} W_{T}\left(\omega\right)
+     \left[T\left(\chi,\omega\right) + \right.
+    \left. \Delta_{\chi}\nabla_{\chi}T\left(\chi,\omega\right) - \right.
+    \left. T_{d}\left(\omega\right)\right]^{2}
+\end{align*}
+with gradient with respect to $\chi$:
+\begin{align*}
+  \nabla_{\chi} \bar{\mathcal{E}}_{T}\left(\chi\right)
+  &\approx 2 \sum_{\omega} W_{T}\left(\omega\right)
+    \left[T\left(\chi,\omega\right)-T_{d}\left(\omega\right)\right]
+    \nabla_{\chi}T\left(\chi,\omega\right)
+\end{align*}
+The required gradients of the state variable filter frequency response were
+derived in Section~\ref{sec:Frequency-response-of-tapped-Schur-one-multiplier}.
+
+\subsection{Peak-Constrained-Least-Squares optimisation of IIR filters}
+Linear phase FIR filter design
+algorithms~\cite{Hofstetter_DesignNonRecursiveDigitalFilters,
+  ParksMcClellan_ChebyshevApproxNonRecursiveDigitalFilters,
+  SelesnickBurrus_ExchangeAlgorithmsLinearPhaseFIRFilters,
+  SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters} commonly
+employ an ``exchange algorithm'' that, given an initial approximation to the
+desired amplitude response, finds the extremal frequencies of that response and
+interpolates the coefficients to obtain a new set of filter coefficients that
+achieves the desired ripple values at all of those frequencies. The process
+repeats until a satisfactory mini-max amplitude response is found. I have
+successfully solved the IIR mini-max problem of
+Equation~\ref{eqn:Definition-of-minimax-response-error} with a modified version
+of the ``Peak-Constrained-Least-Squares'' (PCLS) algorithm of \emph{Selesnick},
+\emph{Lang} and \emph{Burrus}~\cite[p.498]
+{SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}. They describe
+the exchange of amplitude response, $A\left(\omega\right)$, constraints as
+follows:
+\begin{quotation}
+  After each iteration, the algorithm checks the values of
+  $A\left(\omega\right)$ over the previous constraint set frequencies. $\hdots$
+  However, if it is found that $A\left(\omega\right)$ violates the constraints
+  at some frequency belonging to the previous constraint set, $R$, then i) that
+  frequency where the violation is greatest is appended to the current
+  constraint set, $S$, and ii) the same frequency is removed from the
+  record of previous constraint set frequencies, $R$.
+\end{quotation}
+
+Figure~\ref{fig:Modified-Selesnick-Lang-Burrus-algorithm} shows a flow-chart of
+the modified \emph{Selesnick}, \emph{Lang} and \emph{Burrus} exchange algorithm.
+
+\begin{figure}
+\centering
+\includegraphics[scale=\DesignOfSchurLatticeFiltersIncludeScale]{slb_exchange_algorithm}
+\caption{Modified Selesnick, Lang and Burrus exchange algorithm~\cite[p.498]
+  {SelesnickLangBurrus_ConstrainedLeastSquareMultiBandFIRFilters}.}
+\label{fig:Modified-Selesnick-Lang-Burrus-algorithm}
+\end{figure}
+
+Similarly to $\bar{\mathcal{E}}_{T}$, the PCLS constraints for the group delay
+response, $T\left(\chi,\omega\right)$, are approximated to first order by:
+\begin{align*}
+  T_{l}\left(\omega\right) \le
+  T\left(\chi,\omega\right) + \Delta_{\chi}\nabla_{\chi}T\left(\chi,\omega\right)
+  \le T_{u}\left(\omega\right)
+\end{align*}
+where $T_{l}\left(\omega\right)$ and $T_{u}\left(\omega\right)$ are the
+lower and upper constraints on the group delay.
+
+The modified PCLS mini-max optimisation is:
+\begin{align}
+\begin{split}
+  \textbf{minimise}\quad & \epsilon+\beta \\
+  \textbf{subject to}\quad & \mathnorm{\bar{\mathcal{E}}_{F}\left(\chi\right) +
+          \Delta_{\chi}\nabla\bar{\mathcal{E}}_{F}\left(\chi\right)}\le\epsilon \\
+  & \mathnorm{\Delta_{\chi}}\le\beta \\
+  & F\left(\omega\right)\text{ is stable} \\
+  & \text{PCLS response constraints are satisfied}
+\end{split}
+\label{eqn:Optimisation-of-PCLS-response-error}
+\end{align}
+
+\subsection{Second Order Cone Programming}
+ \emph{Alizadeh} and \emph{Goldfarb}~\cite
+{AlizadehGoldfarb_SecondOrderCone} describe Second Order Cone
+Programming (SOCP) as the solution of a class of convex optimisation problems in
+which a linear function is minimised subject to a set of conic constraints.
+In the following example I use the \emph{SeDuMi}
+(\emph{Se}lf-\emph{Du}al-\emph{Mi}nimisation) SOCP solver originally written
+by \emph{Jos Sturm}~\cite{Sturm_SeDuMi_GitHub}. 
+\emph{Lu}~\cite[Section III]{Lu_SedumiRemarks} provides an example of expressing
+an optimisation problem of
+Equation~\ref{eqn:Optimisation-of-PCLS-response-error} in the form accepted by
+SeDuMi. In \emph{Lu}'s notation the problem is:
+\begin{subequations}
+\begin{align}
+\textbf{minimise}  \quad&\boldsymbol{b}^{\top}\boldsymbol{x}
+\label{eqn:Lu-SeDuMi-Remarks-problem-format}\\
+\textbf{subject to}\quad&\|\boldsymbol{A}_{i}^{\top}\boldsymbol{x}+
+\boldsymbol{c}_{i}\| \le \boldsymbol{b}_{i}^{\top}\boldsymbol{x}+d_{i}
+\quad \text{for}\;i=1,\hdots,q
+\label{eqn:Lu-SeDuMi-Remarks-problem-format-conic-constraints}\\
+&\boldsymbol{D}^{\top}\boldsymbol{x}+\boldsymbol{f}\ge\boldsymbol{0}
+\label{eqn:Lu-SeDuMi-Remarks-problem-format-linear-constraints}
+\end{align}
+\end{subequations}
+where $\boldsymbol{x}\in\mathfrak{\mathbb{R}}^{m\times 1}$, 
+$\boldsymbol{b}\in\mathfrak{\mathbb{R}}^{m\times 1}$,
+$\boldsymbol{A}_{i}\in\mathfrak{\mathbb{R}}^{m\times\left(n_{i}-1\right)}$
+\footnote{$n_{i}-1$ to allow for the column $b_{i}$ in the matrix 
+$\boldsymbol{A}_{t}^{\left(i\right)}$ and $d_{i}$ in the column vector 
+$\boldsymbol{c}_{t}^{\left(i\right)}$}, 
+$\boldsymbol{c}_{i}\in\mathfrak{\mathbb{R}}^{\left(n_{i}-1\right)\times 1}$,
+$\boldsymbol{b}_{i}\in\mathfrak{\mathbb{R}}^{m\times 1}$, 
+$d_{i}\in\mathfrak{\mathbb{R}}$ for $1 \le i \le q$,
+$\boldsymbol{D}\in\mathfrak{\mathbb{R}}^{m\times p}$ and
+$\boldsymbol{f}\in\mathfrak{\mathbb{R}}^{p\times 1}$. The problem is cast into
+SeDuMi format by defining:
+\begin{align*}
+\boldsymbol{A}_{t}&=\left[-\boldsymbol{D} \quad \boldsymbol{A}_{t}^{\left(1\right)}
+\hdots \quad \boldsymbol{A}_{t}^{\left(q\right)}\right]\\
+\boldsymbol{A}_{t}^{\left(i\right)} &= -\left[\boldsymbol{b}_{i} \quad
+\boldsymbol{A}_{i}\right]\nonumber\\
+\boldsymbol{b}_{t}&=-\boldsymbol{b}\nonumber\\
+\boldsymbol{c}_{t}&=\left[\boldsymbol{f};\quad \boldsymbol{c}_{t}^{\left(1\right)}
+;\quad \hdots\quad \boldsymbol{c}_{t}^{\left(q\right)}\right]\nonumber\\
+\boldsymbol{c}_{t}^{\left(i\right)}&=\left[d_{i} ;\quad \boldsymbol{c}_{i}\right]
+\nonumber
+\end{align*}
+
+For Equation~\ref{eqn:Optimisation-of-PCLS-response-error},
+$\boldsymbol{x}=\left[\epsilon,\beta,\chi\right]$,
+Equation~\ref{eqn:Lu-SeDuMi-Remarks-problem-format-conic-constraints} applies
+the conic constraints on the linear approximation to the minimum mean squared
+error of the frequency response and 
+Equation~\ref{eqn:Lu-SeDuMi-Remarks-problem-format-linear-constraints} applies
+the linear constraints on both the reflection coefficients,
+$\mathabs{k_{n}}<1$, and the PCLS frequency response constraints.
+
+\section{\label{sec:Design-IIR-lattice-filters-with-signed-digit-coefficients}Design of digital filters with signed-digit coefficients}
+\subsection{The canonical signed-digit representation of filter coefficients}
+
+\emph{Parhi}~\cite[Section 13.6]{Parhi_VLSIDigitalSignalProcessingSystems} lists
+the following properties of the \emph{canonical} binary signed-digit (CSD)
+representation of a binary signed-digit number $A=a_{W-1}a_{W-2}\cdots{}a_{1}a_{0}$
+where each $a_{i}\in \left\{-1,0,1\right\}$:
+\begin{itemize}
+\item no 2 consecutive bits in a CSD number are non-zero 
+\item the CSD representation of a number contains the miniumum possible number
+of non-zero bits, thus the name \emph{canonic}
+\item the CSD representation of a number is unique
+\end{itemize}
+The first property breaks the carry chain when adding two CSD numbers.
+\emph{Parhi}~\cite[Section 13.6.1]{Parhi_VLSIDigitalSignalProcessingSystems}
+shows an algorithm that calculates the \emph{canonical} binary signed-digit 
+representation from the two's complement representation, reproduced here as
+Algorithm~\ref{alg:twos-complement-to-signed-digit-conversion}.
+
+\begin{algorithm}[htbp]
+Denote the two's complement representation of the number $A$ as 
+$A=\hat{a}_{W-1}\hat{a}_{W-2}\cdots\hat{a}_{1}\hat{a}_{0}$. \\
+Denote the CSD representation of $A$ as $A=a_{W-1}a_{W-2}\cdots{}a_{1}a_{0}$.
+
+\begin{algorithmic}
+\State $\hat{a}_{-1}=0$
+\State $\gamma_{-1}=0$
+\State $\hat{a}_{W}=\hat{a}_{W-1}$
+\For{$k=0,\hdots,W-1$}
+\State $\theta_{i}=\hat{a}_{i}\oplus\hat{a}_{i-1}$
+\State $\gamma_{i}=\bar{\gamma}_{i-1}\theta_{i}$
+\State $a_{i}=\left(1-2\hat{a}_{i+1}\right)\gamma_{i}$
+\EndFor
+\end{algorithmic}
+\caption{Conversion of 2's complement numbers to the canonical signed-digit
+  representation (\emph{Parhi}~\cite[Section
+  13.6.1]{Parhi_VLSIDigitalSignalProcessingSystems}).}
+\label{alg:twos-complement-to-signed-digit-conversion}
+\end{algorithm}
+
+\emph{Lim et al.}~\cite{Lim_SignedPowerOfTwoAllocationDigitalFilters} describe
+a method of allocating  a limited number of signed power-of-two digit terms 
+to the fixed point coefficients of a digital filter. The method is based 
+on the belief that ``\emph{allocating the SPT terms in such a way that all the 
+coefficient values have the same quantisation step-size to coefficient
+sensitivity ratio will lead to a good design}''. 
+
+\emph{Lim et al.} first prove properties of the canonical signed-digit
+representation~\cite[Section II]{Lim_SignedPowerOfTwoAllocationDigitalFilters}.
+In particular:
+
+\emph{Property 1}: Define $S_{Q}$ as the set of contiguous integers that can be 
+represented by up to $Q$ signed digits. The largest integer in $S_{Q}$ is
+$J_{Q}=\sum_{l=0}^{Q-1}2^{2l+1}$.
+
+\emph{Property 5}: On average, $0.72Q$ signed-digits are required to represent
+the integers in $S_{Q}$.
+
+\emph{Lim et al.} show that an estimate of the number of signed digits, $Q$, 
+required to represent $J_{Q}$ is:
+\begin{align*}
+  Q \approx \frac{1}{2}\log_{2}J_{Q}+0.31
+\end{align*}
+Replacing $J_{Q}$ by an integer $n\in S_{Q}$, an estimate of the average number
+of terms, $Q_{A}$, required to represent $n$ is:
+\begin{align*}
+  Q_{A}&\approx 0.72Q\\
+      &\approx 0.36 \log_{2}n+0.22
+\end{align*}
+
+Now suppose that $D$ signed digits are available to represent two positive
+integers $n_{1}$ and $n_{2}$. If $n_{1}\approx n_{2}$ then each integer is
+allocated $\frac{D}{2}$ bits. If $n_{1}>n_{2}$ then \emph{Lim et al.} argue 
+that the number of additional signed-digits, $Q_{E}$, required to represent 
+$n_{1}$ is:
+\begin{align*}
+  Q_{E}&\approx 0.36\log_{2}\lfloor \frac{n_{1}}{n_{2}}\rfloor
+\end{align*}
+where $\lfloor\;\rfloor$ represents the integer part. In general, 
+$Q_{E}$ is not an integer.
+
+\emph{Lim et al.} go on to consider the allocation of signed digits to the
+coefficients of a symmetric FIR filter. The change in the frequency response,
+$F\left(\omega\right)$, of a filter due to a change $\Delta\chi_{n}$ in
+coefficient $\chi_{n}$ is:
+\begin{align*}
+\Delta{} F\left(\omega,n\right)&  \approx
+\frac{\partial{}F\left(\omega\right)}{\partial\chi_{n}}\Delta{}\chi_{n}
+\end{align*}
+\emph{Lim et al.} use the average of the coefficient sensitivity to define a
+cost for the $n$'th coefficient:
+\begin{align*}
+cost_{n}&=0.36\log_{2}\left|\chi_{n}\right| + 0.36\log_{2}\int^{\pi}_{0}
+\left|\frac{\partial{}F\left(\omega\right)}{\partial{}\chi_{}}\right|d\omega
+\end{align*}
+
+Given a total of $D$ signed-digits, \emph{Lim et al.} assign a single 
+signed-digit at a time to the coefficient with the largest cost. After a 
+coefficient is given a signed-digit, its cost is decreased by one. The
+process is repeated until all $D$ digits have been allocated.
+
+\subsection{Branch-and-bound search for the filter coefficients}
+Given the $K$ floating point coefficients, $\chi$, of a filter, an exhaustive
+search of the upper and lower bounds on the integer or signed-digit
+approximations to these coefficients would require
+$\mathcal{O}\left(2^{K}\right)$ comparisons of the corresponding filter
+approximation error.
+\emph{Branch-and-bound}~\cite{LandDoig_AutomaticMethodSolvingDiscreteProgrammingProblems},~\cite[p.627]{Sedgewick_AlgorithmsInCPlusPlus}
+is a heuristic for reducing the 
+number of branches searched in a binary decision tree. At each branch of the
+binary tree the solution is compared to the estimated lower bounds on the cost
+of the full path proceeding from that branch. If the cost of that full path is
+greater than that of the best full path found so far then further search on
+that path is abandoned.  Figure~\ref{fig:branch-bound-tree-search-algorithm}
+shows a flow diagram of an implementation of the algorithm using a stack. The
+floating point filter coefficients, $\chi$, are approximated by the
+signed-digit coefficients, $\bar{\chi}$. Each coefficient, $\chi_{n}$
+and $\bar{\chi}_{n}$, is bounded by the corresponding signed-digit numbers $u_{n}$
+and $l_{n}$ so that $l_{n}\le\chi_{n}\le{}u_{n}$ and
+$l_{n}\le\bar{\chi}_{n}\le u_{n}$. The search for the set of coefficients with
+minimum cost is ``depth-first'', starting at the root of the search tree and
+fixing successive coefficients.  \emph{Ito et
+  al.}~\cite{Ito_PowersOfTwoAllocationFIR} recommend choosing, at each branch,
+the $\chi_{n}$ with the greatest difference $u_{n}-l_{n}$. The two sub-problems
+at that branch fix $\bar{\chi}_{n}$ to $l_{n}$ and $u_{n}$. One of the two
+sub-problems is pushed onto a stack and the other is solved and the cost
+calculated. I assume that this cost is the least possible for the remaining
+coefficients on the current branch. If the cost of the current sub-problem is
+greater than the current minimum cost then the current branch is abandoned and a
+new sub-problem is popped off the problem stack. Otherwise, if the search has
+reached the maximum depth of the tree then the current solution is a new
+signed-digit minimum cost solution. If the current cost is less than the
+minimum cost and the search has not reached the maximum depth then the search
+continues with a new branch.
+
+\begin{figure}
+\centering
+\includegraphics[scale=\DesignOfSchurLatticeFiltersIncludeScale]{branch_bound_algorithm}
+\caption{Branch-and-bound depth-first search algorithm}
+\label{fig:branch-bound-tree-search-algorithm}
+\end{figure}
+
+\subsection{Successive relaxation search for the filter coefficients}
+A successive relaxation search for the filter coefficients fixes one
+coefficient and optimises the filter frequency response with respect to the
+remaining free coefficients. This is called a \emph{relaxation} of the
+optimisation. The relaxation is repeated until all the coefficients are fixed.
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients and
+selects the coefficient with the largest difference in those approximations.
+
+\clearpage
+
+\section{An example : design of a low pass differentiator filter}
+This section describes the design of a low pass differentiator filter
+implemented as $F_{0}\left(z\right)=1-z^{-1}$ in series with a tapped Schur
+one-multiplier lattice correction filter, $C\left(z\right)$, having denominator
+polynomial coefficients only for terms in $z^{-2n}$. In the pass band, the
+desired complex frequency response of a differentiator filter is:
+\begin{align*}
+  F_{d}\left(\omega\right)=-\imath\frac{\omega}{2}e ^{-\imath\omega t_{p}}
+\end{align*}
+where $t_{p}$ is the nominal filter pass band group delay in samples.
+The squared-magnitude response of the correction filter is:
+\begin{align*}
+  \mathabs{C\left(\omega\right)}^{2}
+  &= \frac{\mathabs{F_{d}\left(\omega\right)}^{2}}
+    {\mathabs{F_{0}\left(\omega\right)}^{2}}
+\end{align*}
+where:
+\begin{align*}
+  \mathabs{F_{d}\left(\omega\right)} &= \frac{\omega}{2} \\
+  \mathabs{F_{d}\left(\omega\right)}^{2}&= \frac{\omega^{2}}{4} \\  
+  \frac{d\mathabs{F_{d}\left(\omega\right)}^{2}}{d\omega}
+     &= \frac{\omega}{2} = \mathabs{F_{d}\left(\omega\right)}
+\end{align*}
+and the response of the zero at $z=1$ is:
+\begin{align*}
+  F_{0}\left(\omega\right) &= 1-e^{\imath\omega} \\
+        &=2\imath{} e^{\imath\frac{\omega}{2}}\sin\frac{\omega}{2} \\
+  \mathabs{F_{0}\left(\omega\right)} &= 2\sin\frac{\omega}{2} \\
+  \frac{d\mathabs{F_{0}\left(\omega\right)}^{2}}{d\omega}
+        &=2\mathabs{F_{0}\left(\omega\right)}
+          \frac{d\mathabs{F_{0}\left(\omega\right)}}{d\omega} \\
+        &= 2\sin\omega
+\end{align*}
+By the chain rule for differentiation, the gradient of
+$\mathabs{F\left(\omega\right)}^{2}$ is:
+\begin{align*}
+  \frac{d\mathabs{F_{d}\left(\omega\right)}^{2}}{d\omega}
+  &= \mathabs{F_{0}\left(\omega\right)}^{2}
+     \frac{d\mathabs{C\left(\omega\right)}^{2}}{d\omega} +
+    \frac{\mathabs{F_{d}\left(\omega\right)}^{2}}
+    {\mathabs{F_{0}\left(\omega\right)}^{2}}
+    \frac{d\mathabs{F_{0}\left(\omega\right)}^{2}}{d\omega}
+\end{align*}
+Substituting and rearranging to obtain the desired gradient of
+$\mathabs{C\left(\omega\right)}^{2}$ in terms of the desired overall squared
+amplitude response, $\mathabs{F_{d}\left(\omega\right)}^{2}$, and the
+squared magnitude response of the zero at $z=1$,
+$\mathabs{F_{0}\left(\omega\right)}^{2}$:
+\begin{align*}
+  \frac{d\mathabs{C\left(\omega\right)}^{2}}{d\omega}
+  &= \mathabs{F_{d}\left(\omega\right)}
+\left[\frac{1-\mathabs{F_{d}\left(\omega\right)}\cot\frac{\omega}{2}}{\mathabs{F_{0}\left(\omega\right)}^{2} }\right]
+\end{align*}
+
+\clearpage
+
+\subsection{Initial R=2 low pass differentiator filter}
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-initial}
+shows the frequency response of the initial R=2 low pass differentiator filter
+found by the method of \emph{Tarczynski et al.}, described in
+Section~\ref{sec:Finding-initial-filter}. The correction filter order is $N=10$,
+filter pass band and stop band edge frequencies are $0.2$ and $0.4$\;(normalised
+to the digital sample rate), the nominal pass band phase is $1.5\pi$
+radians (adjusted for delay) and the nominal pass band group delay is $9$
+samples.
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_response}}
+\caption{Amplitude, phase and group delay responses of an initial 
+  low pass differentiator filter composed of a Schur one-multiplier lattice
+  correction filter with a denominator polynomial having terms only in $z^{-2}$
+  in series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-initial}
+\end{figure}
+
+The coefficients of the numerator and denominator polynomials of the initial
+correction filter transfer function are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_N0_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D0R_coef.m}
+\end{small}
+
+The corresponding Schur one-multiplier lattice coefficients of the initial
+correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k0_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon0_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c0_coef.m}
+\end{small}
+
+\clearpage
+
+\subsection{PCLS design of the R=2 low pass differentiator filter}
+The low pass differentiator correction filter was PCLS optimised with 
+amplitude pass band error peak-to-peak ripple of $0.0009$,
+amplitude stop band peak ripple of $0.007$,
+phase pass band peak-to-peak ripple of $0.0002\pi$\; radians,
+group delay pass band peak-to-peak ripple of $0.006$\; samples and
+correction filter gradient of amplitude-squared pass band error peak-to-peak
+ripple of $0.013$.
+
+The Schur one-multiplier lattice coefficients of the PCLS SOCP optimised
+correction filter are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m}
+\end{small}
+
+The corresponding correction filter numerator and denominator polynomial
+coefficients are:
+\begin{small}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m}
+\end{small}
+Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2}
+shows the  amplitude error, phase and group delay response errors of the $R=2$
+low pass differentiator filter after PCLS SOCP optimisation.
+Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-dAsqdw-error}
+shows the error in the gradient of the squared-magnitude response of the $R=2$
+correction filter and of the low pass differentiator filter after PCLS SOCP
+optimisation.
+Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2-pz} shows
+the pole-zero plot of the $R=2$ low pass differentiator filter.
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-direct-sens}
+shows the gradients of the correction filter squared-magnitude, phase and delay
+with respect to the coefficients of the direct form implementation of the filter.
+Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-Schur-sens}
+shows the gradients of the correction filter squared-magnitude, phase and delay
+with respect to the coefficients of the Schur lattice implementation of the
+filter.
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error}}
+\caption{PCLS optimised amplitude error, phase and group delay responses of a
+  low pass differentiator filter composed of a Schur one-multiplier lattice
+  correction filter with a denominator polynomial having terms only in $z^{-2}$
+  in series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-lowpass-differentiator-R2}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_dAsqdw_error}}
+\caption{PCLS optimised pass band error of the gradient of the squared magnitude
+  response of the correction filter and that of the differentiator filter.}
+\label{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-dAsqdw-error}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pz}}
+\caption{Pole-zero plot of the PCLS optimised low pass differentiator
+  filter composed of a Schur one-multiplier lattice correction filter with a
+  denominator polynomial having terms only in $z^{-2}$ in series with $1-z^{-1}$.}
+\label{fig:Schur-OneM-lattice-lowpass-differentiator-R2-pz}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_direct_sensitivity}}
+\caption{Gradients of the pass band response with respect to the coefficients of
+  the direct form implementation of the PCLS optimised low pass differentiator
+  correction filter.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-direct-sens}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_schur_sensitivity}}
+\caption{Gradients of the pass band response with respect to the coefficients of
+  the tapped Schur lattice implementation of the PCLS optimised low pass
+  differentiator correction filter.}
+\label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-Schur-sens}
+\end{figure}
+
+\clearpage
+
+\subsection{Search for the signed-digit coefficients of the R=2 low pass differentiator filter}
+
+When truncated to $12$ bits and $3$ signed-digits the Schur one-multiplier
+lattice coefficients of the PCLS optimised correction filter are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k0_sd_no_alloc_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c0_sd_no_alloc_coef.m}
+\end{small}
+
+The numbers of signed-digits that the heuristic of \emph{Lim et al.} allocates to
+each cofficient of the PCLS optimised correction filter are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_allocsd_digits.m}
+\end{small}
+
+The signed-digit coefficients of the PCLS optimised filter with the
+numbers of signed-digits allocated by the heuristic of \emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k0_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c0_sd_coef.m}
+\end{small}
+
+The signed-digit coefficients of the PCLS optimised filter with the
+numbers of signed-digits allocated by the heuristic of \emph{Lim et al.} and
+found with branch-and-bound search are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m}
+\end{small}
+The corresponding correction filter transfer function polynomials found with
+branch-and-bound search are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_N_min_coef.m}
+\verbatiminput{branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_D_min_coef.m}
+\end{small}
+
+The signed-digit coefficients of the PCLS optimised filter with the
+numbers of signed-digits allocated by the heuristic of \emph{Lim et al.} and
+found with SOCP relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m}
+\end{small}
+The corresponding correction filter transfer function polynomials found with
+SOCP relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_N_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_D_min_coef.m}
+\end{small}
+
+Table~\ref{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-cost}
+compares, for each filter, a cost function, the maximum pass band and stop band
+response errors, the total number of signed-digits required by the $12$-bit 
+coefficients and the number of shift-and-add operations required to implement
+the correction filter coefficient multiplications of the correction filter.
+\begin{table}[!hb]
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrrr} \\ \toprule
+ &Correction&Max. pass&Max. stop  &Max. pass &Max. pass&$12$-bit&Shift-and-adds\\
+ &filter    &amp. error&amp. error&phase error&delay error&signed& \\
+ &cost      &          &        &(rad./$\pi$)&(samples)  &digits& \\
+\midrule
+\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of low pass differentiator filter fixed point implementations]
+{Comparison of the response errors and the total number of signed digits in the
+  12-bit coefficients, each having an average of 3-signed digits, allocated by
+  the method of \emph{Lim et al.}, required for a tapped Schur one-multiplier
+  lattice, R=2, low pass differentiator correction filter found by
+  branch-and-bound and SOCP relaxation search.}
+\label{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-cost}
+\end{table}
+
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-amplitude}
+compares the pass band and stopband error amplitude response of each filter for
+$12$-bit $3$-signed-digit coefficients and $12$-bit coefficients with an average
+of $3$-signed-digits allocated by the method of \emph{Lim et al.} found with
+branch-and-bound search and SOCP relaxation search.
+Figures~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-phase},
+~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-delay} and
+~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dAsqdw} and
+compare the corresponding pass band phase, group-delay and gradient of the
+squared magnitude responses of each filter.
+
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_amplitude}}
+\caption{Comparison of the pass band and stop band amplitude response errors of
+  a tapped Schur one-multiplier, R=2, lattice lowpass differentiator correction
+  filter with floating point coefficients, 12-bit 3-signed-digit coefficients,
+  and 12-bit signed-digit coefficients each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found by branch-and-bound and
+  SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-amplitude}
+\end{figure}
+
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_phase}}
+\caption{Comparison of the pass band phase response errors of a tapped Schur
+  one-multiplier, R=2, lattice low pass differentiator correction filter with
+  floating point coefficients, 12-bit 3-signed-digit coefficients, and 12-bit
+  signed-digit coefficients each having an average of 3-signed-digits allocated
+  by the method of \emph{Lim et al.}, found by branch-and-bound and
+  SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-phase}
+\end{figure}
+
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_delay}}
+\caption{Comparison of the pass band group delay response errors of a tapped
+  Schur one-multiplier, R=2, lattice low pass differentiator correction filter
+  with floating point coefficients, 12-bit 3-signed-digit coefficients, and
+  12-bit signed-digit coefficients each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found by branch-and-bound and
+  SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-delay}
+\end{figure}
+
+\begin{figure}[!hb]
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_dAsqdw}}
+\caption{Comparison of the error in the pass band gradient of the squared
+  magnitude response of a tapped Schur one-multiplier, R=2, lattice low pass
+  differentiator correction filter with floating point coefficients, 12-bit
+  3-signed-digit coefficients, and 12-bit signed-digit coefficients each having
+  an average of 3-signed-digits allocated by the method of \emph{Lim et al.},
+  found by branch-and-bound and SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dAsqdw}
+\end{figure}
+
+\clearpage
+
+\section{Summary}
+The Schur lattice digital filter has a simple stability constraint. This article
+demonstrates the realisation of an IIR digital filter transfer function with
+stability and frequency response constraints by optimising the floating point
+and fixed point coefficients of a tapped one-multiplier Schur lattice digital
+filter.
+
+\bibliographystyle{plain}
+\bibliography{DesignOfSchurLatticeFilters}
+
+\end{document}

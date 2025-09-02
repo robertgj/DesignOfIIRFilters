@@ -10,14 +10,14 @@
 # VENDOR=$(shell cat /sys/class/dmi/id/sys_vendor)
 #
 # The apparently hardwired limit of 131071 characters in the bash command
-# buffer caused problems with the make $(test_COEFS) variable. The work
+# buffer caused problems with the $(test_COEFS) variable. The work
 # around is to remove the _spec.m and _test.mat file names from the _test.mk
 
 #
 # Top-level variables
 #
-VPATH=src:src/test:fig/dia
-TARGET=DesignOfIIRFilters
+TARGETS=DesignOfIIRFilters DesignOfSchurLatticeFilters
+VPATH=src:src/test:fig/dia:fig/tikz
 
 # Octave script files that generate figures. Each has an associated .mk file
 # and, on completion, a .diary file.
@@ -31,12 +31,15 @@ OCT_FILES:=$(notdir $(basename $(wildcard src/*.cc)))
 # GNU dia figure files
 DIA_FILES:=$(notdir $(basename $(wildcard fig/dia/*.dia)))
 
+# TEX tikz figure files
+TIKZ_FILES:=$(notdir $(basename $(wildcard fig/tikz/*.tex)))
+
 # clean suffixes
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
 _spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
-CLEAN_AEGIS_SUFFIXES= \,D \,B
+CLEAN_AEGIS_SUFFIXES= \,D \,B \,B,Conflicts
 
 # Command definitions
 OCTAVE=octave
@@ -48,8 +51,9 @@ MKOCTFILE_FLAGS=-v -o $@ -Wall -lgmp -lmpfr -I/usr/include/eigen3 \
 -Wno-deprecated-declarations
 # Suppress warning for deprecated std::wbuffer_convert<convfacet_u8, char>
 
-PDF_MONO_FLAGS='\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
-PDFLATEX=pdflatex -interaction=nonstopmode --synctex=1
+PDFLATEX=TEXMFHOME=./fig/texmf pdflatex
+PDFLATEX_FLAGS=-output-directory=. -interaction=nonstopmode -synctex=1
+PDF_MONO_FLAGS='\newcommand\$(1)Mono{}\input{$(1)}'
 BIBTEX=bibtex
 QPDF=/usr/bin/qpdf
 PDFGREP=/usr/bin/pdfgrep
@@ -57,11 +61,10 @@ GREP=/usr/bin/grep -Hi
 JEKYLL_OPTS=--config docs/_config.yml --source docs --destination docs/_site
 
 #
-# A list of all the dependencies of $(TARGET).pdf
+# A list of all the dependencies of $(TARGETS:%=%.pdf)
 #
-TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
-                    $(EXTRA_DIARY_FILES) $(TARGET).bib $(TARGET).tex 
-
+TARGET_DEPENDENCIES= $(DIA_FILES:%=%.pdf) $(TIKZ_FILES:%=%.pdf) \
+$(OCTAVE_SCRIPTS:%=%.diary) $(EXTRA_DIARY_FILES) 	
 
 #
 # Rules
@@ -74,6 +77,9 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 
 %.pdf : %.eps
 	epstopdf $< 
+
+%.pdf : %.tex
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $<
 
 # To test an octfile with valgrind and gdb:
 #   1. XCXXFLAGS="-ggdb3 -O0"
@@ -93,10 +99,9 @@ TARGET_DEPENDENCIES=$(DIA_FILES:%=%.pdf) $(OCTAVE_SCRIPTS:%=%.diary) \
 # Apparently, if the AddressSanitizer library is built without RTTI then
 # there are many "vptr" false-positives.
 #
-# %.oct depends on Makefile in case MKOCTFILE_FLAGS changes behaviour
-%.oct : %.cc Makefile
+# %.oct
+%.oct : %.cc 
 	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $<
-
 
 #
 # Macros 
@@ -112,8 +117,43 @@ $(1).eps : $(1).dia
 $(1).pdf : $(1).eps
 endef
 
+define tikz_template =
+$(1).pdf : $(1).tex
+endef
+
 define octave_script_template =
 $(1).diary : $($(1)_FILES)
+endef
+
+define target_template =
+$(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(1) && \
+	$(BIBTEX) $(1) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(1) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(1) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(1) 
+	-@if [[ -x $(QPDF) ]] ; then \
+		$(QPDF) --linearize $(1).pdf docs/public/$(1).pdf ; \
+	else \
+		cp -f $(1).pdf docs/public/$(1).pdf ; \
+	fi
+	-@if [[ -x $(PDFGREP) ]] ; then \
+		$(PDFGREP) "\[\?" $(1).pdf || true ; \
+	fi;
+	-@find . -name \*.elg -exec $(GREP) Can\'t\ load\ glyph {} ';' | sort | uniq
+	-@for warnstr in No\ file erfull warning ; do \
+		$(GREP) "$$warnstr" $(1).log | sort | uniq ; \
+	done ; 	
+	-@$(GREP) "warning" $(1).blg | sort | uniq ; 
+	echo "Build complete" ;
+
+.PHONY: $(1)_monochrome
+$(1)_monochrome: $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
+	$(BIBTEX) $(1) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
+	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS)
 endef
 
 
@@ -129,30 +169,15 @@ $(foreach octave_script, $(OCTAVE_SCRIPTS), \
 
 $(foreach dia_file, $(DIA_FILES), $(eval $(call dia_template,$(dia_file))))
 
+$(foreach tikz_file, $(TIKZ_FILES), $(eval $(call tikz_template,$(tikz_file))))
+
 
 #
-# Build target file. Check for log file warnings, incomplete references.
+# Build targets
 #
-$(TARGET).pdf: $(TARGET_DEPENDENCIES)
-	$(PDFLATEX) $(TARGET) && \
-	$(BIBTEX)   $(TARGET) && \
-	$(PDFLATEX) $(TARGET) && \
-	$(PDFLATEX) $(TARGET) && \
-	$(PDFLATEX) $(TARGET)
-	-@if [[ -x $(QPDF) ]] ; then \
-		$(QPDF) --linearize $(TARGET).pdf docs/public/$(TARGET).pdf ; \
-	else \
-		cp -f $(TARGET).pdf docs/public/$(TARGET).pdf ; \
-	fi
-	-@if [[ -x $(PDFGREP) ]] ; then \
-		$(PDFGREP) "\[\?" DesignOfIIRFilters.pdf || true ; \
-	fi;
-	-@find . -name \*.elg -exec $(GREP) Can\'t\ load\ glyph {} ';' | sort | uniq
-	-@for warnstr in No\ file erfull warning ; do \
-		$(GREP) "$$warnstr" DesignOfIIRFilters.log | sort | uniq ; \
-	done ; 	
-	-@$(GREP) "warning" DesignOfIIRFilters.blg | sort | uniq ; 
-	echo "Build complete" ;
+
+$(foreach target, $(TARGETS), $(eval $(call target_template,$(target))))
+
 
 #
 # PHONY targets
@@ -164,13 +189,9 @@ testvars :
 	@echo $(OCT_FILES:%=src/%.oct)
 	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
 	@echo $(OCTAVE_VER)
-
-.PHONY: chktex
-chktex:
-	if [[ -x /usr/bin/chktex ]] ; then \
-	  /usr/bin/chktex -n 3 -n 1 -n 7 -n 24 -n 13 -n 17 -n 8 -n 26 -n 32 -n 11 \
-	                  -n 9 -n 10 -n 36 -n 25 $(TARGET).tex; \
-	fi	
+	@echo $(TARGETS:%=%.pdf)
+	@echo $(DIA_FILES)
+	@echo $(TIKZ_FILES)
 
 .PHONY: octfiles
 octfiles: $(OCT_FILES:%=src/%.oct)
@@ -187,18 +208,20 @@ clean:
 	-rm -f $(test_COEFS)
 	-rm -f $(EXTRA_DIARY_FILES)
 	-rm -f $(DIA_FILES:%=%.pdf)
+	-rm -f $(TIKZ_FILES:%=%.pdf)
 	-rm -f octave-workspace
 	-rm -Rf docs/.sass-cache docs/_site
 	$(call clean_macro,$(CLEAN_SUFFIXES))
 
 .PHONY: cleanaegis
-cleanaegis: 
+cleanaegis:
+	-rm -f aegis.log
 	$(call clean_macro,$(CLEAN_AEGIS_SUFFIXES))
 
 .PHONY: cleantex
 cleantex:	
 	$(call clean_macro,$(CLEAN_TEX_SUFFIXES))
-	-rm -f $(TARGET).pdf
+	-rm -f $(TARGETS:%=%.pdf)
 
 .PHONY: cleanjekyll
 cleanjekyll:	
@@ -224,7 +247,7 @@ gitignore:
 	echo $(CLEAN_SUFFIXES:%="*"%) > .gitignore
 	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
 	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
-	echo octave-workspace open_useful_docs.sh $(TARGET).pdf >> .gitignore
+	echo octave-workspace open_useful_docs.sh $(TARGETS:%=%.pdf) >> .gitignore
 	echo _site .sass-cache .jekyll-cache .jekyll-metadata >> .gitignore
 	sed -i -e "s/\ /\n/g" .gitignore
 	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
@@ -233,23 +256,16 @@ gitignore:
 	echo $(test_COEFS) >> gitignore.tmp
 	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
 	echo $(DIA_FILES:%=%.pdf) >> gitignore.tmp
+	echo $(TIKZ_FILES:%=%.pdf) >> gitignore.tmp
 	sed -i -e "s/\ /\n/g" gitignore.tmp
 	sort gitignore.tmp  >> .gitignore
 	rm gitignore.tmp
 
 .PHONY: jekyll
-jekyll: $(TARGET).pdf cleanjekyll
+jekyll: $(TARGETS:%=%.pdf) cleanjekyll
 	jekyll serve $(JEKYLL_OPTS)
 
-.PHONY: monochrome
-monochrome: $(TARGET_DEPENDENCIES)
-	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
-	$(BIBTEX) $(TARGET) && \
-	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
-	$(PDFLATEX) $(PDF_MONO_FLAGS) && \
-	$(PDFLATEX) $(PDF_MONO_FLAGS)
-
 .PHONY: all
-all: octfiles $(TARGET).pdf 
+all: octfiles $(TARGETS:%=%.pdf)
 
-.DEFAULT_GOAL := $(TARGET).pdf 
+.DEFAULT_GOAL := $(word 1,$(TARGETS)).pdf

@@ -1,0 +1,79 @@
+% schur_OneMultiplier_lattice_section.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{dsp,chains}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+	\matrix (m1) [row sep=5mm, column sep=5mm]
+	{
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m200) {};                      &
+		\node[coordinate]                   (m201) {};                      &
+		\node[coordinate]                   (m202) {};                      &
+		\node[coordinate]                   (m203) {};                      &
+		\node[coordinate]                   (m204) {};                      &
+		\node[coordinate]                   (m205) {};                      &
+		\node[coordinate]                   (m206) {};                      &
+		\node[coordinate]                   (m207) {};                      &
+		\node[coordinate]                   (m208) {};                      &
+		\node[coordinate]                   (m209) {};                      &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m300) {};                      &
+		\node[dspnodeopen, dsp/label=left]  (m301) {$\Lambda_{n}$};          &
+		\node[dspnodefull]                  (m302) {};                      &
+		\node[dspadder]                     (m303) {};                      &
+		\node[coordinate]                   (m304) {};                      &
+		\node[dspnodefull]                  (m305) {};                      &
+		\node[coordinate]                   (m306) {};                      &
+        \node[dspadder]                     (m307) {};                      &
+		\node[dspnodeopen, dsp/label=right] (m308) {$z\Lambda_{n-1}$};       &
+		\node[coordinate]                   (m309) {};                      &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m400) {};                      &
+		\node[dspnodeopen, dsp/label=left]  (m401) {$\hat{\Lambda}_{n}$};    &
+		\node[coordinate]                   (m402) {};                      &
+		\node[dspadder]                     (m403) {};                      &
+		\node[coordinate]                   (m404) {};                      &
+		\node[dspnodefull]                  (m405) {};                      &
+		\node[coordinate]                   (m406) {};                      &
+		\node[coordinate]                   (m407) {};                      &
+		\node[dspnodeopen, dsp/label=right] (m408){$\hat{\Lambda}_{n-1}$};   &
+		\node[coordinate]                   (m409) {};                      &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+	};
+
+    \draw[dspconn] (m301) -- (m303);
+    \draw[dspconn] (m303) -- node[midway,above] {$k_{n}$} (m305);
+    \draw[dspconn] (m305) -- node[midway,above] {$\epsilon_{n}$} (m307);
+    \draw[dspconn] (m307) -- (m308);
+
+	\begin{scope}[start chain]
+      \chainin (m302);
+      \chainin (m202) [join=by dspline];
+      \chainin (m207) [join=by dspline];
+      \chainin (m307) [join=by dspconn];
+    \end{scope}
+
+	\begin{scope}[start chain]
+      \chainin (m408);
+      \chainin (m405) [join=by dspconn];
+      \chainin (m403) [join=by dspconn];
+      \chainin (m401) [join=by dspconn];
+    \end{scope}
+
+    \draw[dspconn] (m405) -- node[right,pos=0.4] {$-\epsilon_{n}$} (m303);
+    \draw[dspconn] (m305) -- (m403);
+
+\end{tikzpicture}
+
+\end{document}

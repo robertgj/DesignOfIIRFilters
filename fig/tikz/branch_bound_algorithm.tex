@@ -1,0 +1,81 @@
+% branch_bound_algorithm.tex
+
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows}
+
+\begin{document}
+
+% Define block styles
+\tikzstyle{Start} = [draw, ellipse, text width=2cm]
+\tikzstyle{Stop} = [draw, ellipse, text width=2cm]
+\tikzstyle{Decision} = [draw, diamond, text width=3cm, inner sep=0pt]
+\tikzstyle{Block} = [draw, rectangle, text width=4cm]
+\tikzstyle{Line} = [draw, -latex]
+
+\begin{tikzpicture}[align=center,semithick,auto]
+
+  % Place nodes
+  \node (Start) [Start] {Start};
+
+  \node (Initialise) 
+        [Block, below = 1cm of Start]
+        {Initialise $Cost_{min}$ and stack};
+        
+  \node (Create)
+        [Block, below = 1cm of Initialise] 
+        {Create two \\ sub-problems and push \\one onto the stack};
+        
+  \node (Find)
+        [Block, below = 1cm of Create]
+        {Find $Cost$ of \\current sub-problem};
+        
+  \node (Compare)
+        [Decision, below = 1cm of Find]
+        {$Cost < Cost_{min}$ ?};
+  \node [above right = 0.5mm and 0.5mm of Compare.east] {Yes};
+  \node [below right=0.5mm and 0.5mm of Compare.south] {No};
+  
+  \node (Depth)
+        [Decision, below right = 1cm and 3cm of Compare]
+        {At maximum depth of stack ?};
+  \node [above right = 0.5mm and 0.5mm of Depth.east] {No};
+  \node [below right = 0.5mm and 0.5mm of Depth.south] {Yes};
+  \node (DepthToCreate) [coordinate, right = 15mm of Depth.east] {};
+  
+  \node (Update)
+        [Block, below = 1cm of Depth]
+        {Set $Cost_{min} = Cost$ and update problem solution};
+        
+  \node (Check)
+        [Decision, below = 4cm of Compare]
+        {Sub-problems on stack ?};
+  \node [above left = 0.5mm and 0.5mm of Check.west] {Yes};
+  \node [below right = 0.5mm and 0.5mm of Check.south] {No};
+  
+  \node (Pop)
+        [Block, above left = 4cm and 2cm of Check] 
+        {Pop sub-problem \\off stack};
+        
+  \node (Stop) [Stop, below = 1cm of Check] {Stop};
+
+  % Draw lines
+  \path [Line] (Start.south) -- (Initialise.north);
+  \path [Line] (Initialise.south) -- (Create.north);
+  \path [Line] (Create.south) -- (Find.north);
+  \path [Line] (Find.south) -- (Compare.north);
+  \path [Line] (Compare.south) -- (Check.north);
+  \path [Line] (Compare.east) -| (Depth.north);
+  \path [Line] (Depth.south) -- (Update.north);
+  \path        (Depth.east) edge (DepthToCreate); 
+  \path [Line] (DepthToCreate) |- (Create.east);
+  \path [Line] (Update.south)|- (Check.east);
+  \path [Line] (Check.west) -| (Pop.south);
+  \path [Line] (Check.south) -- (Stop.north);
+  \path [Line] (Pop.north) |- (Find.west);
+
+\end{tikzpicture}
+
+\end{document}
+

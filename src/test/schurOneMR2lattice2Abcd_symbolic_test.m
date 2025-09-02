@@ -123,7 +123,7 @@ for u=1:length(f),
   endfor
   strABCD=strcat(strABCD,"];");
   eval(strABCD);
- 
+
   % Extract A,B,C,D
   A=ABCD(1:NS,1:NS);
   B=ABCD(1:NS,NS+1);
@@ -138,7 +138,7 @@ for u=1:length(f),
   Dap=ABCD(NS+2,NS+1);
   
   % Output
-  fhandle=fopen(sprintf("%s_N_%d.latex",strf,N),"wt");
+  fhandle=fopen(sprintf("%s_N_%d.tex",strf,N),"wt");
   fprintf(fhandle,"ABCD=%s\n",latex(ABCD));
   fclose(fhandle);
 
@@ -218,9 +218,9 @@ for u=1:length(f),
     for l=1:(Nvars+1),
       apG=apG+apGl{l};
     endfor
-
+    
     % Output. Remove epsilon from the all-pass matrix
-    fhandle=fopen(sprintf("%s_KYP_apG_N_%d.latex",strf,N),"wt");
+    fhandle=fopen(sprintf("%s_KYP_apG_N_%d.tex",strf,N),"wt");
     fprintf(fhandle,"apG=%s\n",latex(apG));
     fclose(fhandle);
 

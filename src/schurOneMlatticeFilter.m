@@ -34,6 +34,7 @@ function [yap y xx]=schurOneMlatticeFilter(k,epsilon,p,c,u,rounding)
 %             v    \
 %     <------+<-----o--------------<
 %
+% test/07/t0729a.sh contains an oct-file version of this function
 
 % Copyright (C) 2017-2025 Robert G. Jenssen
 %

@@ -40,10 +40,10 @@ for Nk=1:9
   % Butterworth filter output
   [yap y xx]=schurOneMlatticeFilter(k,epsilon,p,c,u,"none");
   [yapf yf xxf]=schurOneMlatticeFilter(k,epsilon,p,c,u,"round");
-  yABCD=svf(A,B,C,dd,u,"none");
-  yABCDf=svf(A,B,C,dd,u,"round");
-  yABCDap=svf(A,B,Cap,ddap,u,"none");
-  yABCDapf=svf(A,B,Cap,ddap,u,"round");
+  [yABCD,xxABCD]=svf(A,B,C,dd,u,"none");
+  [yABCDf,xxABCDf]=svf(A,B,C,dd,u,"round");
+  [yABCDap,xxABCDap]=svf(A,B,Cap,ddap,u,"none");
+  [yABCDapf,xxABCDapf]=svf(A,B,Cap,ddap,u,"round");
 
   % Remove initial transient
   Rn60=(n60+1):length(u);
@@ -56,6 +56,14 @@ for Nk=1:9
   yABCDf=yABCDf(Rn60);
   yABCDap=yABCDap(Rn60);
   yABCDapf=yABCDapf(Rn60);
+
+  % Sanity check
+  if max(abs(y-yABCD)) > 1e4*eps
+    error("max(abs(y-yABCD))(%g*eps) > 1e4*eps",max(abs(y-yABCD))/eps)
+  endif
+  if max(abs(yap-yABCDap)) > 1e4*eps
+    error("max(abs(yap-yABCDap))(%g*eps) > 1e4*eps",max(abs(yap-yABCDap))/eps)
+  endif
   
   % Butterworth variance
   est_varyd=(1+(ng*delta*delta))/12
@@ -74,14 +82,24 @@ for Nk=1:9
   % Check state variable std. deviation
   stdxx=std(xx(Rn60,:))
   stdxxf=std(xxf(Rn60,:))
+  stdxxABCD=std(xxABCD(Rn60,:))
+  stdxxABCDf=std(xxABCDf(Rn60,:))
+  stdxxABCDap=std(xxABCDap(Rn60,:))
+  stdxxABCDapf=std(xxABCDapf(Rn60,:))
   
   % Plot frequency response for the Schur lattice implementation
   nfpts=1000;
-  nppts=(0:499);
+  nppts=(0:((nfpts/2)-1));
   fnppts=nppts*0.5/nppts(end);
   Hnd=freqz(n,d,2*pi*fnppts);
+  H=crossWelch(u,y,nfpts);
+  Hap=crossWelch(u,yap,nfpts);
   Hf=crossWelch(u,yf,nfpts);
   Hapf=crossWelch(u,yapf,nfpts);
+  HABCD=crossWelch(u,yABCD,nfpts);
+  HABCDap=crossWelch(u,yABCDap,nfpts); 
+  HABCDf=crossWelch(u,yABCDf,nfpts);
+  HABCDapf=crossWelch(u,yABCDapf,nfpts);
   plot(nppts/nfpts,20*log10(abs(Hf)), ...
        nppts/nfpts,20*log10(abs(Hapf)), ...
        nppts/nfpts,20*log10(abs(Hnd)));

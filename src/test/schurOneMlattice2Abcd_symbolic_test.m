@@ -21,7 +21,7 @@ tic;
 
 tol_eps=20;dBap=0.1;dBas=40;fc=0.1;
 
-for N=[1,2,3,6,7],
+for N=1:7,
   
   [n,d]=cheby2(N,dBas,2*fc);
   [k,epsilon,p,c]=tf2schurOneMlattice(n,d);
@@ -65,7 +65,12 @@ for N=[1,2,3,6,7],
     eval(sprintf("C(%d)=c%d;",l+1,l));
   endfor
   eval(sprintf("D=c%d;",N));
-  ABCD=[A,B;C,D];
+  
+  % Output
+  ABCDCapDap=[A,B;C,D;Cap,Dap];
+  fhandle=fopen(sprintf("%s_N_%d.tex",strf,N),"wt");
+  fprintf(fhandle,"\\\\ $%s$ \\\\",latex(ABCDCapDap));
+  fclose(fhandle);
 
   %
   % Sanity checks.
@@ -82,6 +87,7 @@ for N=[1,2,3,6,7],
     eval(sprintf("c%d=vpa(c(l+1));",l));
   endfor
 
+  ABCD=[A,B;C,D];
   vABCD=double(eval(ABCD(1:(N+1),1:(N+1))));
   if max(max(abs(vABCD-[rA,rB;rC,rD])))>eps
     error("N=%d,max(max(abs(vABCD-[rA,rB;rC,rD])>eps))",N);

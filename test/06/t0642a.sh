@@ -23,7 +23,7 @@ schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 print_polynomial.m WISEJ.m qroots.oct \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct"
+complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct Abcd2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -77,7 +77,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave --no-gui -q $prog >test.out 2>&1
+octave --no-gui -q $prog #>test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="schurOneMlattice_socp_slb_lowpass_differentiator_R2_test";

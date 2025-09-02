@@ -23,7 +23,7 @@ fap=0.2;fas=0.4;
 Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
-fdp=fap;dpr=0.1;cpr=0.013;Wdp=0.1;
+fdp=fap;cpr=0.013;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -36,10 +36,12 @@ ndp=ceil(fdp*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w;
+Rap=1:nap;
+Ras=nas:length(wa);
 Azm1=2*sin(wa/2);
 Azm1sq=Azm1.^2;
 dAzm1sqdw=2*sin(wa);
-Ad=[wa(1:nap)/2;zeros(n-1-nap,1)];
+Ad=[wa(Rap)/2;zeros(n-1-nap,1)];
 Asqd=Ad.^2;
 dAsqddw=Ad;
 Adu=[wa(1:nas-1)/2; zeros(n-nas,1)] + ...
@@ -90,7 +92,7 @@ printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 wi=pi*(1:(n-1))'/n;
 bzm1=[1,-1];
 Hzm1=freqz(bzm1,1,wi)(:);
-Hi=[(-j*(wi(1:nap)/2)./Hzm1(1:nap)).*exp(-j*tp*wi(1:nap)); zeros(n-nap-1,1)];
+Hi=[(-j*(wi(Rap)/2)./Hzm1(Rap)).*exp(-j*tp*wi(Rap)); zeros(n-nap-1,1)];
 Wi=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 
 % Unconstrained minimisation
@@ -135,31 +137,29 @@ dAsqdw0=(Csq0(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
 
 % Plot the initial response
 subplot(311);
-[ax,ha,hs]=plotyy(wa(1:nas)*0.5/pi, ...
-                  [A0(1:nas),Adl(1:nas),Adu(1:nas)], ...
-                  wa(nas:end)*0.5/pi, ...
-                  [A0(nas:end),Adl(nas:end),Adu(nas:end)]);
+[ax,ha,hs]=plotyy(wa(1:nas)*0.5/pi,A0(1:nas),wa(Ras)*0.5/pi,A0(Ras));
 % Copy line colour
 hac=get(ha,"color");
-for c=1:3
-  set(hs(c),"color",hac{c});
-endfor
+set(hs,"color",hac);
+% Set axes colour
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 0 1]);
 axis(ax(2),[0 0.5 0 0.025]);
-strP=sprintf(["Differentiator initial response : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g"],
-             fap,Arp,fas,Ars,tp);
+strP= ...
+  sprintf("Differentiator initial response : fap=%g,fas=%g,pp=%g$\\pi$,tp=%g",...
+          fap,fas,pp,tp);
 title(strP);
-ylabel("Amplitude(dB)");
+ylabel("Amplitude");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([P0 Pdl Pdu]+(wp*tp))/pi);
-axis([0 0.5 pp+ppr*[-1,1]]);
+plot(wp*0.5/pi,(P0+(wp*tp))/pi);
+axis([0 0.5 pp+(2*ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,[T0 Tdl Tdu]);
-axis([0 0.5 tp+tpr*[-1,1]]);
+plot(wt*0.5/pi,T0);
+axis([0 0.5 tp+(2*tpr*[-1,1])]);
 ylabel("Delay(samples)");
 grid("on");
 xlabel("Frequency");
@@ -210,15 +210,9 @@ if max(abs(k2-k2r))>eps
   error("max(abs(k2-k2r))(%g*eps)>eps",max(abs(k2-k2r))/eps);
 endif
 
-% Pole-zero plot
-zplane(qroots(conv(N2,bzm1)),qroots(D2));
-print(strcat(strf,"_pcls_pz"),"-dpdflatex");
-close
-
 % Calculate the overall response
 Csq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
 A2=sqrt(Csq2).*Azm1;
-wp=w(1:npp);
 Pzm1=(pi/2)-(wp/2);
 P2=schurOneMlatticeP(wp,k2,epsilon2,p2,c2) + Pzm1;
 T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2) + Tzm1;
@@ -227,29 +221,34 @@ dAsqdw2=(Csq2(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw2.*Azm1sq(1:ndp));
 
 % Plot response error
 subplot(311);
-[ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi, ...
-                  [A2(1:nap),Adl(1:nap),Adu(1:nap)]-Ad(1:nap), ...
-                  wa(nas:end)*0.5/pi, ...
-                  [A2(nas:end),Adl(nas:end),Adu(nas:end)]);
+[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,[A2(Rap),Adu(Rap),Adl(Rap)]-Ad(Rap), ...
+                    wa(Ras)*0.5/pi,[A2(Ras),Adu(Ras),Adl(Ras)]);
 % Copy line colour
 hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
+% Copy axis colour
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 0.001*[-1,1]]);
 axis(ax(2),[0 0.5 0.004*[-1,1]]);
-strP=sprintf(["Differentiator PCLS error : ", ...
- "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
-title(strP);
+strT=sprintf(["Differentiator PCLS error : ", ...
+ "fap=%g,Arp=%g,tp=%g,tpr=%g,ppr=%g,fas=%g,Ars=%g"],fap,Arp,tp,tpr,ppr,fas,Ars);
+%title(strT);
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
+plot(wp*0.5/pi,([P2 Pdu Pdl]+(wp*tp))/pi);
 axis([0 0.5 pp+(0.0002*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+legend("Response","Upper PCLS constraint","Lower PCLS constraint");
+legend("location","east");
+legend("boxoff");
+legend("right");
 subplot(313);
-plot(wt*0.5/pi,[T2 Tdl Tdu]);
+plot(wt*0.5/pi,[T2 Tdu Tdl]);
 axis([0 0.5 tp+(0.004*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -257,27 +256,122 @@ grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
+% Pole-zero plot
+zplane(qroots(conv(N2,bzm1)),qroots(D2));
+print(strcat(strf,"_pcls_pz"),"-dpdflatex");
+close
+
 % Plot filter dAsqdw error
-plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
-axis([0 fdp 0.02*[-1,1]])
+plot(wd*0.5/pi,[dAsqdw2,Ddu,Ddl]-Dd)
+axis([0 fdp 0.01*[-1,1]])
 grid("on");
-title("Differentiator filter dAsqdw error");
-ylabel("dAsqdw error");
+title("Differentiator filter $\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
+ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
 xlabel("Frequency");
+legend("Response","Upper PCLS constraint","Lower PCLS constraint");
+legend("location","southwest");
+legend("boxoff");
+legend("right");
 print(strcat(strf,"_pcls_dAsqdw_error"),"-dpdflatex");
 close
 
 % Plot correction filter dCsqdw error
-plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
-axis([0 fdp 0.02*[-1,1]])
+plot(wd*0.5/pi,[dCsqdw2,Cdu,Cdl]-Cd)
+axis([0 fdp 0.01*[-1,1]])
 grid("on");
-title("Differentiator correction filter dCsqdw error");
-ylabel("dCsqdw error");
+title("Differentiator correction filter $\\frac{d\\lvert C\\rvert^{2}}{dw}$ error");
+ylabel("$\\frac{d\\lvert C\\rvert^{2}}{dw}$ error");
 xlabel("Frequency");
+legend("Response","Upper PCLS constraint","Lower PCLS constraint");
+legend("location","southwest");
+legend("boxoff");
+legend("right");
 print(strcat(strf,"_pcls_dCsqdw_error"),"-dpdflatex");
 close
 
+% Plot both correction filter dCsqdw error and filter dAsqdw error
+subplot(211)
+plot(wd*0.5/pi,[dCsqdw2,Cdu,Cdl]-Cd)
+% title("Differentiator filter $\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
+axis([0 fdp 0.01*[-1,1]])
+grid("on");
+ylabel("$\\frac{d\\lvert C\\rvert^{2}}{dw}$ error");
+subplot(212)
+plot(wd*0.5/pi,[dAsqdw2,Ddu,Ddl]-Dd)
+axis([0 fdp 0.01*[-1,1]])
+grid("on");
+ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_dCsqdw_dAsqdw_error"),"-dpdflatex");
+close
+
+% Plot sensitivity of response to direct form coefficients of correction filter
+[A2_D,B2_D,C2_D,D2_D,dA2_Ddx,dB2_Ddx,dC2_Ddx,dD2_Ddx]=tf2Abcd(N2,D2);
+[H2_D,dH2_Ddw,dH2_Ddx,d2H2_Ddwdx]= ...
+  Abcd2H(wa,A2_D,B2_D,C2_D,D2_D,dA2_Ddx,dB2_Ddx,dC2_Ddx,dD2_Ddx);
+[Csq2_D,gradCsq2_D]=H2Asq(H2_D,dH2_Ddx);
+[P2_D,gradP2_D]=H2P(H2_D(Rap,:),dH2_Ddx(Rap,:));
+[T2_D,gradT2_D]=H2T(H2_D(Rap,:),dH2_Ddw(Rap,:), ...
+                    dH2_Ddx(Rap,:),d2H2_Ddwdx(Rap,:));
+% Plot
+subplot(311);
+plot(wa(Rap)*0.5/pi,gradCsq2_D(Rap,:));
+strP=sprintf("Direct form correction filter coefficient sensitivity");
+title(strP);
+ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
+grid("on");
+subplot(312);
+plot(wp*0.5/pi,gradP2_D);
+%axis([0 0.5 pp+(0.0002*[-1,1])]);
+ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
+grid("on");
+subplot(313);
+plot(wt*0.5/pi,gradT2_D);
+%axis([0 0.5 tp+(0.004*[-1,1])]);
+ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_direct_sensitivity"),"-dpdflatex");
+close
+
+% Plot sensitivity of response to schur coefficients of correction filter
+[Csq2,gradCsq2]=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
+[P2,gradP2]=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
+[T2,gradT2]=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
+% Plot
+subplot(311);
+plot(wa(Rap)*0.5/pi,gradCsq2(Rap,:));
+strP=sprintf("Tapped Schur lattice correction filter coefficient sensitivity");
+title(strP);
+ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
+grid("on");
+subplot(312); 
+plot(wp*0.5/pi,gradP2);
+%axis([0 0.5 pp+(0.0002*[-1,1])]);
+ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
+grid("on");
+subplot(313);
+plot(wt*0.5/pi,gradT2);
+%axis([0 0.5 tp+(0.004*[-1,1])]);
+ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_schur_sensitivity"),"-dpdflatex");
+close
+
 % Save results
+print_polynomial(N0,"N0");
+print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
+print_polynomial(D0R,"D0R");
+print_polynomial(D0R,"D0R",strcat(strf,"_D0R_coef.m"));
+print_polynomial(k0,"k0");
+print_polynomial(k0,"k0",strcat(strf,"_k0_coef.m"));
+print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"));
+print_polynomial(p0,"p0");
+print_polynomial(p0,"p0",strcat(strf,"_p0_coef.m"));
+print_polynomial(c0,"c0");
+print_polynomial(c0,"c0",strcat(strf,"_c0_coef.m"));
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(epsilon2,"epsilon2");

@@ -694,7 +694,7 @@ so that:
 \begin{align*}
 H\left(z\right) &= \frac{b_{0}+B_{1}\left(z\right)}{1+a_{0}A_{1}\left(z\right)}
 \end{align*}
-See Figure~\ref{fig:Recursive-generation-of}.
+See Figure~\ref{fig:Recursive-generation-of-direct-form-filters}.
 \begin{figure}[!ht]
 \begin{subfigure}[b]{\textwidth}
 \centering
@@ -708,7 +708,7 @@ See Figure~\ref{fig:Recursive-generation-of}.
 \caption{$k_{th}$ internal section.}
 \end{subfigure}
 \caption{Recursive generation of direct form filters.} 
-\label{fig:Recursive-generation-of}
+\label{fig:Recursive-generation-of-direct-form-filters}
 \end{figure}
 \section{State variable description of a signal flow graph\label{sec:State-variable-description-of-a-signal-flow-graph}}
 The state variable description of a signal flow graph is derived by
@@ -1537,7 +1537,7 @@ y\left(k\right) &= Cx\left(k\right)+Du\left(k\right)\\
  &= \sum_{l=1}^{\infty}CA^{l-1}Bu\left(k-l\right)+Du\left(k\right)\\
  &= \sum_{l=-\infty}^{\infty}h\left(l\right)u\left(k-l\right)
 \end{align*}
-For these to agree
+For these to agree~\cite[Equation 8.3.21]{RobertsMullis_DigitalSignalProcessing}:
 \begin{align*}
 h\left(k\right) &= \begin{cases}
 0 & k<0\\
@@ -4835,7 +4835,7 @@ lattice filter can avoid the severe input scaling of the basic lattice
 filter and have better round-off noise behaviour. One criterion for
 choosing the sign parameters is to require that the node associated
 with the largest $k$-parameter in magnitude have the largest 
-amplitude\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.
+amplitude~\cite{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.
 The sign parameters are found recursively by requiring that the amplitudes
 at other nodes be as large as possible without exceeding the maximum
 value. If the maximum occurs for $k_{l}$ then the recursion proceeds
@@ -8342,12 +8342,11 @@ $M$ are suitable constants and $f\left(t\right)$ is the impulse response of the
 filter $F\left(z\right)=\frac{1}{D\left(z\right)}$. \emph{Tarczynski et al.} 
 provide heuristics for selecting $\lambda$, $T$ and $M$. Typically, 
 $\lambda \in \left[10^{-10},10^{-3}\right]$, $T\in \left[ 100, 500 \right]$ and 
-$M=RK$. The barrier function (the second part of Equation 
+$M=RN_{d}$. The barrier function (the second part of Equation 
 ~\ref{eqn:WISE-barrier-function}) is intended to be small when the filter is 
 stable and increase rapidly otherwise. \emph{Roberts and Mullis} 
 ~\cite[Section 8.3]{RobertsMullis_DigitalSignalProcessing} show that the state
-space description of the direct-form implementation of 
-$F\left(z\right)$ is:
+space description of the direct-form implementation of $F\left(z\right)$ is:
 \begin{align*}
 \left[\begin{array}{c}
 x\left(t+1\right)\\
@@ -13191,7 +13190,7 @@ and the response of the zero at $z=1$ is:
 \end{align*}
 By the chain rule for differentiation, the gradient of $A^{2}$ is:
 \begin{align*}
-  \frac{dA^{2}}{d\omega} &= A_{z}\frac{dC^{2}}{d\omega} +
+  \frac{dA^{2}}{d\omega} &= A_{z}^{2}\frac{dC^{2}}{d\omega} +
                            \frac{A^{2}}{A_{z}^{2}}\frac{dA_{z}^{2}}{d\omega}
 \end{align*}
 Substituting and rearranging to obtain the desired gradient of $C^{2}$ in
@@ -13393,14 +13392,14 @@ the pole-zero plot of the $R=2$ low-pass differentiator filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_error}}
-\caption{PCLS optimised error of the gradient the squared amplitude response 
+\caption{PCLS optimised error of the gradient of the squared amplitude response 
   of the correction filter.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dCsqdw}
 \end{figure}
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dAsqdw_error}}
-\caption{PCLS optimised error of the gradient the squared amplitude response 
+\caption{PCLS optimised error of the gradient of the squared amplitude response 
   of the low-pass differentiator filter.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-dAsqdw}
 \end{figure}

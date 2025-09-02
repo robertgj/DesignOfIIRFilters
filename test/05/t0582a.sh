@@ -5,8 +5,8 @@ prog=schurOneMlatticeFilter_test.m
 depends="test/schurOneMlatticeFilter_test.m test_common.m \
 schurOneMlatticeFilter.m tf2schurOneMlattice.m schurOneMscale.m \
 schurOneMlatticeNoiseGain.m schurOneMlatticeRetimedNoiseGain.m \
-KW.m p2n60.m qroots.oct svf.m crossWelch.m \
-schurexpand.oct schurdecomp.oct reprand.oct \
+KW.m p2n60.m svf.m crossWelch.m \
+qroots.oct schurexpand.oct schurdecomp.oct reprand.oct \
 schurOneMlattice2Abcd.oct complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
@@ -63,6 +63,10 @@ est_varyABCDapd = 0.1667
 varyABCDapd = 0.1675
 stdxx = 126.21
 stdxxf = 126.21
+stdxxABCD = 126.22
+stdxxABCDf = 126.22
+stdxxABCDap = 126.22
+stdxxABCDapf = 126.22
 At fc Hf=-3.005182 (dB)
 
 Testing Nk=2
@@ -87,6 +91,18 @@ stdxx =
 
 stdxxf =
    125.69   126.77
+
+stdxxABCD =
+   125.70   126.77
+
+stdxxABCDf =
+   125.72   126.78
+
+stdxxABCDap =
+   125.70   126.77
+
+stdxxABCDapf =
+   125.72   126.78
 
 At fc Hf=-3.000463 (dB)
 
@@ -113,6 +129,18 @@ stdxx =
 stdxxf =
    125.56   126.18   126.99
 
+stdxxABCD =
+   125.55   126.17   126.97
+
+stdxxABCDf =
+   125.55   126.18   126.98
+
+stdxxABCDap =
+   125.55   126.17   126.97
+
+stdxxABCDapf =
+   125.55   126.18   126.98
+
 At fc Hf=-2.996263 (dB)
 
 Testing Nk=4
@@ -137,6 +165,18 @@ stdxx =
 
 stdxxf =
    125.49   125.99   126.33   127.18
+
+stdxxABCD =
+   125.46   125.94   126.29   127.17
+
+stdxxABCDf =
+   125.48   125.94   126.29   127.16
+
+stdxxABCDap =
+   125.46   125.94   126.29   127.17
+
+stdxxABCDapf =
+   125.48   125.94   126.29   127.16
 
 At fc Hf=-2.991232 (dB)
 
@@ -163,6 +203,18 @@ stdxx =
 stdxxf =
    125.36   125.69   125.96   126.52   127.29
 
+stdxxABCD =
+   125.32   125.68   125.94   126.52   127.29
+
+stdxxABCDf =
+   125.34   125.69   125.96   126.53   127.29
+
+stdxxABCDap =
+   125.32   125.68   125.94   126.52   127.29
+
+stdxxABCDapf =
+   125.34   125.69   125.96   126.53   127.29
+
 At fc Hf=-2.979559 (dB)
 
 Testing Nk=6
@@ -187,6 +239,18 @@ stdxx =
 
 stdxxf =
    125.21   125.48   125.69   126.46   126.61   127.32
+
+stdxxABCD =
+   125.18   125.49   125.67   126.41   126.58   127.32
+
+stdxxABCDf =
+   125.17   125.48   125.65   126.38   126.56   127.32
+
+stdxxABCDap =
+   125.18   125.49   125.67   126.41   126.58   127.32
+
+stdxxABCDapf =
+   125.17   125.48   125.65   126.38   126.56   127.32
 
 At fc Hf=-2.998905 (dB)
 
@@ -213,6 +277,18 @@ stdxx =
 stdxxf =
    125.16   125.39   125.40   126.28   126.78   126.05   127.63
 
+stdxxABCD =
+   125.16   125.35   125.37   126.23   126.77   126.06   127.64
+
+stdxxABCDf =
+   125.14   125.33   125.37   126.24   126.77   126.08   127.64
+
+stdxxABCDap =
+   125.16   125.35   125.37   126.23   126.77   126.06   127.64
+
+stdxxABCDapf =
+   125.14   125.33   125.37   126.24   126.77   126.08   127.64
+
 At fc Hf=-3.020638 (dB)
 
 Testing Nk=8
@@ -237,6 +313,18 @@ stdxx =
 
 stdxxf =
    125.05   125.30   125.18   126.00   127.09   125.69   126.60   127.65
+
+stdxxABCD =
+   125.04   125.24   125.13   125.97   127.05   125.69   126.59   127.64
+
+stdxxABCDf =
+   125.06   125.24   125.13   126.00   127.06   125.72   126.58   127.64
+
+stdxxABCDap =
+   125.04   125.24   125.13   125.97   127.05   125.69   126.59   127.64
+
+stdxxABCDapf =
+   125.06   125.24   125.13   126.00   127.06   125.72   126.58   127.64
 
 At fc Hf=-3.060137 (dB)
 
@@ -269,6 +357,30 @@ stdxxf =
  Column 9:
    127.67
 
+stdxxABCD =
+ Columns 1 through 8:
+   124.98   125.12   124.72   125.58   127.28   125.88   125.98   126.86
+ Column 9:
+   127.67
+
+stdxxABCDf =
+ Columns 1 through 8:
+   124.91   125.06   124.68   125.56   127.32   125.87   125.96   126.86
+ Column 9:
+   127.67
+
+stdxxABCDap =
+ Columns 1 through 8:
+   124.98   125.12   124.72   125.58   127.28   125.88   125.98   126.86
+ Column 9:
+   127.67
+
+stdxxABCDapf =
+ Columns 1 through 8:
+   124.91   125.06   124.68   125.56   127.32   125.87   125.96   126.86
+ Column 9:
+   127.67
+
 At fc Hf=-3.088373 (dB)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
@@ -276,7 +388,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match
 #
-echo "Running $prog"
+echo "Running $prog (mfile)"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

@@ -1,0 +1,74 @@
+% slb_exchange_algorithm.tex
+
+\documentclass[border=1cm]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows}
+
+\begin{document}
+
+% Define block styles
+\tikzstyle{Start} = [draw, ellipse, text width=2cm]
+\tikzstyle{Stop} = [draw, ellipse, text width=2cm]
+\tikzstyle{Decision} = [draw, diamond, text width=3cm, inner sep=0pt]
+\tikzstyle{Block} = [draw, rectangle, text width=4cm]
+\tikzstyle{Line} = [draw, -latex]
+
+\begin{tikzpicture}[align=center,semithick,auto]
+
+  % Place nodes
+  \node (Start) [Start] {Start};
+
+  \node (Initialise) 
+        [Block, below = 1cm of Start]
+        {Initialise $R$ to empty.\\
+         Initialise $S$ to the constraints violated by the initial filter.};
+        
+  \node (Solve)
+        [Block, below = 1cm of Initialise] 
+        {Solve the filter\\optimisation problem\\with the $S$ constraints.};
+        
+  \node (Check_R)
+        [Decision, below = 1cm of Solve]
+        {Are any $R$\\constraints\\violated?};
+  \node [above left = 0.5mm and 0.5mm of Check_R.west] {Yes};
+  \node [below right = 0.5mm and 0.5mm of Check_R.south] {No};
+        
+  \node (Exchange)
+        [Block, above left = 0.5cm and 1.5cm of Check_R] 
+        {Move the most violated constraint in $R$ to $S$.};
+        
+  \node (Multiple_Exchange)
+        [Block, below = 1cm of Check_R] 
+        {Overwrite $R$ with $S$.};
+        
+  \node (Update)
+        [Block, below = 1cm of Multiple_Exchange]
+        {Find the current\\violated constraints, $S$.};
+
+  \node (Check_S)
+        [Decision, below = 1cm of Update]
+        {Is $S$ empty?};
+  \node [above right = 0.5mm and 0.5mm of Check_S.east] {No};
+  \node [below right=0.5mm and 0.5mm of Check_S.south] {Yes};
+  \node (Check_S_To_Solve) [coordinate, right = 2cm of Check_S.east] {};
+  
+  \node (Stop) [Stop, below = 1cm of Check_S] {Stop};
+
+  % Draw lines
+  \path [Line] (Start.south) -- (Initialise.north);
+  \path [Line] (Initialise.south) -- (Solve.north);
+  \path [Line] (Solve.south) -- (Check_R.north);
+  \path [Line] (Check_R.west) -| (Exchange.south);
+  \path [Line] (Exchange.north) |- (Solve.west);
+  \path [Line] (Check_R.south) -- (Multiple_Exchange.north);
+  \path [Line] (Multiple_Exchange.south) -| (Update.north);
+  \path [Line] (Update.south) -- (Check_S.north);
+  \path        (Check_S.east) edge (Check_S_To_Solve);
+  \path [Line] (Check_S_To_Solve) |- (Solve.east);
+  \path [Line] (Check_S.south) -- (Stop.north);
+
+\end{tikzpicture}
+
+\end{document}
+
