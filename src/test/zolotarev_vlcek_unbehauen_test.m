@@ -418,8 +418,8 @@ printf("p=%d,q=%2d,k=%7.5f,fmax=%6.4f,fm=%6.4f(%6.4f dB),fp=%6.4f,fs=%6.4f\n", .
 [H,w]=freqz(h,1,nf);
 plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -40 0]);
-strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ FIR filter ", ...
- "(Vlcek and Unbehauen) : fp=%6.4f,fmax=%6.4f,fs=%6.4f"], p,q,k,fp,fmax,fs);
+strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ ", ...
+              "FIR filter(Vlcek and Unbehauen)"], p,q,k);
 title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
@@ -433,7 +433,7 @@ Qzptf=polyval(Za,Wzptf);
 plot(Wzptf,(1+Qzptf)/(1+fm));
 axis([-1 1 -0.1 1]);
 strt=sprintf(["Normalised Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ ", ...
- "(Vlcek and Unbehauen)"],p,q,k);
+              "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 ylabel("Amplitude");
 xlabel("$w$");

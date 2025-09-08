@@ -42700,33 +42700,8 @@ times each. The aim appears to be to find the bounding box of the label for
 typesetting. \LaTeX\ provides macros to do this. However, I use the
 \emph{-dpdflatex} print device and \emph{pdflatex} not \emph{latex}.
 \emph{pdflatex} generates PDF files and, accordingly, uses Adobe Type 1 fonts
-rather than \TeX\ \MF\ fonts. Hence, I expect that the text extent calculated by
-FreeType would be the same as that found by \emph{pdflatex}. This suggests the
-following patch:
-\begin{small}
-\begin{verbatim}
---- octave-10.2.0/libinterp/corefcn/text-renderer.cc    2025-05-29 22:16:39.000000000 +1000
-+++ octave-10.2.0.new/libinterp/corefcn/text-renderer.cc        2025-09-03 15:46:23.418508255 +1000
-@@ -80,10 +80,13 @@
- {
-   static Matrix retval (1, 4, 0.0);
- 
-+#if 0
-   if (interpreter == "latex" && m_latex_rep->ok ())
-     retval = m_latex_rep->get_extent (txt, rotation, interpreter);
--  else if (ok ())
--    retval = m_rep->get_extent (txt, rotation, interpreter);
-+  else
-+#endif  
-+    if (ok ())
-+      retval = m_rep->get_extent (txt, rotation, interpreter);
- 
-   return retval;
- }
-\end{verbatim}
-\end{small}
-Of course, this hack breaks printing of Octave plots to the \emph{-dlatex}
-device.
+rather than \TeX\ \MF\ fonts. See the discussion at
+\url{https://savannah.gnu.org/bugs/?66012}.
 
 \subsubsection*{Using the Octave external code interface}
 From the Octave \emph{info} documentation:
@@ -43033,7 +43008,7 @@ libopenblasp (4 threads)   & 58886  & 10.8        &  48.4          &  50.3 \\
 \end{table}
 
 \subsubsection*{Benchmarking \emph{freqz}, \emph{iirA}  and \emph{schurOneMPAlatticeAsq}}
-The Octave script \emph{benchmark\_iirA\_freqz.sh} compares the average execution
+The Octave script \emph{benchmark\_iirA\_freqz.m} compares the average execution
 time of the Octave \emph{signal} package function \emph{freqz} (calculated at
 equal frequency intervals with an FFT) and the \emph{iirA} and
 \emph{schurOneMPAlatticeAsq} functions (calculated at arbitrary frequencies with
