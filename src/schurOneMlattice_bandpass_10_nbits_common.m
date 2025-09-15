@@ -1,4 +1,4 @@
-% schurOneMlattice_bandpass_R2_10_nbits_common.m
+% schurOneMlattice_bandpass_10_nbits_common.m
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
 % Coefficients found by schurOneMlattice_socp_slb_bandpass_test.m

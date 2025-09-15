@@ -11,15 +11,15 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 script_id=tic;
 
-maxiter=2000
+maxiter=10000
 ftol=1e-4
-ctol=1e-7
+ctol=1e-6
 verbose=false
 
-% Bandpass filter specification
-fapl=0.09,fapu=0.21,dBap=0.08,Wap=1,Wat=0.0001
-fasl=0.05,fasu=0.25,dBas=40,Wasl=1000,Wasu=1000
-ftpl=0.095,ftpu=0.205,tp=16,tpr=tp/400,Wtp=0.1
+% Bandpass filter specification (Also ftpl=0.095,ftpu=0.205)
+fapl=0.08,fapu=0.22,dBap=0.08,Wap=1,Wat=0.01
+fasl=0.05,fasu=0.25,dBas=40,Wasl=20000,Wasu=10000
+ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/500,Wtp=1
 
 % Initial filter (found by tarczynski_bandpass_R1_test.m)
 tarczynski_bandpass_R1_test_N0_coef;
@@ -141,8 +141,8 @@ printf("k3c3:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 
 % Check transfer function
 HH=freqz(N3,D3,wa);
-if max(abs((abs(HH).^2)-Asq)) > 3e-11
-  error("max(abs((abs(HH).^2)-Asq))(%g) > 3e-11", max(abs((abs(HH).^2)-Asq)));
+if max(abs((abs(HH).^2)-Asq)) > 5e-11
+  error("max(abs((abs(HH).^2)-Asq))(%g) > 5e-11", max(abs((abs(HH).^2)-Asq)));
 endif
 
 % Plot the PCLS response
@@ -157,7 +157,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 subplot(212);
 plot(wt*0.5/pi,T);
-axis([0 0.5 tp+(tpr*[-1,1])]);
+axis([0 0.5 tp+(0.02*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");

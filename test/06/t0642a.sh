@@ -77,7 +77,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
 #
 echo "Running $prog"
 
-octave --no-gui -q $prog #>test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="schurOneMlattice_socp_slb_lowpass_differentiator_R2_test";

@@ -11,17 +11,17 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
-ftol=1e-8
+ftol=1e-6
 ctol=ftol
 maxiter=0
 verbose=true;
 
-dBap=1,dBas=30,tpr=0.4
-use_schurOneMlattice_allocsd_Ito=true
+dBap=1,dBas=36,tpr=0.4
+use_schurOneMlattice_allocsd_Lim=true
 schurOneMlattice_bandpass_10_nbits_common;
 
 % Options (adjust param.eqTolerance and param.SDPsolverEpsilon if necessary)
-test_fix_all_coefficients_simultaneously=false;
+test_fix_all_coefficients_simultaneously=true;
 test_fix_coefficient_difference_greater_than_alpha=true;
 test_add_linear_response_inequality_constraints=true;
 

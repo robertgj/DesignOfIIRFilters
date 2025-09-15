@@ -15,8 +15,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Bandpass filter specification for schurOneMlattice_sqp_slb_bandpass_R2_test.m
-fapl=0.1,fapu=0.2,Wap=100
-fasl=0.05,fasu=0.25,Wasl=1e6,Wasu=1e5
+fapl=0.1,fapu=0.2,Wap=10
+fasl=0.05,fasu=0.25,Wasl=1e5,Wasu=1e4
 ftpl=0.09,ftpu=0.21,tp=16,Wtp=1
 
 % Coefficients found by schurOneMlattice_socp_slb_bandpass_test.m
