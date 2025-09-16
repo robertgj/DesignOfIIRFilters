@@ -3,9 +3,11 @@
 
 test_common;
 
-delete("directFIRsymmetricEsqPW_test.diary");
-delete("directFIRsymmetricEsqPW_test.diary.tmp");
-diary directFIRsymmetricEsqPW_test.diary.tmp
+strf="directFIRsymmetricEsqPW_test";
+
+delete(strcat(strf,".diary.tmp"));
+delete(strcat(strf,".diary"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 for k=1:2
   if k==1
@@ -95,5 +97,4 @@ endfor
 
 % Done
 diary off
-movefile directFIRsymmetricEsqPW_test.diary.tmp ...
-         directFIRsymmetricEsqPW_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

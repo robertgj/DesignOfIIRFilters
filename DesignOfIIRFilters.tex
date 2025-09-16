@@ -19070,6 +19070,92 @@ bandpass filter SOCP-relaxation algorithm example with 12-bit coefficients]
 \label{tab:socp-relax-direct-FIR-symmetric-bandpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
+\section{SOCP-relaxation search for the signed-digit coefficients of a direct-form anti-symmetric low-pass differentiator FIR filter}
+The Octave script 
+\emph{socp\_relaxation\_directFIRantisymmetric\_lowpass\_differentiator\_12\_nbits\_test.m}
+performs successive SOCP relaxations to optimise the response of a direct-form
+anti-symmetric lowpass differentiator FIR filter. The 
+filter specification is:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_spec.m}
+\end{small} 
+The initial filter is a truncated version of a maximally-flat low-pass
+differentiator FIR filter designed with the method of
+\emph{Selesnick}~\cite{Selesnick_MaximallyFlatLowPassDigitalDifferentiators},
+described in Appendix~\ref{sec:Selesnick-closed-max-flat-FIR-lowpass-diff}.
+The filter coefficients are truncated to $12$ bits allocated with an average of
+$3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+Section~\ref{sec:Lim-allocation-signed-digits}. 
+
+At each coefficient relaxation step the script finds the upper and lower
+signed-digit approximations to the current set of active coefficients and
+selects the coefficient with the largest difference in those approximations. The
+corresponding bounds are set in the bounds for that coefficient passed to the
+Octave function \emph{directFIRantisymmetric\_socp\_mmse}. The results of this
+MMSE optimisation are then passed to \emph{directFIRantisymmetric\_slb} for PCLS
+optimisation. The resulting PCLS coefficient value selects the closer of the
+upper or lower signed-digit values as the final choice for that coefficient. The
+truncation of the last coefficient is, by necessity, not PCLS optimised so the
+final set of coefficients may not meet the PCLS specifications.
+
+The initial floating point distinct direct-form anti-symmetric lowpass
+differentiator filter FIR coefficients are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM0_coef.m}
+\end{small}
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_allocsd_digits.m}
+\end{small}
+The distinct direct-form anti-symmetric FIR lowpass differentiator filter
+coefficients found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-response}
+compares the responses of the filter with floating-point coefficients, 12-bit
+3 signed-digit coefficients, 12-bit coefficients having an average of
+3 signed-digits allocated with the algorithm of \emph{Lim et al.} and 12-bit
+signed-digit coefficients allocated with the algorithm of \emph{Lim et al.} and
+SOCP-relaxation search.
+Table~\ref{tab:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-cost-summary} 
+compares the cost and the number of $12$ bit shift-and-add operations required
+to implement the $16$ distinct coefficient multiplications found by the
+signed-digit allocation heuristic of \emph{Lim et al.} with SOCP-relaxation
+search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_response}}
+\caption{Comparison of the amplitude responses for a direct-form anti-symmetric
+  FIR lowpass differentiatorfilter with 12-bit integer coefficients found by
+  allocating an average of 3-signed-digits to each coefficient using the
+  heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
+\label{fig:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-response}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the direct-form anti-symmetric lowpass
+differentiator FIR filter SOCP-relaxation algorithm example with 12-bit
+coefficients]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a direct-form anti-symmetric
+  lowpass differentiator FIR filter with 12-bit integer coefficients found by
+  allocating an average of 3-signed-digits to each coefficient using the
+  heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
+\label{tab:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-cost-summary}
+\end{table}
+\clearpage
 \section{\label{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass-R2}SQP-relaxation search for the signed-digit coefficients of a lattice bandpass R=2 IIR filter}
 The Octave script 
 \emph{sqp\_relaxation\_schurOneMlattice\_bandpass\_R2\_10\_nbits\_test.m}
@@ -31990,21 +32076,21 @@ constraints. I consider symmetric and non-symmetric FIR filters and
 usually assume that the filters are even-order and odd-length. 
 \subsection{Zero-phase  transfer functions of symmetric FIR filters}
 \subsubsection{Zero-phase transfer functions of even-order symmetric FIR filters}
-The transfer function of an even order, $N=2M$, odd length, $2M+1$,
-symmetric FIR filter is:  
+The impulse response of an even order, $N=2M$, odd length, $2M+1$,
+symmetric FIR filter has $h_{n}=h_{N-n}$. The transfer function is:  
 \begin{align*}
   H\left(z\right) &= \sum_{n=0}^{2M}h_{n}z^{-n} \\
   &= \sum_{n=0}^{M-1}h_{n}z^{-n} + h_{M}z^{-M} + \sum_{n=M+1}^{2M}h_{n}z^{-n} \\
   &= z^{-M}\left\{h_{M}+\sum_{n=0}^{M-1}h_{n}\left[ z^{M-n}+z^{-M+n}\right]\right\}
 \end{align*}
-where $h_{n}=h_{N-n}$. The zero-phase amplitude response is:
+The zero-phase amplitude response is:
 \begin{align*}
   A\left(\omega\right)
   &=h_{M}+\sum^{M-1}_{n=0}2h_{n}\cos\left[\left(M-n\right)\omega\right]
 \end{align*}
 \subsubsection{Zero-phase transfer functions of odd-order symmetric FIR filters}
-The transfer function of an odd-order, even-length, $N=2M-1$, symmetric FIR
-filter is: 
+The impulse response of an odd-order, $N=2M-1$, even-length, $2M$, symmetric
+FIR filter has $h_{n}=h_{N-1-n}$. The transfer function is: 
 \begin{align*}
   H\left(z\right)
   &= \sum_{n=0}^{2M-1}h_{n}z^{-n} \\
@@ -32013,10 +32099,42 @@ filter is:
   &= z^{-M+\frac{1}{2}}
     \sum_{n=0}^{M-1}h_{n}\left[z^{-n+M-\frac{1}{2}} + z^{n-M+\frac{1}{2}}\right]
 \end{align*}
-where $h_{n}=h_{N-1-n}$ and $N=2M-1$. The zero-phase amplitude response is:
+The zero-phase amplitude response is:
 \begin{align*}
   A\left(\omega\right)
   &=2\sum^{M-1}_{n=0}h_{n}\cos\left[\left(M-\frac{1}{2}-n\right)\omega\right]
+\end{align*}
+\subsection{Zero-phase  transfer functions of anti-symmetric FIR filters}
+\subsubsection{Zero-phase transfer functions of even-order anti-symmetric FIR filters}
+The impulse repsonse of an even order, $N=2M$, odd length, $2M+1$,
+-symmetric FIR filter has $h_{M}=0$ and $h_{n}=-h_{N-n}$.
+The transfer function is:
+\begin{align*}
+  H\left(z\right) &= \sum_{n=0}^{2M}h_{n}z^{-n} \\
+  &= \sum_{n=0}^{M-1}h_{n}z^{-n} + 0 + \sum_{n=M+1}^{2M}h_{n}z^{-n} \\
+  &= \sum_{n=0}^{M-1}h_{n}z^{-n} + 0 + \sum_{n=0}^{M-1}h_{2M-n}z^{-2M+n} \\
+  &= z^{-M}\left\{\sum_{n=0}^{M-1}h_{n}\left[ z^{M-n}-z^{-M+n}\right]\right\}
+\end{align*}
+The zero-phase amplitude response is:
+\begin{align*}
+  A\left(\omega\right)
+    &=\sum^{M-1}_{n=0}2h_{n}\sin\left[\left(M-n\right)\omega\right]
+\end{align*}
+\subsubsection{Zero-phase transfer functions of odd-order anti-symmetric FIR filters}
+The impulse response of an odd-order, $N=2M-1$, even-length, $2M$, anti-symmetric
+FIR filter has $h_{n}=-h_{N-n}$. The transfer function is:
+\begin{align*}
+  H\left(z\right)
+  &= \sum_{n=0}^{2M-1}h_{n}z^{-n} \\
+  &= \sum_{n=0}^{M-1}h_{n}z^{-n} + \sum_{n=M}^{2M-1}h_{n}z^{-n} \\
+  &= \sum_{n=0}^{M-1}h_{n}\left[z^{-n}-z^{n-\left(2M-1\right)}\right]\\
+  &= z^{-M+\frac{1}{2}}
+    \sum_{n=0}^{M-1}h_{n}\left[z^{-n+M-\frac{1}{2}} - z^{n-M+\frac{1}{2}}\right]
+\end{align*}
+The zero-phase amplitude response is:
+\begin{align*}
+  A\left(\omega\right)
+    &=2\sum^{M-1}_{n=0}h_{n}\sin\left[\left(M-\frac{1}{2}-n\right)\omega\right]
 \end{align*}
 \subsubsection{Zero-phase transfer functions of anti-symmetric FIR Hilbert filters}
 The frequency response of an ideal Hilbert transform filter
@@ -32090,9 +32208,40 @@ Equation~\ref{eqn:Even-order-FIR-Hilbert-amplitude-response} are effectively
 identical.
 
 \subsection{Piece-wise mean-squared-error of the response of an FIR filter}
+\subsubsection{Piece-wise mean-squared-error of the response of a non-symmetric FIR
+  filter}
+If the impulse response of a non-symmetric filter is 
+$\boldsymbol{h}=\left[h_{0}, \ldots ,h_{N}\right]^{\top}$ and the nominal
+FIR filter delay, $0<d_{k}<N$, is an integral number of samples,
+then the mean-squared-error over each frequency region $\Omega_{k}$ is:
+\begin{align*}
+  \mathcal{E}_{k}^{2}
+  &=\frac{1}{\pi}\int_{\Omega_{k}} W_{k}\left| H\left(\omega\right)-
+    A_{k}e^{-\imath{}d_{k}\omega} \right|^{2}d\omega\\
+  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[\sum_{n=0}^{N}h_{n}e^{-\imath{}n\omega}-
+    A_{k}e^{-\imath{}d_{k}\omega}\right]
+    \left[\sum_{n=0}^{N}h_{n}e^{\imath{}n\omega}-
+    A_{k}e^{\imath{}d_{k}\omega}\right]
+    d\omega\\
+  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[
+    \sum_{n=0}^{N}\sum_{m=0}^{N}h_{n}h_{m}\cos \left(n-m\right)\omega
+    -2A_{k}\sum_{n=0}^{N}h_{n}\cos\left(n-d_{k}\right)\omega +
+    A_{k}^{2}\right]d\omega\\
+  &=\frac{1}{\pi}W_{k}\left[\omega\sum_{n=0}^{N}h_{n}^{2}
+ + \sum_{m=0}^{N}\sum_{m=0,m\ne{}n}^{N}h_{n}h_{m}
+    \frac{\sin\left(n-m\right)\omega}{n-m}
+ -2 A_{k}h_{d_{k}}\omega
+ -2A_{k}\sum_{n=0,n\ne{}d_{k}}^{N}h_{n}\frac{\sin\left(n-d_{k}\right)\omega}{n-d_{k}}
+ +A_{k}^{2}\omega\right]_{\Omega_{k}}
+\end{align*}
+In stop bands the nominal delay, $d_{k}$, is assumed to be zero. 
+The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
+piece-wise calculation of $\mathcal{E}^{2}$, and its gradients
+with respect to the coefficients, $h_{n}$, of a non-symmetric FIR filter.
 \subsubsection{Piece-wise mean-squared-error of the response of a symmetric FIR filter}
-If impulse response of a symmetric FIR
-filter is $\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{\top}$ then:
+If the distinct coefficients of the impulse response of an even order, N=2M, odd
+length, 2M+1, symmetric FIR filter are
+$\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M}\right]^{\top}$ then:
 \begin{align*}
   \int A\left(\omega\right)d\omega
   &=h_{M}\omega+2\sum_{n=0}^{M-1}h_{n}\frac{\sin\left(M-n\right)\omega}{M-n}  
@@ -32111,7 +32260,7 @@ and:
 Similarly, the gradient of the mean-squared error with respect to the
 coefficients is:
 \begin{align*}
-  \frac{\partial\mathcal{E}}{\partial h_{n}} 
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{n}} 
   &= \frac{2}{\pi}\int_{\Omega_{k}}W_{k}
     \left[A\left(\omega\right)-A_{k}\right]
     \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
@@ -32147,36 +32296,56 @@ since, for $n=0,\ldots ,M-1$:
 The Octave function \emph{directFIRsymmetricEsqPW} implements the piece-wise
 calculation of $\mathcal{E}^{2}$, and its gradients with respect to the
 coefficients, $h_{n}$, of a symmetric FIR filter.
-\subsubsection{Piece-wise mean-squared-error of the response of a non-symmetric FIR
-  filter}
-If the impulse response of a non-symmetric filter is 
-$\boldsymbol{h}=\left[h_{0}, \ldots ,h_{N}\right]^{\top}$ and the nominal
-FIR filter delay, $0<d_{k}<N$, is an integral number of samples,
-then the mean-squared-error over each frequency region $\Omega_{k}$ is:
+\subsubsection{Piece-wise mean-squared-error of the response of an anti-symmetric FIR filter}
+If the distinct coefficients of the impulse response of an even order, N=2M, odd
+length, 2M+1, anti-symmetric FIR filter are
+$\boldsymbol{h}=\left[h_{0}, \ldots ,h_{M-1}\right]^{\top}$ then:
 \begin{align*}
-  \mathcal{E}_{k}^{2}
-  &=\frac{1}{\pi}\int_{\Omega_{k}} W_{k}\left| H\left(\omega\right)-
-    A_{k}e^{-\imath{}d_{k}\omega} \right|^{2}d\omega\\
-  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[\sum_{n=0}^{N}h_{n}e^{-\imath{}n\omega}-
-    A_{k}e^{-\imath{}d_{k}\omega}\right]
-    \left[\sum_{n=0}^{N}h_{n}e^{\imath{}n\omega}-
-    A_{k}e^{\imath{}d_{k}\omega}\right]
-    d\omega\\
-  &=\frac{1}{\pi}\int_{\Omega_{k}}W_{k}\left[
-    \sum_{n=0}^{N}\sum_{m=0}^{N}h_{n}h_{m}\cos \left(n-m\right)\omega
-    -2A_{k}\sum_{n=0}^{N}h_{n}\cos\left(n-d_{k}\right)\omega +
-    A_{k}^{2}\right]d\omega\\
-  &=\frac{1}{\pi}W_{k}\left[\omega\sum_{n=0}^{N}h_{n}^{2}
- + \sum_{m=0}^{N}\sum_{m=0,m\ne{}n}^{N}h_{n}h_{m}
-    \frac{\sin\left(n-m\right)\omega}{n-m}
- -2 A_{k}h_{d_{k}}\omega
- -2A_{k}\sum_{n=0,n\ne{}d_{k}}^{N}h_{n}\frac{\sin\left(n-d_{k}\right)\omega}{n-d_{k}}
- +A_{k}^{2}\omega\right]_{\Omega_{k}}
+  \int A\left(\omega\right)d\omega
+  &=-2\sum_{n=0}^{M-1}h_{n}\frac{\cos\left(M-n\right)\omega}{M-n}  
 \end{align*}
-In stop bands the nominal delay, $d_{k}$, is assumed to be zero. 
-The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
-piece-wise calculation of $\mathcal{E}^{2}$, and its gradients
-with respect to the coefficients, $h_{n}$, of a non-symmetric FIR filter.
+and:
+\begin{align*}
+  \int A\left(\omega\right)^{2}d\omega
+  =& 2\sum_{n=0}^{M-1}\sum_{m=0}^{M-1}h_{n}h_{m}\int
+    2\sin\left(M-n\right)\omega\sin\left(M-m\right)\omega \; d\omega\\
+  =& 2\sum_{n=0}^{M-1}\sum_{m=0}^{M-1}h_{n}h_{m}\int
+     \cos\left(n-m\right)\omega-\cos\left(2M-n-m\right)\omega \; d\omega\\
+  =& 2\sum_{n=0}^{M-1}h_{n}^{2}\omega
+     +2\sum_{n=0}^{M-1}\sum_{m=0,m\ne{}n}^{M-1}h_{n}h_{m}\
+     \frac{\sin\left(n-m\right)\omega}{n-m}
+     -2\sum_{n=0}^{M-1}\sum_{m=0}^{M-1}h_{n}h_{m}\
+     \frac{\sin\left(2M-n-m\right)\omega}{2M-n-m}
+\end{align*}
+Similarly, the gradient of the mean-squared error with respect to the
+coefficients is:
+\begin{align*}
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{n}} 
+  &= \frac{2}{\pi}\int_{\Omega_{k}}W_{k}
+    \left[A\left(\omega\right)-A_{k}\right]
+    \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+\end{align*}
+which can be expressed in the form
+$2\boldsymbol{q}+2\boldsymbol{Q}\boldsymbol{h}$. The components of
+$\boldsymbol{q}$ and $\boldsymbol{Q}$ are found with:
+\begin{align*}
+  \int \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+  &= -2\frac{\cos\left(M-n\right)\omega}{M-n} \quad n=0,\ldots,M-1
+\end{align*}
+and:
+\begin{align*}
+  \int A\left(\omega\right)
+  \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
+  &= 2\sum_{m=0}^{M-1}h_{m}
+    \int 2\sin\left(M-n\right)\omega\sin\left(M-m\right)\omega \; d\omega \\
+  &= 2\sum_{m=0}^{M-1}h_{m}
+    \int \cos\left(n-m\right)\omega
+    -\cos\left(2M-n-m\right)\omega \; d\omega \\
+  &= 2h_{n}\omega
+    +\sum_{m=0,m\ne n}^{M-1}2h_{m}\frac{\sin\left(n-m\right)\omega}{n-m}  
+    -\sum_{m=0}^{M-1}2h_{m}\frac{\sin\left(2M-n-m\right)\omega}{2M-n-m}
+\end{align*}
+
 \subsubsection{Piece-wise mean-squared-error of the response of an anti-symmetric FIR
   Hilbert filter}
 The piece-wise mean-squared-error of the response of an anti-symmetric FIR
@@ -32328,7 +32497,7 @@ Given a desired amplitude response, $A_{d}\left(\omega\right)$, and a weight
 function, $W\left(\omega\right)$, the mean-squared-error of the amplitude
 response of the FIR filter is:
 \begin{align*}
-  \mathcal{E}
+  \mathcal{E}^{2}
   &= \frac{1}{\pi}\int_{0}^{\pi}W\left(\omega\right)
     \left[A\left(\omega\right)-A_{d}\left(\omega\right)\right]^{2}d\omega
 \end{align*}
@@ -32342,17 +32511,17 @@ constraints on the amplitude response:
 
 The method of \emph{Lagrange multipliers} defines a \emph{Lagrangian} function:
 \begin{align*}
-  \mathcal{L}\left(\omega\right) &=  \mathcal{E}
+  \mathcal{L}\left(\omega\right) &=  \mathcal{E}^{2}
 -\sum_{p}\lambda_{p}\left[A\left(\omega_{p}\right)-L\left(\omega_{p}\right)\right]
 -\sum_{q}\lambda_{q}\left[U\left(\omega_{q}\right)-A\left(\omega_{q}\right)\right]
 \end{align*}
 where $\lambda_{p}$ and $\lambda_{q}$ are the \emph{Lagrange multipliers} for
 the amplitude constraints at the corresponding frequencies $\omega_{p}$ and
 $\omega_{q}$.  The method of Lagrange multipliers minimises
-$\mathcal{E}$ subject to the constraints by solving the
+$\mathcal{E}^{2}$ subject to the constraints by solving the
 following system of equations for $h_{n}$, $\lambda_{p}$ and $\lambda_{q}$:
 \begin{align*}
-  \frac{\partial\mathcal{E}}{\partial h_{n}} 
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{n}} 
 -\sum_{p}\lambda_{p}\frac{\partial A\left(\omega_{p}\right)}{\partial h_{n}}
 +\sum_{q}\lambda_{q}\frac{\partial A\left(\omega_{q}\right)}{\partial h_{n}}&=0\\
   A\left(\omega_{p}\right) &= L\left(\omega_{p}\right) \\
@@ -32360,7 +32529,7 @@ following system of equations for $h_{n}$, $\lambda_{p}$ and $\lambda_{q}$:
 \end{align*}
 where:
 \begin{align*}
-  \frac{\partial\mathcal{E}}{\partial h_{n}} 
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{n}} 
   &= \frac{2}{\pi}\int_{0}^{\pi}W\left(\omega\right)
     \left[A\left(\omega\right)-A_{d}\left(\omega\right)\right]
     \frac{\partial A\left(\omega\right)}{\partial h_{n}}d\omega
@@ -32507,7 +32676,7 @@ ripple constraint relaxed.
 The design problem is to minimise the mean-squared-error subject to
 constraints on the zero-phase amplitude response of the Hilbert filter:
 \begin{align*}
-  \mathcal{E}  &= \frac{1}{\pi}\int_{0}^{\pi}W\left(\omega\right)
+  \mathcal{E}^{2}  &= \frac{1}{\pi}\int_{0}^{\pi}W\left(\omega\right)
   \left[A\left(\omega\right)+1\right]^{2}d\omega \\
   A\left(\omega_{p}\right) &\ge L\left(\omega_{p}\right) \\
   A\left(\omega_{q}\right) &\le U\left(\omega_{q}\right)
@@ -32521,7 +32690,7 @@ by solving the following system of equations for $\lambda_{p}$, $\lambda_{q}$
 and the coefficients of an even order $4M-2$ Hilbert filter,
 $h_{2k}$, with $k=0,1,\hdots,M-1$:
 \begin{align*}  
-  \frac{\partial\mathcal{E}}{\partial h_{2k}} 
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{2k}} 
 -\sum_{p}\lambda_{p}\frac{\partial A\left(\omega_{p}\right)}{\partial h_{2k}}
 +\sum_{q}\lambda_{q}\frac{\partial A\left(\omega_{q}\right)}{\partial h_{2k}}
 &=0 \\
@@ -32530,7 +32699,7 @@ $h_{2k}$, with $k=0,1,\hdots,M-1$:
 \end{align*}
 where:
 \begin{align*}
-  \frac{\partial\mathcal{E}}{\partial h_{2k}} 
+  \frac{\partial\mathcal{E}^{2}}{\partial h_{2k}} 
   &= \frac{2}{\pi}\int_{0}^{\pi}W\left(\omega\right)
   \left[A\left(\omega\right)+1\right]
     \frac{\partial A\left(\omega\right)}{\partial h_{2k}}d\omega
@@ -34921,7 +35090,7 @@ This appears to be a misprint. $\left(\begin{array}{c}
     n-k-m\end{array}\right)$ is not defined for $n-k-m<0$. For example, when
 $k=n$, $l=n-1$ and $m=2n-2$. 
 \clearpage
-\subsubsection{\emph{Selesnick} closed form design of FIR low-pass
+\subsubsection{\label{sec:Selesnick-closed-max-flat-FIR-lowpass-diff}\emph{Selesnick} closed form design of FIR low-pass
   differentiators that are maximally-linear at $\omega=0$ and maximally-flat at $\omega=\pi$}
 \emph{Selesnick}~\cite[Equations 10 and
 11]{Selesnick_MaximallyFlatLowPassDigitalDifferentiators} derives the $z$-domain

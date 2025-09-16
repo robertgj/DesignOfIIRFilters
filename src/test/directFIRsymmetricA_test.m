@@ -3,11 +3,11 @@
 
 test_common;
 
-set(0,"DefaultFigureVisible","on");
+strf="directFIRsymmetricA_test";
 
-delete("directFIRsymmetricA_test.diary");
-delete("directFIRsymmetricA_test.diary.tmp");
-diary directFIRsymmetricA_test.diary.tmp
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 nplot=1024;
 atol=10*eps;
@@ -107,7 +107,7 @@ endfor
 est_dAdx(:,M+1)=est_dAdx(:,M+1)/2;
 if max(max(abs(est_dAdx-gradA))) > 10*gtol
   error("max(max(abs(est_dAdx-gradA)))(%g*gtol) > 10*gtol", ...
-        max(max(abs(est_dAsqdx-gradA)))/gtol);
+        max(max(abs(est_dAdx-gradA)))/gtol);
 endif
 
 %
@@ -153,9 +153,9 @@ for l=1:length(hM)
 endfor
 if max(max(abs(est_dAdx-gradA))) > 10*gtol
   error("max(max(abs(est_dAdx-gradA)))(%g*gtol) > 10*gtol", ...
-        max(max(abs(est_dAsqdx-gradA)))/gtol);
+        max(max(abs(est_dAdx-gradA)))/gtol);
 endif
 
 % Done
 diary off
-movefile directFIRsymmetricA_test.diary.tmp directFIRsymmetricA_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

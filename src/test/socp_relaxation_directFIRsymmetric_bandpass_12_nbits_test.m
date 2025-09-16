@@ -1,8 +1,8 @@
 % socp_relaxation_directFIRsymmetric_bandpass_12_nbits_test.m
 % Copyright (C) 2017-2025 Robert G. Jenssen
 
-% Optimisation of Schur one-multiplier lattice bandpass filter response with
-% 10-bit signed-digit coefficients having Ito et al. allocation and SOCP
+% Optimisation of a direct-form symmetric FIR bandpass filter response with
+% 12-bit signed-digit coefficients having Ito et al. allocation and SOCP
 % relaxation solution.
 
 test_common;
@@ -250,7 +250,7 @@ grid("on");
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
-% Plot pass band amplitude response
+% Plot stop band amplitude response
 plot(wplot*0.5/pi,20*log10(abs(A_hM1)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_3sd)),"linestyle",":", ...
      wplot*0.5/pi,20*log10(abs(A_hM1_sd)),"linestyle","--", ...
@@ -293,8 +293,10 @@ fprintf(fid,"Wasu=%d %% Amplitude upper stop band weight\n",Wasu);
 fclose(fid);
 
 % Save results
-eval(sprintf(["save %s.mat tol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
- "hM1 fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu hM_min"],strf));
+eval(sprintf ...
+       (["save %s.mat tol ctol nbits nscale ndigits ndigits_alloc npoints ", ...
+         "fapl fapu dBap Wap fasl fasll fasu fasuu dBas dBass Wasl Wasu ", ...
+         "hM1 hM_min"],strf));
        
 % Done
 toc;
