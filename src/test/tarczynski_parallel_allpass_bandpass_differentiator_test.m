@@ -21,24 +21,17 @@ tic;
 % Filter specification
 tol=1e-8
 maxiter=5000
+ma=15;mb=ma;
 fasl=0.05,fapl=0.1,fapu=0.22,fasu=0.25
 Wasl=10,Watl=0.01,Wap=10,Watu=0.05,Wasu=20
-fppl=0.1,fppu=0.22,pp=0.5,Wpp=1
-ftpl=0.1,ftpu=0.22,tp=10,Wtp=0.5
+fppl=0.1,fppu=0.22,pp=0.5,Wpp=2
+ftpl=0.1,ftpu=0.22,tp=ma-1,Wtp=0.5
 R=1;polyphase=false;difference=true;
 
 % Frequency points
 n=1000;
 f=0.5*(1:(n-1))'/n;
 w=2*pi*f;
-
-% Initial filter
-ma=11;
-mb=11;
-Azsqm1=2*sin(w);
-Tzsqm1=1;
-Pzsqm1=(pi/2)-w;
-Hzsqm1=2*j*exp(-j*w).*sin(w);
 
 % Desired amplitude response
 nasl=ceil(n*fasl/0.5);
@@ -86,8 +79,7 @@ printf("Wp(nchkp)=[ ");printf("%6.4g ",Wp(nchkp)');printf("];\n");
 % Unconstrained minimisation
 abi=[1;zeros(ma+mb-1,1)];
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-WISEJ_PA([],ma,mb,R,polyphase,difference, ...
-         Ad./Azsqm1,Wa,Td-Tzsqm1,Wt,Pd-Pzsqm1,Wp);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad,Wa,Td,Wt,Pd,Wp);
 [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
@@ -119,13 +111,11 @@ N0=0.5*(conv(flipud(Da0),Db0)-conv(flipud(Db0),Da0));
 % Calculate response
 Ha0=freqz(flipud(Da0),Da0,w);
 Hb0=freqz(flipud(Db0),Db0,w);
-Hab0=0.5*(Ha0-Hb0);
-H0=Hab0.*Hzsqm1;
+H0=0.5*(Ha0-Hb0);
 P0=unwrap(arg(H0));
 Ta0=delayz(flipud(Da0),Da0,w);
 Tb0=delayz(flipud(Db0),Db0,w);
-Tab0=(0.5*(Ta0+Tb0));
-T0=Tab0+Tzsqm1;
+T0=(0.5*(Ta0+Tb0));
 
 % Plot response
 subplot(311);
@@ -164,7 +154,7 @@ title(strt);
 subplot(312);
 plot(w*0.5/pi,unwrap(P0+(w*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([minf maxf pp+(0.01*[-1 1])]);
+axis([minf maxf mod(pp,-2)+(0.02*[-1 1])]);
 grid("on");
 subplot(313);
 plot(w*0.5/pi,T0);
@@ -183,8 +173,8 @@ print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*(tp-Tzsqm1)))/pi,"-", ...
-     w*0.5/pi,(unwrap(arg(Hb0))+(w*(tp-Tzsqm1)))/pi,"--");
+plot(w*0.5/pi,(unwrap(arg(Ha0))+(w*tp))/pi,"-", ...
+     w*0.5/pi,(unwrap(arg(Hb0))+(w*tp))/pi,"--");
 strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
               "ma=%d,mb=%d,tp=%g"],ma,mb,tp);
 title(strt);
