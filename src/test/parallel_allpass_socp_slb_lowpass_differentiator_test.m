@@ -1,13 +1,16 @@
 % parallel_allpass_socp_slb_lowpass_differentiator_test.m
 % Copyright (C) 2024-2025 Robert G. Jenssen
 
+% Design of a lowpass differentiator filter implemented as the difference
+% of two all pass filters followed by (1+z)^2. The first zero at z=1
+% partly cancels a pole at z=-rho and the second adds pi/2 to the phase.
+%
 % I cannot use the spectral factors of
 % iir_sqp_slb_lowpass_differentiator_alternate_test.m
 % because the numerator polynomial is not symmetric.
 % That filter has five pairs of conjugate poles and zeros,
 % one real zero and one real pole. In other words, the direct-form
-% imlementation has 23 multipliers. The similar parallel-allpass filter
-% has parallel order 11 and 12 allpass filters.
+% imlementation has 23 multipliers.
 
 test_common;
 
@@ -37,11 +40,11 @@ printf("Initial ab0=[");printf("%g ",ab0');printf("]'\n");
 
 % Low-pass differentiator filter specification
 polyphase=false;
-difference=false;
-fap=0.3;fas=0.4;
-Arp=0.1;Art=0.1;Ars=0.1;Wap=1;Wat=0.02;Was=2;
-tp=((Ra*ma)+(Rb*mb)+1)/2;tpr=0.2;Wtp=0.5;
-pp=0.5;ppr=0.002;Wpp=0.05;
+difference=true;
+fap=0.2;fas=0.4;
+Arp=0.007;Art=0.01;Ars=0.004;Wap=1;Wat=0.1;Was=1;
+tp=((Ra*ma)+(Rb*mb)+1)/2;tpr=0.06;Wtp=0.5;
+pp=0.5;ppr=0.0007;Wpp=0.5;
 rho=0.99;
 
 %
@@ -54,7 +57,8 @@ nas=floor(n*fas/0.5);
 
 % Desired magnitude response
 wa=w;
-Azm1=(2*sin(wa/2)); % Response of the correction filter (1-z^{-1})
+Fzp1sq=[1;2;1]/2;
+Azp1sq=2*(cos(wa/2).^2);
 if 1
   Ad=[wa(1:nap)/2;zeros(n-nap-1,1)];
 else
@@ -70,7 +74,7 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 % Desired pass-band phase response
 npp=nap;
 wp=w(1:npp);
-Pzm1=(pi/2)-(wp/2);
+Pzp1sq=-wp;
 Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
@@ -79,7 +83,7 @@ Wp=Wpp*ones(size(wp));
 % Desired pass-band group delay response
 ntp=nap;
 wt=w(1:ntp);
-Tzm1=0.5*ones(ntp,1);
+Tzp1sq=ones(ntp,1);
 Td=tp*ones(ntp,1);
 Tdu=Td+(tpr/2);
 Tdl=Td-(tpr/2);
@@ -92,13 +96,13 @@ abl=[al(:);bl(:)];
 abu=[au(:);bu(:)];
 
 % Find initial response
-Asqab0=parallel_allpassAsq(wa,ab0,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Asqab0=parallel_allpassAsq(wa,ab0,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
 A0c=sqrt(Asqab0);
-A0=A0c.*Azm1;
+A0=A0c.*Azp1sq;
 Pab0c=parallel_allpassP(wp,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-P0=Pab0c+Pzm1;
+P0=Pab0c+Pzp1sq;
 Tab0c=parallel_allpassT(wt,ab0,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-T0=Tab0c+Tzm1;
+T0=Tab0c+Tzp1sq;
 
 % Plot initial response
 subplot(311);
@@ -123,19 +127,75 @@ print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
 %
+% MMSE pass
+%
+printf("\n MMSE pass \n");
+try
+  feasible=false;
+  [abm,opt_iter,func_iter,feasible] = ...
+    parallel_allpass_socp_mmse([],ab0,abu,abl, ...
+     K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
+     wa,(Ad./Azp1sq).^2,(Adu./Azp1sq).^2,(Adl./Azp1sq).^2,Wa, ...
+     wt,Td-Tzp1sq,Tdu-Tzp1sq,Tdl-Tzp1sq,Wt, ...
+     wp,Pd-Pzp1sq,Pdu-Pzp1sq,Pdl-Pzp1sq,Wp,maxiter,tol,ctol,verbose);
+catch
+  warning("Caught parallel_allpass_socp_mmse");
+end_try_catch
+if ~feasible
+  error("abm(MMSE) infeasible");
+endif
+
+% Find MMSE response
+Asqabm=parallel_allpassAsq(wa,abm,K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Amc=sqrt(Asqabm);
+Am=Amc.*Azp1sq;
+Pabmc=parallel_allpassP(wp,abm,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Pm=Pabmc+Pzp1sq;
+Tabmc=parallel_allpassT(wt,abm,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
+Tm=Tabmc+Tzp1sq;
+
+% Plot MMSE response
+subplot(311);
+plot(wa*0.5/pi,[Am Ad Adl Adu]);
+ylabel("Amplitude");
+axis([0 0.5 0 1]);
+grid("on");
+strt=sprintf("MMSE parallel allpass : ma=%d,mb=%d", ma,mb);
+title(strt);
+subplot(312);
+plot(wp*0.5/pi,([Pm Pd Pdl Pdu]+(wp*tp))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pp+(0.004*[-1 1])]);
+grid("on");
+subplot(313);
+plot(wt*0.5/pi,[Tm Td Tdl Tdu]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([0 0.5 tp+2*tpr*[-1,1]]);
+grid("on");
+print(strcat(strf,"_abm"),"-dpdflatex");
+close
+
+%
 % PCLS pass
 %
 printf("\n PCLS pass \n");
 try
   feasible=false;
   [ab1,slb_iter,opt_iter,func_iter,feasible] = parallel_allpass_slb ...
-    (@parallel_allpass_socp_mmse,ab0,abu,abl, ...
+    (@parallel_allpass_socp_mmse,abm,abu,abl, ...
      K,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference, ...
-     wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-     wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-     wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp,maxiter,tol,ctol,verbose);
+     wa,(Ad./Azp1sq).^2,(Adu./Azp1sq).^2,(Adl./Azp1sq).^2,Wa, ...
+     wt,Td-Tzp1sq,Tdu-Tzp1sq,Tdl-Tzp1sq,Wt, ...
+     wp,Pd-Pzp1sq,Pdu-Pzp1sq,Pdl-Pzp1sq,Wp,maxiter,tol,ctol,verbose);
 catch
   warning("Caught parallel_allpass_slb");
+  err=lasterror();
+  fprintf(stderr,"%s\n", err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called %s at line %d\n", ...
+            err.stack(e).name,err.stack(e).line);
+  endfor
 end_try_catch
 if ~feasible
   error("ab1(PCLS) infeasible");
@@ -151,11 +211,11 @@ Dab1=conv(Da1,Db1);
 
 % Find response
 Asqab1=parallel_allpassAsq(wa,ab1,1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-A1=sqrt(Asqab1).*Azm1;
+A1=sqrt(Asqab1).*Azp1sq;
 Pab1=parallel_allpassP(wp,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-P1=Pab1+Pzm1;
+P1=Pab1+Pzp1sq;
 Tab1=parallel_allpassT(wt,ab1,Va,Qa,Ra,Vb,Qb,Rb,polyphase,difference);
-T1=Tab1+Tzm1;
+T1=Tab1+Tzp1sq;
 
 % Plot correction filter response
 subplot(311);
@@ -168,7 +228,7 @@ strt=sprintf(["Parallel allpass correction : ", ...
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(Pab1+(wp*(tp-0.5)))/pi);
+plot(wp*0.5/pi,(Pab1+(wp*tp)-(wp.*Tzp1sq))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
@@ -216,24 +276,24 @@ hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
-axis(ax(1),[0 0.5 -0.1 0.1]);
-axis(ax(2),[0 0.5 -0.1 0.1]);
+axis(ax(1),[0 0.5 -0.004 0.004]);
+axis(ax(2),[0 0.5 -0.004 0.004]);
 ylabel("Amplitude error");
 grid("on");
 strt=sprintf(["Parallel allpass : ", ...
-              "ma=%d,mb=%d,Arp=%4.2f,Ars=%4.1f,tp=%g,tpr=%g"],
+              "ma=%d,mb=%d,Arp=%g,Ars=%4.2f,tp=%g,tpr=%g"],
              ma,mb,Arp,Ars,tp,tpr);
 title(strt);
 subplot(312);
 plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+(ppr*[-1,1])]);
+axis([0 0.5 pp+(0.0004*[-1,1])]);
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp+(tpr*[-1,1])]);
+axis([0 0.5 tp+(0.04*[-1,1])]);
 grid("on");
 print(strcat(strf,"_ab1error"),"-dpdflatex");
 close
@@ -250,14 +310,14 @@ title("Allpass filter B");
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 subplot(111);
-zplane(qroots(conv(Nab1,[1;-1])),qroots(Dab1));
+zplane(qroots(conv(Nab1,Fzp1sq)),qroots(Dab1));
 title("Parallel allpass filters");
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
 % Plot phase response of parallel filters
-Ha=freqz(conv(Na1,[1;-1]),Da1,w);
-Hb=freqz(conv(Nb1,[1;-1]),Db1,w);
+Ha=freqz(conv(Na1,[1;1]),Da1,w);
+Hb=freqz(conv(Nb1,[1;1]),Db1,w);
 plot(w*0.5/pi,(unwrap(arg(Ha))+(w*tp))/pi, ...
      w*0.5/pi,(unwrap(arg(Hb))+(w*tp))/pi);
 strt=sprintf(["Phase responses of correction filters adjusted ", ...
@@ -265,8 +325,8 @@ strt=sprintf(["Phase responses of correction filters adjusted ", ...
 title(strt);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
-legend("Filter A and $1-z^{-1}$","Filter B and $1-z^{-1}$");
-legend("location","east");
+legend("Filter A","Filter B");
+legend("location","southwest");
 legend("boxoff");
 grid("on");
 print(strcat(strf,"_ab1phase"),"-dpdflatex");

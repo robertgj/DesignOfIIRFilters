@@ -2,8 +2,8 @@
 % Copyright (C) 2024-2025 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a lowpass differentiator filter
-% as (z-1) followed by the sum of two parallel allpass filters. See:
-% "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
+% as the difference of two parallel allpass filters followed by (z+1)^2.
+% See: "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
 % IEEE Transactions on Signal Processing, Vol. 49, No. 7, pp. 1421-1432
 
 test_common;
@@ -19,18 +19,18 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Filter specification
-tol=1e-8;maxiter=20000;
+tol=1e-12;maxiter=20000;
 R=1;
 polyphase=false;
-difference=false;
+difference=true;
 if difference
   pa_sign=-1;
 else
   pa_sign=1;
 endif
-fap=0.3;fas=0.4;Wap=1;Wat=0.02;Was=1;
-ma=11;mb=12;
-tp=R*(ma+mb+1)/2;Wtp=0.1;Wpp=0.1;
+fap=0.2;fas=0.4;Wap=1;Wat=0.02;Was=1;
+ma=8;mb=ma+1;
+tp=R*(ma+mb+1)/2;Wtp=0.1;pp=0.5;Wpp=1;
 
 % Frequency points
 n=1000;
@@ -39,33 +39,37 @@ nas=floor(fas*n/0.5);
 w=pi*(1:n-1)'/n;
 Rap=1:nap;
 
+% Place two zeros at z=-1.
+Fz=[1;2;1]/2;
+Hz=freqz(Fz,1,w);
+
 % Amplitude response
-Azm1=(2*sin(w/2));
+Az=2*(cos(w/2).^2);
 Ad=[w(Rap)/2;zeros(length(w)-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 
 % Group delay response
-Tzm1=0.5*ones(size(w));
+Tz=ones(size(w));
 Td=tp*ones(size(w));
 Wt=[Wtp*ones(nap,1);zeros(length(w)-nap,1)];
 
 % Phase response
-Pzm1=(pi/2)-(w/2);
-Pd=(pi/2)-(w*tp);
+Pz=-w;
+Pd=(pp*pi)-(w*tp);
 Wp=[Wpp*ones(nap,1);zeros(length(w)-nap,1)];
 
 % Sanity checks
 nchka=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1]';
 printf("0.5*w(nchka)'/pi=[ ");printf("%6.4g ",0.5*w(nchka)'/pi);printf("];\n");
 printf("Ad(nchka)=[ ");printf("%6.4g ",Ad(nchka)');printf("];\n");
-printf("Ad(nchka)./Azm1(nchka)=[ ");
-printf("%6.4g ",(Ad(nchka)./(sin(w(nchka))/2))');printf("];\n");
+printf("Ad(nchka)./Az(nchka)=[ ");
+printf("%6.4g ",(Ad(nchka)./Az(nchka))');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
-% Unconstrained minimisation with (1-z^(-1)) removed
+% Unconstrained minimisation with Fz removed
 abi = zeros(ma+mb,1);
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
-WISEJ_PA([],ma,mb,R,polyphase,difference,Ad./Azm1,Wa,Td-Tzm1,Wt,Pd-Pzm1,Wp);
+WISEJ_PA([],ma,mb,R,polyphase,difference,Ad./Az,Wa,Td-Tz,Wt,Pd-Pz,Wp);
 [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
 if (INFO == 1)
   printf("Converged to a solution point.\n");
@@ -97,9 +101,8 @@ N0=0.5*(conv(flipud(Da0),Db0)+(pa_sign*conv(flipud(Db0),Da0)));
 % Calculate response
 Ha0=freqz(flipud(Da0),Da0,w);
 Hb0=freqz(flipud(Db0),Db0,w);
-Hzm1=freqz([1;-1],1,w);
 H0c=0.5*(Ha0+(pa_sign*Hb0));
-H0=H0c.*Hzm1;
+H0=H0c.*Hz;
 A0c=abs(H0c);
 A0=abs(H0);
 P0c=unwrap(arg(H0c(Rap)));
@@ -107,21 +110,21 @@ P0=unwrap(arg(H0(Rap)));
 Ta0=delayz(flipud(Da0),Da0,w(Rap));
 Tb0=delayz(flipud(Db0),Db0,w(Rap));
 T0c=((Ta0+Tb0)/2);
-T0=T0c+Tzm1(Rap);
+T0=T0c+Tz(Rap);
 % Alternate calculation
 H0a=freqz(N0,D0,w);
-A0a=abs(H0a).*Azm1;
-P0a=unwrap(arg(H0a(Rap)))+Pzm1(Rap);
-T0a=delayz(N0,D0,w(Rap))+Tzm1(Rap);
+A0a=abs(H0a).*Az;
+P0a=unwrap(arg(H0a(Rap)))+Pz(Rap);
+T0a=delayz(N0,D0,w(Rap))+Tz(Rap);
 % Check
-if max(abs(A0a-A0)) > 100*eps
-  warning("max(abs(A0a-A0))(%g*eps) > 100*eps",max(abs(A0a-A0))/eps);
+if max(abs(A0a-A0)) > 5000*eps
+  warning("max(abs(A0a-A0))(%g*eps) > 5000*eps",max(abs(A0a-A0))/eps);
 endif
-if max(abs(P0a-P0)) > 200*eps
-  warning("max(abs(P0a-P0))(%g*eps) > 200*eps",max(abs(P0a-P0))/eps);
+if max(abs(P0a-P0)) > 2000*eps
+  warning("max(abs(P0a-P0))(%g*eps) > 2000*eps",max(abs(P0a-P0))/eps);
 endif
-if max(abs(T0a-T0)) > 2e4*eps
-  warning("max(abs(T0a-T0))(%g*eps) > 2e4*eps",max(abs(T0a-T0))/eps);
+if max(abs(T0a-T0)) > 2e8*eps
+  warning("max(abs(T0a-T0))(%g*eps) > 2e8*eps",max(abs(T0a-T0))/eps);
 endif
 
 % Plot correction filter response
@@ -136,7 +139,7 @@ strt=sprintf ...
         ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(w(1:nap)*0.5/pi,(P0c(1:nap)+(w(1:nap)*(tp-0.5)))/pi);
+plot(w(1:nap)*0.5/pi,(P0c(1:nap)+(w(1:nap)*tp)-(w(1:nap).*Tz(1:nap)))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
@@ -178,7 +181,8 @@ plot(w*0.5/pi,A0-Ad);
 ylabel("Amplitude error");
 axis([0 0.5 -0.1 0.1]);
 grid("on");
-strt=sprintf("Parallel all-pass filters error : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
+strt=sprintf(["Parallel all-pass filter error : ",...
+              "ma=%d,mb=%d,fap=%g,fas=%g,tp=%g"], ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
@@ -197,7 +201,7 @@ close
 
 % Plot poles and zeros
 subplot(111);
-zplane(qroots(conv(N0,[1;-1])),qroots(D0));
+zplane(qroots(conv(N0,Fz)),qroots(D0));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
@@ -210,7 +214,7 @@ strt=sprintf(["Allpass phase response adjusted for linear phase : ", ...
 title(strt);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
-legend("Filter A","Filter B","location","northwest");
+legend("Filter A","Filter B","location","southwest");
 legend("boxoff");
 grid("on");
 print(strcat(strf,"_phase"),"-dpdflatex");
@@ -223,8 +227,8 @@ print_polynomial(Db0,"Db0");
 print_polynomial(Db0,"Db0",strcat(strf,"_Db0_coef.m"));
 print_polynomial(N0,"N0");
 print_polynomial(D0,"D0");
-eval(sprintf(["save %s.mat ...\n", ...
- "     tol maxiter n ma mb fap fas Wap Was Wtp Wpp abi ab0 Da0 Db0 N0 D0"],strf));
+eval(sprintf(["save %s.mat tol maxiter n ma mb fap fas Wap Was Wtp Wpp ...\n",...
+              " abi ab0 Da0 Db0 N0 D0"],strf));
 
 % Done
 toc;
