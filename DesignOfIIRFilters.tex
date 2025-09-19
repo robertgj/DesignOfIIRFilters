@@ -12080,9 +12080,9 @@ optimisation. The phase response shown is adjusted for the nominal delay.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1error}}
 \caption{Response error of the low-pass differentiator filter implemented as the
-  sum of two all-pass filters, followed by $\left(1+z^{-1}\right)^{2}$, after
-  PCLS SOCP optimisation. The phase response shown is adjusted for the nominal
-  delay.} 
+  difference of two all-pass filters, followed by $\left(1+z^{-1}\right)^{2}$,
+  after PCLS SOCP optimisation. The phase response shown is adjusted for the
+  nominal delay.} 
 \label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-error}
 \end{figure}
 
@@ -12124,14 +12124,7 @@ The Octave script \newline
 \emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
 uses the SeDuMi SOCP solver to design a low-pass differentiator filter
 implemented as $1+z^{-1}$ followed by the difference of two all-pass
-filters\footnote{Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt}
-  shows the design of a low-pass differentiator filter with coefficients given
-  in gain-pole-zero form. The  numerator polynomial of the filter designed in
-  Section~\ref{sec:iir-sqp-slb-lowpass-differentiator-alt} is not symmetric so
-  that filter cannot be decomposed into allpass filters with the spectral
-  factorisation method described in
-  Appendix~\ref{app:Low-passband-sensitivity-IIR-digital-filters}.}. The
-difference introduces a zero at $z=1$ and a pole near $z=-1$ that
+filters. The difference introduces a zero at $z=1$ and a pole near $z=-1$ that
 is partly cancelled by the addition of a zero at $z=-1$.
 The script calls the Octave function \emph{parallel\_allpass\_slb} to perform
 the PCLS design of the filter with constraints on the all-pass filter pole
@@ -12181,9 +12174,9 @@ PCLS optimisation. The phase response shown is adjusted for the nominal delay.
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_alternate_test_ab1error}}
 \caption{Response error of the alternate low-pass differentiator filter
-  implemented as the sum of two all-pass filters, followed by $1+z^{-1}$, after
-  PCLS SOCP optimisation. The phase response shown is adjusted for the nominal
-  delay.} 
+  implemented as the difference of two all-pass filters, followed by $1+z^{-1}$,
+  after PCLS SOCP optimisation. The phase response shown is adjusted for the
+  nominal delay.} 
 \label{fig:Alt-Parallel-allpass-lowpass-diff-filter-PCLS-error}
 \end{figure}
 
@@ -12192,7 +12185,7 @@ the phase responses of the alternate parallel all-pass correction filters
 after PCLS SOCP optimisation.
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_test_ab1phase}}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_lowpass_differentiator_alternate_test_ab1phase}}
 \caption{Phase responses of the alternate low-pass differentiator filter
   parallel allpass filters after PCLS SOCP optimisation.}
 \label{fig:Alt-Parallel-allpass-lowpass-diff-filter-PCLS-phase}
@@ -13838,6 +13831,180 @@ coefficients are:
 \verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_N2_coef.m}
 \verbatiminput{schurOneMPAlattice_socp_slb_bandpass_hilbert_test_D2_coef.m}
 \end{small}
+\clearpage
+\subsubsection{\label{sec:Schur-oneM-PA-lowpass-differentiator-filter}Design of an IIR low-pass differentiator filter as the difference of two all-pass Schur lattice filters} 
+The Octave script
+\emph{schurOneMPAlattice\_socp\_slb\_lowpass\_differentiator\_test.m}
+uses the SeDuMi SOCP solver to design a low-pass differentiator filter
+implemented as $\left(1+z^{-1}\right)^{2}$ followed by the difference of
+parallel Schur one multiplier all pass lattice filters. The difference
+introduces a zero at $z=1$ and a pole near $z=-1$. The latter is partly
+cancelled by the addition of a zero at $z=-1$. The second pole at $z=-1$ adds a
+$\imath$ phase shift. The script calls the Octave function
+\emph{schurOneMPAlattice\_slb} to perform the PCLS design of the filter with
+constraints on the Schur all-pass lattice filter reflection coefficients,
+group-delay and phase.
+
+The parallel Schur all-pass lattice low-pass differentiator filter specification
+is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_spec.m}
+\end{small}
+
+The Octave script
+\emph{tarczynski\_parallel\_allpass\_lowpass\_differentiator\_test.m}
+designs an initial low-pass differentiator correction filter with the
+\emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Figure~\ref{fig:Schur-oneM-PA-lowpass-differentiator-filter-initial-response}.
+shows the initial low-pass differentiator filter response.
+The phase response shown is adjusted for the nominal delay.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_initial}}
+\caption{Initial response of the low-pass differentiator filter implemented as
+  the difference of two Schur all-pass lattice filters followed by
+  $\left(1+z^{-1}\right)^{2}$. The phase response shown is adjusted for the
+  nominal delay.} 
+\label{fig:Schur-oneM-PA-lowpass-differentiator-filter-initial-response}
+\end{figure}
+
+After PCLS optimisation, the reflection coefficients of the Schur all-pass
+lattice filters in the low-pass differentiator correction filter are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_A1k2_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_A2k2_coef.m}
+\end{small}
+
+The corresponding numerator and denominator polynomials of the correction
+filter are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_N2_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_D2_coef.m}
+\end{small}
+
+Figure~\ref{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-error}.
+shows the response error of the low-pass differentiator filter after PCLS
+optimisation. The phase response shown is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_error_response}}
+\caption{Response error of the low-pass differentiator filter implemented as the
+  difference of two Schur all-pass lattice filters, followed by
+  $\left(1+z^{-1}\right)^{2}$, after PCLS SOCP optimisation. The phase response
+  shown is adjusted for the nominal delay.} 
+\label{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-error}
+\end{figure}
+
+Figure~\ref{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-pz} shows the
+pole-zero plot of the low-pass differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_pz}}
+\caption{Pole-zero plot of the low-pass differentiator filter
+  after PCLS SOCP optimisation.}
+\label{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-pz}
+\end{figure}
+
+Figure~\ref{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-correction}
+shows the response of the correction filter of the low-pass differentiator after
+PCLS optimisation. The amplitude response plot demonstrates the need for
+a zero at $z=-1$.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_test_correction_response}}
+\caption{Response of the correction filter of the low-pass differentiator filter
+  after PCLS SOCP optimisation.}
+\label{fig:Schur-oneM-PA-lowpass-differentiator-filter-PCLS-correction}
+\end{figure}
+\clearpage
+\subsubsection{Design of an alternate IIR low-pass differentiator filter as the difference of two Schur all-pass lattice filters} 
+The Octave script 
+\emph{schurOneMPAlattice\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
+uses the SeDuMi SOCP solver to design a low-pass differentiator filter
+implemented as $1+z^{-1}$ followed by the difference of two all-pass
+filters. The difference introduces a zero at $z=1$ and a pole near $z=-1$ that
+is partly cancelled by the addition of a zero at $z=-1$. The additional zero
+introduces a $\imath$ phase shift. The alternate filter differs from that of
+Section~\ref{sec:Schur-oneM-PA-lowpass-differentiator-filter} in that the
+all pass lattice filters are of equal length. The script calls the Octave
+function \emph{schurOneMPAlattice\_slb} to perform the PCLS design of the filter
+with constraints on the Schur all-pass lattice filter reflection coefficients,
+group-delay and phase.
+
+The alternate parallel Schur all-pass lattice low-pass differentiator filter
+specification is:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_spec.m}
+\end{small}
+
+The Octave script
+\emph{tarczynski\_parallel\_allpass\_lowpass\_differentiator\_alternate\_test.m}
+designs an initial low-pass differentiator correction filter with the
+\emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Figure~\ref{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-init-response}.
+shows the initial alternate low-pass differentiator filter response.
+The phase response shown is adjusted for the nominal delay.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_initial}}
+\caption{Initial response of the alternate low-pass differentiator filter
+  implemented as the difference of two all-pass filters followed by $1+z^{-1}$.
+  The phase response shown is adjusted for the nominal delay.} 
+\label{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-init-response}
+\end{figure}
+
+After PCLS optimisation, the reflection coefficients of the Schur all-pass
+lattice filters in the alternate low-pass differentiator correction filter are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_A1k2_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_A2k2_coef.m}
+\end{small}
+
+The corresponding numerator and denominator polynomials of the alternate
+correction filter are:
+\begin{small}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_N2_coef.m}
+\verbatiminput{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_D2_coef.m}
+\end{small}
+
+Figure~\ref{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-error}.
+shows the response error of the alternate low-pass differentiator filter after
+PCLS optimisation. The phase response shown is adjusted for the nominal delay.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_error_response}}
+\caption{Response error of the alternate low-pass differentiator filter
+  implemented as the difference of two Schur all-pass lattice filters, followed
+  by $1+z^{-1}$, after PCLS SOCP optimisation. The phase response shown is
+  adjusted for the nominal delay.} 
+\label{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-error}
+\end{figure}
+
+Figure~\ref{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-pz} shows the
+pole-zero plot of the alternate low-pass differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_pz}}
+\caption{Pole-zero plot of the alternate low-pass differentiator filter
+  implemented as the difference of two Schur all-pass lattice filters, followed
+  by $1+z^{-1}$, after PCLS SOCP optimisation.}
+\label{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-pz}
+\end{figure}
+
+Figure~\ref{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-correction}
+shows the response of the correction filter of the alternate low-pass
+differentiator after PCLS optimisation.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test_correction_response}}
+\caption{Response of the correction filter of the alternate parallel Schur all
+  pass lattice low-pass differentiator filter after PCLS SOCP optimisation.}
+\label{fig:Alt-Schur-oneM-PA-lowpass-diff-filter-PCLS-correction}
+\end{figure}
 \clearpage
 \subsubsection{\label{sec:Design-parallel-Schur-one-mult-all-pass-lattice-multi-band-pass-SOCP}Design of a parallel one-multiplier IIR Schur lattice multi-band-pass filter using SOCP}
 The Octave script
