@@ -555,7 +555,7 @@ main (void)
 
       qgsl_poly_complex_workspace * w 
         = qgsl_poly_complex_workspace_alloc ((pt[n].N)+1);
-  
+
       qgsl_poly_complex_solve (pt[n].p, (pt[n].N)+1, w, z);
 
       qgsl_poly_complex_workspace_free (w);
@@ -563,14 +563,33 @@ main (void)
       for (size_t i = 0; i < pt[n].N; i++)
         {
           size_t width=36;
+          int n;
+          
           char bufr[128];
-          char bufi[128];
-          char bufm[128];
+          n=quadmath_snprintf (bufr, sizeof(bufr),"%+-#*.30Qe",width, z[2*i]);
+          if ((size_t) n >= sizeof bufr)
+            {
+              fprintf (stderr, "n >= sizeof bufr\n");
+              return -1;
+            }
 
-          quadmath_snprintf (bufr, sizeof(bufr),"%+-#*.30Qe",width, z[2*i]);
-          quadmath_snprintf (bufi, sizeof(bufi),"%+-#*.30Qe",width, z[2*i+1]);
+          char bufi[128];
+          n=quadmath_snprintf (bufi, sizeof(bufi),"%+-#*.30Qe",width, z[2*i+1]);
+          if ((size_t) n >= sizeof bufi)
+            {
+              fprintf (stderr, "n >= sizeof bufi\n");
+              return -1;
+            }
+
           __float128 m = qgsl_hypot(z[2*i],z[2*i+1]);
-          quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
+          char bufm[128];
+          n=quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
+          if ((size_t) n >= sizeof bufm)
+            {
+              fprintf (stderr, "n >= sizeof bufm\n");
+              return -1;
+            }
+
           printf ("z%d=%s %s \n(%s)\n", i, bufr, bufi, bufm);
         }
     }

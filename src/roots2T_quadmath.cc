@@ -65,7 +65,12 @@ DEFUN_DLD(roots2T_quadmath, args, nargout, "a=roots2T_quadmath(r)")
         {
           int width = 36;
           char bufr[128];
-          quadmath_snprintf(bufr, sizeof(bufr),"%+-#*.30Qf",width,r[col]);
+          int n=quadmath_snprintf(bufr, sizeof(bufr),"%+-#*.30Qf",width,r[col]);
+          if ((size_t) n >= sizeof bufr)
+            {
+              error("n >= sizeof bufr\n");
+              return octave_value();
+            }
           fprintf(stderr,"r[%ld]=%s\n",col,bufr);
         }
     }

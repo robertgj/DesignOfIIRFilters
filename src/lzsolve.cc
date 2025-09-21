@@ -114,24 +114,45 @@ int main(void)
   for (size_t i = 0; i < n+1; i++) {
     size_t width=16;
     char buf[128];
-    quadmath_snprintf (buf, sizeof(buf), "%6.0Qf", p[i]);
+    int n = quadmath_snprintf (buf, sizeof(buf), "%6.0Qf", p[i]);
+    if ((size_t) n >= sizeof buf)
+      { 
+        fprintf (stderr, "n >= sizeof buf\n");
+        return -1;
+      }
     printf("%s ", buf);
   }
   printf("\n");
 
   // Make companion matrix of p
   __float128 *data = (__float128 *)calloc(n*n,sizeof(__float128));
+  if (data == NULL)
+    {
+      return(-1);
+    }
   set_companion_matrix(p,n,data);
   
   // Allocate data storage
   char Nchar='N';
   __float128 *eigReal = (__float128 *)calloc(n,sizeof(__float128));
+  if (eigReal == NULL)
+    {
+      return(-1);
+    }
   __float128 *eigImag = (__float128 *)calloc(n,sizeof(__float128));
+  if (eigImag == NULL)
+    {
+      return(-1);
+    }
   __float128 *vl=NULL;
   __float128 *vr=NULL;
   int one=1;
   int lwork=6*n;
   __float128 *work = (__float128 *)calloc(6*n,sizeof(__float128));
+  if (work == NULL)
+    {
+      return -1;
+    }
   int info;
 
   // Calculate eigenvalues using the DGEEV subroutine
@@ -146,14 +167,33 @@ int main(void)
   // Print eigenvalues to stdout
   for (size_t i = 0; i < n; i++) {
     size_t width=36;
+    int n;
+    
     char bufr[128];
-    char bufi[128];
-    char bufm[128];
+    n = quadmath_snprintf (bufr, sizeof(bufr), "%+-#*.30Qe", width, eigReal[i]);
+    if ((size_t) n >= sizeof bufr)
+      {
+        fprintf (stderr, "n >= sizeof bufr\n");
+        return -1;
+      }
 
-    quadmath_snprintf (bufr, sizeof(bufr), "%+-#*.30Qe", width, eigReal[i]);
-    quadmath_snprintf (bufi, sizeof(bufi), "%+-#*.30Qe", width, eigImag[i]);
+    char bufi[128];
+    n = quadmath_snprintf (bufi, sizeof(bufi), "%+-#*.30Qe", width, eigImag[i]);
+    if ((size_t) n >= sizeof bufi)
+      {
+        fprintf (stderr, "n >= sizeof bufi\n");
+        return -1;
+      }
+
     __float128 m = qhypot(eigReal[i],eigImag[i]);
-    quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
+    char bufm[128];
+    n = quadmath_snprintf (bufm, sizeof(bufm),"%+-#*.30Qe",width, m);
+    if ((size_t) n >= sizeof bufm)
+      {
+        fprintf (stderr, "n >= sizeof bufm\n");
+        return -1;
+      }
+    
     printf ("z%d=%s %s \n(%s)\n", i, bufr, bufi, bufm);
   }
 

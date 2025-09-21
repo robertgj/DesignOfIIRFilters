@@ -101,8 +101,17 @@ unsigned int JKISS(void)
 // Quickly generate random double precision float 0<=x<1 by type punning
 static double uni_qdblflt(void)
 {
+  // Compile time check
+#define COMPILE_TIME_ASSERT(pred)                                       \
+  switch (0) {                                                          \
+  case 0:                                                               \
+  case pred:;                                                           \
+  }
+  COMPILE_TIME_ASSERT(sizeof(double) <= sizeof(unsigned long long))
+  
   double x;
   unsigned long long a;
+
   a = ((unsigned long long)JKISS()<<32) + JKISS();
   a = (a >> 12) | 0x3FF0000000000000ULL; // Take upper 52 bits
   memcpy(&x,&a,sizeof(double));     // Make a double from bits
