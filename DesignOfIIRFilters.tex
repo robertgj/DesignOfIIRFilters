@@ -4807,22 +4807,34 @@ initialise $\Lambda_{N}\left(z\right)=D_{N}\left(z\right)$. Then
 \tilde{\Lambda}_{N-1}\left(z\right) & = \frac{\tilde{\Lambda}_{N}\left(z\right)-k_{N}\Lambda_{N}\left(z\right)}{1-\epsilon_{N}k_{N}}
 \end{align*}
 where $k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)$.
-Rearranging
+Rearranging, the equations of the initial lattice section are:
 \begin{align}
-\tilde{\Lambda}_{N}\left(z\right) & = k_{N}\Lambda_{N}\left(z\right)+\left(1-\epsilon_{N}k_{N}\right)\tilde{\Lambda}_{N-1}\left(z\right)\label{eq:OneMultSynthesisStar}\\
-\Lambda_{N-1}\left(z\right) & = z^{-1}\left\{ \left(1+\epsilon_{N}k_{N}\right)\Lambda_{N}-k_{N}\tilde{\Lambda}_{N-1}\left(z\right)\right\} \label{eq:OneMultSynthesis}
+  z\Lambda_{N-1}\left(z\right) & =
+\left(1+\epsilon_{N}k_{N}\right)\Lambda_{N}-k_{N}\tilde{\Lambda}_{N-1}\left(z\right)
+                                 \label{eq:OneMultSynthesis} \\
+  \tilde{\Lambda}_{N}\left(z\right) & = k_{N}\Lambda_{N}\left(z\right)+
+ \left(1-\epsilon_{N}k_{N}\right)\tilde{\Lambda}_{N-1}\left(z\right)
+                                      \label{eq:OneMultSynthesisStar}
 \end{align}
-By repeated application for $i=N,N-1,\cdots1$, the denominator $D_{N}\left(z\right)$
-is synthesised. The relation between $\Lambda_{i}\left(z\right)$
-and $\Phi_{i}\left(z\right)$ is
+By repeated application for $i=N,N-1,\cdots1$, the denominator
+$D_{N}\left(z\right)$ is synthesised. The relation between
+$\Lambda_{i}\left(z\right)$ and $\Phi_{i}\left(z\right)$ is
 \begin{align*}
 \Lambda_{N}\left(z\right) & = \Phi_{N}\left(z\right)\\
-\Lambda_{i}\left(z\right) & = \Phi_{i}\left(z\right)\sqrt{\frac{\left(1+\epsilon_{N}k_{N}\right)\left(1+\epsilon_{N-1}k_{N-1}\right)\cdots\left(1+\epsilon_{i+1}k_{i+1}\right)}{\left(1-\epsilon_{N}k_{N}\right)\left(1-\epsilon_{N-1}k_{N-1}\right)\cdots\left(1-\epsilon_{i+1}k_{i+1}\right)}}
+  \Lambda_{i}\left(z\right) & =
+\Phi_{i}\left(z\right)\sqrt{\frac{\left(1+\epsilon_{N}k_{N}\right)
+                              \left(1+\epsilon_{N-1}k_{N-1}\right)\cdots
+                              \left(1+\epsilon_{i+1}k_{i+1}\right)}
+                              {\left(1-\epsilon_{N}k_{N}\right)
+                              \left(1-\epsilon_{N-1}k_{N-1}\right)\cdots
+                              \left(1-\epsilon_{i+1}k_{i+1}\right)}}
 \end{align*}
-where $0\leq i<N$. Note that $\Phi_{i}\left(z\right)$ and $\Lambda_{i}\left(z\right)$
+where $0\leq i<N$. Note that $\Phi_{i}\left(z\right)$ and
+$\Lambda_{i}\left(z\right)$
 differ only by a scale factor so the $k$-parameters are unchanged
 \begin{align*}
-k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)=\Phi_{i}\left(0\right)/\tilde{\Phi}_{i}\left(0\right)
+  k_{i}=\Lambda_{i}\left(0\right)/\tilde{\Lambda}_{i}\left(0\right)
+  &= \Phi_{i}\left(0\right)/\tilde{\Phi}_{i}\left(0\right)
 \end{align*}
  Also the $\Lambda_{i}$ are orthogonal but not orthonormal since
 \begin{align}
@@ -5441,12 +5453,17 @@ shows the filter after pipelining by moving the second filter delay to the upper
 and lower branches of the signal flow graph. The total delay in each loop of
 the signal flow graph is unchanged so the transfer function of the filter is
 also unchanged. This pipelining limits the maximum latency of each filter update
-calculation to the latency of two sections and changes the round-off noise
-performance of the filter\footnote{The tapped output could also be retimed by
-  pipelining the arithmetic operations in a tree structure. The all-pass
-  lattice ouput calculation is recursive and cannot be retimed in that way.
-  See \emph{Kimura} and
-  \emph{Osada}~\cite{KimuraOsada_CanonicalPipeliningLatticeFilters}.}.
+calculation to the latency of two sections. The tapped output could also be
+retimed by pipelining the arithmetic operations in a tree structure. The all-pass
+lattice ouput calculation is recursive and cannot be retimed in that way.
+(See \emph{Kimura} and
+\emph{Osada}~\cite{KimuraOsada_CanonicalPipeliningLatticeFilters}).
+The retimed filter is no longer an implementation of the Schur decomposition
+shown in Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} so the
+$\epsilon$ sign assignment method of
+Algorithm~\ref{alg:One-multiplier-sign-assignment} is not applicable.
+Instead, use the state variable covariance matrix to scale each state, as shown
+in Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
 
 \begin{figure}[!ht]
 \begin{subfigure}{\textwidth}
@@ -5663,6 +5680,209 @@ The Octave script \emph{schurOneMlatticePipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a retimed Schur one-multiplier
 lattice filter. 
 
+\subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-all-pass-filter}State variable description of a pipelined one-multiplier Schur lattice all pass filter}
+Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice-All-Pass}
+shows a second order all pass segment of the pipelined Schur one-multiplier
+lattice filter in
+Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice}:
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_AllPass_Pipelined}
+\caption{Second order segment of the pipelined Schur one-multiplier lattice
+  all pass filter.}
+\label{fig:State-variable-description-pipelined-One-Multiplier-Lattice-All-Pass}
+\end{figure}
+
+As for the pipelined Schur one-multiplier lattice filter described in
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter},
+the $\epsilon$ sign assignment of
+Algorithm~\ref{alg:One-multiplier-sign-assignment} does not apply to this
+filter structure. Instead, scale the filter with the state variable covariance
+matrix, as shown in
+Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
+
+Construction of a state variable description of the pipelined Schur
+one-multiplier lattice all pass filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice-all-pass}.
+
+\begin{algorithm}[!ht]
+Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$ and
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
+\begin{algorithmic}
+\State $\hat{y}_{0} = x_{1}$
+\For{$n=1,\hdots,\left\lceil\frac{N}{2}\right\rceil-1$}
+\State $w_{n}= \left(1+k_{2n}\epsilon_{2n}\right)x_{2n+1} - k_{2n}x_{2n}$
+\State $x_{2n-1}^{\prime} = \left(1+k_{2n-1}\epsilon_{2n-1}\right)w_{n}
+                         -k_{2n-1}\hat{y}_{n-1}$
+\State $x_{2n}^{\prime} = \left(1-k_{2n-1}\epsilon_{2n-1}\right)\hat{y}_{n-1}
+                       +k_{2n-1}w_{2n}$
+\State $\hat{y}_{n} = \left(1-k_{2n}\epsilon_{2n}\right)x_{2n}+k_{2n}x_{2n+1}$
+\EndFor
+\If{N is odd}
+\State $x_{N}^{\prime}= -k_{N}\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}
+                       + \left(1+k_{N}\epsilon_{N}\right)u$
+\State $\hat{y}=
+  \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}+k_{N}u$
+\Else
+\State $w_{\frac{N}{2}} = \left(1+k_{N}\epsilon_{N}\right)u - k_{N}x_{N}$  
+\State $x_{N-1}^{\prime} = \left(1+k_{N-1}\epsilon_{N-1}\right)w_{\frac{N}{2}}
+                         -k_{N-1}\hat{y}_{\frac{N}{2}-1}$
+\State $x_{N}^{\prime} = k_{N-1}w_{\frac{N}{2}}
+                       + \left(1-k_{N-1}\epsilon_{N-1}\right)\hat{y}_{\frac{N}{2}-1}$
+\State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)x_{N}+k_{N}u$
+\EndIf
+\end{algorithmic}
+\caption{Construction of a state variable description of the pipelined Schur
+  one-multiplier lattice all pass filter.}
+\label{alg:Construction-state-variable-pipelined-One-Multiplier-lattice-all-pass}
+\end{algorithm}
+
+As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+the state variable description can be expressed as a series of matrix
+multiplications. For an even order filter:
+
+\begin{align*}
+\left[\begin{array}{c}
+\hat{y}_{0}\\
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccc}
+1 & 0 & \cdots & \cdots & 0 \\
+1 & 0 & \cdots & \cdots & 0 \\
+\vdots & \ddots & & & \vdots \\
+\vdots &  & \ddots &  & \vdots\\
+0 &  &  & 1 & 0\\
+0 & \cdots & \cdots & 0 & 1
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}\\
+x_{2}\\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right]
+\end{align*}
+
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+x_{2}^{\prime}\\
+\hat{y}_{1}\\
+x_{3}\\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccccc}
+ -k_{1}                          & 0  & -\left(1+k_{1}\epsilon_{1}\right)k_{2}  & \left(1+k_{1}\epsilon_{1}\right)\left(1+k_{2}\epsilon_{2}\right) & \cdots & 0      & 0 \\
+ \left(1-k_{1}\epsilon_{1}\right) & 0 & -k_{1}k_{2}                             & k_{1}\left(1+k_{2}\epsilon_{2}\right)                           &        & 0      & 0 \\
+  0                              & 0 & \left(1-k_{2}\epsilon_{2}\right )       & k_{2}                                                          &        & 0      & 0 \\
+  0                              & 0 & 0                                      & 1                                                             &        & 0      & 0 \\
+ \vdots                          &   & \cdots                                 &                                                               & \ddots & \vdots & \vdots\\
+  0                              &   &                                        &                                                               &        & 1      & 0\\
+  0                              &   & \cdots                                 &                                                               & \cdots & 0      & 1 
+\end{array}\right]
+% \hat{y}_{0}                     x_{1}     x_{2}                                     x_{3}                                                              x_{N}    u
+\left[\begin{array}{c}
+\hat{y}_{0}\\
+x_{1}\\
+x_{2}\\
+x_{3}\\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+x_{2}^{\prime}\\
+x_{3}^{\prime}\\
+x_{4}^{\prime}\\
+\hat{y}_{2}\\
+x_{5}^{\prime} \\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right] & = \left[\begin{array}{ccccccccc}
+  1  & 0 & 0                               & 0 &                                        &                                                               & \cdots  & 0 & 0 \\
+  0  & 1 & 0                               & 0 &                                        &                                                               &         & 0 & 0 \\
+  0  & 0 & -k_{3}                           & 0 & -\left(1+k_{3}\epsilon_{3}\right)k_{4}  & \left(1+k_{3}\epsilon_{3}\right)\left(1+k_{4}\epsilon_{4}\right) & \cdots & 0 & 0 \\
+  0  & 0 & \left(1-k_{3}\epsilon_{3}\right) & 0 & -k_{3}k_{4}                             & k_{3}\left(1+k_{4}\epsilon_{4}\right)                           &         & 0 & 0 \\
+  0  & 0 & 0                               & 0 & \left(1-k_{4}\epsilon_{4}\right )       & k_{4}                                                          & \cdots  & 0 & 0 \\
+  0  & 0 & 0                               & 0 & 0                                      & 1                                                             &         & 0 & 0 \\
+  \vdots &        &                        &   & \cdots                                 &                                                               & \ddots  & \vdots & \vdots \\
+  0      &        &                        &   &                                        &                                                               &         & 1 & 0 \\
+  0      & \cdots &                        &   & \cdots                                 &                                                               & \cdots  & 0 & 1 
+\end{array}\right]
+%          \hat{y}_{1}                      x_{3} x_{4}                                   x_{5}                                                                  x_{N}  u
+\left[\begin{array}{c}
+x_{1}\\
+x_{2}\\
+\hat{y}_{1}\\
+x_{3}\\
+x_{4}\\
+x_{5}\\
+\vdots\\
+x_{N}\\
+u
+\end{array}\right]
+\end{align*}
+\centerline{$\vdots$}
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{N-2}^{\prime}\\
+x_{N-1}^{\prime}\\
+x_{N}^{\prime}\\
+\hat{y}
+\end{array}\right] &=
+\left[\begin{array}{ccccccc}
+  1     & \cdots &   & \cdots                &   & \cdots                                  & 0 \\
+ \vdots & \ddots &   &                       &   &                                         & \vdots \\
+  0     & \cdots & 1 & 0                     & 0 & 0                                        &  0 \\
+  0     & \cdots & 0 & -k_{N-1}               & 0 & -\left(1+k_{N-1}\epsilon_{N-1}\right)k_{N} &  \left(1+k_{N-1}\epsilon_{N-1}\right)\left(1+k_{N}\epsilon_{N}\right)\\
+  0     & \cdots & 0 & 1-k_{N-1}\epsilon_{N-1} & 0 &-k_{N-1}k_{N}                              &  k_{N-1}\left(1+k_{N}\epsilon_{N}\right) \\
+  0     & \cdots & 0 & 0                     & 0 & \left(1-k_{N}\epsilon_{N}\right)          & k_{N}  
+\end{array}\right]\left[\begin{array}{c}
+x_{1}\\
+\vdots\\
+x_{N-2}\\
+\hat{y}_{\frac{N}{2}-1}\\
+x_{N-1}\\
+x_{N}\\
+u  
+\end{array}\right]
+\end{align*}
+
+For an odd order filter, the final matrix multiplication is:
+\begin{align*}
+\left[\begin{array}{c}
+x_{1}^{\prime}\\
+\vdots\\
+x_{N}^{\prime}\\
+\hat{y}
+\end{array}\right] &=
+\left[\begin{array}{cccccc}
+1  & \cdots & & & \cdots & 0\\
+\vdots  & \ddots & & & & \vdots\\
+0  & \cdots & 0 & -k_{N} & 0 & \left(1+k_{N}\epsilon_{N}\right)\\
+0  & \cdots & 0 & \left(1-k_{N}\epsilon_{N}\right) & 0 & k_{N}  
+\end{array}\right]
+\left[\begin{array}{c}
+x_{1}\\
+\vdots\\
+x_{N-1}\\
+\hat{y}_{\left\lceil\frac{N}{2}\right\rceil-1}\\
+x_{N}\\
+u  
+\end{array}\right]
+\end{align*}
+
 \subsection{\label{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a doubly-pipelined one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
 shows a first order segment of a doubly-pipelined Schur one-multiplier lattice
@@ -5678,6 +5898,14 @@ double the input sample rate.
   filter.}
 \label{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
 \end{figure}
+
+As for the pipelined Schur one-multiplier lattice filter described in
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter},
+the $\epsilon$ sign assignment of
+Algorithm~\ref{alg:One-multiplier-sign-assignment} does not apply to this
+filter structure. Instead, scale the filter with the state variable covariance
+matrix, as shown in
+Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
 
 Construction of a state variable description of the doubly-pipelined Schur
 one-multiplier lattice filter is summarised in
@@ -5845,6 +6073,7 @@ variable description of a doubly-pipelined Schur one-multiplier lattice filter
 The Octave script \emph{schurOneMlatticeDoublyPipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a doubly-pipelined Schur
 one-multiplier lattice filter.
+
 \subsection{\label{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of an all-pass doubly-pipelined one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice} shows only the all-pass part of a first order segment of the
 doubly-pipelined Schur one-multiplier lattice filter of
@@ -5852,10 +6081,18 @@ Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Latti
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_AllPass_Pipelined}
+\includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_AllPass_DoublyPipelined}
 \caption{First order segment of an all-pass doubly pipelined Schur one-multiplier lattice filter.}
 \label{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice}
 \end{figure}
+
+As for the pipelined Schur one-multiplier lattice filter described in
+Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter},
+the $\epsilon$ sign assignment of
+Algorithm~\ref{alg:One-multiplier-sign-assignment} does not apply to this
+filter structure. Instead, scale the filter with the state variable covariance
+matrix, as shown in
+Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
 
 Construction of a state variable description of the all-pass doubly-pipelined
 Schur one-multiplier lattice filter is summarised in
