@@ -13,7 +13,7 @@ tic;
 
 ftol=1e-6
 ctol=ftol/100
-maxiter=20000
+maxiter=2000
 verbose=false
 
 % Low-pass differentiator filter specification
@@ -23,7 +23,8 @@ fap=0.2;fas=0.4;
 Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
-fdp=fap;cpr=0.013;Wdp=0.1;
+fdp=0.1;cpr=0.02;cn=4;Wdp=0.1;
+
 
 % Frequency points
 n=1000;
@@ -38,21 +39,22 @@ ndp=ceil(fdp*n/0.5);
 wa=w;
 Rap=1:nap;
 Ras=nas:length(wa);
-Azm1=2*sin(wa/2);
-Azm1sq=Azm1.^2;
-dAzm1sqdw=2*sin(wa);
+Fz=[1;-1];
+Az=2*sin(wa/2);
+Azsq=Az.^2;
+dAzsqdw=2*sin(wa);
 Ad=[wa(Rap)/2;zeros(n-1-nap,1)];
 Asqd=Ad.^2;
 dAsqddw=Ad;
-Adu=[wa(1:nas-1)/2; zeros(n-nas,1)] + ...
-    ([Arp*ones(nap,1);Art*ones((nas-nap-1),1);Ars*ones(n-nas,1)]/2);
+Adu=[wa(1:(nas-1))/2;zeros(n-nas,1)] + ...
+    [(Arp/2)*ones(nap,1);(Art/2)*ones((nas-nap-1),1);(Ars/2)*ones(n-nas,1)];
 Adl=Ad-([Arp*ones(nap,1);zeros(n-1-nap,1)]/2);
 Adl(find(Adl<=0))=0;
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 
 % Phase response with z^{-1}-1 removed
 wp=w(1:npp);
-Pzm1=(pi/2)-(wp/2);
+Pz=(pi/2)-(wp/2);
 Pd=(pi*pp)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
@@ -60,22 +62,25 @@ Wp=Wpp*ones(size(wp));
 
 % Group delay
 wt=w(1:ntp);
-Tzm1=0.5;
+Tz=0.5*ones(size(wt));
 Td=tp*ones(size(wt));
 Tdu=Td+(tpr*ones(ntp,1)/2);
 Tdl=Td-(tpr*ones(ntp,1)/2);
 Wt=Wtp*ones(size(wt));
 
 % dAsqdw response
-wd=wa(1:ndp);
-Dd=dAsqddw(1:ndp);
+Rdp=1:ndp;
+wd=wa(Rdp);
+Dd=dAsqddw(Rdp);
 Wd=Wdp*ones(size(wd));
-Cd=(Dd-(Asqd(1:ndp).*cot(w(1:ndp)/2)))./Azm1sq(1:ndp);
-Cdu=Cd+(cpr/2);
-Cdl=Cd-(cpr/2);
-dpr=cpr.*Azm1sq(1:ndp);
-Ddu=Dd+(dpr/2);
-Ddl=Dd-(dpr/2);
+Cd=(Dd-(Asqd(Rdp).*cot(wd/2)))./Azsq(Rdp);
+Cderr=(cpr/2)*((Rdp(:)/ndp).^cn);
+Cdu=Cd+Cderr;
+Cdl=Cd-Cderr;
+Dd=dAsqddw(Rdp);
+Dderr=(Cderr.*Azsq(Rdp));
+Ddu=Dd+Dderr;
+Ddl=Dd-Dderr;
 
 % Sanity check
 nachk=[1,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -90,9 +95,8 @@ printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 % Use the WISE method of Tarczynski et al. to find an initial filter
 %
 wi=pi*(1:(n-1))'/n;
-bzm1=[1,-1];
-Hzm1=freqz(bzm1,1,wi)(:);
-Hi=[(-j*(wi(Rap)/2)./Hzm1(Rap)).*exp(-j*tp*wi(Rap)); zeros(n-nap-1,1)];
+Hz=freqz(Fz,1,wi)(:);
+Hi=[(-j*(wi(Rap)/2)./Hz(Rap)).*exp(-j*tp*wi(Rap)); zeros(n-nap-1,1)];
 Wi=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 
 % Unconstrained minimisation
@@ -129,11 +133,14 @@ k0=k0(:);c0=c0(:);epilon0=epsilon0(:);p0=p0(:);c0=c0(:);
 
 % Calculate the initial response
 Csq0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
-A0=sqrt(Csq0).*Azm1;
-P0=schurOneMlatticeP(wp,k0,epsilon0,p0,c0) + Pzm1;
-T0=schurOneMlatticeT(wt,k0,epsilon0,p0,c0) + Tzm1;
+A0c=sqrt(Csq0);
+A0=A0c.*Az;
+P0c=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
+P0=P0c(:)+Pz;
+T0c=schurOneMlatticeT(wt,k0,epsilon0,p0,c0);
+T0=T0c(:)+Tz;
 dCsqdw0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p0,c0);
-dAsqdw0=(Csq0(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
+dAsqdw0=(Csq0(Rdp).*dAzsqdw(Rdp))+(dCsqdw0(:).*(Azsq(Rdp)));
 
 % Plot the initial response
 subplot(311);
@@ -167,7 +174,7 @@ print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
-zplane(qroots(conv(N0,bzm1)),qroots(D0R));
+zplane(qroots(conv(N0(:),Fz)),qroots(D0R(:)));
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
 close
 
@@ -189,9 +196,9 @@ feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
    k0,epsilon0,p0,c0,kc_u,kc_l,kc_active,dmax, ...
-   wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-   wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-   wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+   wa,(Ad./Az).^2,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+   wt,Td-Tz,Tdu-Tz,Tdl-Tz,Wt, ...
+   wp,Pd-Pz,Pdu-Pz,Pdl-Pz,Wp, ...
    wd,Cd,Cdu,Cdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
@@ -211,13 +218,14 @@ if max(abs(k2-k2r))>eps
 endif
 
 % Calculate the overall response
-Csq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
-A2=sqrt(Csq2).*Azm1;
-Pzm1=(pi/2)-(wp/2);
-P2=schurOneMlatticeP(wp,k2,epsilon2,p2,c2) + Pzm1;
-T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2) + Tzm1;
+[Csq2,gradCsq2]=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
+A2=sqrt(Csq2(:)).*Az;
+[P2c,gradP2c]=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
+P2=P2c(:)+Pz;
+[T2c,gradT2c]=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
+T2=T2c(:)+Tz;
 dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
-dAsqdw2=(Csq2(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw2.*Azm1sq(1:ndp));
+dAsqdw2=(Csq2(Rdp).*dAzsqdw(Rdp))+(dCsqdw2(:).*Azsq(Rdp));
 
 % Plot response error
 subplot(311);
@@ -257,13 +265,13 @@ print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
 % Pole-zero plot
-zplane(qroots(conv(N2,bzm1)),qroots(D2));
+zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
 % Plot filter dAsqdw error
 plot(wd*0.5/pi,[dAsqdw2,Ddu,Ddl]-Dd)
-axis([0 fdp 0.01*[-1,1]])
+axis([0 fdp 0.004*[-1,1]])
 grid("on");
 title("Differentiator filter $\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
 ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
@@ -292,7 +300,6 @@ close
 % Plot both correction filter dCsqdw error and filter dAsqdw error
 subplot(211)
 plot(wd*0.5/pi,[dCsqdw2,Cdu,Cdl]-Cd)
-% title("Differentiator filter $\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
 axis([0 fdp 0.01*[-1,1]])
 grid("on");
 ylabel("$\\frac{d\\lvert C\\rvert^{2}}{dw}$ error");
@@ -322,12 +329,10 @@ ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
 grid("on");
 subplot(312);
 plot(wp*0.5/pi,gradP2_D);
-%axis([0 0.5 pp+(0.0002*[-1,1])]);
 ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
 grid("on");
 subplot(313);
 plot(wt*0.5/pi,gradT2_D);
-%axis([0 0.5 tp+(0.004*[-1,1])]);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
 xlabel("Frequency");
 grid("on");
@@ -335,9 +340,6 @@ print(strcat(strf,"_direct_sensitivity"),"-dpdflatex");
 close
 
 % Plot sensitivity of response to schur coefficients of correction filter
-[Csq2,gradCsq2]=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
-[P2,gradP2]=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
-[T2,gradT2]=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 % Plot
 subplot(311);
 plot(wa(Rap)*0.5/pi,gradCsq2(Rap,:));
@@ -346,13 +348,11 @@ title(strP);
 ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
 grid("on");
 subplot(312); 
-plot(wp*0.5/pi,gradP2);
-%axis([0 0.5 pp+(0.0002*[-1,1])]);
+plot(wp*0.5/pi,gradP2c);
 ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
 grid("on");
 subplot(313);
-plot(wt*0.5/pi,gradT2);
-%axis([0 0.5 tp+(0.004*[-1,1])]);
+plot(wt*0.5/pi,gradT2c);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
 xlabel("Frequency");
 grid("on");
@@ -391,6 +391,7 @@ fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"dmax=%d %% SQP step-size constraint\n",dmax);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"nN=%d %% Correction filter order\n",nN);
 fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
@@ -412,11 +413,12 @@ fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
 fprintf(fid, ...
         "cpr=%g %% Correction filter pass band dCsqdw peak-to-peak ripple\n", ...
         cpr);
+fprintf(fid,"cn=%d %% Correction filter pass band dCsqdw w exponent\n",cn);
 fprintf(fid,"Wdp=%g %% Correction filter pass band dCsqdw weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars Wap Wat Was ", ...
-              "tp tpr Wtp pp ppr Wpp cpr Wdp ", ...
+eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Wap Art Wat Ars Was ", ...
+              "tp tpr Wtp pp ppr Wpp cpr cn Wdp ", ...
               "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"], ...
              strf));
 

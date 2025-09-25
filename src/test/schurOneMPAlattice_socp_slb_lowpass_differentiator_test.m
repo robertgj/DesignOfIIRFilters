@@ -39,7 +39,7 @@ fap=0.2;fas=0.4;
 Arp=0.002;Ars=0.001;Wap=10;Wat=0.1;Was=1;
 fpp=fap;pp=0.5;ppr=0.0008;Wpp=0.5;
 ftp=fap;tp=(NA1k+NA2k+1)/2;tpr=0.01;Wtp=1;
-fdp=fap;cpr=0.16;Wdp=0.1;
+fdp=fap;cpr=0.16;cn=0;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -99,11 +99,13 @@ Rdp=1:ndp;
 wd=w(Rdp);
 Wd=Wdp*ones(size(wd));
 Cd=(Ad(Rdp)./(Az(Rdp).^2)).*(1+(2*Ad(Rdp).*tan(w(Rdp)/2)));
-Cdu=Cd+(cpr/2);
-Cdl=Cd-(cpr/2);
+Cderr=(cpr/2)*((Rdp(:)/ndp).^cn);
+Cdu=Cd+Cderr;
+Cdl=Cd-Cderr;
 Dd=dAsqddw(Rdp);
-Ddu=Dd+((cpr/2)*Azsq(Rdp));
-Ddl=Dd-((cpr/2)*Azsq(Rdp));
+Dderr=(Cderr.*Azsq(Rdp));
+Ddu=Dd+Dderr;
+Ddl=Dd-Dderr;
 
 % Coefficient constraints
 dmax=inf; % For compatibility with SQP
@@ -114,9 +116,12 @@ k_active=find(k0~=0);
 
 % Calculate the initial response
 Csq0=schurOneMPAlatticeAsq(wa,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df);
-A0=sqrt(Csq0).*Az;
-P0=schurOneMPAlatticeP(wp,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df) + Pz;
-T0=schurOneMPAlatticeT(wt,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df) + Tz;
+A0c=sqrt(Csq0);
+A0=A0c.*Az;
+P0c=schurOneMPAlatticeP(wp,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df);
+P0=P0c+Pz;
+T0c=schurOneMPAlatticeT(wt,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df);
+T0=T0c+Tz;
 dCsqdw0= ...
   schurOneMPAlatticedAsqdw(wd,A1k0,A1kones,A1kones,A2k0,A2kones,A2kones,df);
 dAsqdw0=(Csq0(Rdp).*dAzsqdw(Rdp))+(dCsqdw0.*(Azsq(Rdp)));
@@ -334,7 +339,7 @@ print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
-zplane(qroots(conv(N2,Fz)),qroots(D2));
+zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -352,9 +357,9 @@ print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
-fprintf(fid,"dmax=%d %% SQP step-size constraint\n",dmax);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"NA1k=%d %% Allpass filter 1 order\n",NA1k);
 fprintf(fid,"NA2k=%d %% Allpass filter 2 order\n",NA2k);
@@ -376,12 +381,13 @@ fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
 fprintf(fid, ...
         "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
         cpr);
+fprintf(fid,"cn=%d %% Correction filter pass band dCsqdw w exponent\n",cn);
 fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
 eval(sprintf(["save %s.mat ftol ctol n ", ...
               "fap fas Arp Ars Wap Wat Was ", ...
-              "tp tpr Wtp pp ppr Wpp fdp cpr Wdp ", ...
+              "tp tpr Wtp pp ppr Wpp fdp cpr cn Wdp ", ...
               "Da0 Db0 A1k0 A2k0 A1k2 A2k2 N2 D2"], ...
              strf));
 

@@ -33,10 +33,10 @@ Nx=Nk+Nc+Nkk+Nck;
 
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
-Arp=0.004;Art=0.008;Ars=0.008;Wap=1;Wat=0.0001;Was=1;
+Arp=0.004;Art=0.004;Ars=0.008;Wap=1;Wat=0.0001;Was=1;
 fpp=fap;pp=1.5;ppr=0.0008;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.04;Wtp=0.1;
-fdp=fap;dpr=0.04;Wdp=0.1;
+fdp=0.1;cpr=0.02;cn=4;Wdp=0.1;
 
 % Frequency points
 n=400;
@@ -49,14 +49,15 @@ ndp=ceil(fdp*n/0.5);
 
 % Pass and transition band amplitudes of combined filters
 wa=w;
-Ad=[wa(1:nap)/2;zeros(n-1-nap,1)];
-Adu=[wa(1:nas-1)/2; zeros(n-nas,1)] + ...
+Fz=[1;-1];
+Ad=[wa(1:nap)/2;zeros(n-nap-1,1)];
+Adu=[wa(1:(nas-1))/2;zeros(n-nas,1)]+ ...
     [(Arp/2)*ones(nap,1);(Art/2)*ones((nas-nap-1),1);Ars*ones(n-nas,1)];
-Adl=Ad-[(Arp/2)*ones(nap,1);zeros(n-1-nap,1)];
+Adl=Ad-[(Arp/2)*ones(nap,1);zeros(n-nap-1,1)];
 Adl(find(Adl<=0))=0;
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 % Amplitude response of (1-z^-1)
-Azm1=2*sin(wa/2);
+Az=2*sin(wa/2);
 
 % Phase response of combined filters
 wp=w(1:npp);
@@ -65,7 +66,7 @@ Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 % Phase response of (1-z^-1)
-Pzm1=(pi/2)-(wp/2);
+Pz=(pi/2)-(wp/2);
 
 % Group delay of combined filters
 wt=w(1:ntp);
@@ -74,20 +75,22 @@ Tdu=Td+(tpr/2);
 Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 % Group delay response of (1-z^-1)
-Tzm1=0.5;
+Tz=0.5;
 
-% dAsqdw response of correction filter
-wd=wa(1:ndp);
-dAsqdwd=((Ad(1:ndp)./Azm1(1:ndp)).^2).*((2./wd)-cot(wd/2));
-dAsqdwdu=dAsqdwd+(dpr/2);
-dAsqdwdl=dAsqdwd-(dpr/2);
+% dCsqdw response of correction filter
+Rdp=1:ndp;
+wd=wa(Rdp);
+dCsqdwd=((Ad(Rdp)./Az(Rdp)).^2).*((2./wd)-cot(wd/2));
+dCsqdwErr=(cpr/2)*((Rdp(:)/ndp).^cn);
+dCsqdwdu=dCsqdwd+(dCsqdwErr/2);
+dCsqdwdl=dCsqdwd-(dCsqdwErr/2);
 Wd=Wdp*ones(size(wd));
-% dAsqdw response of (1-z^-1)
-dAsqdwzm1=2*sin(wd);
+% dCsqdw response of (1-z^-1)
+dCsqdwz=2*sin(wd);
 
 % Coefficient constraints
 dmax=0; % For compatibility with SQP
-rho=127/128;
+rho=0.999;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
 kc_active=find([k0(:);c0(:);kk0(:);ck0(:)]);
@@ -102,12 +105,15 @@ printf("Adl(nachk)=[");printf("%g ",Adl(nachk));printf(" ]\n");
 printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 
 % Calculate the initial response of combined filters
-Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
-A0=sqrt(Asq0).*Azm1;
-P0=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0) + Pzm1;
-T0=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0) + Tzm1;
-% Calculate the initial dAsqdw response of correction filter
-dAsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
+Csq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
+A0c=sqrt(Csq0);
+A0=A0c.*Az;
+P0c=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0);
+P0=P0c+Pz;
+T0c=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0);
+T0=T0c+Tz;
+% Calculate the initial dCsqdw response of correction filter
+dCsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
 
 %
 % MMSE pass
@@ -117,10 +123,10 @@ feasible=false;
 [k1,c1,kk1,ck1,opt_iter,func_iter,feasible] = ...
 schurOneMlatticePipelined_socp_mmse([], ...
    k0,epsilon0,c0,kk0,ck0,kc_u,kc_l,kc_active,dmax, ...
-   wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-   wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-   wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-   wd,dAsqdwd,dAsqdwdu,dAsqdwdl,Wd, ...
+   wa,(Ad./Az).^2,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+   wt,Td-Tz,Tdu-Tz,Tdl-Tz,Wt, ...
+   wp,Pd-Pz,Pdu-Pz,Pdl-Pz,Wp, ...
+   wd,dCsqdwd,dCsqdwdu,dCsqdwdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k2 (MMSE) infeasible");
@@ -135,24 +141,24 @@ feasible=false;
   schurOneMlatticePipelined_slb ...
   (@schurOneMlatticePipelined_socp_mmse, ...
    k1,epsilon0,c1,kk1,ck1,kc_u,kc_l,kc_active,dmax, ...
-   wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-   wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-   wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-   wd,dAsqdwd,dAsqdwdu,dAsqdwdl,Wd, ...
+   wa,(Ad./Az).^2,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+   wt,Td-Tz,Tdu-Tz,Tdl-Tz,Wt, ...
+   wp,Pd-Pz,Pdu-Pz,Pdl-Pz,Wp, ...
+   wd,dCsqdwd,dCsqdwdu,dCsqdwdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k2 (PCLS) infeasible");
 endif
 
 % Calculate the overall responses
-Asq2=schurOneMlatticePipelinedAsq(wa,k2,epsilon0,c2,kk2,ck2);
-A2c=sqrt(Asq2);
-A2=A2c.*Azm1;
+Csq2=schurOneMlatticePipelinedAsq(wa,k2,epsilon0,c2,kk2,ck2);
+A2c=sqrt(Csq2);
+A2=A2c.*Az;
 P2c=schurOneMlatticePipelinedP(wp,k2,epsilon0,c2,kk2,ck2);
-P2=P2c+Pzm1;
+P2=P2c+Pz;
 T2c=schurOneMlatticePipelinedT(wt,k2,epsilon0,c2,kk2,ck2);
-T2=T2c+Tzm1;
-dAsqdw2c=schurOneMlatticePipelineddAsqdw(wd,k2,epsilon0,c2,kk2,ck2);
+T2=T2c+Tz;
+dCsqdw2c=schurOneMlatticePipelineddAsqdw(wd,k2,epsilon0,c2,kk2,ck2);
 
 % Plot correction filter response
 subplot(411);
@@ -174,12 +180,23 @@ axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
 subplot(414);
-plot(wd*0.5/pi,dAsqdw2c);
+plot(wd*0.5/pi,dCsqdw2c);
 axis([0 0.5 -0.05 0.15]);
 grid("on");
-ylabel("dAsqdw");
+ylabel("dCsqdw");
 xlabel("Frequency");
 print(strcat(strf,"_pcls_correction"),"-dpdflatex");
+close
+
+% Plot correction filter dCsqdw error response
+plot(wd*0.5/pi,[dCsqdw2c,dCsqdwdl,dCsqdwdu]-dCsqdwd);
+grid("on");
+strP=sprintf(["Lowpass differentiator dCsqdw error : ", ...
+ "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g"],fap,Arp,fas,Ars,tp);
+title(strP);
+ylabel("dCsqdw error");
+xlabel("Frequency");
+print(strcat(strf,"_pcls_dCsqdw_error"),"-dpdflatex");
 close
 
 % Plot response
@@ -252,14 +269,14 @@ close
 [A,B,C,dd]=schurOneMlatticePipelined2Abcd(k2,epsilon0,c2,kk2,ck2);
 [N2,D2]=Abcd2tf(A,B,C,dd);
 D2=D2(1:length(D0));
-zplane(qroots(conv(N2,[1,-1])),qroots(D2));
+zplane(qroots(conv(N2(:),Fz)),qroots(D2));
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
 % Check transfer function
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq2)) > 20*eps
-  error("max(abs((abs(HH).^2)-Asq2)) > 20*eps");
+if max(abs((abs(HH).^2)-Csq2)) > 20*eps
+  error("max(abs((abs(HH).^2)-Csq2)) > 20*eps");
 endif
 
 % Save results
@@ -282,9 +299,9 @@ print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
-fprintf(fid,"dmax=%d %% SQP step-size constraint\n",dmax);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"nN=%d %% Correction filter order\n",nN);
 fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
@@ -300,10 +317,18 @@ fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"cn=%d %% Correction filter pass band dCsqdw w exponent\n",cn);
+fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n fap fas Arp Ars tp tpr pp ppr ", ...
-              "Wap Wat Was Wtp Wpp N0 D0 k0 epsilon0 c0 kk0 ck0 ", ...
+eval(sprintf(["save %s.mat ftol ctol n ", ...
+              "fap fas Arp Art Ars tp tpr pp ppr fdp cpr cn ", ...
+              "Wap Wat Was Wtp Wpp Wdp ", ...
+              "N0 D0 k0 epsilon0 c0 kk0 ck0 ", ...
               "k2 c2 kk2 ck2 N2 D2"],strf));
 
 % Done

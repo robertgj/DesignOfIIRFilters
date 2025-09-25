@@ -236,10 +236,10 @@ function [ErrorX,gradErrorX,diagHessErrorX,hessErrorX] = ...
   % Sanity checks
   Nw = length(wx);
   if length(Xd) ~= Nw
-    error("length(wx)~=length(Xd)");
+    error("length(wx)(%d)~=length(Xd)(%d)",length(wx),length(Xd));
   endif
   if length(Wx) ~= Nw
-    error("length(wx)~=length(Wx)");
+    error("length(wx)(%d)~=length(Wx)(%d)",length(wx),length(Wx));
   endif
   Nk=length(k);
   Nc=length(c);

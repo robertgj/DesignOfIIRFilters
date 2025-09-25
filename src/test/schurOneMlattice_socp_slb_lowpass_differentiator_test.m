@@ -32,7 +32,7 @@ fap=0.3;fas=0.4;
 Arp=0.004;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=0.1;
 ftp=fap;tp=nN-1;tpr=0.04;Wtp=0.1;
 fpp=fap;pp=1.5;ppr=0.0008;Wpp=1;
-fdp=fap;cpr=0.04;Wdp=0.1;
+fdp=0.1;cpr=0.02;cn=4;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -45,9 +45,12 @@ ndp=ceil(fdp*n/0.5);
 
 % Pass and transition band amplitudes
 wa=w;
-Azm1=2*sin(wa/2);
-Azm1sq=Azm1.^2;
-dAzm1sqdw=2.*sin(wa);
+Rap=1:nap;
+Ras=nas:length(wa);
+Fz=[1;-1];
+Az=2*sin(wa/2);
+Azsq=Az.^2;
+dAzsqdw=2.*sin(wa);
 Ad=[wa(1:nap)/2;zeros(n-1-nap,1)];
 Asqd=Ad.^2;
 dAsqddw=Ad;
@@ -59,7 +62,7 @@ Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 
 % Group delay
 wt=w(1:ntp);
-Tzm1=0.5;
+Tz=0.5;
 Td=tp*ones(size(wt));
 Tdu=Td+(tpr/2);
 Tdl=Td-(tpr/2);
@@ -67,21 +70,25 @@ Wt=Wtp*ones(size(wt));
 
 % Phase response with z^{-1}-1 removed
 wp=w(1:npp);
-Pzm1=(pi/2)-(wp/2);
+Pz=(pi/2)-(wp/2);
 Pd=(pp*pi)-(wp*tp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % dAsqdw response
-wd=w(1:ndp);
+Rdp=1:ndp;
+wd=w(Rdp);
 Wd=Wdp*ones(size(wd));
-Dd=dAsqddw(1:ndp);
-Cd=(Dd-(Asqd(1:ndp).*cot(Ad(1:ndp))))./Azm1sq(1:ndp);
-Cdu=Cd+(cpr/2);
-Cdl=Cd-(cpr/2);
-Ddu=Dd+((cpr/2)*Azm1sq(1:ndp));
-Ddl=Dd-((cpr/2)*Azm1sq(1:ndp));
+Dd=dAsqddw(Rdp);
+Cd=(Dd-(Asqd(Rdp).*cot(Ad(Rdp))))./Azsq(Rdp);
+Cderr=(cpr/2)*((Rdp(:)/ndp).^cn);
+Cdu=Cd+Cderr;
+Cdl=Cd-Cderr;
+Dd=dAsqddw(Rdp);
+Dderr=(Cderr.*Azsq(Rdp));
+Ddu=Dd+Dderr;
+Ddl=Dd-Dderr;
 
 % Coefficient constraints
 dmax=0.1; % For compatibility with SQP
@@ -103,11 +110,14 @@ printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 
 % Calculate the initial response
 Csq0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
-A0=sqrt(Csq0).*Azm1;
-P0=schurOneMlatticeP(wp,k0,epsilon0,p0,c0) + Pzm1;
-T0=schurOneMlatticeT(wt,k0,epsilon0,p0,c0) + Tzm1;
+A0c=sqrt(Csq0);
+A0=A0c.*Az;
+P0c=schurOneMlatticeP(wp,k0,epsilon0,p0,c0);
+P0=P0c+Pz;
+T0c=schurOneMlatticeT(wt,k0,epsilon0,p0,c0);
+T0=T0c+Tz;
 dCsqdw0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p0,c0);
-dAsqdw0=(Csq0(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw0.*(Azm1sq(1:ndp)));
+dAsqdw0=(Csq0(Rdp).*dAzsqdw(Rdp))+(dCsqdw0.*(Azsq(Rdp)));
 
 %
 % PCLS pass
@@ -117,9 +127,9 @@ feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
    k0,epsilon0,p0,c0,kc_u,kc_l,kc_active,dmax, ...
-   wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-   wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-   wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
+   wa,(Ad./Az).^2,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+   wt,Td-Tz,Tdu-Tz,Tdl-Tz,Wt, ...
+   wp,Pd-Pz,Pdu-Pz,Pdl-Pz,Wp, ...
    wd,Cd,Cdu,Cdl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
@@ -141,15 +151,15 @@ endif
 % Calculate the overall response
 Csq2=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
 A2c=sqrt(Csq2);
-A2=A2c.*Azm1;
+A2=A2c.*Az;
 wp=w(1:npp);
-Pzm1=(pi/2)-(wp/2);
+Pz=(pi/2)-(wp/2);
 P2c=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
-P2=P2c + Pzm1;
+P2=P2c + Pz;
 T2c=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
-T2=T2c + Tzm1;
+T2=T2c + Tz;
 dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
-dAsqdw2=(Csq2(1:ndp).*dAzm1sqdw(1:ndp))+(dCsqdw2.*(Azm1sq(1:ndp)));
+dAsqdw2=(Csq2(Rdp).*dAzsqdw(Rdp))+(dCsqdw2.*(Azsq(Rdp)));
 
 % Check transfer function
 HH=freqz(N2,D2,wa);
@@ -187,7 +197,7 @@ close
 
 % Plot filter dAsqdw error
 plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
-axis([0 fdp 0.1*[-1,1]])
+axis([0 fdp 0.004*[-1,1]])
 strP=sprintf(["Differentiation filter dAsqdw error : ", ...
               "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fap,Arp,fas,Ars,tp,tpr,ppr);
@@ -200,7 +210,7 @@ close
 
 %% Plot correction filter dCsqdw error
 plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
-axis([0 fdp 0.04*[-1,1]])
+axis([0 fdp 0.02*[-1,1]])
 strP=sprintf(["Correction filter dCsqdw error : ", ...
               "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fap,Arp,fas,Ars,tp,tpr,ppr);
@@ -213,10 +223,8 @@ close
 
 % Plot response
 subplot(311);
-rap=1:nap;
-ras=nas:(n-1);
-[ax,ha,hs]=plotyy(wa(rap)*0.5/pi,[A2(rap),Adl(rap),Adu(rap)], ...
-                  wa(ras)*0.5/pi,[A2(ras),Adl(ras),Adu(ras)]);
+[ax,ha,hs]=plotyy(wa(Rap)*0.5/pi,[A2(Rap),Adl(Rap),Adu(Rap)], ...
+                  wa(Ras)*0.5/pi,[A2(Ras),Adl(Ras),Adu(Ras)]);
 % Copy line colour
 hac=get(ha,"color");
 for c=1:3
@@ -245,8 +253,8 @@ close
 
 % Plot response errors
 subplot(311);
-[ax,ha,hs]=plotyy(wa(rap)*0.5/pi,[A2(rap),Adl(rap),Adu(rap)]-Ad(rap), ...
-                  wa(ras)*0.5/pi,[A2(ras),[Adl(ras),Adu(ras)]]);
+[ax,ha,hs]=plotyy(wa(Rap)*0.5/pi,[A2(Rap),Adl(Rap),Adu(Rap)]-Ad(Rap), ...
+                  wa(Ras)*0.5/pi,[A2(Ras),[Adl(Ras),Adu(Ras)]]);
 % Copy line colour
 hac=get(ha,"color");
 for c=1:3
@@ -274,7 +282,7 @@ print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
-zplane(qroots(conv(N2,[1,-1])),qroots(D2));
+zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -346,6 +354,7 @@ fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"dmax=%d %% SQP step-size constraint\n",dmax);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"nN=%d %% Correction filter order\n",nN);
 fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
@@ -367,12 +376,13 @@ fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
 fprintf(fid, ...
         "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
         cpr);
+fprintf(fid,"cn=%d %% Correction filter pass band dCsqdw w exponent\n",cn);
 fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol n ", ...
-              "fap fas Arp Ars Wap Wat Was ", ...
-              "tp tpr Wtp pp ppr Wpp fdp cpr Wdp ", ...
+eval(sprintf(["save %s.mat ftol ctol rho n ", ...
+              "fap fas Arp Wap Art Wat Ars Was ", ...
+              "tp tpr Wtp pp ppr Wpp fdp cpr cn Wdp ", ...
               "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"], ...
              strf));
 

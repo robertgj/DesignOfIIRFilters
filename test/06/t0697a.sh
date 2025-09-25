@@ -64,9 +64,9 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [        0,      416,        0,      -57, ... 
-                 0,       18,        0,       -7, ... 
-                 0,        2 ]'/2048;
+k_min = [        0,      432,        0,      -57, ... 
+                 0,       18,        0,       -6, ... 
+                 0,        1 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
@@ -78,17 +78,17 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [      -44,     -449,     -588,      -63, ... 
-               148,      -34,      -48,       35, ... 
-                 2,      -12,        4 ]'/2048;
+c_min = [      -49,     -446,     -576,      -68, ... 
+               140,      -24,      -46,       27, ... 
+                 6,      -10,        2 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 4.0719e-06 & & \\
-12-bit 3-signed-digit & 1.6830e-05 & 41 & 25 \\
-12-bit 3-signed-digit(Lim)& 1.0954e-05 & 41 & 25 \\
-12-bit 3-signed-digit(SOCP-relax) & 5.6397e-06 & 37 & 21 \\
+Exact & 3.7523e-06 & & \\
+12-bit 3-signed-digit & 7.1603e-06 & 38 & 22 \\
+12-bit 3-signed-digit(Lim)& 6.4754e-06 & 37 & 21 \\
+12-bit 3-signed-digit(SOCP-relax) & 4.1357e-06 & 37 & 21 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

@@ -39,9 +39,10 @@ kc0=[k0;c0;kk0;ck0];
 % Lowpass differentiator filter specification
 % (ppr=0.002,tpr=0.06 fails with QEMU/nehalem)
 fap=0.3;fas=0.4;
-Arp=0.01;Art=0.02;Ars=0.012;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=1.5;ppr=0.008;Wpp=1;
-ftp=fap;tp=length(k0)-1;tpr=0.08;Wtp=0.1;
+Arp=0.01;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
+fpp=fap;pp=1.5;ppr=0.01;Wpp=1;
+ftp=fap;tp=length(k0)-1;tpr=0.1;Wtp=0.1;
+fdp=fap;cpr=1;cn=0;Wdp=0.1;
 
 % Options
 socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Lim=false
@@ -57,17 +58,19 @@ nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);
 npp=ceil(fpp*n/0.5);
 ntp=ceil(ftp*n/0.5);
+ndp=ceil(fdp*n/0.5);
 
 % Amplitude
 wa=w;
+Fz=[1;-1];
 Ad=([(wa(1:nap)/2);zeros(n-nap-1,1)]);
 Adu=[(wa(1:(nas-1))/2);zeros(n-nas,1)] + ...
-    [(Arp/2)*ones(nap,1);(Art/2)*ones(nas-nap-1,1);Ars*ones(n-nas,1)];
-Adl=Ad-[(Arp/2)*ones(nap,1);(Art/2)*ones(nas-nap-1,1);Ars*ones(n-nas,1)];
+    [(Arp/2)*ones(nap,1);(Art/2)*ones(nas-nap-1,1);(Ars/2)*ones(n-nas,1)];
+Adl=Ad-[(Arp/2)*ones(nap,1);zeros(n-nap-1,1)];
 Adl(find(Adl<0))=0;
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
 % Amplitude response of (1-z^-1)
-Azm1=2*sin(wa/2);
+Az=2*sin(wa/2);
 
 % Phase response 
 wp=w(1:npp);
@@ -76,7 +79,7 @@ Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 % Phase response of (1-z^-1)
-Pzm1=(pi/2)-(wp/2);
+Pz=(pi/2)-(wp/2);
 
 % Group delay
 wt=w(1:ntp);
@@ -85,20 +88,29 @@ Tdu=Td+(tpr/2);
 Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 % Group delay response of (1-z^-1)
-Tzm1=0.5;
+Tz=0.5;
 
-% dAsqdw constraints
+% dCsqdw constraints
 wd=[];
 dAsqdwd=[];
 dAsqdwdu=[];
 dAsqdwdl=[];
 Wd=[];
 % dAsqdw response of (1-z^-1)
-dAsqdwzm1=[];
+dAsqdwz=[];
+Rdp=1:ndp;
+wd=wa(Rdp);
+dCsqdwd=((Ad(Rdp)./Az(Rdp)).^2).*((2./wd)-cot(wd/2));
+dCsqdwErr=(cpr/2)*((Rdp(:)/ndp).^cn);
+dCsqdwdu=dCsqdwd+(dCsqdwErr/2);
+dCsqdwdl=dCsqdwd-(dCsqdwErr/2);
+Wd=Wdp*ones(size(wd));
+% dCsqdw response of (1-z^-1)
+dCsqdwz=2*sin(wd);
 
 % Constraints on the coefficients
 dmax=inf;
-rho=1-ftol;
+rho=(nscale-1)/nscale;
 Nk=length(k0);
 Nc=length(c0);
 Nkk=length(kk0);
@@ -115,11 +127,14 @@ Nx=Nk+Nc+Nkk+Nck;
 kc0_active=find(kc0);
 
 % Initial response
-Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
-A0=sqrt(Asq0).*Azm1;
-P0=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0)+Pzm1;
-T0=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0)+Tzm1;
-dAsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
+Asq0c=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
+A0c=sqrt(Asq0c);
+A0=A0c.*Az;
+P0c=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0);
+P0=P0c+Pz;
+T0c=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0);
+T0=T0c+Tz;
+dCsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
 
 % Sanity check
 nchk=[1,2,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
@@ -134,18 +149,18 @@ printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 if socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Lim
   ndigits_alloc = schurOneMlatticePipelined_allocsd_Lim  ...
                     (nbits,ndigits,k0,epsilon0,p0_ones,c0, ...
-                     wa,(Ad./Azm1).^2,ones(size(wa)), ...
-                     wt,Td-Tzm1,ones(size(wt)), ...
-                     wp,Pd-Pzm1,ones(size(wp)), ...
-                     wd,dAsqdwd,ones(size(wd)));
+                     wa,(Ad./Az).^2,ones(size(wa)), ...
+                     wt,Td-Tz,ones(size(wt)), ...
+                     wp,Pd-Pz,ones(size(wp)), ...
+                     wd,dCsqdwd,ones(size(wd)));
 elseif ...
   socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Ito 
   ndigits_alloc = schurOneMlatticePipelined_allocsd_Ito ...
                     (nbits,ndigits,k0,epsilon0,c0,kk0,ck0, ...
-                     wa,(Ad./Azm1).^2,Wa, ...
-                     wt,Td-Tzm1,Wt, ...
-                     wp,Pd-Pzm1,Wp, ...
-                     wd,dAsqdwd,Wd);
+                     wa,(Ad./Az).^2,Wa, ...
+                     wt,Td-Tz,Wt, ...
+                     wp,Pd-Pz,Wp, ...
+                     wd,dCsqdwd,Wd);
 else
   ndigits_alloc=zeros(size(kc0));
   ndigits_alloc(kc0_active)=ndigits;
@@ -208,18 +223,18 @@ endif
 
 % Find kc0 error
 Esq0=schurOneMlatticePipelinedEsq(k0,epsilon0,c0,kk0,ck0, ...
-                                  wa,(Ad./Azm1).^2,Wa, ...
-                                  wt,Td-Tzm1,Wt, ...
-                                  wp,Pd-Pzm1,Wp, ...
-                                  wd,dAsqdwd,Wd);
+                                  wa,(Ad./Az).^2,Wa, ...
+                                  wt,Td-Tz,Wt, ...
+                                  wp,Pd-Pz,Wp, ...
+                                  wd,dCsqdwd,Wd);
 printf("Exact coefficients Esq0=%g\n",Esq0);
 
 % Find kc0_sd error
 Esq0_sd=schurOneMlatticePipelinedEsq(k0_sd,epsilon0,c0_sd,kk0_sd,ck0_sd, ...
-                                     wa,(Ad./Azm1).^2,Wa, ...
-                                     wt,Td-Tzm1,Wt, ...
-                                     wp,Pd-Pzm1,Wp, ...
-                                     wd,dAsqdwd,Wd);
+                                     wa,(Ad./Az).^2,Wa, ...
+                                     wt,Td-Tz,Wt, ...
+                                     wp,Pd-Pz,Wp, ...
+                                     wd,dCsqdwd,Wd);
 printf("Signed-digit coefficients Esq0_sd=%g\n",Esq0_sd);
 
 % Find the number of signed-digits and adders used by kc0_sd
@@ -256,10 +271,10 @@ while ~isempty(kc_active)
       schurOneMlatticePipelined_slb(@schurOneMlatticePipelined_socp_mmse, ...
                            kc_b(Rk),epsilon0,kc_b(Rc),kc_b(Rkk),kc_b(Rck), ...
                            kc_bu,kc_bl,kc_active,dmax, ...
-                           wa,(Ad./Azm1).^2,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-                           wt,Td-Tzm1,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-                           wp,Pd-Pzm1,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-                           wd,dAsqdwd,dAsqdwdu,dAsqdwdl,Wd, ...
+                           wa,(Ad./Az).^2,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+                           wt,Td-Tz,Tdu-Tz,Tdl-Tz,Wt, ...
+                           wp,Pd-Pz,Pdu-Pz,Pdl-Pz,Wp, ...
+                           wd,dCsqdwd,dCsqdwdu,dCsqdwdl,Wd, ...
                            maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
@@ -300,7 +315,7 @@ ck_min=kc(Rck);
 ck_min(2:2:end)=0;
 Esq_min=schurOneMlatticePipelinedEsq ...
           (k_min,epsilon0,c_min,kk_min,ck_min, ...
-           wa,(Ad./Azm1).^2,Wa,wt,Td-Tzm1,Wt,wp,Pd-Pzm1,Wp,wd,dAsqdwd,Wd);
+           wa,(Ad./Az).^2,Wa,wt,Td-Tz,Wt,wp,Pd-Pz,Wp,wd,dCsqdwd,Wd);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
@@ -335,32 +350,32 @@ P_kc_min=schurOneMlatticePipelinedP(wp,k_min,epsilon0,c_min,kk_min,ck_min);
 T_kc0=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0);
 T_kc0_sd=schurOneMlatticePipelinedT(wt,k0_sd,epsilon0,c0_sd,kk0_sd,ck0_sd);
 T_kc_min=schurOneMlatticePipelinedT(wt,k_min,epsilon0,c_min,kk_min,ck_min);
-dAsqdw_kc0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
-dAsqdw_kc0_sd=schurOneMlatticePipelineddAsqdw ...
+dCsqdw_kc0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
+dCsqdw_kc0_sd=schurOneMlatticePipelineddAsqdw ...
                 (wd,k0_sd,epsilon0,c0_sd,kk0_sd,ck0_sd);
-dAsqdw_kc_min=schurOneMlatticePipelineddAsqdw ...
+dCsqdw_kc_min=schurOneMlatticePipelineddAsqdw ...
                 (wd,k_min,epsilon0,c_min,kk_min,ck_min);
 
 % Check constraints after the last truncation
 vS=schurOneMlatticePipelined_slb_update_constraints ...
-     (Asq_kc_min,(Adu./Azm1).^2,(Adl./Azm1).^2,Wa, ...
-      T_kc_min,Tdu-Tzm1,Tdl-Tzm1,Wt, ...
-      P_kc_min,Pdu-Pzm1,Pdl-Pzm1,Wp, ...
-      dAsqdw_kc_min,dAsqdwdu,dAsqdwdl,Wd, ...
+     (Asq_kc_min,(Adu./Az).^2,(Adl./Az).^2,Wa, ...
+      T_kc_min,Tdu-Tz,Tdl-Tz,Wt, ...
+      P_kc_min,Pdu-Pz,Pdl-Pz,Wp, ...
+      dCsqdw_kc_min,dCsqdwdu,dCsqdwdl,Wd, ...
       ctol);
 if ~schurOneMlatticePipelined_slb_constraints_are_empty(vS)
   printf("These constraints on the correction filter response are not met:\n");
   schurOneMlatticePipelined_slb_show_constraints ...
-    (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dAsqdw_kc_min);
+    (vS,wa,Asq_kc_min,wt,T_kc_min,wp,P_kc_min,wd,dCsqdw_kc_min);
 endif
 
 % Plot response
 subplot(311);
 rap=1:nap;
 ras=nas:(n-1);
-A_kc0=Azm1.*sqrt(Asq_kc0);
-A_kc0_sd=Azm1.*sqrt(Asq_kc0_sd);
-A_kc_min=Azm1.*sqrt(Asq_kc_min);
+A_kc0=Az.*sqrt(Asq_kc0);
+A_kc0_sd=Az.*sqrt(Asq_kc0_sd);
+A_kc_min=Az.*sqrt(Asq_kc_min);
 [ax,ha,hs] = ...
   plotyy(wa(rap)*0.5/pi,[A_kc0(rap),A_kc0_sd(rap),A_kc_min(rap)]-Ad(rap), ...
          wa(ras)*0.5/pi,[A_kc0(ras),A_kc0_sd(ras),A_kc_min(ras)]-Ad(ras));
@@ -379,12 +394,11 @@ strt=sprintf(["Pipelined low-pass differentiator : ", ...
 title(strt);
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 0.02*[-1,1]]);
-%axis(ax(2),[0 0.5 Ars*[-1,1]]);
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,(P_kc0+Pzm1+(wp*tp))/pi,"linestyle","-", ...
-     wp*0.5/pi,(P_kc0_sd+Pzm1+(wp*tp))/pi,"linestyle","--", ...
-     wp*0.5/pi,(P_kc_min+Pzm1+(wp*tp))/pi,"linestyle","-.");
+plot(wp*0.5/pi,(P_kc0+Pz+(wp*tp))/pi,"linestyle","-", ...
+     wp*0.5/pi,(P_kc0_sd+Pz+(wp*tp))/pi,"linestyle","--", ...
+     wp*0.5/pi,(P_kc_min+Pz+(wp*tp))/pi,"linestyle","-.");
 axis([0 0.5 pp+((ppr/2)*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
@@ -393,9 +407,9 @@ legend("location","east");
 legend("boxoff");
 legend("left");
 subplot(313);
-plot(wt*0.5/pi,T_kc0+Tzm1,"linestyle","-", ...
-     wt*0.5/pi,T_kc0_sd+Tzm1,"linestyle","--", ...
-     wt*0.5/pi,T_kc_min+Tzm1,"linestyle","-.");
+plot(wt*0.5/pi,T_kc0+Tz,"linestyle","-", ...
+     wt*0.5/pi,T_kc0_sd+Tz,"linestyle","--", ...
+     wt*0.5/pi,T_kc_min+Tz,"linestyle","-.");
 axis([0 0.5 tp+((tpr/2)*[-1,1])]);
 grid("on");
 ylabel("Group delay(samples)");
@@ -413,7 +427,7 @@ print_polynomial(N_min,"N_min",strcat(strf,"_N_min_coef.m"));
 print_polynomial(D_min,"D_min");
 print_polynomial(D_min,"D_min",strcat(strf,"_D_min_coef.m"));
 subplot(111);
-zplane(qroots(conv(N_min(:),[1;-1])),qroots(D_min(:)));
+zplane(qroots(conv(N_min(:),Fz)),qroots(D_min(:)));
 title(strt);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
@@ -424,10 +438,13 @@ fprintf(fid,"nbits=%d %% Bits-per-coefficient \n",nbits);
 fprintf(fid,"ndigits=%d %% Average signed-digits-per-coefficient \n",ndigits);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
+fprintf(fid,"rho=%g %% Cnstraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
 fprintf(fid,"Arp=%g %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
+fprintf(fid,"Art=%g %% Amplitude transition band peak-to-peak ripple\n",Art);
+fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
 fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
 fprintf(fid,"Ars=%g %% Amplitude stop band peak ripple\n",Ars/2);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
@@ -436,6 +453,12 @@ fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"ppr=%g %% Phase pass band peak-to-peak ripple(rad./pi))\n",ppr);
 fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
+fprintf(fid,"fdp=%g %% dAsqdw pass band upper edge\n",fdp);
+fprintf(fid, ...
+        "cpr=%g %% Correction filter dCsqdw pass band peak-to-peak ripple\n", ...
+        cpr);
+fprintf(fid,"cn=%d %% Correction filter pass band dCsqdw w exponent\n",cn);
+fprintf(fid,"Wdp=%g %% Correction filter dCsqdw pass band weight\n",Wdp);
 fclose(fid);
 
 eval(sprintf(strcat("save %s.mat ", ...
@@ -443,8 +466,10 @@ eval(sprintf(strcat("save %s.mat ", ...
 " socp_relaxation_schurOneMlatticePipelined_lowpass_differentiator_allocsd_Ito", ...
 " nbits ndigits ndigits_alloc k_allocsd_digits c_allocsd_digits ", ...
 " k_allocsd_digits c_allocsd_digits ftol ctol n ", ...
-" fap Arp Wap Ars Was tp tpr Wtp ppr Wpp k0 epsilon0 c0 kk0 ck0 ", ...
-" k0_sd c0_sd kk0_sd ck0_sd k_min c_min kk_min ck_min"),strf));
+" fap Arp Wap Art Wat Ars Was tp tpr Wtp ppr Wpp fdp cpr cn Wdp ", ...
+" k0 epsilon0 c0 kk0 ck0 k0_sd c0_sd kk0_sd ck0_sd ", ...
+" k_min c_min kk_min ck_min"),...
+             strf));
 
 % Done 
 toc;
