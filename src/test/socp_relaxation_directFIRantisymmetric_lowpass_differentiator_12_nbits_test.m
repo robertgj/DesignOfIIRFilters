@@ -22,12 +22,17 @@ tol=1e-5;
 ctol=tol;
 M=16;
 
-Mi=31;Ki=21; % Found by trial and error to give 16 distinct integer coefficients
-h0=selesnickFIRantisymmetric_linear_differentiator((2*Mi)+1,Ki);
-hM0=h0((Mi-M+1):Mi)/2;
+% Found by trial and error to give 16 distinct integer coefficients
+Q=31;L=20;K=21;N=K+(2*L)+2;
+h0=selesnickFIRantisymmetric_linear_differentiator(N,K)/2;
+hM0=h0((Q-M+1):Q);
+print_polynomial(h0(1:Q),"h0");
+print_polynomial(h0(1:Q),"h0",strcat(strf,"_h0_coef.m"),"%15.8e");
 print_polynomial(hM0,"hM0");
 print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"));
-fap=0.2;fas=0.4;Arp=0.002;Art=0.01;Ars=0.004;Wap=1;Wat=0.01;Was=10;
+
+% Response constraints
+fap=0.2;fas=0.4;Arp=0.002;Art=0.01;Ars=0.001;Wap=1;Wat=0.01;Was=10;
 
 % Desired magnitude response
 npoints=1000;
@@ -36,9 +41,13 @@ nap=ceil(npoints*fap/0.5)+1;
 nas=floor(npoints*fas/0.5)+1;  
 Ad=[wa(1:nap)/2; zeros(npoints-nap,1)];
 Adu=[wa(1:(nas-1))/2;zeros(npoints-nas+1,1)] + ...
-    [(Arp/2)*ones(nap,1);(Art/2)*ones(nas-nap-1,1);(Ars/2)*ones(npoints-nas+1,1)];
-Adl=Ad- ...
-    [(Arp/2)*ones(nap,1);(Art/2)*ones(nas-nap-1,1);(Ars/2)*ones(npoints-nas+1,1)];
+    [(Arp/2)*ones(nap,1); ...
+     (Art/2)*ones(nas-nap-1,1); ...
+     (Ars/2)*ones(npoints-nas+1,1)];
+Adl=Ad - ...
+    [(Arp/2)*ones(nap,1); ...
+     (Art/2)*ones(nas-nap-1,1); ...
+     (Ars/2)*ones(npoints-nas+1,1)];
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(npoints-nas+1,1)];
 % Sanity check
 nchk=[1,2,nap-1,nap,nap+1,nas-1,nas,nas+1,npoints-1];
@@ -50,7 +59,7 @@ printf("Adl(nchk)=[");printf("%g ",Adl(nchk));printf(" ]\n");
 printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 
 % Allocate digits
-nbits=12;
+nbits=13;
 nscale=2^(nbits-1);
 ndigits=3;
 ndigits_alloc=directFIRantisymmetric_allocsd_Lim(nbits,ndigits,hM0,wa,Ad,Wa);
@@ -61,13 +70,15 @@ print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
                  strcat(strf,"_hM_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to hM0
+[h0_sd,h0_sdu,h0_sdl]=flt2SD(h0,nbits,ndigits);
 [hM0_sd,hM0_sdu,hM0_sdl]=flt2SD(hM0,nbits,ndigits_alloc);
 [hM0_sd_digits,hM0_sd_adders]=SDadders(hM0_sd,nbits);
 print_polynomial(hM0_sd,"hM0_sd",nscale);
 print_polynomial(hM0_sd,"hM0_sd",strcat(strf,"_hM0_sd_coef.m"),nscale);
 % Find initial mean-squared errrors
-Esq0=directFIRantisymmetricEsq(hM0,wa,Ad,Wa);
-Esq0_sd=directFIRantisymmetricEsq(hM0_sd,wa,Ad,Wa);
+EsqN0=directFIRantisymmetricEsq(h0(1:Q),wa,Ad,Wa);
+EsqM0=directFIRantisymmetricEsq(hM0,wa,Ad,Wa);
+EsqM0_sd=directFIRantisymmetricEsq(hM0_sd,wa,Ad,Wa);
 
 % Fix one coefficient at each iteration 
 hM_active=find(ndigits_alloc~=0);
@@ -165,22 +176,24 @@ hM0_3sd_active=find(hM0_3sd ~= 0);
 printf("%d signed-digits used for 3-sd allocation\n",hM0_3sd_digits);
 printf("%d %d-bit adders used for 3-sd coefficient multiplications\n", ...
        hM0_3sd_adders,nbits);
-Esq0_3sd=directFIRantisymmetricEsq(hM0_3sd,wa,Ad,Wa);
+EsqM0_3sd=directFIRantisymmetricEsq(hM0_3sd,wa,Ad,Wa);
 print_polynomial(hM0_3sd,"hM0_3sd",nscale);
 print_polynomial(hM0_3sd,"hM0_3sd",strcat(strf,"_hM0_3sd_coef.m"),nscale);
 
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
-fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
+fprintf(fid,"Exact(N) & %10.4e & & \\\\\n",EsqN0);
+fprintf(fid,"Exact(M) & %10.4e & & \\\\\n",EsqM0);
 fprintf(fid,"%d-bit %d-signed-digit&%10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_3sd,hM0_3sd_digits,hM0_3sd_adders);
+        nbits,ndigits,EsqM0_3sd,hM0_3sd_digits,hM0_3sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(Lim)&%10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd,hM0_sd_digits,hM0_sd_adders);
+        nbits,ndigits,EsqM0_sd,hM0_sd_digits,hM0_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %10.4e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,hM_min_digits,hM_min_adders);
 fclose(fid);
 
 % Calculate response
+A_h0=directFIRantisymmetricA(wa,h0(1:Q));
 A_hM0=directFIRantisymmetricA(wa,hM0);
 A_hM0_sd=directFIRantisymmetricA(wa,hM0_sd);
 A_hM_min=directFIRantisymmetricA(wa,hM_min);
@@ -189,7 +202,7 @@ A_hM0_3sd=directFIRantisymmetricA(wa,hM0_3sd);
 % Plot amplitude response
 Rap=1:nap;
 Ras=nas:length(wa);
-A_all=[A_hM0,A_hM0_3sd,A_hM0_sd,A_hM_min,Adl,Adu];
+A_all=[A_h0,A_hM0,A_hM0_sd,A_hM_min,Adl,Adu];
 [ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,A_all(Rap,:)-Ad(Rap), ...
                     wa(Ras)*0.5/pi,A_all(Ras,:));
 % Copy line colour
@@ -203,15 +216,13 @@ endfor
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
 axis(ax(1),[0 0.5 0.002*[-1,1]]);
-axis(ax(2),[0 0.5 0.004*[-1,1]]);
+axis(ax(2),[0 0.5 0.002*[-1,1]]);
 ylabel("Amplitude error");
 xlabel("Frequency");
-strt=sprintf ...
-(["Direct-form anti-symmetric low-pass differentiator filter ", ...
-  "(nbits=%d,ndigits=%d) : fap=%g,Arp=%g,fas=%g,Ars=%g"], ...
- nbits,ndigits,fap,Arp,fas,Ars);
+strt=sprintf(["Direct-form anti-symmetric low-pass differentiator filter", ...
+              " : fap=%g,Arp=%g,fas=%g,Ars=%g"],fap,Arp,fas,Ars);
 title(strt);
-legend("exact","s-d","s-d(Lim)","s-d(Lim and SOCP-relax)");
+legend("exact(N)","exact(M)","S-D(Lim)","S-D(Lim and SOCP-relax)");
 legend("location","south");
 legend("boxoff");
 legend("left");
@@ -221,12 +232,14 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
+fprintf(fid,"N=%d %% Length of the Selesnick differentiator filter\n",N);
+fprintf(fid,"K=%d %% K value of the Selesnick differentiator\n",K);
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
 fprintf(fid,"tol=%g %% Tolerance on coef. update\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"maxiter=%d %% SOCP iteration limit\n",maxiter);
-fprintf(fid,"npoints=%g %% Frequency points across the band\n",npoints);
+fprintf(fid,"npoints=%d %% Frequency points across the band\n",npoints);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"Arp=%d %% Amplitude pass band peak-to-peak ripple\n",Arp);
 fprintf(fid,"Wap=%d %% Amplitude pass band weight\n",Wap);
@@ -238,7 +251,7 @@ fprintf(fid,"Was=%d %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
 % Save results
-eval(sprintf(["save %s.mat tol ctol nbits nscale ndigits ndigits_alloc ", ...
+eval(sprintf(["save %s.mat tol ctol nbits nscale ndigits ndigits_alloc N K ", ...
               "npoints hM0 fap Arp Wap Art Wat fas Ars Was hM_min"],strf));
        
 % Done

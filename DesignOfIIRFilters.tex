@@ -19574,21 +19574,61 @@ bandpass filter SOCP-relaxation algorithm example with 12-bit coefficients]
 \label{tab:socp-relax-direct-FIR-symmetric-bandpass-12-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{SOCP-relaxation search for the signed-digit coefficients of a direct-form anti-symmetric low-pass differentiator FIR filter}
+\section{SOCP-relaxation search for the signed-digit coefficients of a direct-form anti-symmetric low pass differentiator FIR filter}
 The Octave script 
 \emph{socp\_relaxation\_directFIRantisymmetric\_lowpass\_differentiator\_12\_nbits\_test.m}
 performs successive SOCP relaxations to optimise the response of a direct-form
-anti-symmetric lowpass differentiator FIR filter. The 
-filter specification is:
+anti-symmetric low pass differentiator FIR
+filter\footnote{\emph{Sankarayya et
+    al.}~\cite{Sankarayya_FIRDifferentialCoefficients}
+  describe a method for reducing the range of the coefficients of an FIR filter
+  by taking the differences of the coefficients. If the FIR filter is even
+  order, $2M$, odd length, $2M+1$, with transfer function, $H\left(z\right)$,
+  then after multiplying by $\left(1-z^{-1}\right)$:
+\begin{align*}
+  H_{\text{diff}}\left(z\right)
+  &= H\left(z\right)\left(1-z^{-1}\right) \\
+  &=\sum_{n=0}^{2M}h_{n}z^{-n}\left(1-z^{-1}\right) \\
+  &= \sum_{n=0}^{2M}h_{n}z^{-n}-\sum_{n=0}^{2M}h_{n}z^{-n-1} \\
+  &= h_{0}+
+    \left[\sum_{n=1}^{2M}\left(h_{n}-h_{n-1}\right)z^{-n}\right]
+    -h_{2M}z^{-2M-1}\\
+  &= h_{0}+
+    \left[\sum_{n=1}^{M}\left(h_{n}-h_{n-1}\right)z^{-n}\right] +
+    \left[\sum_{n=1}^{M}\left(h_{M+n}-h_{M+n-1}\right)z^{-M-n}\right]
+    -h_{2M}z^{-2M-1}
+\end{align*}
+The initial FIR differentiator filter is anti-symmetric, $h_{n}=-h_{2M-n}$ and
+$h_{M}=0$, so that:
+\begin{align*}
+  H_{\text{diff}}\left(z\right)
+  &= h_{0}+
+    \left[\sum_{n=1}^{M}\left(h_{n}-h_{n-1}\right)z^{-n}\right] -
+    \left[\sum_{n=1}^{M}\left(h_{M-n}-h_{M-n+1}\right)z^{-M-n}\right]
+    -h_{0}z^{-2M-1}
+\end{align*}
+$H_{\text{diff}}\left(z\right)$ is an odd order, $2M+1$, even length, $2M+2$,
+anti-symmetric polynomial with distinct coefficients
+$\left[h_{0},h_{1}-h_{0},\hdots,h_{M-1}-h_{M-2},-h_{M-1}\right]$.
+The FIR filter, $H\left(z\right)$, is equivalent to the IIR filter,
+$\frac{H_{\text{diff}}\left(z\right)}{1-z^{-1}}$. In this case, the desired
+overall amplitude response of the IIR filter is $\frac{\omega}{2}$ so the
+desired response of the IIR filter numerator polynomial,
+$H_{\text{diff}}\left(z\right)$, is $\omega\sin\frac{\omega}{2}$.}.
+
+The filter specification of the FIR differentiator filter is:
 \begin{small}
 \verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_spec.m}
-\end{small} 
-The initial filter is a truncated version of a maximally-flat low-pass
-differentiator FIR filter designed with the method of
+\end{small}
+
+The initial filter is a  maximally-flat low pass differentiator FIR filter
+designed with the method of
 \emph{Selesnick}~\cite{Selesnick_MaximallyFlatLowPassDigitalDifferentiators},
-described in Appendix~\ref{sec:Selesnick-closed-max-flat-FIR-lowpass-diff}.
-The filter coefficients are truncated to $12$ bits allocated with an average of
-$3$ signed-digits by the heuristic of \emph{Lim et al.} as shown in
+described in Appendix~\ref{sec:Selesnick-closed-max-flat-FIR-lowpass-diff}, with
+$N=63$, $L=20$ and $K=21$. The filter coefficients are truncated to $12$
+bits\footnote{In fact the script scales the coefficients by an extra bit to
+  obtain $12$ effective bits.} allocated with an average of $3$ signed-digits by
+the heuristic of \emph{Lim et al.}, as shown in
 Section~\ref{sec:Lim-allocation-signed-digits}. 
 
 At each coefficient relaxation step the script finds the upper and lower
@@ -19602,39 +19642,49 @@ upper or lower signed-digit values as the final choice for that coefficient. The
 truncation of the last coefficient is, by necessity, not PCLS optimised so the
 final set of coefficients may not meet the PCLS specifications.
 
-The initial floating point distinct direct-form anti-symmetric lowpass
+The initial $31$ distinct floating point direct-form anti-symmetric low pass
 differentiator filter FIR coefficients are:
 \begin{small}
-\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM0_coef.m}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_h0_coef.m}
 \end{small}
 The numbers of signed-digits allocated to each coefficient by the heuristic of
 \emph{Lim et al.} are:
 \begin{small}
 \verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_allocsd_digits.m}
 \end{small}
-The distinct direct-form anti-symmetric FIR lowpass differentiator filter
+The $16$ distinct coefficients with an average of $3$ signed-digits allocated by
+the heuristic of \emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM0_sd_coef.m}
+\end{small}
+The $16$ distinct direct-form anti-symmetric FIR low pass differentiator filter
 coefficients found by the SOCP-relaxation search are:
 \begin{small}
 \verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_coef.m}
 \end{small}
 
 Figure~\ref{fig:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-response}
-compares the responses of the filter with floating-point coefficients, 12-bit
-3 signed-digit coefficients, 12-bit coefficients having an average of
-3 signed-digits allocated with the algorithm of \emph{Lim et al.} and 12-bit
-signed-digit coefficients allocated with the algorithm of \emph{Lim et al.} and
-SOCP-relaxation search.
+compares the amplitude responses of the filter with $N$ floating-point
+coefficients, the truncated filter with $M$ distinct floating point
+coefficients, the filter with $12$-bit coefficients having an average of $3$
+signed-digits allocated by the algorithm of \emph{Lim et al.} and the filter
+with $12$-bit signed-digit coefficients allocated by the algorithm of
+\emph{Lim et al.} and SOCP-relaxation search. The phase response of the FIR
+filter is $\frac{\pi}{2}$ radians (adjusted for group delay) and the group delay
+is $16$ samples.
+
 Table~\ref{tab:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-cost-summary} 
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the $16$ distinct coefficient multiplications found by the
 signed-digit allocation heuristic of \emph{Lim et al.} with SOCP-relaxation
 search.
 
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_response}}
 \caption{Comparison of the amplitude responses for a direct-form anti-symmetric
-  FIR lowpass differentiatorfilter with 12-bit integer coefficients found by
+  FIR low pass differentiator filter with 12-bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
 \label{fig:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-response}
@@ -19654,11 +19704,12 @@ differentiator FIR filter SOCP-relaxation algorithm example with 12-bit
 coefficients]
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for a direct-form anti-symmetric
-  lowpass differentiator FIR filter with 12-bit integer coefficients found by
+  low pass differentiator FIR filter with 12-bit integer coefficients found by
   allocating an average of 3-signed-digits to each coefficient using the
   heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
 \label{tab:socp-relax-direct-FIR-antisym-lowpass-diff-12-nbits-cost-summary}
 \end{table}
+
 \clearpage
 \section{\label{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass-R2}SQP-relaxation search for the signed-digit coefficients of a lattice bandpass R=2 IIR filter}
 The Octave script 
