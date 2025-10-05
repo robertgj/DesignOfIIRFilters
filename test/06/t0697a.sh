@@ -63,34 +63,34 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.k.ok << 'EOF'
+cat > test_k.ok << 'EOF'
 k_min = [        0,      432,        0,      -57, ... 
                  0,       18,        0,       -6, ... 
                  0,        1 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_k.ok"; fail; fi
 
-cat > test.epsilon.ok << 'EOF'
+cat > test_epsilon.ok << 'EOF'
 epsilon_min = [        0,        1,        0,        1, ... 
                        0,       -1,        0,        1, ... 
                        0,       -1 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon.ok"; fail; fi
 
-cat > test.c.ok << 'EOF'
+cat > test_c.ok << 'EOF'
 c_min = [      -49,     -446,     -576,      -68, ... 
                140,      -24,      -46,       27, ... 
                  6,      -10,        2 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_c.ok"; fail; fi
 
-cat > test.cost.ok << 'EOF'
+cat > test_cost.ok << 'EOF'
 Exact & 3.7523e-06 & & \\
 12-bit 3-signed-digit & 7.1603e-06 & 38 & 22 \\
 12-bit 3-signed-digit(Lim)& 6.4754e-06 & 37 & 21 \\
 12-bit 3-signed-digit(SOCP-relax) & 4.1357e-06 & 37 & 21 \\
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -102,17 +102,17 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
-diff -Bb test.k.ok $nstr"_k_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+diff -Bb test_k.ok $nstr"_k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_k.ok"; fail; fi
 
-diff -Bb test.epsilon.ok $nstr"_epsilon_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon.ok"; fail; fi
+diff -Bb test_epsilon.ok $nstr"_epsilon_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_epsilon.ok"; fail; fi
 
-diff -Bb test.c.ok $nstr"_c_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+diff -Bb test_c.ok $nstr"_c_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_c.ok"; fail; fi
 
-diff -Bb test.cost.ok $nstr"_cost.tab"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
+diff -Bb test_cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_cost.ok"; fail; fi
 
 #
 # this much worked

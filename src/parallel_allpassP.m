@@ -51,9 +51,6 @@ function [P, gradP]=parallel_allpassP(w,ab,Va,Qa,Ra,Vb,Qb,Rb, ...
   elseif nargin == 9
     difference = false;
   endif
-  if polyphase && (Ra ~= 2) && (Rb ~= 2)
-    error("For polyphase combination Ra=2 and Rb=2 only!");
-  endif
   if length(ab) ~= (Va+Qa+Vb+Qb)
     error("length(ab) ~= (Va+Qa+Vb+Qb)");
   endif

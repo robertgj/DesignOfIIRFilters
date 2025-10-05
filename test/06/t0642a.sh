@@ -21,8 +21,8 @@ schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-print_polynomial.m WISEJ.m qroots.oct \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+print_polynomial.m WISEJ.m \
+qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct Abcd2H.oct"
 
 tmp=/tmp/$$

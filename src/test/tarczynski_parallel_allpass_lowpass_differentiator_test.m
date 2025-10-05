@@ -21,16 +21,26 @@ tic;
 % Filter specification
 tol=1e-12;maxiter=20000;
 R=1;
-polyphase=false;
 difference=true;
 if difference
   pa_sign=-1;
 else
   pa_sign=1;
 endif
-fap=0.2;fas=0.4;Wap=1;Wat=0.02;Was=1;
-ma=8;mb=ma+1;
-tp=R*(ma+mb+1)/2;Wtp=0.1;pp=0.5;Wpp=1;
+polyphase=true;
+if polyphase
+  Dbz=[0];
+  ma=7;mb=ma+1;
+  tp=R*(ma+mb+1)/2;
+else
+  Dbz=[];
+  ma=8;mb=ma;
+  tp=R*(ma+mb+1)/2;
+endif
+fap=0.2;fas=0.4;
+Wap=10;Wat=0.1;Was=1;
+Wtp=1;
+pp=0.5;Wpp=0.5;
 
 % Frequency points
 n=1000;
@@ -39,22 +49,22 @@ nas=floor(fas*n/0.5);
 w=pi*(1:n-1)'/n;
 Rap=1:nap;
 
-% Place two zeros at z=-1.
-Fz=[1;2;1]/2;
+% Place two zeros at z=-1
+Fz=[1;1]/2;
 Hz=freqz(Fz,1,w);
 
 % Amplitude response
-Az=2*(cos(w/2).^2);
+Az=cos(w/2);
 Ad=[w(Rap)/2;zeros(length(w)-nap,1)];
 Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas,1)];
 
 % Group delay response
-Tz=ones(size(w));
+Tz=0.5*ones(size(w));
 Td=tp*ones(size(w));
 Wt=[Wtp*ones(nap,1);zeros(length(w)-nap,1)];
 
 % Phase response
-Pz=-w;
+Pz=-w/2;
 Pd=(pp*pi)-(w*tp);
 Wp=[Wpp*ones(nap,1);zeros(length(w)-nap,1)];
 
@@ -67,7 +77,7 @@ printf("%6.4g ",(Ad(nchka)./Az(nchka))');printf("];\n");
 printf("Wa(nchka)=[ ");printf("%6.4g ",Wa(nchka)');printf("];\n");
 
 % Unconstrained minimisation with Fz removed
-abi = zeros(ma+mb,1);
+abi = [1;zeros(ma-1,1);1;zeros(mb-1,1)];
 opt=optimset("TolFun",tol,"TolX",tol,"MaxIter",maxiter,"MaxFunEvals",maxiter);
 WISEJ_PA([],ma,mb,R,polyphase,difference,Ad./Az,Wa,Td-Tz,Wt,Pd-Pz,Wp);
 [ab0,FVEC,INFO,OUTPUT]=fminunc(@WISEJ_PA,abi,opt);
@@ -95,23 +105,23 @@ printf("fminunc funcCount=%d\n", OUTPUT.funcCount);
 ab0=ab0(:);
 Da0=[1;ab0(1:ma)];
 Db0=[1;ab0((ma+1):end)];
-D0=conv(Da0,Db0);
-N0=0.5*(conv(flipud(Da0),Db0)+(pa_sign*conv(flipud(Db0),Da0)));
 
 % Calculate response
 Ha0=freqz(flipud(Da0),Da0,w);
-Hb0=freqz(flipud(Db0),Db0,w);
+Ta0=delayz(flipud(Da0),Da0,w(Rap));
+Hb0=freqz(flipud([Db0;Dbz]),[Db0;Dbz],w);
+Tb0=delayz(flipud([Db0;Dbz]),[Db0;Dbz],w(Rap));
 H0c=0.5*(Ha0+(pa_sign*Hb0));
 H0=H0c.*Hz;
 A0c=abs(H0c);
 A0=abs(H0);
 P0c=unwrap(arg(H0c(Rap)));
 P0=unwrap(arg(H0(Rap)));
-Ta0=delayz(flipud(Da0),Da0,w(Rap));
-Tb0=delayz(flipud(Db0),Db0,w(Rap));
 T0c=((Ta0+Tb0)/2);
 T0=T0c+Tz(Rap);
 % Alternate calculation
+D0=conv(Da0,[Db0;Dbz]);
+N0=0.5*(conv(flipud(Da0),[Db0;Dbz])+(pa_sign*conv(flipud([Db0;Dbz]),Da0)));
 H0a=freqz(N0,D0,w);
 A0a=abs(H0a).*Az;
 P0a=unwrap(arg(H0a(Rap)))+Pz(Rap);
@@ -162,7 +172,7 @@ strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
 subplot(312);
-plot(w(Rap)*0.5/pi,(P0+(w(Rap)*tp))/pi);
+plot(w(Rap)*0.5/pi,unwrap(P0+(w(Rap)*tp))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
@@ -200,7 +210,12 @@ print(strcat(strf,"_error"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-subplot(111);
+zplane(qroots(flipud(Da0(:))),qroots(Da0(:)));
+print(strcat(strf,"_Da0_pz"),"-dpdflatex");
+close
+zplane(qroots(flipud(Db0(:))),qroots(Db0(:)));
+print(strcat(strf,"_Db0_pz"),"-dpdflatex");
+close
 zplane(qroots(conv(N0,Fz)),qroots(D0));
 title(strt);
 print(strcat(strf,"_pz"),"-dpdflatex");

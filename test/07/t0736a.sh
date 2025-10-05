@@ -20,11 +20,11 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMscale.m \
 schurOneMPAlattice2tf.m \
+schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 local_max.m H2Asq.m H2T.m H2P.m H2dAsqdw.m print_polynomial.m delayz.m \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct Abcd2tf.oct qroots.oct"
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct schurdecomp.oct \
+schurexpand.oct complex_zhong_inverse.oct Abcd2tf.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -59,18 +59,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.A1k2.ok << 'EOF'
-A1k2 = [   0.0999744433,   0.9914105120,  -0.6780826485,   0.4789826243, ... 
-          -0.3352880114,   0.2062056789,  -0.0903020971,   0.0204109759 ]';
+cat > test_A1k2.ok << 'EOF'
+A1k2 = [   0.6535570170,  -0.2649992081,  -0.0718289557,   0.0939333928, ... 
+          -0.0120372325,  -0.0171130951,   0.0067333200 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.A1k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k2.ok"; fail; fi
 
-cat > test.A2k2.ok << 'EOF'
-A2k2 = [   0.2387507967,   0.4747278063,   0.4538920676,  -0.5991576167, ... 
-           0.5373044950,  -0.3901597171,   0.2033390227,  -0.0643364939, ... 
-           0.0092813752 ]';
+cat > test_A2k2.ok << 'EOF'
+A2k2 = [   0.3009230163,   0.1493714897,   0.1686263161,  -0.1412643450, ... 
+           0.0376330528,   0.0205596132,  -0.0221438577,   0.0066362932, ... 
+           0.0000000000 ]';
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.A2k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k2.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -82,11 +82,11 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="schurOneMPAlattice_socp_slb_lowpass_differentiator_test";
 
-diff -Bb test.A1k2.ok $nstr"_A1k2_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.A1k2.ok"; fail; fi
+diff -Bb test_A1k2.ok $nstr"_A1k2_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_A1k2.ok"; fail; fi
 
-diff -Bb test.A2k2.ok $nstr"_A2k2_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.A2k2.ok"; fail; fi
+diff -Bb test_A2k2.ok $nstr"_A2k2_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_A2k2.ok"; fail; fi
 
 #
 # this much worked

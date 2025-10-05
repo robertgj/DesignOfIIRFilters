@@ -19,10 +19,11 @@ tic;
 verbose=false;
 maxiter=2000
 ftol=1e-4
-ctol=1e-8
+ctol=ftol/100
 nbits=12
 nscale=2^(nbits-1);
 ndigits=3
+rho=(nscale-1)/nscale; 
 
 % Options
 use_kc0_coefficient_bounds=true
@@ -144,7 +145,6 @@ Esq0=schurOneMlatticeEsq(k0,epsilon0,p_ones,c0, ...
                          wd,Cd,Wd);
 
 % Constraints on the coefficients
-rho=(nscale-1)/nscale; 
 dmax=inf;
 k0=k0(:);
 c0=c0(:);
@@ -395,10 +395,10 @@ printf("%d signed-digits used\n",kc_min_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kc_min_adders,nbits);
 
-fid=fopen(strcat(strf,"_kc_min_digits.tab"),"wt");
+fid=fopen(strcat(strf,"_kc_min_digits.m"),"wt");
 fprintf(fid,"$%d$",kc_min_digits);
 fclose(fid);
-fid=fopen(strcat(strf,"_kc_min_adders.tab"),"wt");
+fid=fopen(strcat(strf,"_kc_min_adders.m"),"wt");
 fprintf(fid,"$%d$",kc_min_adders);
 fclose(fid);
 
@@ -579,7 +579,7 @@ axis(ax(1),[0 0.5 0.002*[-1,1]]);
 axis(ax(2),[0 0.5 0.01*[-1,1]]);
 grid("on");
 xlabel("Frequency");
-ylabel("Amplitude");
+ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
@@ -695,6 +695,25 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex");
+close
+
+% Plot pass band amplitude response relative error
+plot(wa*0.5/pi,(sqrt(Asq_kc0)./Ad)-1,"linestyle","-", ...
+     wa*0.5/pi,(sqrt(Asq_kc0_sd_no_alloc)./Ad)-1,"linestyle",":", ...
+     wa*0.5/pi,(sqrt(Asq_kc0_sd)./Ad)-1,"linestyle","--", ...
+     wa*0.5/pi,(sqrt(Asq_kc_min)./Ad)-1,"linestyle","-.");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+axis([0 max([fap fpp ftp]) 0.004*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(POP-relax)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_relative_error"),"-dpdflatex");
 close
 
 % Plot phase response

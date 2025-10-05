@@ -240,7 +240,7 @@ strt=sprintf(["Parallel allpass correction : ", ...
              ma,mb,Arp,Ars,ppr,tp,tpr);
 title(strt);
 subplot(312);
-plot(wp*0.5/pi,(Pab1+(wp*tp)-(wp.*Tz))/pi);
+plot(wp*0.5/pi,(Pab1+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");

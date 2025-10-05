@@ -1,10 +1,13 @@
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_FIGURES = \
-schurOneMPAlattice_socp_slb_lowpass_differentiator_test_initial \
+schurOneMPAlattice_socp_slb_lowpass_differentiator_test_initial_response \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_correction_response \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_response \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_error_response \
+schurOneMPAlattice_socp_slb_lowpass_differentiator_test_pass_relative_error_response \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_dAsqdw_error \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_dCsqdw_error \
+schurOneMPAlattice_socp_slb_lowpass_differentiator_test_D1k2_pz \
+schurOneMPAlattice_socp_slb_lowpass_differentiator_test_D2k2_pz \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_pz
 
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test_COEFS = \
@@ -30,11 +33,11 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMscale.m \
 schurOneMPAlattice2tf.m \
+schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 local_max.m H2Asq.m H2T.m H2P.m H2dAsqdw.m print_polynomial.m delayz.m \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct Abcd2tf.oct qroots.oct
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct schurdecomp.oct \
+schurexpand.oct complex_zhong_inverse.oct Abcd2tf.oct qroots.oct
 
 schurOneMPAlattice_socp_slb_lowpass_differentiator_test.diary : \
 tarczynski_parallel_allpass_lowpass_differentiator_test.diary

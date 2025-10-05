@@ -2,7 +2,8 @@
 
 prog=schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test.m
 
-depends="test/schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test.m \
+depends="\
+test/schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test.m \
 test_common.m \
 ../tarczynski_parallel_allpass_lowpass_differentiator_alternate_test_Da0_coef.m \
 ../tarczynski_parallel_allpass_lowpass_differentiator_alternate_test_Db0_coef.m \
@@ -19,6 +20,7 @@ schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMscale.m \
+schurOneMAPlattice2tf.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 local_max.m H2Asq.m H2T.m H2P.m H2dAsqdw.m print_polynomial.m delayz.m \
@@ -60,14 +62,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.A1k2.ok << 'EOF'
-A1k2 = [   0.6075073450,   0.9992509757,  -0.4628106609,   0.1873077566, ... 
-          -0.1433523557,   0.1301618635,  -0.0697741130,   0.0163462303 ]';
+A1k2 = [   0.5822000288,   0.7507066976,  -0.2090263892,  -0.1684182572, ... 
+           0.1617054150,  -0.0432450111,  -0.0085868805,   0.0060072840 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.A1k2.ok"; fail; fi
 
 cat > test.A2k2.ok << 'EOF'
-A2k2 = [  -0.1914916033,   0.3885160874,  -0.3431276833,   0.2967814638, ... 
-          -0.2279315714,   0.1317492379,  -0.0491750126,   0.0092951979 ]';
+A2k2 = [  -0.2475483738,   0.2383747144,  -0.0261400485,  -0.0890613879, ... 
+           0.0814974393,  -0.0345261707,   0.0060571857,   0.0005453809 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.A2k2.ok"; fail; fi
 
@@ -79,7 +81,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-nstr="schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test";
+nstr="schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test"
 
 diff -Bb test.A1k2.ok $nstr"_A1k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.A1k2.ok"; fail; fi

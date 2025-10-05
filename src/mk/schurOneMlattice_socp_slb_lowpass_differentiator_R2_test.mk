@@ -2,6 +2,7 @@ schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_FIGURES = \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_response \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_pz \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pass_amplitude_relative_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_pz \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dAsqdw_error \
@@ -42,6 +43,5 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m  H2dAsqdw.m \
 print_polynomial.m WISEJ.m \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.oct Abcd2tf.oct \
-Abcd2H.oct
+qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct Abcd2H.oct

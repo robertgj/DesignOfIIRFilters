@@ -200,9 +200,24 @@ subplot(311);
 rasl=1:nasl;
 raplu=napl:napu;
 rasu=nasu:(n-1);
-plot(wa(rasl)*0.5/pi,[A1(rasl),Adl(rasl),Adu(rasl)]-Ad(rasl), ...
-     wa(raplu)*0.5/pi,[A1(raplu),Adl(raplu),Adu(raplu)]-Ad(raplu), ...
-     wa(rasu)*0.5/pi,[A1(rasu),Adl(rasu),Adu(rasu)]-Ad(rasu));
+ha=plot(wa(rasl)*0.5/pi,A1(rasl)-Ad(rasl), ...
+        wa(rasl)*0.5/pi,Adl(rasl)-Ad(rasl), ...
+        wa(rasl)*0.5/pi,Adu(rasl)-Ad(rasl), ...
+        wa(raplu)*0.5/pi,A1(raplu)-Ad(raplu), ...
+        wa(raplu)*0.5/pi,Adl(raplu)-Ad(raplu), ...
+        wa(raplu)*0.5/pi,Adu(raplu)-Ad(raplu), ...
+        wa(rasu)*0.5/pi,A1(rasu)-Ad(rasu), ...
+        wa(rasu)*0.5/pi,Adl(rasu)-Ad(rasu), ...
+        wa(rasu)*0.5/pi,Adu(rasu)-Ad(rasu));
+% Set line style and copy line colour
+hac=cell(3);
+hac{1}=get(ha(1),"color");
+hac{2}=get(ha(2),"color");
+hac{3}=get(ha(3),"color");
+for c=1:3
+  set(ha(c+3),"color",hac{c});
+  set(ha(c+6),"color",hac{c});
+endfor
 axis([0 0.5 Ars*[-1,1]]);
 strP=sprintf("Differentiator PCLS");
 title(strP);
@@ -223,7 +238,7 @@ print(strcat(strf,"_error"),"-dpdflatex");
 close
 
 % Plot correction filter dAsqdw response
-ax=plot(wd*0.5/pi,[dAsqdw1c(ndpl:ndpu),Cd,Cdl,Cdu]);
+ax=plot(wd*0.5/pi,[dAsqdw1c(ndpl:ndpu),Cdl,Cdu,Cd]);
 title("Differentiator PCLS correction filter dAsqdw response");
 axis([fdpl fdpu 0.4*[-1,1]])
 ylabel("Amplitude");
@@ -237,7 +252,7 @@ print(strcat(strf,"_correction"),"-dpdflatex");
 close
 
 % Plot differentiator filter dAsqdw response
-ax=plot(wd*0.5/pi,[dAsqdw1(ndpl:ndpu),Dd,Ddl,Ddu]);
+ax=plot(wd*0.5/pi,[dAsqdw1(ndpl:ndpu),Ddl,Ddu,Dd]);
 title("Differentiator PCLS filter dAsqdw response");
 axis([fdpl fdpu 0 0.8])
 ylabel("Amplitude");

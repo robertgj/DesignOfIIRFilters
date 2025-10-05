@@ -17,14 +17,23 @@ maxiter=2000
 verbose=false
 
 % Low-pass differentiator filter specification
-nN=10; % Order of correction filter for (z-1)
-R=2;   % Denominator polynomial in z^-2 only
-fap=0.2;fas=0.4;
-Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
-fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
-ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
-fdp=0.1;cpr=0.02;cn=4;Wdp=0.1;
-
+if 1
+  nN=10 % Order of correction filter for (z-1)
+  R=2;  % Denominator polynomial in z^-2 only
+  fap=0.2;fas=0.4;
+  Arp=0.0009;Art=0.004;Ars=0.007;Wap=1;Wat=0.0001;Was=0.1;
+  fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
+  ftp=fap;tp=nN-1;tpr=0.006;Wtp=0.1;
+  fdp=0.1;cpr=0.02;cn=4;Wdp=0.1;
+else
+  nN=12 % Order of correction filter for (z-1)
+  R=2;  % Denominator polynomial in z^-2 only
+  fap=0.2;fas=0.4;
+  Arp=0.0004;Art=0.004;Ars=0.004;Wap=1;Wat=0.0001;Was=0.1;
+  fpp=fap;pp=1.5;ppr=0.0002;Wpp=1;
+  ftp=fap;tp=nN-1;tpr=0.004;Wtp=0.1;
+  fdp=0.1;cpr=0.004;cn=4;Wdp=0.1;
+endif
 
 % Frequency points
 n=1000;
@@ -227,6 +236,11 @@ T2=T2c(:)+Tz;
 dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
 dAsqdw2=(Csq2(Rdp).*dAzsqdw(Rdp))+(dCsqdw2(:).*Azsq(Rdp));
 
+% Pole-zero plot
+zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
+print(strcat(strf,"_pcls_pz"),"-dpdflatex");
+close
+
 % Plot response error
 subplot(311);
 [ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,[A2(Rap),Adu(Rap),Adl(Rap)]-Ad(Rap), ...
@@ -247,9 +261,9 @@ strT=sprintf(["Differentiator PCLS error : ", ...
 ylabel("Amplitude error");
 grid("on");
 subplot(312);
-plot(wp*0.5/pi,([P2 Pdu Pdl]+(wp*tp))/pi);
-axis([0 0.5 pp+(0.0002*[-1,1])]);
-ylabel("Phase(rad./$\\pi$)");
+plot(wp*0.5/pi,(([P2 Pdu Pdl]+(wp*tp))/pi)-pp);
+axis([0 0.5 (0.0002*[-1,1])]);
+ylabel("Phase error(rad./$\\pi$)");
 grid("on");
 legend("Response","Upper PCLS constraint","Lower PCLS constraint");
 legend("location","east");
@@ -264,9 +278,14 @@ grid("on");
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
-% Pole-zero plot
-zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
-print(strcat(strf,"_pcls_pz"),"-dpdflatex");
+% Plot pass band relative amplitude response error
+plot(wa(Rap)*0.5/pi,([A2(Rap),Adu(Rap),Adl(Rap)]./Ad(Rap))-1);
+axis([0 fap 0.002*[-1,1]]);
+strT=sprintf(["Differentiator PCLS relative error : fap=%g,Arp=%g"],fap,Arp);
+title(strT);
+ylabel("Relative amplitude error");
+grid("on");
+print(strcat(strf,"_pcls_pass_amplitude_relative_error"),"-dpdflatex");
 close
 
 % Plot filter dAsqdw error

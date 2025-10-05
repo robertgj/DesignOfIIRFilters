@@ -12,7 +12,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeP.m \
 schurOneMlatticeT.m \
-schurOneMlatticedAsqdw.m 
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -66,19 +66,19 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.k.ok << 'EOF'
+cat > test_k.ok << 'EOF'
 k_min = [        0,      432,        0,      -57, ... 
                  0,       18,        0,       -6, ... 
                  0,        1 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_k2.ok"; fail; fi
 
-cat > test.c.ok << 'EOF'
+cat > test_c.ok << 'EOF'
 c_min = [      -49,     -446,     -576,      -69, ... 
                142,      -25,      -46,       27, ... 
                  6,      -10,        2 ]'/2048;
 EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test.c2.ok"; fail; fi
+if [ $? -ne 0 ]; then echo "Failed output cat test_c2.ok"; fail; fi
 
 cat > test_cost.tab.ok << 'EOF'
 Exact & 6.4220e-06 & & \\
@@ -98,11 +98,11 @@ if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
 
-diff -Bb test.k.ok $nstr"_k_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k.ok"; fail; fi
+diff -Bb test_k.ok $nstr"_k_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_k.ok"; fail; fi
 
-diff -Bb test.c.ok $nstr"_c_min_coef.m"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c.ok"; fail; fi
+diff -Bb test_c.ok $nstr"_c_min_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_c.ok"; fail; fi
 
 diff -Bb test_cost.tab.ok $nstr"_cost.tab"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test_cost.tab.ok"; fail; fi

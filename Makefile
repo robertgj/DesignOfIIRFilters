@@ -40,6 +40,7 @@ _spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B \,B,Conflicts
+CHECK_STRINGS= warning erfull
 
 # Command definitions
 OCTAVE=octave
@@ -140,12 +141,10 @@ $(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	-@if [[ -x $(PDFGREP) ]] ; then \
 		$(PDFGREP) "\[\?" $(1).pdf || true ; \
 	fi;
-	-@find . -name \*.elg -exec $(GREP) Can\'t\ load\ glyph {} ';' | sort | uniq
-	-@for warnstr in No\ file erfull warning ; do \
-		$(GREP) "$$warnstr" $(1).log | sort | uniq ; \
-	done ; 	
-	-@$(GREP) "warning" $(1).blg | sort | uniq ; 
-	echo "Build complete" ;
+	-@for warnstr in $(CHECK_STRINGS); do \
+		$(GREP) $$$$warnstr $(1).log ; done
+	-@echo Build complete
+endef
 
 .PHONY: $(1)_monochrome
 $(1)_monochrome: $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
@@ -154,8 +153,6 @@ $(1)_monochrome: $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS)
-endef
-
 
 #
 # Intermediate file dependencies

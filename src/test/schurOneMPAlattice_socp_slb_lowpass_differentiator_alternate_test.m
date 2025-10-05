@@ -33,15 +33,12 @@ A2kones=ones(size(A2k0));
 
 % Low-pass differentiator filter specification (ppr=0.0003 fails in QEMU)
 df=true;
-nbits=12;
-rho=1-(1/(2^(nbits-1)));
+rho=15/16;
 fap=0.2;fas=0.4;
 Arp=0.0012;Ars=0.001;Wap=10;Wat=0.1;Was=1;
 fpp=fap;pp=0.5;ppr=0.00028;Wpp=0.5;
 ftp=fap;tp=(NA1k+NA2k)/2;tpr=0.01;Wtp=1;
-fdp=0.1;cpr=0.0008;cn=4;Wdp=20;
-
-cpr=0.001
+fdp=0.1;cpr=0.001;cn=4;Wdp=20;
 
 % Frequency points
 n=1000;
@@ -100,7 +97,8 @@ Wp=Wpp*ones(size(wp));
 Rdp=1:ndp;
 wd=w(Rdp);
 Wd=Wdp*ones(size(wd));
-Cd=((Azsq(Rdp).*dAsqddw(Rdp))-(Asqd(Rdp).*dAzsqdw(Rdp)))./(Azsq(Rdp).^2);
+%Cd=((Azsq(Rdp).*dAsqddw(Rdp))-(Asqd(Rdp).*dAzsqdw(Rdp)))./(Azsq(Rdp).^2);
+Cd=((wa(Rdp)/2).*(sec(wa(Rdp)/2).^2)).*(1+((wa(Rdp)/2).*tan(wa(Rdp)/2)));
 Cderr=(cpr/2)*((Rdp(:)/ndp).^cn);
 Cdu=Cd+Cderr;
 Cdl=Cd-Cderr;
@@ -182,6 +180,28 @@ dCsqdw1= ...
   schurOneMPAlatticedAsqdw(wd,A1k1,A1kones,A1kones,A2k1,A2kones,A2kones,df);
 dAsqdw1=(Csq1(Rdp).*dAzsqdw(Rdp))+(dCsqdw1.*(Azsq(Rdp)));
 
+% Plot MMSE response
+subplot(311);
+plot(wa*0.5/pi,[A1 Ad Adl Adu]);
+ylabel("Amplitude");
+axis([0 0.5 0 1]);
+grid("on");
+strt=sprintf("MMSE parallel allpass");
+title(strt);
+subplot(312);
+plot(wp*0.5/pi,([P1 Pd Pdl Pdu]+(wp*tp))/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pp+(0.02*[-1 1])]);
+grid("on");
+subplot(313);
+plot(wt*0.5/pi,[T1 Td Tdl Tdu]);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([0 0.5 tp+0.2*[-1,1]]);
+grid("on");
+print(strcat(strf,"_mmse"),"-dpdflatex");
+close
+
 %
 % PCLS pass
 %
@@ -225,61 +245,6 @@ Tc=delayz(conv(N2,Fz),D2,wt);
 if max(abs(abs(Tc)-T2)) > 1e7*eps
   error("max(abs(abs(Tc)-T2))(%g*eps) > 1e7*eps",max(abs(abs(Tc)-T2))/eps);
 endif
-
-% Plot correction filter response
-subplot(411);
-plot(wa*0.5/pi,A2c);
-axis([0 0.5 0 1]);
-grid("on");
-strP=sprintf(["Lowpass differentiator correction filter : ", ...
-              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
-             fap,Arp,fas,Ars,ppr,tp,tpr);
-title(strP);
-ylabel("Amplitude");
-subplot(412);
-plot(wp*0.5/pi,(P2c+(wp*(tp-0.5)))/pi);
-axis([0 0.5 pp+(0.0004*[-1,1])]);
-grid("on");
-ylabel("Phase(rad./$\\pi$)");
-subplot(413);
-plot(wt*0.5/pi,T2c);
-axis([0 0.5 (tp-0.5)+0.01*[-1,1]]);
-grid("on");
-ylabel("Delay(samples)");
-subplot(414);
-plot(wd*0.5/pi,dCsqdw2);
-axis([0 0.5 0 1.4]);
-grid("on");
-ylabel("dCsqdw");
-xlabel("Frequency");
-print(strcat(strf,"_correction_response"),"-dpdflatex");
-close
-
-% Plot filter dAsqdw error
-plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
-axis([0 fdp 0.0004*[-1,1]])
-strP=sprintf(["Differentiation filter dAsqdw error : ", ...
-              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
-             fap,Arp,fas,Ars,ppr,tp,tpr);
-title(strP);
-ylabel("dAsqdw error");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
-close
-
-% Plot correction filter dCsqdw error
-plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
-axis([0 fdp 0.0004*[-1,1]])
-strP=sprintf(["Correction filter dCsqdw error : ", ...
-              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
-             fap,Arp,fas,Ars,ppr,tp,tpr);
-title(strP);
-ylabel("dCsqdw error");
-xlabel("Frequency");
-grid("on");
-print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
-close
 
 % Plot response
 subplot(311);
@@ -340,7 +305,80 @@ grid("on");
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
+% Plot relative pass band amplitude response error
+plot(wa(Rap)*0.5/pi,([A2(Rap),Adl(Rap),Adu(Rap)]./Ad(Rap))-1)
+axis([0 0.5 0.002*[-1,1]]);
+grid("on");
+title(strP);
+ylabel("Relative amplitude error");
+xlabel("Frequency");
+print(strcat(strf,"_pass_relative_error_response"),"-dpdflatex");
+close
+
+% Plot correction filter response
+subplot(411);
+plot(wa*0.5/pi,A2c);
+axis([0 0.5 0 1]);
+grid("on");
+strP=sprintf(["Lowpass differentiator correction filter : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
+             fap,Arp,fas,Ars,ppr,tp,tpr);
+title(strP);
+ylabel("Amplitude");
+subplot(412);
+plot(wp*0.5/pi,(P2c+(wp*(tp-0.5)))/pi);
+axis([0 0.5 pp+(0.0004*[-1,1])]);
+grid("on");
+ylabel("Phase(rad./$\\pi$)");
+subplot(413);
+plot(wt*0.5/pi,T2c);
+axis([0 0.5 (tp-0.5)+0.01*[-1,1]]);
+grid("on");
+ylabel("Delay(samples)");
+subplot(414);
+plot(wd*0.5/pi,dCsqdw2);
+axis([0 0.5 0 1.4]);
+grid("on");
+ylabel("dCsqdw");
+xlabel("Frequency");
+print(strcat(strf,"_correction_response"),"-dpdflatex");
+close
+
+% Plot correction filter dCsqdw error
+plot(wd*0.5/pi,[dCsqdw2,Cdl,Cdu]-Cd)
+axis([0 fdp 0.0004*[-1,1]])
+strP=sprintf(["Correction filter dCsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
+             fap,Arp,fas,Ars,ppr,tp,tpr);
+title(strP);
+ylabel("dCsqdw error");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
+close
+
+% Plot filter dAsqdw error
+plot(wd*0.5/pi,[dAsqdw2,Ddl,Ddu]-Dd)
+axis([0 fdp 0.0004*[-1,1]])
+strP=sprintf(["Differentiation filter dAsqdw error : ", ...
+              "fap=%g,Arp=%g,fas=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
+             fap,Arp,fas,Ars,ppr,tp,tpr);
+title(strP);
+ylabel("dAsqdw error");
+xlabel("Frequency");
+grid("on");
+print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
+close
+
 % Pole-zero plot
+D1k2=schurOneMAPlattice2tf(A1k2);
+zplane(qroots(flipud(D1k2(:))),qroots(D1k2(:)));
+print(strcat(strf,"_D1k2_pz"),"-dpdflatex");
+close
+D2k2=schurOneMAPlattice2tf(A2k2);
+zplane(qroots(flipud(D2k2(:))),qroots(D2k2(:)));
+print(strcat(strf,"_D2k2_pz"),"-dpdflatex");
+close
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
 print(strcat(strf,"_pz"),"-dpdflatex");
 close

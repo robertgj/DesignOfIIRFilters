@@ -24,6 +24,7 @@ ctol=1e-8
 nbits=12;
 nscale=2^(nbits-1);
 ndigits=3;
+rho=(nscale-1)/nscale;
 
 % Low-pass differentiator filter specification
 nN=10; % Order of correction filter for (z-1)
@@ -132,7 +133,6 @@ dAsqdw0=(Csq0(1:ndp).*dAzsqdw(1:ndp))+(dCsqdw0.*(Azsq(1:ndp)));
 % Constraints on the coefficients
 %
 dmax=0.25
-rho=(nscale-1)/nscale
 k0=k0(:);
 c0=c0(:);
 Nk=length(k0);
@@ -345,6 +345,7 @@ do
     Tc=schurOneMlatticeT(wt,k_b,epsilon0,p_ones,c_b);
     Pc=schurOneMlatticeT(wp,k_b,epsilon0,p_ones,c_b);
     dCsqdw=schurOneMlatticedAsqdw(wd,k_b,epsilon0,p_ones,c_b);
+    dAsqdw=(Csq(1:ndp).*dAzsqdw(1:ndp))+(dCsqdw.*(Azsq(1:ndp)));
     vS=schurOneMlattice_slb_update_constraints ...
          (Csq,Asqdu./Azsq,Asqdl./Azsq,Wa, ...
           Tc,Tdu-Tz,Tdl-Tz,Wt, ...
@@ -353,8 +354,10 @@ do
           ctol);
     if ~schurOneMlattice_slb_constraints_are_empty(vS)
       printf("At maximum depth constraints are not empty!\n");
-      schurOneMlattice_slb_show_constraints(vS,wa,Csq,wt,Tc,wp,Pc,wd,dCsqdw);
+      schurOneMlattice_slb_show_constraints ...
+        (vS,wa,sqrt(Csq.*Azsq),wt,Tc+Tz,wp,Pc+Pz,wd,dAsqdw);
     endif
+    
     % Update the best solution
     if Esq<Esq_min
       improved_solution_found=true;
@@ -465,13 +468,17 @@ printf("k,c_min:dS=[ ");printf("%f ",DS');printf("]\n");
 % Calculate response
 Csq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p_ones,c0);
 Asq_kc0=Csq_kc0.*Azsq;
+A_kc0=sqrt(Asq_kc0);
 Csq_kc0_sd_no_alloc=schurOneMlatticeAsq ...
                       (wa,k0_sd_no_alloc,epsilon0,p_ones,c0_sd_no_alloc);
 Asq_kc0_sd_no_alloc=Csq_kc0_sd_no_alloc.*Azsq;
+A_kc0_sd_no_alloc=sqrt(Asq_kc0_sd_no_alloc);
 Csq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_kc0_sd=Csq_kc0_sd.*Azsq;
+A_kc0_sd=sqrt(Asq_kc0_sd);
 Csq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon0,p_ones,c_min);
 Asq_kc_min=Csq_kc_min.*Azsq;
+A_kc_min=sqrt(Asq_kc_min);
 
 Tc_kc0=schurOneMlatticeT(wt,k0,epsilon0,p_ones,c0);
 T_kc0=Tc_kc0+Tz;
@@ -551,11 +558,11 @@ for c=1:4
 endfor
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 0.002*[-1,1]]);
-axis(ax(2),[0 0.5 0.004*[-1,1]]);
+axis(ax(1),[0 0.5 0.003*[-1,1]]);
+axis(ax(2),[0 0.5 0.006*[-1,1]]);
 grid("on");
 xlabel("Frequency");
-ylabel("Amplitude");
+ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
@@ -568,7 +575,7 @@ plot(wp*0.5/pi,(unwrap(P_kc0)+(wp*tp))/pi,"linestyle","-", ...
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+0.001*[-1,1]]);
+axis([0 0.5 pp+0.0004*[-1,1]]);
 legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
 legend("location","east");
 legend("boxoff");
@@ -642,7 +649,7 @@ plot(wa*0.5/pi,sqrt(Asq_kc0),"linestyle","-", ...
      wa*0.5/pi,sqrt(Asq_kc_min),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Amplitude");
-axis([fas 0.5 0 0.004]);
+axis([fas 0.5 0 0.005]);
 strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
               "nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
 title(strt);
@@ -673,6 +680,25 @@ grid("on");
 print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex");
 close
 
+% Plot relative pass band amplitude response error
+plot(wa*0.5/pi,(A_kc0./Ad)-1,"linestyle","-", ...
+     wa*0.5/pi,(A_kc0_sd_no_alloc./Ad)-1,"linestyle",":", ...
+     wa*0.5/pi,(A_kc0_sd./Ad)-1,"linestyle","--", ...
+     wa*0.5/pi,(A_kc_min./Ad)-1,"linestyle","-.");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+axis([0 fap 0.002*[-1,1]]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fap=%g"],nbits,ndigits,fap);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_pass_relative_amplitude_error"),"-dpdflatex");
+close
+
 % Plot phase response
 plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi),"linestyle","-", ...
      wp*0.5/pi,((P_kc0_sd_no_alloc+(wp*tp))/pi),"linestyle",":", ...
@@ -685,7 +711,7 @@ strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
               "nbits=%d,ndigits=%d,fpp=%g"],nbits,ndigits,fpp);
 title(strt);
 legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)");
-legend("location","southeast");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -704,7 +730,7 @@ strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
               "nbits=%d,ndigits=%d,ftp=%g"],nbits,ndigits,ftp);
 title(strt);
 legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(B-and-B)"); 
-legend("location","northeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");

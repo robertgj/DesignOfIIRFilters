@@ -20,10 +20,10 @@ maxiter=5000
 verbose=false;
 tol=1e-5;
 ctol=tol;
-M=16;
+
 
 % Found by trial and error to give 16 distinct integer coefficients
-Q=31;L=20;K=21;N=K+(2*L)+2;
+M=16;Q=31;L=20;K=21;N=K+(2*L)+2;
 h0=selesnickFIRantisymmetric_linear_differentiator(N,K)/2;
 hM0=h0((Q-M+1):Q);
 print_polynomial(h0(1:Q),"h0");
@@ -32,7 +32,12 @@ print_polynomial(hM0,"hM0");
 print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"));
 
 % Response constraints
-fap=0.2;fas=0.4;Arp=0.002;Art=0.01;Ars=0.001;Wap=1;Wat=0.01;Was=10;
+nbits=13;
+nscale=2^(nbits-1);
+ndigits=3;
+fap=0.2;fas=0.4;
+Arp=0.002;Art=0.002;Ars=0.001;
+Wap=10;Wat=0.01;Was=1;
 
 % Desired magnitude response
 npoints=1000;
@@ -59,18 +64,14 @@ printf("Adl(nchk)=[");printf("%g ",Adl(nchk));printf(" ]\n");
 printf("Wa(nchk)=[");printf("%g ",Wa(nchk));printf(" ]\n");
 
 % Allocate digits
-nbits=13;
-nscale=2^(nbits-1);
-ndigits=3;
 ndigits_alloc=directFIRantisymmetric_allocsd_Lim(nbits,ndigits,hM0,wa,Ad,Wa);
-hM_allocsd_digits=int16(ndigits_alloc);
-printf("hM_allocsd_digits=[ ");
-printf("%2d ",hM_allocsd_digits);printf("]';\n");
-print_polynomial(hM_allocsd_digits,"hM_allocsd_digits", ...
-                 strcat(strf,"_hM_allocsd_digits.m"),"%2d");
+hM0_allocsd_digits=int16(ndigits_alloc);
+printf("hM0_allocsd_digits=[ ");
+printf("%2d ",hM0_allocsd_digits);printf("]';\n");
+print_polynomial(hM0_allocsd_digits,"hM0_allocsd_digits", ...
+                 strcat(strf,"_hM0_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to hM0
-[h0_sd,h0_sdu,h0_sdl]=flt2SD(h0,nbits,ndigits);
 [hM0_sd,hM0_sdu,hM0_sdl]=flt2SD(hM0,nbits,ndigits_alloc);
 [hM0_sd_digits,hM0_sd_adders]=SDadders(hM0_sd,nbits);
 print_polynomial(hM0_sd,"hM0_sd",nscale);
@@ -151,12 +152,12 @@ printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 % Find the number of signed-digits and adders used
 [hM_min_digits,hM_min_adders]=SDadders(hM_min,nbits);
 printf("%d signed-digits used\n",hM_min_digits);
-fid=fopen(strcat(strf,"_hM_min_signed_digits.tab"),"wt");
+fid=fopen(strcat(strf,"_hM_min_signed_digits.m"),"wt");
 fprintf(fid,"%d",hM_min_digits);
 fclose(fid);
 printf("%d %d-bit adders used for coefficient multiplications\n", ...
        hM_min_adders,nbits);
-fid=fopen(strcat(strf,"_hM_min_adders.tab"),"wt");
+fid=fopen(strcat(strf,"_hM_min_adders.m"),"wt");
 fprintf(fid,"%d",hM_min_adders);
 fclose(fid);
 
@@ -167,7 +168,7 @@ vAu=local_max(A-Adu);
 wAS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
 AS=directFIRantisymmetricA(wAS,hM_min);
 printf("hM_min:fAS=[ ");printf("%f ",wAS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("hM_min:AS=[ ");printf("%f ",AS');printf(" ] (dB)\n");
+printf("hM_min:AS=[ ");printf("%f ",AS');printf(" ]\n");
 
 % Compare with 3 signed-digit allocation
 hM0_3sd=flt2SD(hM0,nbits,ndigits);
@@ -215,19 +216,43 @@ for c=1:6
 endfor
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 0.002*[-1,1]]);
-axis(ax(2),[0 0.5 0.002*[-1,1]]);
+axis(ax(1),[0 0.5 0.001*[-1,1]]);
+axis(ax(2),[0 0.5 0.001*[-1,1]]);
 ylabel("Amplitude error");
 xlabel("Frequency");
 strt=sprintf(["Direct-form anti-symmetric low-pass differentiator filter", ...
               " : fap=%g,Arp=%g,fas=%g,Ars=%g"],fap,Arp,fas,Ars);
 title(strt);
 legend("exact(N)","exact(M)","S-D(Lim)","S-D(Lim and SOCP-relax)");
+legend("location","north");
+legend("boxoff");
+legend("right");
+grid("on");
+print(strcat(strf,"_amplitude_response"),"-dpdflatex");
+close
+
+% Plot pass band relative amplitude response
+Rap=1:nap;
+Ras=nas:length(wa);
+A_all=[A_h0,A_hM0,A_hM0_sd,A_hM_min];
+ha=plot(wa(Rap)*0.5/pi,(A_all(Rap,:)./Ad(Rap))-1);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:columns(A_all)
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap -0.008 0.004]);
+ylabel("Relative amplitude error");
+xlabel("Frequency");
+strt=sprintf(["Direct-form anti-symmetric low-pass differentiator filter", ...
+              " : fap=%g,Arp=%g,fas=%g,Ars=%g"],fap,Arp,fas,Ars);
+title(strt);
+legend("exact(N)","exact(M)","S-D","S-D(SOCP-relax)");
 legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
-print(strcat(strf,"_response"),"-dpdflatex");
+print(strcat(strf,"_pass_relative_amplitude_response"),"-dpdflatex");
 close
 
 % Filter specification

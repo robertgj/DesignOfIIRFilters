@@ -21,9 +21,11 @@ verbose=false
 maxiter=2000
 ftol=1e-4
 ctol=ftol/10
+
 nbits=12
 nscale=2^(nbits-1);
 ndigits=3
+rho=(nscale-1)/nscale; 
 
 % Options
 socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_allocsd_Lim=true
@@ -52,8 +54,8 @@ R=2;   % Denominator polynomial in z^-2 only
 fap=0.2;fas=0.4;
 Arp=0.0025;Art=0.01;Ars=0.0032;Wap=1;Wat=0.0001;Was=0.1;
 fpp=fap;pp=1.5;ppr=0.0003;Wpp=1;
-ftp=fap;tp=nN-1;tpr=0.007;Wtp=0.1;
-fdp=0.1;cpr=0.008;cn=0;Wdp=0.005;
+ftp=fap;tp=nN-1;tpr=0.008;Wtp=0.1;
+fdp=0.1;cpr=0.006;cn=4;Wdp=0.005;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
@@ -85,6 +87,7 @@ Adl=Ad-[(Arp/2)*ones(nap,1);zeros(n-1-nap,1)];
 Adl(find(Adl<0))=0;
 Asqdl=Adl.^2;
 Wa=[Wap*ones(nap,1); Wat*ones(nas-nap-1,1); Was*ones(n-nas,1)];
+
 % Sanity check
 nchk=[1,2,nap-1,nap,nap+1,nas-1,nas,nas+1,n-1];
 printf("nchk=[");printf("%d ",nchk);printf(" ]\n");
@@ -116,7 +119,7 @@ wd=wa(Rdp);
 Dd=dAsqddw(Rdp);
 Wd=Wdp*ones(size(wd));
 Cd=(Dd-(Asqd(Rdp).*cot(wd/2)))./Azsq(Rdp);
-Cderr=(cpr/2)*((Rdp(:)/ndp).^cn);
+Cderr=(cpr/2)*(1+((Rdp(:)/ndp).^cn));
 Cdu=Cd+Cderr;
 Cdl=Cd-Cderr;
 Dd=dAsqddw(Rdp);
@@ -141,7 +144,6 @@ Esq0=schurOneMlatticeEsq(k0,epsilon0,p_ones,c0, ...
 
 % Constraints on the coefficients
 dmax=inf;
-rho=1-ftol;
 k0=k0(:);
 c0=c0(:);
 kc0=[k0;c0];
@@ -472,13 +474,22 @@ printf("k,c_min:DS=[ ");printf("%f ",DS');printf("]\n");
 %
 Csq_kc0=schurOneMlatticeAsq(wa,k0,epsilon0,p_ones,c0);
 Asq_kc0=Csq_kc0.*Azsq;
+A_kc0=sqrt(Csq_kc0).*Az;
+
 Csq_kc0_sd_no_alloc=schurOneMlatticeAsq ...
                       (wa,k0_sd_no_alloc,epsilon0,p_ones,c0_sd_no_alloc);
 Asq_kc0_sd_no_alloc=Csq_kc0_sd_no_alloc.*Azsq;
+A_kc0_sd_no_alloc=sqrt(Csq_kc0_sd_no_alloc).*Az;
+
 Csq_kc0_sd=schurOneMlatticeAsq(wa,k0_sd,epsilon0,p_ones,c0_sd);
 Asq_kc0_sd=Csq_kc0_sd.*Azsq;
+A_kc0_sd=sqrt(Csq_kc0_sd).*Az;
+
 Csq_kc_min=schurOneMlatticeAsq(wa,k_min,epsilon_min,p_ones,c_min);
 Asq_kc_min=Csq_kc_min.*Azsq;
+A_kc_min=sqrt(Csq_kc_min).*Az;
+
+A_all=[A_kc0,A_kc0_sd_no_alloc,A_kc0_sd,A_kc_min];
 
 Tc_kc0=schurOneMlatticeT(wt,k0,epsilon0,p_ones,c0);
 T_kc0=Tc_kc0+Tz;
@@ -536,101 +547,11 @@ if max(abs(abs(Hchk)-sqrt(Csq_kc_min))) > 10*eps
         max(abs(abs(Hchk)-sqrt(Csq_kc_min)))/eps);
 endif
 
-% Plot amplitude response error
-subplot(311);
-[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi, ...
-                    sqrt([Asq_kc0(Rap),Asq_kc0_sd_no_alloc(Rap), ...
-                          Asq_kc0_sd(Rap),Asq_kc_min(Rap)])-Ad(Rap), ...
-                    wa(Ras)*0.5/pi, ...
-                    sqrt([Asq_kc0(Ras),Asq_kc0_sd_no_alloc(Ras), ...
-                          Asq_kc0_sd(Ras),Asq_kc_min(Ras)]));
-% Copy line colour
-hac=get(ha,"color");
-hls={"-",":","--","-."};
-for c=1:4
-  set(hs(c),"color",hac{c});
-  set(ha(c),"linestyle",hls{c});
-  set(hs(c),"linestyle",hls{c});
-endfor
-set(ax(1),"ycolor","black");
-set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 0.002*[-1,1]]);
-axis(ax(2),[0 0.5 0.008*[-1,1]]);
-grid("on");
-xlabel("Frequency");
-ylabel("Amplitude");
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
-              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
-title(strt);
-% Plot phase pass-band response
-subplot(312);
-plot(wp*0.5/pi,(unwrap(P_kc0)+(wp*tp))/pi,"linestyle","-", ...
-     wp*0.5/pi,(unwrap(P_kc0_sd_no_alloc)+(wp*tp))/pi,"linestyle",":", ...
-     wp*0.5/pi,(unwrap(P_kc0_sd)+(wp*tp))/pi,"linestyle","--", ...
-     wp*0.5/pi,(unwrap(P_kc_min)+(wp*tp))/pi,"linestyle","-.");
-grid("on");
-xlabel("Frequency");
-ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+0.001*[-1,1]]);
-legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","east");
-legend("boxoff");
-legend("right");
-% Plot group-delay pass-band response
-subplot(313);
-plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
-     wt*0.5/pi,T_kc0_sd_no_alloc,"linestyle",":", ...
-     wt*0.5/pi,T_kc0_sd,"linestyle","--", ...
-     wt*0.5/pi,T_kc_min,"linestyle","-.");
-grid("on");
-xlabel("Frequency");
-ylabel("Delay(samples)");
-axis([0 0.5 tp+0.02*[-1,1]]);
-print(strcat(strf,"_response"),"-dpdflatex");
-close
-
-% Plot dCsqdw pass-band response error
-plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
-     wd*0.5/pi,dCsqdw_kc0_sd_no_alloc-Cd,"linestyle",":", ...
-     wd*0.5/pi,dCsqdw_kc0_sd-Cd,"linestyle","--", ...
-     wd*0.5/pi,dCsqdw_kc_min-Cd,"linestyle","-.");
-xlabel("Frequency");
-ylabel("dCsqdw error");
-axis([0 fdp (cpr/2)*[-1,1]]);
-title(strt);
-legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","northwest");
-legend("boxoff");
-legend("left");
-grid("on");
-print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
-close
-
-% Plot dAsqdw pass-band response error
-plot(wd*0.5/pi,dAsqdw_kc0-dAsqddw(Rdp),"linestyle","-", ...
-     wd*0.5/pi,dAsqdw_kc0_sd_no_alloc-dAsqddw(Rdp),"linestyle",":", ...
-     wd*0.5/pi,dAsqdw_kc0_sd-dAsqddw(Rdp),"linestyle","--", ...
-     wd*0.5/pi,dAsqdw_kc_min-dAsqddw(Rdp),"linestyle","-.");
-xlabel("Frequency");
-ylabel("dAsqdw error");
-axis([0 fdp 0.002*[-1,1]]);
-title(strt);
-legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","southwest");
-legend("boxoff");
-legend("left");
-grid("on");
-print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
-close
-
 % Plot amplitude response
-[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi, ...
-                    sqrt([Asq_kc0(Rap),Asq_kc0_sd_no_alloc(Rap), ...
-                          Asq_kc0_sd(Rap),Asq_kc_min(Rap)]), ...
-                    wa(Ras)*0.5/pi, ...
-                    sqrt([Asq_kc0(Ras),Asq_kc0_sd_no_alloc(Ras), ...
-                          Asq_kc0_sd(Ras),Asq_kc_min(Ras)]));
-% Copy line colour
+A_all=[A_kc0,A_kc0_sd_no_alloc,A_kc0_sd,A_kc_min];
+[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,A_all(Rap,:), ...
+                    wa(Ras)*0.5/pi,A_all(Ras,:));
+% Copy line colour and set line style
 hac=get(ha,"color");
 hls={"-",":","--","-."};
 for c=1:4
@@ -640,7 +561,6 @@ for c=1:4
 endfor
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 0 0.8]);
 axis(ax(2),[0 0.5 0 0.008]);
 grid("on");
 xlabel("Frequency");
@@ -653,25 +573,6 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
-close
-
-% Plot stop band amplitude response
-plot(wa*0.5/pi,sqrt(Asq_kc0),"linestyle","-", ...
-     wa*0.5/pi,sqrt(Asq_kc0_sd_no_alloc),"linestyle",":", ...
-     wa*0.5/pi,sqrt(Asq_kc0_sd),"linestyle","--", ...
-     wa*0.5/pi,sqrt(Asq_kc_min),"linestyle","-.");
-xlabel("Frequency");
-ylabel("Amplitude");
-axis([fas 0.5 0 0.008]);
-strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
-              "nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
-title(strt);
-legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","northeast");
-legend("boxoff");
-legend("left");
-grid("on");
-print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
 close
 
 % Plot pass band amplitude response error
@@ -693,6 +594,95 @@ grid("on");
 print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex");
 close
 
+% Plot pass band relative amplitude response error
+ha=plot(wa(Rap)*0.5/pi,(A_all(Rap,:)./Ad(Rap))-1);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap 0.004*[-1,1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error $\\frac{A-A{d}}{A_{d}}$");
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","southwest");
+legend("left");
+legend("boxoff");
+print(strcat(strf,"_pass_relative_amplitude_error"),"-dpdflatex");
+close
+
+% Plot amplitude response error
+subplot(311);
+[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,A_all(Rap,:)-Ad(Rap), ...
+                    wa(Ras)*0.5/pi,A_all(Ras,:));
+% Set line style and copy line colour
+hac=get(ha,"color");
+hls={"-",":","--","-."};
+for c=1:4
+  set(hs(c),"color",hac{c});
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c});
+endfor
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+axis(ax(1),[0 0.5 0.002*[-1,1]]);
+axis(ax(2),[0 0.5 0.01*[-1,1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude");
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
+              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
+title(strt);
+% Plot phase pass-band response
+subplot(312);
+plot(wp*0.5/pi,(unwrap(P_kc0)+(wp*tp))/pi,"linestyle","-", ...
+     wp*0.5/pi,(unwrap(P_kc0_sd_no_alloc)+(wp*tp))/pi,"linestyle",":", ...
+     wp*0.5/pi,(unwrap(P_kc0_sd)+(wp*tp))/pi,"linestyle","--", ...
+     wp*0.5/pi,(unwrap(P_kc_min)+(wp*tp))/pi,"linestyle","-.");
+grid("on");
+xlabel("Frequency");
+ylabel("Phase(rad./$\\pi$)");
+axis([0 0.5 pp+0.0004*[-1,1]]);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","east");
+legend("boxoff");
+legend("right");
+% Plot group-delay pass-band response
+subplot(313);
+plot(wt*0.5/pi,T_kc0,"linestyle","-", ...
+     wt*0.5/pi,T_kc0_sd_no_alloc,"linestyle",":", ...
+     wt*0.5/pi,T_kc0_sd,"linestyle","--", ...
+     wt*0.5/pi,T_kc_min,"linestyle","-.");
+grid("on");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+axis([0 0.5 tp+0.01*[-1,1]]);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","east");
+legend("boxoff");
+print(strcat(strf,"_response"),"-dpdflatex");
+close
+
+% Plot stop band amplitude response
+plot(wa*0.5/pi,sqrt(Asq_kc0),"linestyle","-", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd_no_alloc),"linestyle",":", ...
+     wa*0.5/pi,sqrt(Asq_kc0_sd),"linestyle","--", ...
+     wa*0.5/pi,sqrt(Asq_kc_min),"linestyle","-.");
+xlabel("Frequency");
+ylabel("Amplitude");
+axis([fas 0.5 0 0.008]);
+strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
+              "nbits=%d,ndigits=%d,fas=%g"],nbits,ndigits,fas);
+title(strt);
+legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
+close
+
 % Plot phase response
 plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi),"linestyle","-", ...
      wp*0.5/pi,((P_kc0_sd_no_alloc+(wp*tp))/pi),"linestyle",":", ...
@@ -700,7 +690,7 @@ plot(wp*0.5/pi,((P_kc0+(wp*tp))/pi),"linestyle","-", ...
      wp*0.5/pi,((P_kc_min+(wp*tp))/pi),"linestyle","-.");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
-axis([0 max([fap fpp ftp]) pp+(0.0004)*[-1,1]]);
+axis([0 fpp pp+(0.0004)*[-1,1]]);
 strt=sprintf(["Low-pass differentiator R=2 filter : ", ...
               "nbits=%d,ndigits=%d,fpp=%g"],nbits,ndigits,fpp);
 title(strt);
@@ -729,6 +719,40 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
+close
+
+% Plot dCsqdw pass-band response error
+plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
+     wd*0.5/pi,dCsqdw_kc0_sd_no_alloc-Cd,"linestyle",":", ...
+     wd*0.5/pi,dCsqdw_kc0_sd-Cd,"linestyle","--", ...
+     wd*0.5/pi,dCsqdw_kc_min-Cd,"linestyle","-.");
+xlabel("Frequency");
+ylabel("dCsqdw error");
+axis([0 fdp 0.01*[-1,1]]);
+title(strt);
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
+close
+
+% Plot dAsqdw pass-band response error
+plot(wd*0.5/pi,dAsqdw_kc0-dAsqddw(Rdp),"linestyle","-", ...
+     wd*0.5/pi,dAsqdw_kc0_sd_no_alloc-dAsqddw(Rdp),"linestyle",":", ...
+     wd*0.5/pi,dAsqdw_kc0_sd-dAsqddw(Rdp),"linestyle","--", ...
+     wd*0.5/pi,dAsqdw_kc_min-dAsqddw(Rdp),"linestyle","-.");
+xlabel("Frequency");
+ylabel("dAsqdw error");
+axis([0 fdp 0.002*[-1,1]]);
+title(strt);
+legend("exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+grid("on");
+print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
 close
 
 % Plot stop band correction filter amplitude response
@@ -798,25 +822,6 @@ legend("boxoff");
 legend("left");
 grid("on");
 print(strcat(strf,"_correction_amplitude"),"-dpdflatex");
-close
-
-% Plot correction filter dCsqdw error response
-plot(wd*0.5/pi,dCsqdw_kc0-Cd,"linestyle","-", ...
-     wd*0.5/pi,dCsqdw_kc0_sd_no_alloc-Cd,"linestyle",":", ...
-     wd*0.5/pi,dCsqdw_kc0_sd-Cd,"linestyle","--", ...
-     wd*0.5/pi,dCsqdw_kc_min-Cd,"linestyle","-.");
-xlabel("Frequency");
-ylabel("dCsqdw error");
-axis([0 fdp 0.01*[-1,1]]);
-strt=sprintf(["Low-pass differentiator R=2 correction filter : ", ...
-              " nbits=%d,ndigits=%d,fdp=%g"],nbits,ndigits,fdp);
-title(strt);
-legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","northwest");
-legend("boxoff");
-legend("left");
-grid("on");
-print(strcat(strf,"_correction_dCsqdw_error"),"-dpdflatex");
 close
 
 % Pole-zero plot
