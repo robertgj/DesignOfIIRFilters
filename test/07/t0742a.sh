@@ -46,18 +46,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test_hM_min_coef.ok << 'EOF'
 hM_min = [       -1,        1,        2,       -6, ... 
-                  3,       16,      -22,       -7, ... 
+                  3,       12,      -22,       -7, ... 
                  56,      -44,      -74,      162, ... 
                  -3,     -349,      346,     1033 ]'/4096;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_hM_min_coef.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Floating-point(31) & 1.0770e-04 & & \\
-Floating-point(16) & 1.0771e-04 & & \\
-13-bit 3-signed-digit & 1.1055e-04 & 37 & 21 \\
-13-bit 3-signed-digit(Lim)&1.0830e-04 & 39 & 23 \\
-13-bit 3-signed-digit(SOCP-relax) & 1.0830e-04 & 39 & 23 \\
+Floating-point(31) & 1.0770e-03 & & \\
+Floating-point(16) & 1.0770e-03 & & \\
+13-bit 3-signed-digit & 1.0907e-03 & 37 & 21 \\
+13-bit 3-signed-digit(Lim)&1.0774e-03 & 40 & 24 \\
+13-bit 3-signed-digit(SOCP-relax) & 1.0774e-03 & 40 & 24 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

@@ -280,7 +280,7 @@ hls={"-",":","--","-."};
 for l=1:3
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fap 0.002*[-1,1]]);
+axis([0 fap -0.0015 0.0005]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
@@ -301,7 +301,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fap 0.002*[-1,1]]);
+axis([0 fap -0.0015 0.001]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
@@ -316,13 +316,55 @@ legend("left");
 print(strcat(strf,"_search_pass"),"-dpdflatex");
 close
 
+% Plot relative amplitude pass-band response error for signed-digits
+ha=plot(wa*0.5/pi,([exact_A,sd_A,sd_Lim_A]./Ad)-1);
+hls={"-",":","--","-."};
+for l=1:3
+  set(ha(l),"linestyle",hls{l});
+endfor
+axis([0 fap -0.003 0.002]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
+              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
+             nbits,ndigits,fap,fas);
+title(strt);
+legend("Exact","S-D","S-D(Lim)");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_sd_relative_pass"),"-dpdflatex");
+close
+
+% Plot relative amplitude pass-band response error for search methods
+ha=plot(wa*0.5/pi,([exact_A,bandb_A,socp_A,pop_A]./Ad)-1);
+hls={"-",":","--","-."};
+for l=1:4
+  set(ha(l),"linestyle",hls{l});
+endfor
+axis([0 fap 0.003*[-1,1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
+              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
+             nbits,ndigits,fap,fas);
+title(strt);
+legend("Exact","B-and-B","SOCP-relax","POP-relax");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_search_relative_pass"),"-dpdflatex");
+close
+
 % Plot amplitude stop-band response error for signed-digits
 ha=plot(wa*0.5/pi,[exact_A,sd_A,sd_Lim_A]-Ad);
 hls={"-",":","--","-."};
 for l=1:3
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([fas 0.5 0 0.01]);
+axis([fas 0.5 0 0.004]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
@@ -343,7 +385,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([fas 0.5 0 0.01]);
+axis([fas 0.5 0 0.006]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
@@ -354,7 +396,7 @@ title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","north");
 legend("boxoff");
-legend("left");
+legend("right");
 print(strcat(strf,"_search_stop"),"-dpdflatex");
 close
 
@@ -364,7 +406,7 @@ hls={"-",":","--","-."};
 for l=1:3
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fpp pp+0.002*[-1 1]]);
+axis([0 fpp pp+[-0.0002,0.0008]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
@@ -373,7 +415,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
-legend("location","southwest");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_sd_phase"),"-dpdflatex");
@@ -385,7 +427,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fpp pp+0.001*[-1 1]]);
+axis([0 fpp pp+[-0.0006,0.0004]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
@@ -394,7 +436,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
-legend("location","southwest");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_search_phase"),"-dpdflatex");
@@ -406,7 +448,7 @@ hls={"-",":","--","-."};
 for l=1:3
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 ftp tp+0.02*[-1 1]]);
+axis([0 ftp tp+0.01*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Delay(samples)");
@@ -415,7 +457,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
-legend("location","southwest");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_sd_delay"),"-dpdflatex");
@@ -427,7 +469,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 ftp tp+0.02*[-1 1]]);
+axis([0 ftp tp+0.01*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Delay(samples)");
@@ -436,7 +478,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
-legend("location","southwest");
+legend("location","north");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_search_delay"),"-dpdflatex");
@@ -448,7 +490,7 @@ hls={"-",":","--","-."};
 for l=1:3
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fdp 0.02*[-1 1]]);
+axis([0 fdp 0.01*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$ error");
@@ -470,7 +512,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fdp 0.02*[-1 1]]);
+axis([0 fdp 0.01*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$ error");

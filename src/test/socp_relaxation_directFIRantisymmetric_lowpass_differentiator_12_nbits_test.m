@@ -37,7 +37,7 @@ nscale=2^(nbits-1);
 ndigits=3;
 fap=0.2;fas=0.4;
 Arp=0.002;Art=0.002;Ars=0.001;
-Wap=10;Wat=0.01;Was=1;
+Wap=10;Wat=0.01;Was=0.1;
 
 % Desired magnitude response
 npoints=1000;

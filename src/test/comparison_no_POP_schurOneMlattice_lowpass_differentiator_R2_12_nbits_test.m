@@ -8,6 +8,18 @@
 %
 % Copyright (C) 2025 Robert G. Jenssen
 
+%{
+% Compare with:
+deltas = 0.010000
+nplot = 1024
+maxiter = 1000
+tol = 1.0000e-07
+N=33;L=28; % Same number of distinct coefficients
+N=19;L=10; % Same delay
+[h,hM,dk,err,fext,fiter,feasible]= ...
+  mcclellanFIRantisymmetric_linear_differentiator(N,L,deltas,nplot,maxiter,tol);
+%}
+
 test_common;
 
 strs="schurOneMlattice_lowpass_differentiator_R2_12_nbits_test";
@@ -169,6 +181,7 @@ exact_dAsqdw=(exact_Csq(Rdp).*dAzm1sqdw(Rdp))+(exact_dCsqdw.*Azm1sq(Rdp));
 
 % Calculate "exact" errors
 exact_A_pass_error=max(abs(exact_A-Ad)(Rap));
+exact_A_pass_rel_error=max(abs((exact_A./Ad)-1)(Rap));
 exact_A_stop_error=max(abs(exact_A-Ad)(Ras));
 exact_P_pass_error=max(abs(exact_P-Pd)/pi);
 exact_T_pass_error=max(abs(exact_T-Td));
@@ -187,6 +200,7 @@ sd_dAsqdw=(sd_Csq(Rdp).*dAzm1sqdw(Rdp))+(sd_dCsqdw.*Azm1sq(Rdp));
 
 % Calculate signed-digit errors
 sd_A_pass_error=max(abs(sd_A-Ad)(Rap));
+sd_A_pass_rel_error=max(abs((sd_A./Ad)-1)(Rap));
 sd_A_stop_error=max(abs(sd_A-Ad)(Ras));
 sd_P_pass_error=max(abs(sd_P-Pd)/pi);
 sd_T_pass_error=max(abs(sd_T-Td));
@@ -205,6 +219,7 @@ sd_Lim_dAsqdw=(sd_Lim_Csq(Rdp).*dAzm1sqdw(Rdp))+(sd_Lim_dCsqdw.*Azm1sq(Rdp));
 
 % Calculate signed-digit Lim errors
 sd_Lim_A_pass_error=max(abs(sd_Lim_A-Ad)(Rap));
+sd_Lim_A_pass_rel_error=max(abs((sd_Lim_A./Ad)-1)(Rap));
 sd_Lim_A_stop_error=max(abs(sd_Lim_A-Ad)(Ras));
 sd_Lim_P_pass_error=max(abs(sd_Lim_P-Pd)/pi);
 sd_Lim_T_pass_error=max(abs(sd_Lim_T-Td));
@@ -223,6 +238,7 @@ bandb_dAsqdw=(bandb_Csq(Rdp).*dAzm1sqdw(Rdp))+(bandb_dCsqdw.*Azm1sq(Rdp));
 
 % Calculate branch-and-bound errors
 bandb_A_pass_error=max(abs(bandb_A-Ad)(Rap));
+bandb_A_pass_rel_error=max(abs((bandb_A./Ad)-1)(Rap));
 bandb_A_stop_error=max(abs(bandb_A-Ad)(Ras));
 bandb_P_pass_error=max(abs(bandb_P-Pd)/pi);
 bandb_T_pass_error=max(abs(bandb_T-Td));
@@ -241,6 +257,7 @@ socp_dAsqdw=(socp_Csq(Rdp).*dAzm1sqdw(Rdp))+(socp_dCsqdw.*Azm1sq(Rdp));
 
 % Calculate SOCP-relaxation errors
 socp_A_pass_error=max(abs(socp_A-Ad)(Rap));
+socp_A_pass_rel_error=max(abs((socp_A./Ad)-1)(Rap));
 socp_A_stop_error=max(abs(socp_A-Ad)(Ras));
 socp_P_pass_error=max(abs(socp_P-Pd)/pi);
 socp_T_pass_error=max(abs(socp_T-Td));
@@ -265,18 +282,16 @@ for c=1:4
 endfor
 set(ax(1),"ycolor","black");
 set(ax(2),"ycolor","black");
-axis(ax(1),[0 0.5 0.001*[-1,1]]);
-axis(ax(2),[0 0.5 0.01*[-1,1]]);
+axis(ax(1),[0 0.5 -0.0015 0.001]);
+axis(ax(2),[0 0.5 0 0.005]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
 legend("F-P","S-D","B-and-B","SOCP-relax");
-legend("location","south");
+legend("location","north");
 legend("boxoff");
-legend("left");
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
-              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g,tp=%g"], ...
-             nbits,ndigits,fap,fas,tp);
+legend("right");
+%strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
 % title(strt);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
@@ -287,13 +302,11 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fap 0.002*[-1,1]]);
+axis([0 fap -0.002 0.001]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
-              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+% strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
 % title(strt);
 legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southwest");
@@ -302,13 +315,32 @@ legend("left");
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
+% Plot amplitude relative pass band response error
+ha=plot(wa*0.5/pi,([exact_A,sd_A,bandb_A,socp_A]./Ad)-1);
+hls={"-",":","--","-."};
+for l=1:4
+  set(ha(l),"linestyle",hls{l});
+endfor
+axis([0 fap -0.004 0.002]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+%strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
+% title(strt);
+legend("F-P","S-D","B-and-B","SOCP-relax");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_relative_pass"),"-dpdflatex");
+close
+
 % Plot amplitude stop-band response error
 ha=plot(wa*0.5/pi,[exact_A,sd_A,bandb_A,socp_A]-Ad);
 hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([fas 0.5 0 0.01]);
+axis([fas 0.5 0 0.006]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
@@ -319,7 +351,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
 legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","north");
 legend("boxoff");
-legend("left");
+legend("right");
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -329,7 +361,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 fpp pp+0.0004*[-1 1]]);
+axis([0 fpp pp+0.0006*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
@@ -338,7 +370,7 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 % title(strt);
 legend("F-P","S-D","B-and-B","SOCP-relax");
-legend("location","north");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_phase"),"-dpdflatex");
@@ -350,7 +382,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0 ftp tp+0.01*[-1 1]]);
+axis([0 ftp 8.985 9.010]);
 grid("on");
 xlabel("Frequency");
 ylabel("Delay(samples)");
@@ -359,10 +391,29 @@ strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
              nbits,ndigits,fap,fas);
 % title(strt);
 legend("F-P","S-D","B-and-B","SOCP-relax");
-legend("location","southwest");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 print(strcat(strf,"_delay"),"-dpdflatex");
+close
+
+% Plot dCsqdw pass-band response
+ha=plot(wd*0.5/pi,[exact_dCsqdw,sd_dCsqdw,bandb_dCsqdw,socp_dCsqdw]-Cd(Rdp));
+hls={"-",":","--","-."};
+for l=1:4
+  set(ha(l),"linestyle",hls{l});
+endfor
+axis([0 fdp 0.01*[-1 1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("$\\frac{d|C|^{2}}{d\\omega}$ error");
+% strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
+% title(strt);
+legend("F-P","S-D","B-and-B","SOCP-relax");
+legend("location","northwest");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_dCsqdw"),"-dpdflatex");
 close
 
 % Plot dAsqdw pass-band response
@@ -375,9 +426,7 @@ axis([0 fdp 0.01*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$ error");
-strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
-              " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+% strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
 % title(strt);
 legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southwest");
@@ -389,29 +438,309 @@ close
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid, ...
-        "Floating-point &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
-        exact_Esq,exact_A_pass_error,exact_A_stop_error, ...
-        exact_P_pass_error,exact_T_pass_error);
+        "Floating-point &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
+        exact_Esq,exact_A_pass_error,exact_A_pass_rel_error, ...
+        exact_A_stop_error,exact_P_pass_error,exact_T_pass_error);
 fprintf(fid, ...
-        "Signed-Digit &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        sd_Esq,sd_A_pass_error,sd_A_stop_error, ...
-        sd_P_pass_error,sd_T_pass_error, ...
+        "Signed-Digit &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        sd_Esq,sd_A_pass_error,sd_A_pass_rel_error, ...
+        sd_A_stop_error,sd_P_pass_error,sd_T_pass_error, ...
         sd_sd_digits,sd_sd_adders);
 fprintf(fid, ...
-        "Signed-Digit(Lim) &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        sd_Lim_Esq,sd_Lim_A_pass_error,sd_Lim_A_stop_error, ...
-        sd_Lim_P_pass_error,sd_Lim_T_pass_error,sd_Lim_sd_digits, ...
-        sd_Lim_sd_adders);
+        "Signed-Digit(Lim) &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        sd_Lim_Esq,sd_Lim_A_pass_error,sd_Lim_A_pass_rel_error, ...
+        sd_Lim_A_stop_error,sd_Lim_P_pass_error,sd_Lim_T_pass_error, ...
+        sd_Lim_sd_digits,sd_Lim_sd_adders);
 fprintf(fid, ...
-        "Branch-and-bound &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        bandb_Esq,bandb_A_pass_error,bandb_A_stop_error, ...
-        bandb_P_pass_error,bandb_T_pass_error, ...
+        "Branch-and-bound &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        bandb_Esq,bandb_A_pass_error,bandb_A_pass_rel_error, ...
+        bandb_A_stop_error,bandb_P_pass_error,bandb_T_pass_error, ...
         bandb_sd_digits,bandb_sd_adders);
 fprintf(fid, ...
-        "SOCP-relaxation &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        socp_Esq,socp_A_pass_error,socp_A_stop_error, ...
-        socp_P_pass_error,socp_T_pass_error, ...
+        "SOCP-relaxation &%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        socp_Esq,socp_A_pass_error,socp_A_pass_rel_error, ...
+        socp_A_stop_error,socp_P_pass_error,socp_T_pass_error, ...
         socp_sd_digits,socp_sd_adders);
+fclose(fid);
+
+% Compare with an anti-symmetric FIR filter
+strd= ...
+  "socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test";
+eval(strcat(strd,"_h0_coef;"));
+eval(strcat(strd,"_hM0_coef;"));
+eval(strcat(strd,"_hM_min_coef;"));
+socp_h0=h0;
+socp_hM0=hM0;
+socp_hM_min=hM_min;
+
+strd= ...
+"branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test";
+eval(strcat(strd,"_h0_coef;"));
+eval(strcat(strd,"_hM0_coef;"));
+eval(strcat(strd,"_hM_min_coef;"));
+bandb_h0=h0;
+bandb_hM0=hM0;
+bandb_hM_min=hM_min;
+
+if max(abs(socp_h0-bandb_h0)) ~= 0
+  error("max(abs(socp_h0-bandb_h0))(%g*eps) ~= 0", ...
+        max(abs(socp_h0-bandb_h0))/eps);
+endif
+if max(abs(socp_hM0-bandb_hM0)) ~= 0
+  error("max(abs(socp_hM0-bandb_hM0))(%g*eps) ~= 0", ...
+        max(abs(socp_hM0-bandb_hM0))/eps);
+endif
+
+A_socp_h0=directFIRantisymmetricA(wa,socp_h0);
+A_socp_h0_pass_error=max(abs(A_socp_h0-Ad)(Rap));
+A_socp_h0_pass_rel_error=max(abs((A_socp_h0./Ad)-1)(Rap));
+A_socp_h0_stop_error=max(abs(A_socp_h0-Ad)(Ras));
+Esq_socp_h0=directFIRantisymmetricEsq(socp_h0,wa,Ad,Wa);
+
+A_socp_hM0=directFIRantisymmetricA(wa,socp_hM0);
+A_socp_hM0_pass_error=max(abs(A_socp_hM0-Ad)(Rap));
+A_socp_hM0_pass_rel_error=max((abs(A_socp_hM0./Ad)-1)(Rap));
+A_socp_hM0_stop_error=max(abs(A_socp_hM0-Ad)(Ras));
+Esq_socp_hM0=directFIRantisymmetricEsq(socp_hM0,wa,Ad,Wa);
+
+A_socp_hM_min=directFIRantisymmetricA(wa,socp_hM_min);
+A_socp_hM_min_pass_error=max(abs(A_socp_hM_min-Ad)(Rap));
+A_socp_hM_min_pass_rel_error=max(abs((A_socp_hM_min./Ad)-1)(Rap));
+A_socp_hM_min_stop_error=max(abs(A_socp_hM_min-Ad)(Ras));
+Esq_socp_hM_min=directFIRantisymmetricEsq(socp_hM_min,wa,Ad,Wa);
+socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_signed_digits;
+socp_hM_min_signed_digits=ans;
+socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_adders;
+socp_hM_min_adders=ans;
+
+A_bandb_h0=directFIRantisymmetricA(wa,bandb_h0);
+A_bandb_h0_pass_error=max(abs(A_bandb_h0-Ad)(Rap));
+A_bandb_h0_pass_rel_error=max(abs((A_bandb_h0./Ad)-1)(Rap));
+A_bandb_h0_stop_error=max(abs(A_bandb_h0-Ad)(Ras));
+Esq_bandb_h0=directFIRantisymmetricEsq(bandb_h0,wa,Ad,Wa);
+
+A_bandb_hM0=directFIRantisymmetricA(wa,bandb_hM0);
+A_bandb_hM0_pass_error=max(abs(A_bandb_hM0-Ad)(Rap));
+A_bandb_hM0_pass_rel_error=max((abs(A_bandb_hM0./Ad)-1)(Rap));
+A_bandb_hM0_stop_error=max(abs(A_bandb_hM0-Ad)(Ras));
+Esq_bandb_hM0=directFIRantisymmetricEsq(bandb_hM0,wa,Ad,Wa);
+
+A_bandb_hM_min=directFIRantisymmetricA(wa,bandb_hM_min);
+A_bandb_hM_min_pass_error=max(abs(A_bandb_hM_min-Ad)(Rap));
+A_bandb_hM_min_pass_rel_error=max(abs((A_bandb_hM_min./Ad)-1)(Rap));
+A_bandb_hM_min_stop_error=max(abs(A_bandb_hM_min-Ad)(Ras));
+Esq_bandb_hM_min=directFIRantisymmetricEsq(bandb_hM_min,wa,Ad,Wa);
+branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_signed_digits;
+bandb_hM_min_signed_digits=ans;
+branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_adders;
+bandb_hM_min_adders=ans;
+
+% Plot hM_min amplitude response
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+[ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,A_hM_min_all(Rap,:)-Ad(Rap), ...
+                    wa(Ras)*0.5/pi,A_hM_min_all(Ras,:)-Ad(Ras));
+% Copy line colour
+hac=get(ha,"color");
+hls={"-",":","--","-."};
+for c=1:4
+  set(hs(c),"color",hac{c});
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c});
+endfor
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+axis(ax(1),[0 0.5 -0.001 0.001]);
+axis(ax(2),[0 0.5 -0.001 0.001]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude error");
+legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("location","north");
+legend("boxoff");
+legend("left");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_hM_min_amplitude"),"-dpdflatex");
+close
+
+% Plot hM_min pass band amplitude error
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Rap)*0.5/pi,A_hM_min_all(Rap,:)-Ad(Rap));
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap -0.001 0.0015]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude error");
+legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("right");
+% strt=sprintf(["Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_hM_min_pass_error"),"-dpdflatex");
+close
+
+% Plot hM_min pass band relative amplitude error
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Rap)*0.5/pi,(A_hM_min_all(Rap,:)./Ad(Rap))-1);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap -0.02 0.005]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_hM_min_pass_relative_error"),"-dpdflatex");
+close
+
+% Plot hM_min stop band amplitude response
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Ras)*0.5/pi,A_hM_min_all(Ras,:)-Ad(Ras));
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([fas 0.5 -0.001 0.001]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude");
+legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_hM_min_stop"),"-dpdflatex");
+close
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_hM_min_cost.tab"),"wt");
+fprintf(fid, ...
+        "Floating-point FIR &%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
+        Esq_socp_h0,A_socp_h0_pass_error, ...
+        A_socp_h0_pass_rel_error,A_socp_h0_stop_error)
+fprintf(fid, ...
+        "Truncated floating-point FIR &%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
+        Esq_socp_hM0,A_socp_hM0_pass_error, ...
+        A_socp_hM0_pass_rel_error,A_socp_hM0_stop_error)
+fprintf(fid, ...
+        "SOCP-relaxation truncated FIR&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        Esq_socp_hM_min,A_socp_hM_min_pass_error, ...
+        A_socp_hM_min_pass_rel_error,A_socp_hM_min_stop_error, ...
+        socp_hM_min_signed_digits,socp_hM_min_adders);
+fprintf(fid, ...
+        "Branch-and-bound truncated FIR&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        Esq_bandb_hM_min,A_bandb_hM_min_pass_error, ...
+        A_bandb_hM_min_pass_rel_error,A_bandb_hM_min_stop_error, ...
+        bandb_hM_min_signed_digits,bandb_hM_min_adders);
+fclose(fid);
+
+% Plot Schur-FIR pass band amplitude error
+A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Rap)*0.5/pi,A_Schur_FIR(Rap,:)-Ad(Rap));
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap -0.002 0.001]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude error");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","southwest");
+legend("boxoff");
+legend("left");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_Schur_FIR_pass_error"),"-dpdflatex");
+close
+
+% Plot Schur-FIR pass band relative amplitude error
+A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Rap)*0.5/pi,(A_Schur_FIR(Rap,:)./Ad(Rap))-1);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([0 fap -0.02 0.005]);
+grid("on");
+xlabel("Frequency");
+ylabel("Relative amplitude error");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_Schur_FIR_pass_relative_error"),"-dpdflatex");
+close
+
+% Plot Schur-FIR stop band amplitude
+A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+ha=plot(wa(Ras)*0.5/pi,abs(A_Schur_FIR(Ras,:))-Ad(Ras));
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([fas 0.5 0 0.006]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude error");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","north");
+legend("boxoff");
+legend("right");
+% strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
+% title(strt);
+print(strcat(strf,"_Schur_FIR_stop"),"-dpdflatex");
+close
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_Schur_FIR_cost.tab"),"wt");
+fprintf(fid, ...
+        "Floating-point Schur lattice&%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
+        exact_Esq,exact_A_pass_error, ...
+        exact_A_pass_rel_error,exact_A_stop_error)
+fprintf(fid, ...
+        "Truncated floating-point FIR &%8.2e&%8.2e&%8.2e&%8.2e&&\\\\\n", ...
+        Esq_socp_hM0,A_socp_hM0_pass_error, ...
+        A_socp_hM0_pass_rel_error,A_socp_hM0_stop_error)
+fprintf(fid, ...
+        "SOCP-relaxation Schur lattice&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        socp_Esq,socp_A_pass_error, ...
+        socp_A_pass_rel_error,socp_A_stop_error, ...
+        socp_sd_digits,socp_sd_adders);
+fprintf(fid, ...
+        "SOCP-relaxation truncated FIR&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        Esq_socp_hM_min,A_socp_hM_min_pass_error, ...
+        A_socp_hM_min_pass_rel_error,A_socp_hM_min_stop_error, ...
+        socp_hM_min_signed_digits,socp_hM_min_adders);
+fprintf(fid, ...
+        "Branch-and-bound Schur lattice&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        bandb_Esq,bandb_A_pass_error, ...
+        bandb_A_pass_rel_error,bandb_A_stop_error, ...
+        bandb_sd_digits,bandb_sd_adders);
+fprintf(fid, ...
+        "Branch-and-bound truncated FIR&%8.2e&%8.2e&%8.2e&%8.2e&%d&%d\\\\\n", ...
+        Esq_bandb_hM_min,A_bandb_hM_min_pass_error, ...
+        A_bandb_hM_min_pass_rel_error,A_bandb_hM_min_stop_error, ...
+        bandb_hM_min_signed_digits,bandb_hM_min_adders);
 fclose(fid);
 
 % Filter specification

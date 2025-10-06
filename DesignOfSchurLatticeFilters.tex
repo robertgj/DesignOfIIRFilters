@@ -338,7 +338,7 @@ Equation~\ref{eqn:SchurOneMLambda} gives:
 Figure~\ref{fig:Schur-one-multiplier-lattice-section} shows the corresponding
 \emph{all pass Schur one multiplier lattice} filter section.
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \includegraphics{schur_OneMultiplier_lattice_section}
 \caption{All pass Schur one multiplier lattice filter section}
@@ -346,36 +346,17 @@ Figure~\ref{fig:Schur-one-multiplier-lattice-section} shows the corresponding
 \end{figure}
 
 The expansion of the numerator polynomial of the transfer function,
-$F\left(z\right)$, in the orthogonal basis, $\Lambda_{n}\left(z\right)$, is:
+$F\left(z\right)$, in the orthogonal basis, $\Lambda_{n}\left(z\right)$,
+is~\cite[Section 12.2.3]{Parhi_VLSIDigitalSignalProcessingSystems}:
 \begin{align*}
 B_{N}\left(z\right) & = \sum_{n=0}^{N}c_{n}\Lambda_{n}\left(z\right)
 \end{align*}
-
-Algorithm~\ref{alg:Schur-Polynomial-Expansion} shows the expansion of an
-arbitrary polynomial in a set of Schur orthogonal basis polynomials.
- 
-\begin{algorithm}[!ht]
-For any polynomial $N_{m}\left(z\right)$ of degree $m,\:(0<m\leq N)$:
-\begin{algorithmic}
-\State $Q\left(z\right)=N_{m}\left(z\right)$ 
-\State $c_{n}=0$, for $m<n\leq N$
-\For {$n=m,m-1,\hdots,0$}
-  \State $c_{n}=\frac{\hat{Q}(0)}{\hat{\Lambda}_{n}(0)}$
-  \State $Q\left(z\right)=Q\left(z\right)-c_{n}\Lambda_{n}\left(z\right)$
-\EndFor
-\end{algorithmic}
-$\hat{Q}\left(z\right)$ and $\hat{\Lambda}_{n}\left(z\right)$ are
-the reverse polynomials of $Q\left(z\right)$ and $\Lambda_{n}\left(z\right)$.
-\caption{Schur polynomial expansion (see 
-\emph{Parhi}~\cite[Section 12.2.3]{Parhi_VLSIDigitalSignalProcessingSystems}).}
-\label{alg:Schur-Polynomial-Expansion}
-\end{algorithm}
 
 Figure~\ref{fig:Second-order-tapped-Schur-one-multiplier-lattice-filter}
 shows the tapped Schur one multiplier lattice filter implementation of a
 second order transfer function.
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
 \includegraphics{schur_OneMultiplier_2nd_Order}
 \caption{Second-order tapped Schur one-multiplier lattice filter}
@@ -428,7 +409,8 @@ By changing the sign parameter, this ratio can always be made smaller or larger
 than one. Algorithm~\ref{alg:One-multiplier-sign-assignment} shows the method
 used to assign the sign parameters described by \emph{Gray} and
 \emph{Markel}~\cite[p. 496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.
-\begin{algorithm}[!ht]
+
+\begin{algorithm}
 Assume that $k_{l}$ has the largest magnitude of the $k_{n}$ for
 $n=1,2,\ldots,N$. Define the quantities
 \begin{align*}
@@ -467,8 +449,6 @@ Now assign the $\epsilon_{n}$:
   assignment~\cite[p. 496]{GrayMarkel_DigitalLatticeAndLadderFilterSynthesis}.} 
 \label{alg:One-multiplier-sign-assignment}
 \end{algorithm}
-
-\clearpage
 
 \subsection{State variable descriptions of the Schur one multiplier lattice filter}
 The state variable representation of a filter is:
@@ -667,7 +647,7 @@ Figure~\ref{fig:Fourth-order-tapped-Schur-one-multiplier-lattice-filter-R2}
 shows such a fourth order tapped Schur one multiplier lattice filter with and
 without pipelining.
 
-\begin{figure}[!ht]
+\begin{figure}
 \begin{subfigure}[b]{\textwidth}
 \centering
 \includegraphics[scale=\DesignOfSchurLatticeFiltersIncludeScale]{schur_OneMultiplier_4th_Order_R2}
@@ -1290,8 +1270,6 @@ At each coefficient relaxation step the script finds the upper and lower
 signed-digit approximations to the current set of active coefficients and
 selects the coefficient with the largest difference in those approximations.
 
-\clearpage
-
 \section{An example : design of a low pass differentiator filter}
 This section describes the design of a low pass differentiator filter
 implemented as $F_{0}\left(z\right)=1-z^{-1}$ in series with a tapped Schur
@@ -1346,8 +1324,6 @@ $\mathabs{F_{0}\left(\omega\right)}^{2}$:
 \left[\frac{1-\mathabs{F_{d}\left(\omega\right)}\cot\frac{\omega}{2}}{\mathabs{F_{0}\left(\omega\right)}^{2} }\right]
 \end{align*}
 
-\clearpage
-
 \subsection{Initial R=2 low pass differentiator filter}
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-R2-initial}
 shows the frequency response of the initial R=2 low pass differentiator filter
@@ -1357,7 +1333,8 @@ filter pass band and stop band edge frequencies are $0.2$ and $0.4$\;(normalised
 to the digital sample rate), the nominal pass band phase is $1.5\pi$
 radians (adjusted for delay) and the nominal pass band group delay is $9$
 samples.
-\begin{figure}[!hb]
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_initial_response}}
 \caption{Amplitude, phase and group delay responses of an initial 
@@ -1382,8 +1359,6 @@ correction filter are:
 \verbatiminput{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c0_coef.m}
 \end{small}
 
-\clearpage
-
 \subsection{PCLS design of the R=2 low pass differentiator filter}
 The low pass differentiator correction filter was PCLS optimised with 
 amplitude pass band error peak-to-peak ripple of $0.0009$,
@@ -1391,7 +1366,7 @@ amplitude stop band peak ripple of $0.007$,
 phase pass band peak-to-peak ripple of $0.0002\pi$\; radians,
 group delay pass band peak-to-peak ripple of $0.006$\; samples and
 correction filter gradient of amplitude-squared pass band error peak-to-peak
-ripple of $0.013$.
+ripple of $0.02$.
 
 The Schur one-multiplier lattice coefficients of the PCLS SOCP optimised
 correction filter are:
@@ -1410,10 +1385,9 @@ coefficients are:
 Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2}
 shows the  amplitude error, phase and group delay response errors of the $R=2$
 low pass differentiator filter after PCLS SOCP optimisation.
-Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-dAsqdw-error}
+Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-error}
 shows the error in the gradient of the squared-magnitude response of the $R=2$
-correction filter and of the low pass differentiator filter after PCLS SOCP
-optimisation.
+correction filter after PCLS SOCP optimisation.
 Figure~\ref{fig:Schur-OneM-lattice-lowpass-differentiator-R2-pz} shows
 the pole-zero plot of the $R=2$ low pass differentiator filter.
 Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-direct-sens}
@@ -1423,6 +1397,7 @@ Figure~\ref{fig:Schur-OneM-lattice-correction-lowpass-differentiator-Schur-sens}
 shows the gradients of the correction filter squared-magnitude, phase and delay
 with respect to the coefficients of the Schur lattice implementation of the
 filter.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_error}}
@@ -1435,10 +1410,10 @@ filter.
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_dAsqdw_error}}
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_error}}
 \caption{PCLS optimised pass band error of the gradient of the squared magnitude
-  response of the correction filter and that of the differentiator filter.}
-\label{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-dAsqdw-error}
+  response of the correction filter after PCLS SOCP optimisation.}
+\label{fig:Schur-OneM-lattice-lowpass-differentiator-R2-dCsqdw-error}
 \end{figure}
 
 \begin{figure}
@@ -1467,8 +1442,6 @@ filter.
   differentiator correction filter.}
 \label{fig:Schur-OneM-lattice-correction-lowpass-differentiator-Schur-sens}
 \end{figure}
-
-\clearpage
 
 \subsection{Search for the signed-digit coefficients of the R=2 low pass differentiator filter}
 
@@ -1526,13 +1499,14 @@ compares, for each filter, a cost function, the maximum pass band and stop band
 response errors, the total number of signed-digits required by the $12$-bit 
 coefficients and the number of shift-and-add operations required to implement
 the correction filter coefficient multiplications of the correction filter.
-\begin{table}[!hb]
+
+\begin{table}
 \centering
 \begin{threeparttable}
-\begin{tabular}{lrrrrrrr} \\ \toprule
- &Correction&Max. pass&Max. stop  &Max. pass &Max. pass&$12$-bit&Shift-and-adds\\
- &filter    &amp. error&amp. error&phase error&delay error&signed& \\
- &cost      &          &        &(rad./$\pi$)&(samples)  &digits& \\
+\begin{tabular}{lrrrrrrrr} \\ \toprule
+ &Correction&Max. pass&Max. pass &Max. stop &Max. pass   &Max. pass  &$12$-bit&Shift-\\
+ &filter    &amplitude&amplitude &amplitude &phase error &delay error&signed  &and- \\
+ &cost      &error    &rel. error&error     &(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -1547,30 +1521,59 @@ the correction filter coefficient multiplications of the correction filter.
 \label{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-cost}
 \end{table}
 
-Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-amplitude}
-compares the pass band and stopband error amplitude response of each filter for
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-pass}
+compares the pass band amplitude response of each filter for
 $12$-bit $3$-signed-digit coefficients and $12$-bit coefficients with an average
 of $3$-signed-digits allocated by the method of \emph{Lim et al.} found with
 branch-and-bound search and SOCP relaxation search.
-Figures~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-phase},
-~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-delay} and
-~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dAsqdw} and
-compare the corresponding pass band phase, group-delay and gradient of the
-squared magnitude responses of each filter.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-relative-pass}
+compares the pass band relative amplitude response of each filter.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-stop}
+compares the stop band amplitude response of each filter.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-phase} shows
+the pass band phase reslonse of each filter.
+~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-delay} shows the
+pass band group-delay response of each filter.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dCsqdw} shows
+the gradient of the squared magnitude response of the correction filter.
 
-\begin{figure}[!hb]
+\begin{figure}
 \centering
-\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_amplitude}}
-\caption{Comparison of the pass band and stop band amplitude response errors of
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_pass}}
+\caption{Comparison of the pass band response error of
   a tapped Schur one-multiplier, R=2, lattice lowpass differentiator correction
   filter with floating point coefficients, 12-bit 3-signed-digit coefficients,
   and 12-bit signed-digit coefficients each having an average of 3-signed-digits
   allocated by the method of \emph{Lim et al.}, found by branch-and-bound and
   SOCP relaxation search.}
-\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-amplitude}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-pass}
 \end{figure}
 
-\begin{figure}[!hb]
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_relative_pass}}
+\caption{Comparison of the pass band relative response error of
+  a tapped Schur one-multiplier, R=2, lattice lowpass differentiator correction
+  filter with floating point coefficients, 12-bit 3-signed-digit coefficients,
+  and 12-bit signed-digit coefficients each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found by branch-and-bound and
+  SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-relative-pass}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_stop}}
+\caption{Comparison of the stop band response error of
+  a tapped Schur one-multiplier, R=2, lattice lowpass differentiator correction
+  filter with floating point coefficients, 12-bit 3-signed-digit coefficients,
+  and 12-bit signed-digit coefficients each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found by branch-and-bound and
+  SOCP relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-stop}
+\end{figure}
+
+\begin{figure}
 \centering
 \scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_phase}}
 \caption{Comparison of the pass band phase response errors of a tapped Schur
@@ -1582,7 +1585,7 @@ squared magnitude responses of each filter.
 \label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-phase}
 \end{figure}
 
-\begin{figure}[!hb]
+\begin{figure}
 \centering
 \scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_delay}}
 \caption{Comparison of the pass band group delay response errors of a tapped
@@ -1594,26 +1597,221 @@ squared magnitude responses of each filter.
 \label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-delay}
 \end{figure}
 
-\begin{figure}[!hb]
+\begin{figure}
 \centering
-\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_dAsqdw}}
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_dCsqdw}}
 \caption{Comparison of the error in the pass band gradient of the squared
   magnitude response of a tapped Schur one-multiplier, R=2, lattice low pass
   differentiator correction filter with floating point coefficients, 12-bit
   3-signed-digit coefficients, and 12-bit signed-digit coefficients each having
   an average of 3-signed-digits allocated by the method of \emph{Lim et al.},
   found by branch-and-bound and SOCP relaxation search.}
-\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dAsqdw}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-dCsqdw}
+\end{figure}
+
+\subsection{Comparison with a maximally-linear  FIR low pass differentiator filter}
+
+\emph{Selesnick}~\cite{Selesnick_MaximallyFlatLowPassDigitalDifferentiators}
+describes the design of maximally linear low pass FIR differentiator filters:
+\begin{align*}
+  F\left(z\right)&=\left(\frac{1-z^{-1}}{2}\right)
+                   \left(\frac{1+z^{-1}}{2}\right)^{K}
+                   z^{-L}\sum_{n=0}^{L}c_{n}\left[\frac{-z+2-z^{-1}}{4}\right]^{n}
+\end{align*}
+where the $c_{n}$ are defined recursively:
+\begin{align*}
+c_{0}&=2\\
+c_{1}&=K+\frac{1}{3} \\
+    & \hdots \\
+c_{n}&=\frac{\left(8n^{2}+4Kn-10n-K+3\right)c_{n-1}-\left(2n+K-3\right)^{2}c_{n-2}}
+       {2n\left(2n+1\right)}
+\end{align*}
+The length of the impulse response is $N=K+2L+2$. The coefficients of the maximally linear anti-symmetric FIR
+low pass differentiator with $L=20$ and $K=21$ are\footnote{For odd length,
+  $N=63$, $h0\left(32\right)=0$.}:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_h0_coef.m}
+\end{small}
+By construction, the phase response of the anti-symmetric FIR low pass
+differentiator filter is $\frac{\pi}{2}$ radians. This FIR filter was truncated
+to $16$ distinct coefficients, the same number as the Schur lattice, and a group
+delay of $16$ samples. After SOCP-relaxation optimisation to $12$-bits with an
+average of $3$ signed-digits allocated by the heuristic of \emph{Lim et al.}
+the distinct coefficients of the filter are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_coef.m}
+\end{small}
+
+Table~\ref{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-cost}
+compares a cost function, the maximum pass band and stop band response errors,
+the total number of signed-digits required by the $12$-bit coefficients and the
+number of shift-and-add operations required to implement the coefficient
+multiplications of the floating point FIR, floating point truncated FIR and the
+SOCP-relaxation optimised truncated FIR and the the SOCP-relaxation optimised
+truncated FIR and the branch-and-bound optimised truncated FIR filter.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrr} \\ \toprule
+ &Low pass        &Max. pass&Max. pass &Max. stop &$12$-bit&Shift-\\
+ &differentiator  &amplitude&amplitude &amplitude &signed  &and- \\
+ &cost            &error    &rel. error&error     &digits  &adds \\
+\midrule
+\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_hM_min_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of low pass differentiator filter FIR implementations]
+{Comparison of the response errors and the total number of signed digits in the
+  12-bit coefficients, each having an average of 3-signed digits, allocated by
+  the method of \emph{Lim et al.}, required for a low pass differentiator filter
+  implemented as an anti-symmetric FIR filter found by SOCP relaxation search
+  and branch-and-bound search.}
+\label{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-cost}
+\end{table}
+
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-pass}
+compares the pass band error amplitude responses of a low pass
+differentiator filter implemented as a maximally linear FIR filter with floating
+point coefficients, that FIR filter truncated to $16$ distinct coefficients and
+the truncated filter coefficients SOCP-relaxation optimised for $12$-bit
+$3$-signed-digit coefficients and $12$-bit coefficients with an average of
+$3$-signed-digits allocated by the method of \emph{Lim et al.}.
+Similarly,
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-pass-relative}
+compares the pass band relative error amplitude responses and
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-stop}
+compares the stop band error amplitude responses.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_hM_min_pass_error}}
+\caption{Comparison of the pass band error amplitude responses of a low pass
+  differentiator filter implemented as a maximally linear FIR filter with
+  floating point coefficients, that FIR filter truncated to $16$ distinct
+  coefficients and the truncated filter coefficients SOCP-relaxation optimised
+  for $12$-bit $3$-signed-digit coefficients and $12$-bit coefficients with an
+  average of $3$-signed-digits allocated by the method of \emph{Lim et al.}.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-pass}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_hM_min_pass_relative_error}}
+\caption{Comparison of the pass band relative error responses of a low pass
+  differentiator filter implemented as a maximally linear FIR filter with
+  floating point coefficients, that FIR filter truncated to $16$ distinct
+  coefficients and the truncated filter coefficients SOCP-relaxation optimised
+  for $12$-bit $3$-signed-digit coefficients and $12$-bit coefficients with an
+  average of $3$-signed-digits allocated by the method of \emph{Lim et al.}.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-pass-relative}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_hM_min_stop}}
+\caption{Comparison of the stop band error amplitude responses of a low pass
+  differentiator filter implemented as a maximally linear FIR filter with
+  floating point coefficients, that FIR filter truncated to $16$ distinct
+  coefficients and the truncated filter coefficients SOCP-relaxation optimised
+  for $12$-bit $3$-signed-digit coefficients and $12$-bit coefficients with an
+  average of $3$-signed-digits allocated by the method of \emph{Lim et al.}.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-hM-min-stop}
+\end{figure}
+
+Table~\ref{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-cost}
+compares a cost function, the maximum pass band and stop band response errors,
+the total number of
+signed-digits required by the $12$-bit coefficients and the number of
+shift-and-add operations required to
+implement the coefficient multiplications of the SOCP-relaxation optimised
+truncated FIR and Schur lattice filters and the branch-and-bound optimised
+truncated FIR and Schur lattice filters.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrr} \\ \toprule
+ &Low pass        &Max. pass&Max. pass &Max. stop &$12$-bit&Shift-\\
+ &differentiator  &amplitude&amplitude &amplitude &signed  &and- \\
+ &cost            &error    &rel. error&error     &digits  &adds \\
+\midrule
+\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_Schur_FIR_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of low pass differentiator filter FIR and Schur lattice implementations]
+{Comparison of the response errors and the total number of signed digits in the
+  12-bit coefficients, each having an average of 3-signed digits, allocated by
+  the method of \emph{Lim et al.}, required for a low pass differentiator filter
+  implemented as an anti-symmetric FIR filter and a tapped Schur one-multiplier
+  lattice, R=2, correction filter found by SOCP relaxation search and
+  branch-and-bound search.}
+\label{tab:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-cost}
+\end{table}
+
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-pass}
+compares the pass band amplitude error responses of a low pass
+differentiator filter implemented as a maximally linear FIR filter truncated to
+$16$ distinct coefficients and a tapped Schur one-multiplier lattice, R=2,
+correction filter. The coefficients are SOCP-relaxation and branch-and-bound
+optimised for $12$-bit coefficients with an average of
+$3$-signed-digits each, allocated by the method of \emph{Lim et al.}\;.
+Similarly,
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-pass-relative}
+compares the pass band relative error amplitude responses and
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-stop}
+compares the stop band error amplitude responses.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_Schur_FIR_pass_error}}
+\caption{Comparison of the pass band amplitude error responses of a low pass
+  differentiator filter implemented as a maximally linear FIR filter truncated
+  to $16$ distinct coefficients and a tapped Schur one-multiplier lattice, R=2,
+  correction filter. The coefficients are SOCP-relaxation and branch-and-bound
+  optimised for $12$-bit coefficients with an average of
+  $3$-signed-digits each, allocated by the method of \emph{Lim et al.}\;.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-pass}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_Schur_FIR_pass_relative_error}}
+\caption{Comparison of the pass band amplitude relative error responses of a low
+  pass differentiator filter implemented as a maximally linear FIR filter
+  truncated to $16$ distinct coefficients and a tapped Schur one-multiplier
+  lattice, R=2, correction filter. The coefficients are SOCP-relaxation and
+  branch-and-bound optimised for $12$-bit coefficients with an average of
+  $3$-signed-digits each, allocated by the method of \emph{Lim et al.}\;.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-pass-relative}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_Schur_FIR_stop}}
+\caption{Comparison of the stop band amplitude responses of a low pass
+  differentiator filter implemented as a maximally linear FIR filter truncated
+  to $16$ distinct coefficients and a tapped Schur one-multiplier lattice, R=2,
+  correction filter. The coefficients are SOCP-relaxation and branch-and-bound
+  optimised for $12$-bit coefficients with an average of
+  $3$-signed-digits each, allocated by the method of \emph{Lim et al.}\;.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-Schur-FIR-stop}
 \end{figure}
 
 \clearpage
-
 \section{Summary}
 The Schur lattice digital filter has a simple stability constraint. This article
 demonstrates the realisation of an IIR digital filter transfer function with
 stability and frequency response constraints by optimising the floating point
 and fixed point coefficients of a tapped one-multiplier Schur lattice digital
-filter.
+filter. The performance of the tapped, R=2, Schur lattice filter is compared
+to that of a maximally-flat anti-symmetric FIR low pass differentiator filter.
+The tapped, R=2, Schur lattice filter has lower group delay and better pass band
+relative amplitude error. The truncated anti-symmetric FIR filter has better
+stop band amplitude suppression and, by construction, constant phase and group
+delay.
 
 \bibliographystyle{plain}
 \bibliography{DesignOfSchurLatticeFilters}

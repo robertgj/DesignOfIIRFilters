@@ -33,7 +33,7 @@ print_polynomial(hM0,"hM0");
 print_polynomial(hM0,"hM0",strcat(strf,"_hM0_coef.m"));
 
 % Response constraints
-fap=0.2;fas=0.4;Arp=0;Art=0;Ars=0;Wap=1;Wat=0.001;Was=1;
+fap=0.2;fas=0.4;Arp=0;Art=0;Ars=0;Wap=10;Wat=0.01;Was=0.1;
 
 % Desired magnitude response
 npoints=1000;
@@ -276,15 +276,15 @@ hls={"-",":","--","-."};
 for c=1:columns(A_all)
   set(ha(c),"linestyle",hls{c});
 endfor
-axis([0 fap -0.01 0.03]);
+axis([0 fap -0.02 0.01]);
+grid("on");
 ylabel("Relative amplitude error");
 xlabel("Frequency");
 title(strt);
 legend(sprintf("F-P(%d)",Q),sprintf("F-P(%d)",M),"S-D","S-D(Lim,B-and-B)");
-legend("location","north");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
-grid("on");
 print(strcat(strf,"_pass_relative_amplitude_response"),"-dpdflatex");
 close
 

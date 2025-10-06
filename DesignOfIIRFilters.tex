@@ -19527,7 +19527,7 @@ coefficients by an extra bit to obtain $12$ effective bits.
 
 The initial $31$ distinct floating point direct-form anti-symmetric low pass
 differentiator filter FIR coefficients are\footnote{For odd length, $N=63$,
-  $h0(32)=0$.}:
+  $h0\left(32\right)=0$.}:
 \begin{small}
 \verbatiminput{branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_h0_coef.m}
 \end{small}
@@ -24621,10 +24621,20 @@ compares the pass-band error amplitude response of each filter for $12$-bit,
 $3$-signed-digit coefficients and $12$-bit coefficients with an average of
 $3$-signed-digits allocated by the method of \emph{Lim et al.}\footnote{The
   plot shows the numerical difference between the desired and actual responses}.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-sd-relative-pass}
+compares the relative pass-band error amplitude response of each filter,
+$\frac{A}{A_{d}}-1$, for $12$-bit, $3$-signed-digit coefficients and
+$12$-bit coefficients with an average of $3$-signed-digits allocated by the
+method of \emph{Lim et al.}\;.
 Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-search-pass}
-compares the stop-band error amplitude response of each filter for $12$-bit
+compares the pass-band error amplitude response of each filter for $12$-bit
 coefficients with an average of $3$-signed-digits allocated by the method of
 \emph{Lim et al.} found with \emph{Branch-and-Bound} search,
+\emph{SOCP-relaxation} search and \emph{POP-relaxation} search.
+Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-search-relative-pass}
+compares the relative pass-band error amplitude response of each filter for
+$12$-bit coefficients with an average of $3$-signed-digits allocated by the
+method of \emph{Lim et al.} found with \emph{Branch-and-Bound} search,
 \emph{SOCP-relaxation} search and \emph{POP-relaxation} search.
 Figure~\ref{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-sd-stop}
 compares the stop-band error amplitude response of each filter for signed-digit
@@ -24673,6 +24683,15 @@ the filter coefficient multiplications.
 \end{figure}
 \begin{figure}
 \centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_sd_relative_pass}}
+\caption{Comparison of the relative pass-band amplitude response errors of a
+  tapped, Schur one-multiplier, R=2, lattice low-pass differentiator filter with
+  12-bit coefficients, each having 3-signed-digits or an average of
+  3-signed-digits, allocated by the method of \emph{Lim et al.}.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-sd-relative-pass}
+\end{figure}
+\begin{figure}
+\centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_search_pass}}
 \caption{Comparison of the pass-band amplitude response errors of a tapped, Schur
   one-multiplier, R=2, lattice low-pass differentiator filter with 12-bit
@@ -24680,6 +24699,16 @@ the filter coefficient multiplications.
   method of \emph{Lim et al.}, found by branch-and-bound, SOCP-relaxation
   and POP-relaxation search.}
 \label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-search-pass}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_search_relative_pass}}
+\caption{Comparison of the relative pass-band amplitude response errors of a
+  tapped, Schur one-multiplier, R=2, lattice low-pass differentiator filter with
+  12-bit coefficients, each having an average of 3-signed-digits allocated by the
+  method of \emph{Lim et al.}, found by branch-and-bound, SOCP-relaxation
+  and POP-relaxation search.}
+\label{fig:Comp-schurOneMlattice-lowpass-diff-R2-12-nbits-search-relative-pass}
 \end{figure}
 \begin{figure}
 \centering
