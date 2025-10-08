@@ -138,8 +138,7 @@ N0=ND0(1:(nN+1));
 D0=[1; ND0((nN+2):end)];
 D0R=[D0(1);kron(D0(2:end),[zeros(R-1,1);1])];
 [k0,epsilon0,p0,c0]=tf2schurOneMlattice(N0,D0R);
-k0=k0(:);c0=c0(:);epilon0=epsilon0(:);p0=p0(:);c0=c0(:);
-
+k0=k0(:);c0=c0(:);epilon0=epsilon0(:);p0=p0(:);p_ones=ones(size(k0));c0=c0(:);
 % Calculate the initial response
 Csq0=schurOneMlatticeAsq(wa,k0,epsilon0,p0,c0);
 A0c=sqrt(Csq0);
@@ -226,7 +225,9 @@ if max(abs(k2-k2r))>eps
   error("max(abs(k2-k2r))(%g*eps)>eps",max(abs(k2-k2r))/eps);
 endif
 
+%
 % Calculate the overall response
+%
 [Csq2,gradCsq2]=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
 A2=sqrt(Csq2(:)).*Az;
 [P2c,gradP2c]=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
@@ -235,6 +236,10 @@ P2=P2c(:)+Pz;
 T2=T2c(:)+Tz;
 dCsqdw2=schurOneMlatticedAsqdw(wd,k2,epsilon2,p2,c2);
 dAsqdw2=(Csq2(Rdp).*dAzsqdw(Rdp))+(dCsqdw2(:).*Azsq(Rdp));
+
+%
+% Plot results
+%
 
 % Pole-zero plot
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
@@ -339,7 +344,6 @@ close
 [P2_D,gradP2_D]=H2P(H2_D(Rap,:),dH2_Ddx(Rap,:));
 [T2_D,gradT2_D]=H2T(H2_D(Rap,:),dH2_Ddw(Rap,:), ...
                     dH2_Ddx(Rap,:),d2H2_Ddwdx(Rap,:));
-% Plot
 subplot(311);
 plot(wa(Rap)*0.5/pi,gradCsq2_D(Rap,:));
 strP=sprintf("Direct form correction filter coefficient sensitivity");
@@ -359,7 +363,6 @@ print(strcat(strf,"_direct_sensitivity"),"-dpdflatex");
 close
 
 % Plot sensitivity of response to schur coefficients of correction filter
-% Plot
 subplot(311);
 plot(wa(Rap)*0.5/pi,gradCsq2(Rap,:));
 strP=sprintf("Tapped Schur lattice correction filter coefficient sensitivity");
@@ -378,7 +381,99 @@ grid("on");
 print(strcat(strf,"_schur_sensitivity"),"-dpdflatex");
 close
 
+%
+% Simulation
+%
+exact=false;
+nbits=12
+nscale=2^(nbits-1)
+ndigits=3
+% Make a quantised noise signal
+nsamples=2^14;
+randn("seed",0xdeadbeef);
+u=randn(nsamples,1)-0.5;
+uscale=0.25;
+u=uscale*u/std(u);
+u=round(u*nscale);
+% Quantise filter coefficients
+if exact==true
+ ;
+elseif ndigits ~= 0 
+  kf = flt2SD(k2, nbits, ndigits);
+  cf = flt2SD(c2, nbits, ndigits);
+else
+  kf = round(k2*nscale)/nscale;
+  cf = round(c2*nscale)/nscale;
+endif
+% Calculate noise gain
+[kf_A,kf_B,kf_C,kf_D] = schurOneMlattice2Abcd(kf,epsilon2,p_ones,cf);
+[Kf,Wf] = KW(kf_A,kf_B,kf_C,kf_D);
+ngf=Abcd2ng(kf_A,kf_B,kf_C,kf_D);
+fid=fopen(strcat(strf,"_ngf.tab"),"wt");
+fprintf(fid,"%4.2f",ngf);
+fclose(fid);
+% Filter with lattice structure and truncated coefficients
+[~,y,xx]=schurOneMlatticeFilter(kf,epsilon2,p_ones,cf,u,"none");
+[~,yf,xxf]=schurOneMlatticeFilter(kf,epsilon2,p_ones,cf,u,"round");
+% Remove initial transient
+n60=p2n60(D2);
+Rn60=(n60+1):length(u);
+ub=u(Rn60);
+yb=y(Rn60);
+xxb=xx(Rn60,:);
+yfb=yf(Rn60);
+xxfb=xxf(Rn60,:);
+% Check output round-off noise variance
+delta=1;
+est_varyd=(1+(ngf*delta*delta))/12;
+printf("est_varyd=%6.4f\n",est_varyd);
+fid=fopen(strcat(strf,"_est_varyd.tab"),"wt");
+fprintf(fid,"%6.4f",est_varyd);
+fclose(fid);
+varyd=var(yb-yfb);
+printf("varyd=%6.4f\n",varyd);
+fid=fopen(strcat(strf,"_varyd.tab"),"wt");
+fprintf(fid,"%6.4f",varyd);
+fclose(fid);
+% Check state variable std. deviation
+stdxxfb=std(xxfb)(:)';
+print_polynomial(stdxxfb,"stdxxfb","%6.2f");
+print_polynomial(stdxxfb,"stdxxfb", ...
+                 strcat(strf,"_stdxxfb.tab"),"%6.2f");
+est_stdxxfb=sqrt(diag(Kf)(:)')*nscale*uscale;
+print_polynomial(est_stdxxfb,"est_stdxxfb","%6.2f");
+print_polynomial(est_stdxxfb,"est_stdxxfb", ...
+                 strcat(strf,"_est_stdxxfb.tab"),"%6.2f");
+% Plot frequency response for the Schur lattice implemetation
+nfpts=1024;
+nppts=(0:511)';
+fb=nppts/nfpts;
+wb=2*pi*fb;
+Hfb=crossWelch(ub,yfb,nfpts);
+Csqb=schurOneMlatticeAsq(wb,k2,epsilon2,p2,c2);
+Pb=schurOneMlatticeP(wb,k2,epsilon2,p2,c2);
+Pd=wb*(tp-0.5);
+subplot(211)
+plot(fb,sqrt(Csqb(:)),"-",fb,abs(Hfb(:)),"-.");
+axis([0 0.5 0 0.6])
+grid("on");
+ylabel("Amplitude");
+legend("Exact","12-bit,3-S-D");
+legend("location","east");
+legend("boxoff");
+legend("right");
+subplot(212)
+plot(fb,unwrap(Pb+Pd)/pi,"-",fb,unwrap(arg(Hfb(:))+Pd)/pi,"-.");
+grid("on");
+axis([0 fap 1+0.004*[-1,1]])
+ylabel("Phase(rad./$\\pi$)");
+xlabel("Frequency");
+print(strcat(strf,"_schur_lattice_correction_simulation"),"-dpdflatex");
+close
+
+%
 % Save results
+%
 print_polynomial(N0,"N0");
 print_polynomial(N0,"N0",strcat(strf,"_N0_coef.m"));
 print_polynomial(D0R,"D0R");

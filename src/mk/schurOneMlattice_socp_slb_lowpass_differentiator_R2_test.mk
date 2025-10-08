@@ -8,7 +8,8 @@ schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dAsqdw_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_pcls_dCsqdw_dAsqdw_error \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_direct_sensitivity \
-schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_schur_sensitivity 
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_schur_sensitivity \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_schur_lattice_correction_simulation
 
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_COEFS = \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_N0_coef.m \
@@ -22,7 +23,12 @@ schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_p2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_N2_coef.m \
-schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_D2_coef.m \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_ngf.tab \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_est_varyd.tab \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_varyd.tab \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_stdxxfb.tab \
+schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_est_stdxxfb.tab
 
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_FILES = \
 schurOneMlattice_socp_slb_lowpass_differentiator_R2_test.m \
@@ -30,6 +36,7 @@ test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -38,10 +45,13 @@ schurOneMlattice_slb_exchange_constraints.m \
 schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_update_constraints.m \
+schurOneMlattice_socp_slb_lowpass_plot.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m  H2dAsqdw.m \
-print_polynomial.m WISEJ.m \
-qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+schurOneMlatticeFilter.m \
+local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m WISEJ.m flt2SD.m p2n60.m crossWelch.m x2nextra.m KW.m \
+dlyap_levinson.m dlyap_recursive.m Abcd2ng.m \
+qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct bin2SD.oct \
 complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct Abcd2H.oct
