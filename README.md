@@ -2,6 +2,8 @@
 This repository contains the files required to build the document
 [*DesignOfIIRFilters.pdf*](docs/public/DesignOfIIRFilters.pdf) that
 reports my experiments in the design of IIR filters with integer coefficients.
+[*DesignOfSchurLatticeFilters.pdf*](docs/public/DesignOfSchurLatticeFilters.pdf)
+is a summary version.
 
 [Comments](mailto:designofiirfilters@gmail.com) and
 [contributions](https://github.com/robertgj/DesignOfIIRFilters/pulls) are

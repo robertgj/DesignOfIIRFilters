@@ -16,12 +16,13 @@ the IIR filter is stable. The document
 [DesignOfIIRFilters.pdf]({{ site.baseurl }}/public/DesignOfIIRFilters.pdf)
 reports my experiments in the design of IIR filters with constraints on the
 amplitude, phase and group delay responses and truncated or quantised
-coefficients. I intended to show that it is possible to design a
-*good-enough* IIR digital filter with coefficients that are implemented by
-a limited number of shift-and-add operations and so do not require
-software or hardware multiplications. I programmed these
-experiments in the [Octave](https://www.gnu.org/software/octave)
-language. Octave is an
+coefficients. ([Here]({{site.baseurl}}/public/DesignOfSchurLatticeFilters.pdf) is a short version).
+
+I intended to show that it is possible to design a *good-enough* IIR digital
+filter with coefficients that are implemented by a limited number of
+shift-and-add operations and so do not require software or hardware
+multiplications. I programmed these experiments in the
+[Octave](https://www.gnu.org/software/octave) language. Octave is an
 [*almost*](https://wiki.octave.org/FAQ#Differences_between_Octave_and_Matlab)
 compatible open-source-software clone of the commercial
 [MATLAB](http://mathworks.com) package.
