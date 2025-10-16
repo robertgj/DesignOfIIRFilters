@@ -73,12 +73,12 @@ for n=nr,
 endfor
 
 semilogy(nr,Asq_tim,"--",nr,A_tim,"-",nr,H_tim,"-.");
-xlabel("Frequency vector length ($n$)");
+xlabel("Frequency vector length");
 ylabel("Mean execution time (seconds)");
 legend("schurOneMPAlatticeAsq","iirA","freqz");
 legend("location","northwest");
 legend("boxoff");
-legend("left");
+legend("right");
 grid("on");
 title(sprintf ...
         ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));
@@ -127,12 +127,15 @@ for n=nr2,
 endfor
 
 semilogy(p,Asq_tim_2,"--",p,A_tim_2,"-",p,H_tim_2,"-.");
-xlabel("Frequency vector length ($log_2 n$)");
+xlabel("Frequency vector length");
+xticks([2:2:16]);
+xticklabels ({"$2^{2}$","$2^{4}$","$2^{6}$","$2^{8}$", ...
+              "$2^{10}$","$2^{12}$","$2^{14}$","$2^{16}$"})
 ylabel("Mean execution time (seconds)");
 legend("schurOneMPAlatticeAsq","iirA","freqz");
 legend("location","northwest");
 legend("boxoff");
-legend("left");
+legend("right");
 grid("on");
 title(sprintf ...
         ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));

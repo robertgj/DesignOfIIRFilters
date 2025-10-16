@@ -8,7 +8,7 @@ export BUILD_TYPES="dbg shared shared-lto shared-pgo shared-lto-pgo"
 
 # Default CPU_TYPE and BUILD
 export CPU_TYPE=nehalem
-export BUILD=shared-lto-pgo
+export BUILD=shared
 
 # Assume these archive files are present:
 export LAPACK_VERSION=3.12.1

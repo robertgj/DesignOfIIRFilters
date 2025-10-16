@@ -1,6 +1,20 @@
 #!/bin/sh
 
-OCTAVE="$LOCAL_PREFIX/octave-$BUILD/bin/octave-cli --no-gui -q "
+if test -z $CPU_TYPES ;      then echo CPU_TYPES not found;      exit -1; fi
+if test -z $BUILD_TYPES ;    then echo BUILD_TYPES not found;    exit -1; fi
+if test -z $CPU_TYPE ;       then echo CPU_TYPE not found;       exit -1; fi
+if test -z $BUILD ;          then echo BUILD not found;          exit -1; fi
+if test -z $LOCAL_PREFIX ;   then echo LOCAL_PREFIX not found;   exit -1; fi
+if test -z $OCTAVE_VERSION ; then echo OCTAVE_VERSION not found; exit -1; fi
+if test -z $SEDUMI_VERSION ; then echo SEDUMI_VERSION not found; exit -1; fi
+if test -z $YALMIP_VERSION ; then echo YALMIP_VERSION not found; exit -1; fi
+
+OCTAVE_INSTALL_DIR=$LOCAL_PREFIX/octave-$BUILD
+OCTAVE_BIN_DIR=$OCTAVE_INSTALL_DIR/bin
+OCTAVE_SHARE_DIR=$OCTAVE_INSTALL_DIR/share/octave
+OCTAVE_PACKAGE_DIR=$OCTAVE_SHARE_DIR/packages 
+OCTAVE_PACKAGES=$OCTAVE_SHARE_DIR/octave_packages
+OCTAVE="$OCTAVE_BIN_DIR/octave-cli --no-gui -q "
 
 export LD_LIBRARY_PATH="$LOCAL_PREFIX/lib:\
 $LOCAL_PREFIX/lapack/$CPU_TYPE/lapack-$LAPACK_VERSION"
@@ -175,7 +189,7 @@ AA==
 ====
 EOF
 uudecode "sedumi-"$SEDUMI_VERSION".patch.gz.uue"
-gunzip "sedumi-"$SEDUMI_VERSION".patch.gz"
+gunzip -f "sedumi-"$SEDUMI_VERSION".patch.gz"
 pushd sedumi-$SEDUMI_VERSION
 patch -p 1 < "../sedumi-"$SEDUMI_VERSION".patch"
 popd

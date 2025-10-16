@@ -131,7 +131,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.4.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.5.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -170,7 +170,7 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.1.2}
+CONTROL_VER=${CONTROL_VER:-4.1.3}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
@@ -228,7 +228,7 @@ if ! test -f $STRUCT_ARCHIVE; then
   wget -c $STRUCT_URL 
 fi
 
-SYMBOLIC_VER=${SYMBOLIC_VER:-3.2.1}
+SYMBOLIC_VER=${SYMBOLIC_VER:-3.2.2}
 SYMBOLIC_ARCHIVE=symbolic-$SYMBOLIC_VER".tar.gz"
 SYMBOLIC_URL=$OCTAVE_FORGE_URL/$SYMBOLIC_ARCHIVE
 if ! test -f $SYMBOLIC_ARCHIVE; then
@@ -493,33 +493,79 @@ tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER".patch.gz.uue" << 'EOF'
 begin-base64 644 octave-10.2.0.patch.gz
-H4sICOnyt2gAA29jdGF2ZS0xMC4yLjAucGF0Y2gAtVbdcps6EL6un2LrzrT2
-gDBg4x/SZNI5t6fTBzinw8ggO2pBEEl2nOmcdz8rgW1sJ7XTproAtNL+6Pt2
-VxBCoEw1XTMS+F7o+YOcz7nQTFaDtJRskYpBXtKMKNzipemb0A8j4kcknEEY
-xsE4Hs48fzvACfDZcRzn0Kgn2MNlhmfEH0IQxhEaDjw/GEfRcDbdGr69BRKE
-M3eKc/u6ve3Ajw4ApKVQGtA+FHTJ0yRnAq4h8K/s4h2Vtfyf3aoTfL3qEACu
-PMloBj274u7V+1b1SOsrGv3wr//hquOcUTXKfAE9paVIi2q3qfulAYb83W2r
-wPU1+H2jBaAeaIWOCpreJVwsyjh+KGWmkjlfJkxknArooQ9yAXeabTSRqMQk
-k6/N3zPGaw6jeDSOw6E3CqaRPw2jqMXh1HcDdGZewz2HSlPNU/hMteQbkEyv
-aQ69wIWRC77nW1SddwiqvwW3jgd3Mmnw6+YUQ+rC+/dQJPY7kawiN+V3xKvB
-tjF7fbhjyXSCh2GYPz290S7I0gRTChdaPvo2Y1iumPXemCVHZl9m0KkN4sEM
-swsAI4G2fTv/DQ82FXGykqIxgrL/fpo9jRy3rtggzdiClPNvLNWvlUDn7R/3
-gYk/noxmQSuHRuHUJpF5z2wStcdgAAQCRAK6tHu4xJcC8zdJy4ozhXiGBiKy
-X1c6i+OcK/2xDjOxYSZGcgMCIU94tsHcyzYmH9qa20WPSYo50tvN52zJTc1a
-BefFruw2M7Ve99bctq0Lhw1PZHUwDrShaccAujAtCGnx1GquqFqiR/1YMTvV
-Euuy7+5CdDvP+ntiyDvlHrJgs9SQOh7NLKnj0SmpPw6dHERbV0Yly8ozdVEL
-exi9C1quGLbd7Sm6/SO6z7BA5VI9STbYpS3V9vs5mi9y8Xok/4RiaJDCp0eV
-4obVdkRxXFYJVSJh92c5PckGcw7XsFtDfGl/KdckZXn+R3rLie2TvoJ/F6PR
-pNVXhqE7BgefE5t/77hI81XG4KPCgzJa3LRla2xapTwQ3a/Yit2Yi2or4RgX
-rbe1NnY/SUkfyUrz3Lvrthfmj5oR8w9g5CakMJpgNThhNG2COmEcb4u3pmQ9
-rhJsp1ywbH/lHdFWF/YB6ayo9CPWolg/UeQ7Qo8t/XqjrMcl7fIk93+3ZR5W
-B5wiZFAs6HeWrAS/N11k15zCydDSMAmfoKFICvvfcqrbHn9hMhoPqb3HGw2O
-P1A1Tt5CluY+79dt64Wt6gzkL4b7j0JttTDHuFjWtkzeISpH6Wf0/ge16kcR
-pAwAAA==
+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
 ====
 EOF
 uudecode octave-$OCTAVE_VER".patch.gz.uue"
-gunzip octave-$OCTAVE_VER".patch.gz"
+gunzip -f octave-$OCTAVE_VER".patch.gz"
 # Patch
 pushd octave-$OCTAVE_VER
 patch -p1 < ../octave-$OCTAVE_VER.patch
@@ -582,41 +628,10 @@ OCTAVE_CONFIG_OPTIONS="\
     --with-sundials_sunlinsolklu-includedir=$OCTAVE_INCLUDE_DIR \
     --with-sundials_sunlinsolklu-libdir=$OCTAVE_LIB_DIR"
 
-PGO_GEN_FLAGS="-pthread -fprofile-generate"
-XTRA_CFLAGS="$PGO_GEN_FLAGS" \
-XTRA_CXXFLAGS="$PGO_GEN_FLAGS" \
 ../octave-$OCTAVE_VER/configure $OCTAVE_CONFIG_OPTIONS \
 PACKAGE_VERSION="$OCTAVE_VER-robj" \
 PACKAGE_STRING="GNU Octave $OCTAVE_VER-robj"
-
-#
-# Generate profile
-#
-make V=1 -j6 -O
-find . -name \*.gcda -exec rm -f {} ';'
-make check
-
-#
-# Use profile. Qt files change after configure triggering -Wcoverage-mismatch
-#
-find . -name \*.o -exec rm -f {} ';'
-find . -name \*.lo -exec rm -f {} ';'
-find . -name \*.la -exec rm -f {} ';'
-find . -name moc* -exec rm -f {} ';'
-
-PGO_USE_FLAGS="-pthread -flto=6 -ffat-lto-objects -fprofile-use -Wno-error=coverage-mismatch"
-XTRA_CFLAGS="$PGO_USE_FLAGS" \
-XTRA_CXXFLAGS="$PGO_USE_FLAGS" \
-../octave-$OCTAVE_VER/configure $OCTAVE_CONFIG_OPTIONS \
-PACKAGE_VERSION="$OCTAVE_VER-robj" \
-PACKAGE_STRING="GNU Octave $OCTAVE_VER-robj"
-
 make V=1 -j6 -O 
-
-# Hack to remove LTO profiling from mkoctfile
-sed -i -e "s/$PGO_USE_FLAGS//" ./src/mkoctfile.cc
-make V=1 src/mkoctfile
-
 make install
 popd
 
@@ -627,7 +642,7 @@ rm -Rf build-octave-$OCTAVE_VER octave-$OCTAVE_VER octave-$OCTAVE_VER.patch*
 #
 grep $OCTAVE_LIB_DIR /etc/ld.so.conf.d/usr_local_octave_lib.conf
 if test $? -ne 0; then \
-    echo $OCTAVE_LIB_DIR >> /etc/ld.so.conf.d/usr_local_octave_lib.conf ; \
+    echo $OCTAVE_LIB_DIR > /etc/ld.so.conf.d/usr_local_octave_lib.conf ; \
 fi
 ldconfig $OCTAVE_LIB_DIR
 
