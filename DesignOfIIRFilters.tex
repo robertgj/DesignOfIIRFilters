@@ -43828,7 +43828,7 @@ I currently use the Fedora 42 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
 \item \texttt{uname -r} is \emph{6.16.11-200.fc42.x86\_64}
 \item \emph{gcc} version \emph{15.2.1 20250808 (Red Hat 15.2.1-1)}
-\item a local build of \emph{octave-10.2.0} with the \emph{struct}, \emph{io},
+\item a local build of \emph{octave-10.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
@@ -43839,7 +43839,7 @@ I currently use the Fedora 42 distribution of Linux~\cite{Fedora_website} with:
 \item \emph{dia-0.97.3-29} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-10.2.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-10.3.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -43904,12 +43904,12 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-10.2.0} avoiding the vagaries of the Fedora
+version of \emph{octave-10.3.0} avoiding the vagaries of the Fedora
 packagers.
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-10.2.0.patch}, is a shell \emph{here} document
+\emph{octave-10.3.0.patch}, is a shell \emph{here} document
 within \emph{build-octave.sh}. 
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
@@ -44020,10 +44020,13 @@ vector or matrix dimensions are compatible. See the Octave manual
 entry \emph{Broadcasting and Legacy Code}~\cite[Section 19.2.1]{Eaton_Octave}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave-10.2.0.patch} \texttt{here} document within
+The \emph{octave-10.3.0.patch} \texttt{here} document within
 \emph{build-octave.sh} patches files to:
 \begin{itemize}
 \item prevent a \emph{valgrind} warning from \emph{load-save.cc}
+\item prevent \emph{g++} warnings from \emph{cdef-object.cc} and
+  \emph{ov-cell.cc}
+\item modify \emph{latex-text-renderer.cc} to cache string extents
 \end{itemize}
 
 I have found that the best way to include plots in this document is to

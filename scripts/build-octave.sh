@@ -57,9 +57,9 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=${OCTAVE_VER:-10.2.0}
+OCTAVE_VER=${OCTAVE_VER:-10.3.0}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
-OCTAVE_URL=https://ftp.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
+OCTAVE_URL=https://ftpmirror.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
   wget -c $OCTAVE_URL
 fi
@@ -492,7 +492,7 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER".patch.gz.uue" << 'EOF'
-begin-base64 644 octave-10.2.0.patch.gz
+begin-base64 644 octave-10.3.0.patch.gz
 H4sICAtE72gAA29jdGF2ZS0xMC4yLjAucGF0Y2gAtRrpbttG+vfqKaYqYJMh
 KZOSbNl0FKRIC2yBNF1s280u4oCgqJHEhhwq5FC2a+Sd9hn2yfb7ZngNRV05
 iIQy5/juaw7LskgScH9DLcceDAf2RRTOQsZpur4IkpQuAnYR+Zw+WPCfWyll
