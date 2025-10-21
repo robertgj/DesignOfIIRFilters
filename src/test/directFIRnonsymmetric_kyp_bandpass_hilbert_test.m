@@ -22,12 +22,15 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Band-pass filter specification
-N=40;
-d=10;
-fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
-Esq_z=2.351e-5
-Esq_s=1e-4
-Esq_max=1;
+d=16;
+fasl=0.05;fapl=0.1;fapu=0.2;fasu=0.25;
+if 0
+  N=40; % Order
+  Esq_z=5e-5;Esq_sl=1e-3;Esq_su=5e-4;Esq_max=1;
+else
+  N=30;
+  Esq_z=1e-3;Esq_sl=1e-3;Esq_su=1e-3;Esq_max=1.05;
+endif
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -60,7 +63,7 @@ F_max=[[((AB')*(kron(Phi,P_max)+kron(Psi_max,Q_max))*AB) + ...
 P_sl=sdpvar(N,N,"symmetric","real");
 Q_sl=sdpvar(N,N,"hermitian","complex");
 F_sl=[[((AB')*(kron(Phi,P_sl)+kron(Psi_sl,Q_sl))*AB) + ...
-       diag([zeros(1,N),-Esq_s]),CD']; ...
+       diag([zeros(1,N),-Esq_sl]),CD']; ...
       [CD,-1]];
 
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|
@@ -74,7 +77,7 @@ F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
 P_su=sdpvar(N,N,"symmetric","real");
 Q_su=sdpvar(N,N,"hermitian","complex");
 F_su=[[((AB')*(kron(Phi,P_su)+kron(Psi_su,Q_su))*AB) + ...
-       diag([zeros(1,N),-Esq_s]),CD']; ...
+       diag([zeros(1,N),-Esq_su]),CD']; ...
       [CD,-1]];
 
 % Solve with YALMIP
@@ -159,22 +162,25 @@ napu=(fapu*nplot/0.5)+1;
 nasu=(fasu*nplot/0.5)+1;
 
 [H,w]=freqz(h,1,nplot);
+h=h/max(abs(H));
+[H,w]=freqz(h,1,nplot);
 Asq=abs(H).^2;
 P=(w*d)+unwrap(arg(H));
 [T,w]=delayz(h,1,nplot);
 
 subplot(311)
 ax=plotyy(w*0.5/pi,10*log10(Asq),w*0.5/pi,10*log10(Asq));
-axis(ax(1),[0 0.5 -50 -30]);
-axis(ax(2),[0 0.5 0.04*[-1 0]]);
+axis(ax(1),[0 0.5 -0.5 0]);
+axis(ax(2),[0 0.5 -50 -25]);
 grid("on");
 ylabel("Amplitude(dB)");
 strt=sprintf(["N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,", ...
- "Esq\\_z=%10.8f,Esq\\_s=%6.4f"],N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
+              "Esq\\_z=%10.8f,Esq\\_sl=%6.4f,Esq\\_su=%6.4f"], ...
+             N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_sl,Esq_su);
 title(strt);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);
-axis([0 0.5 1.5+(0.002*[-1,1])]);
+axis([0 0.5 1.5+(0.01*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 subplot(313)
@@ -212,13 +218,15 @@ fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
 fprintf(fid,"Esq_z=%g %% Squared amplitude pass band - delay error\n",Esq_z);
-fprintf(fid,"Esq_s=%g %% Squared amplitude stop band error\n",Esq_s);
+fprintf(fid,"Esq_sl=%g %% Squared amplitude lower stop band error\n",Esq_sl);
+fprintf(fid,"Esq_su=%g %% Squared amplitude upper stop band error\n",Esq_su);
 fclose(fid);
 
 print_polynomial(h,"h","%13.10f");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%13.10f");
 
-eval(sprintf("save %s.mat N d fasl fapl fapu fasu Esq_z Esq_s Esq_max h",strf));
+eval(sprintf(["save %s.mat N d fasl fapl fapu fasu ", ...
+              " Esq_z Esq_sl Esq_su Esq_max h"],strf));
 
 % Done
 toc;

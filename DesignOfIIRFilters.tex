@@ -19471,7 +19471,7 @@ Hilbert band-pass filter with 12-bit 2-signed-digit coefficients having a
 similar bandwidth specification to the FIR Hilbert band-pass filter of 
 Appendix~\ref{app:Design-even-order-FIR-Hilbert-bandpass-filter}.
 An average of $2$ signed-digits are allocated to each non-zero coefficient with
-the heuristic of \emph{Ito et al.} .The direct-form FIR Hilbert filter
+the heuristic of \emph{Ito et al.}\;. The direct-form FIR Hilbert filter
 specification is: 
 \begin{small}
 \verbatiminput{branch_bound_directFIRhilbert_bandpass_12_nbits_test_spec.m}
@@ -19530,6 +19530,99 @@ algorithm]{Comparison of the cost and number of 12-bit
   for a direct-form FIR Hilbert band-pass filter with 12-bit 2-signed-digit
   coefficients found by branch-and-bound search.}
 \label{tab:branch-bound-direct-FIR-Hilbert-bandpass-12-nbits-cost}
+\end{table}
+
+\clearpage
+\section{\label{sec:Branch-and-bound-search-13-bit-3-sd-nonsymmetric-FIR-Hilbert-bandpass}Branch-and-bound search for the 13-bit 3-signed-digit
+  coefficients of a non-symmetric-FIR Hilbert band-pass filter}
+The Octave script
+\emph{branch\_bound\_directFIRnonsymmetric\_bandpass\_hilbert\_13\_nbits\_test.m}
+uses the branch-and-bound heuristic to optimise the response of a direct-form
+non-symmetric FIR Hilbert band-pass filter with 13-bit 3-signed-digit
+coefficients based on the filter designed in
+Appendix~\ref{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter}
+An average of $3$ signed-digits are allocated to each non-zero coefficient with
+the heuristic of \emph{Ito et al.}\;. The direct-form non-symmetric FIR Hilbert
+filter specification is: 
+\begin{small}
+\verbatiminput{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_spec.m}
+\end{small}
+The non-symmetric filter has $31$ coefficients and the filter nominal group-delay
+is $16$ samples.
+
+The numbers of signed-digits allocated to each coefficient by
+the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_allocsd_digits.m}
+\end{small}
+The filter coefficients found by the
+allocation of signed-digits with the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_Ito_sd_coef.m}
+\end{small}
+and by branch-and-bound search are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_min_coef.m}
+\end{small}
+
+Figures~\ref{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-ampl},
+~\ref{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-phase}
+and~\ref{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-delay}
+compare the amplitude, phase and group delay responses of the non-symmetric FIR
+Hilbert band-pass filter with floating-point coefficients, 13-bit 3-signed-digit
+coefficients, 13-bit 3-signed-digit coefficients with signed-digits allocated by
+the heuristic of \emph{Ito et al.} and with the 13-bit 3-signed-digit
+coefficients found by branch-and-bound search. The phase response is
+adjusted for delay.
+Table~\ref{tab:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-cost}
+compares the cost and the number of $13$ bit shift-and-add operations required
+to implement the coefficient multiplications found by the branch-and-bound
+search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_amplitude}}
+\caption{Comparison of the amplitude response of a direct-form non-symmetric FIR
+  Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by branch-and-bound search.}
+\label{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-ampl}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_phase}}
+\caption{Comparison of the phase response of a direct-form non-symmetric FIR
+  Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by branch-and-bound search. The
+  phase response is adjusted for delay.}
+\label{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_delay}}
+\caption{Comparison of the group delay response of a direct-form non-symmetric
+  FIR Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by branch-and-bound search.}
+\label{fig:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-delay}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the direct-form nonsymmetric FIR Hilbert
+band-pass filter with 13-bit 3-signed-digit coefficients found by the
+branch-and-bound algorithm]{Comparison of the cost and number of 13-bit
+  shift-and-add operations required to implement the coefficient multiplications
+  for a direct-form nonsymmetric FIR Hilbert band-pass filter with 13-bit
+  3-signed-digit coefficients found by branch-and-bound search.}
+\label{tab:branch-bound-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-cost}
 \end{table}
 
 \clearpage
@@ -20032,6 +20125,99 @@ bandpass filter SOCP-relaxation algorithm example with 12-bit coefficients]
   an average of 3-signed-digits to each coefficient using the heuristic of 
   \emph{Ito et al.} and performing SOCP-relaxation search.}
 \label{tab:socp-relax-direct-FIR-symmetric-bandpass-12-nbits-cost-summary}
+\end{table}
+\clearpage
+\clearpage
+\section{\label{sec:SOCP-relax-search-13-bit-3-sd-nonsymmetric-FIR-Hilbert-bandpass}SOCP-relaxation search for the 13-bit 3-signed-digit
+  coefficients of a non-symmetric-FIR Hilbert band-pass filter}
+The Octave script
+\emph{socp\_relaxation\_directFIRnonsymmetric\_bandpass\_hilbert\_13\_nbits\_test.m}
+uses SOCP-relaxation search to optimise the response of a direct-form
+non-symmetric FIR Hilbert band-pass filter with 13-bit 3-signed-digit
+coefficients based on the filter designed in
+Appendix~\ref{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter}
+An average of $3$ signed-digits are allocated to each non-zero coefficient with
+the heuristic of \emph{Ito et al.}\;. The direct-form non-symmetric FIR Hilbert
+filter specification is: 
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_spec.m}
+\end{small}
+The non-symmetric filter has $31$ coefficients and the filter nominal group-delay
+is $16$ samples.
+
+The numbers of signed-digits allocated to each coefficient by
+the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_allocsd_digits.m}
+\end{small}
+The filter coefficients found by the
+allocation of signed-digits with the heuristic of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_Ito_sd_coef.m}
+\end{small}
+and by SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_h_min_coef.m}
+\end{small}
+
+Figures~\ref{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-ampl},
+~\ref{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-phase}
+and~\ref{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-delay}
+compare the amplitude, phase and group delay responses of the non-symmetric FIR
+Hilbert band-pass filter with floating-point coefficients, $13$-bit
+$3$-signed-digit coefficients, $13$-bit $3$-signed-digit coefficients with
+signed-digits allocated by the heuristic of \emph{Ito et al.} and with the
+$13$-bit $3$-signed-digit coefficients found by SOCP-relaxation search. The
+phase response is adjusted for delay.
+Table~\ref{tab:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-cost}
+compares the cost and the number of $13$ bit shift-and-add operations required
+to implement the coefficient multiplications found by the SOCP-relaxation
+search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_amplitude}}
+\caption{Comparison of the amplitude response of a direct-form non-symmetric FIR
+  Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by SOCP-relaxation search.}
+\label{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-ampl}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_phase}}
+\caption{Comparison of the phase response of a direct-form non-symmetric FIR
+  Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by SOCP-relaxation search. The
+  phase response is adjusted for delay.}
+\label{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_delay}}
+\caption{Comparison of the group delay response of a direct-form non-symmetric
+  FIR Hilbert bandpass filter with floating-point coefficients and with 13-bit
+  3-signed digit integer coefficients found by SOCP-relaxation search.}
+\label{fig:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-delay}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lccc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the direct-form nonsymmetric FIR Hilbert
+band-pass filter with 13-bit 3-signed-digit coefficients found by
+SOCP-relaxation search]{Comparison of the cost and number of 13-bit
+  shift-and-add operations required to implement the coefficient multiplications
+  for a direct-form nonsymmetric FIR Hilbert band-pass filter with 13-bit
+  3-signed-digit coefficients found by SOCP-relaxation search.}
+\label{tab:socp-relax-nonsymmetric-FIR-bandpass-Hilbert-13-nbits-cost}
 \end{table}
 \clearpage
 \section{\label{sec:SQP-relaxation-search-signed-digit-coefficients-bandpass-R2}SQP-relaxation search for the signed-digit coefficients of a lattice bandpass R=2 IIR filter}
@@ -25001,9 +25187,9 @@ the filter coefficient multiplications.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Hilbert&Min. pass &Max. stop &Max. pass   &Max. pass &$13$-bit&Shift-and-adds\\
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$13$-bit&Shift-and-adds\\
  &filter &amplitude &amplitude &phase error &delay error&signed& \\
- &cost   &   (dB)   & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
 \midrule
 \input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_cost.tab}
 \\ \bottomrule
@@ -25018,6 +25204,80 @@ the filter coefficient multiplications.
 \label{tab:Comp-schurOneMlattice-bandpass-hilbert-R2-13-nbits-cost}
 \end{table}
 
+\clearpage
+Figure~\ref{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-ampl},
+Figure~\ref{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-phase} and
+Figure~\ref{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-delay} 
+compare the pass-band and stop-band amplitude responses, phase responses and
+delay responses of the Schur one-multiplier filter and the filter shown in
+Appendix~\ref{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter},
+with coefficients found with found with branch-and-bound search, as shown in
+Section~\ref{sec:Branch-and-bound-search-13-bit-3-sd-nonsymmetric-FIR-Hilbert-bandpass},
+and with SOCP-relaxation search, as shown in
+Section~\ref{sec:SOCP-relax-search-13-bit-3-sd-nonsymmetric-FIR-Hilbert-bandpass},
+having $13$-bit coefficients each with an average of $3$-signed-digits
+allocated by the method of \emph{Ito et al.}.
+Likewise, Table~\ref{tab:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-cost}
+compares the responses and numbers of signed digits.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrrr} \\ \toprule
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$13$-bit&Shift-and-adds\\
+ &filter &amplitude &amplitude &phase error &delay error&signed& \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+\midrule
+\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_Schur_FIR_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of band-pass Hilbert filter Schur lattice and FIR
+implementations]{Comparison of the responses and the total number of signed
+  digits of a tapped, Schur one-multiplier, R=2, lattice band-pass Hilbert
+  filter and a non-symmetric direct-form FIR band-pass Hilbert filter. Both
+  filters have 13-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{tab:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-cost}
+\end{table}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_Schur_FIR_amplitude}}
+\caption{Comparison of the pass-band and stop-band amplitude responses
+  of a tapped, Schur one-multiplier, R=2, lattice band-pass Hilbert filter
+  and a non-symmetric direct-form FIR band-pass Hilbert filter. Both filters
+  have 13-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-ampl}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_Schur_FIR_phase}}
+\caption{Comparison of the pass-band phase responses
+  of a tapped, Schur one-multiplier, R=2, lattice band-pass Hilbert filter
+  and a non-symmetric direct-form FIR band-pass Hilbert filter. Both filters
+  have 13-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.
+  The phase response shown is adjusted for the nominal delay.}
+\label{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_Schur_FIR_delay}}
+\caption{Comparison of the pass-band delay responses
+  of a tapped, Schur one-multiplier, R=2, lattice band-pass Hilbert filter
+  and a non-symmetric direct-form FIR band-pass Hilbert filter. Both filters
+  have 13-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Ito et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-delay}
+\end{figure}
 \cleardoublepage
 \appendix
 \part{Appendixes}
@@ -34106,7 +34366,7 @@ adjusted for the nominal delay.}
 \label{fig:Direct-FIR-nonsymmetric-socp-slb-lowpass-passband}
 \end{figure}
 
-\subsubsection{Design of a non-symmetric FIR band pass Hilbert filter}
+\subsubsection{\label{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter}Design of a non-symmetric FIR band pass Hilbert filter}
 The Octave script
 \emph{directFIRnonsymmetric\_socp\_slb\_bandpass\_hilbert\_test.m}
 designs a band pass non-symmetric FIR Hilbert filter with a nominal pass band

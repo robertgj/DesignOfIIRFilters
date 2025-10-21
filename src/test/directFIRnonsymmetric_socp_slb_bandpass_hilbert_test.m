@@ -20,28 +20,28 @@ verbose=false
 n=500
 
 % Band-pass filter specification 
-N=50
+N=30
 fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.25
-dBas=40
+dBap=1
+dBas=30
 Wap=1
-Watl=1e-2
-Watu=1e-2
-Wasl=20
-Wasu=10
-ftpl=0.11
-ftpu=0.19
-td=10
-tdr=td/25
-Wtp=0.5
-fppl=0.11
-fppu=0.19
-pd=2.5 % Initial phase offset in multiples of pi radians
-ppr=1/50 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=2
+Watl=0.01
+Watu=0.01
+Wasl=1
+Wasu=2
+ftpl=0.1
+ftpu=0.2
+tp=16
+tpr=1
+Wtp=10
+fppl=0.1
+fppu=0.2
+pp=3.5 % Initial phase offset in multiples of pi radians
+ppr=0.02 % Peak-to-peak phase ripple in multiples of pi radians
+Wpp=10
 
 % Desired squared magnitude response
 nasl=ceil(n*fasl/0.5)+1;
@@ -64,16 +64,16 @@ Wa=[Wasl*ones(nasl,1); ...
 ntpl=floor(n*ftpl/0.5)+1;
 ntpu=ceil(n*ftpu/0.5)+1;
 wt=wa(ntpl:ntpu);
-Td=td*ones(length(wt),1);
-Tdu=Td+(tdr/2);
-Tdl=Td-(tdr/2);
+Td=tp*ones(length(wt),1);
+Tdu=Td+(tpr/2);
+Tdl=Td-(tpr/2);
 Wt=Wtp*ones(length(wt),1);
 
 % Desired pass-band phase response
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
 wp=wa(nppl:nppu);
-Pd=(pd*pi)-(td*wp);
+Pd=(pp*pi)-(tp*wp);
 Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(nppu-nppl+1,1);
@@ -185,7 +185,7 @@ vPu=local_max(P-Pdu);
 wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
 PS=directFIRnonsymmetricP(wPS,h);
 printf("h:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("h:PS=[ ");printf("%f ",(PS+(wPS*td))'/pi);printf(" ] (radians/pi)\n");
+printf("h:PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi);printf(" ] (radians/pi)\n");
 
 % Find response
 Asq=directFIRnonsymmetricAsq(wa,h);
@@ -198,7 +198,7 @@ axis([0 0.5 -dBas-10 5]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-s=sprintf("Non-symmetric FIR bandpass Hilbert filter : N=%d, td=%g", N,td);
+s=sprintf("Non-symmetric FIR bandpass Hilbert filter : N=%d, tp=%g", N,tp);
 title(s);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
@@ -207,19 +207,19 @@ close
 subplot(311);
 plot(wa(napl:napu)*0.5/pi,10*log10(Asq(napl:napu)));
 ylabel("Amplitude(dB)");
-axis([fapl fapu -0.6 0.2]);
+axis([fapl fapu -1 0.2]);
 grid("on");
 title(s);
 subplot(312);
-plot(wa*0.5/pi,mod(P+(wa*td),2*pi)/pi);
+plot(wa*0.5/pi,mod(P+(wa*tp),2*pi)/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([fapl fapu mod(pd-0.01,2) mod(pd+0.01,2)]);
+axis([fapl fapu mod(pp+0.0002*[-1,1],2)]);
 grid("on");
 subplot(313);
 plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([fapl fapu td-0.2 td+0.2]);
+axis([fapl fapu tp+0.02*[-1,1]]);
 grid("on");
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
@@ -248,12 +248,12 @@ fprintf(fid,"Wasl=%d %% Lower stop band squared amplitude weight\n",Wasu);
 fprintf(fid,"Wasu=%d %% Upper stop band squared amplitude weight\n",Wasl);
 fprintf(fid,"ftpl=%g %% Pass band group delay response lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band group delay response upper edge\n",ftpu);
-fprintf(fid,"td=%d %% Pass band nominal group delay\n",td);
-fprintf(fid,"tdr=%g %% Pass band group delay response ripple\n",tdr);
+fprintf(fid,"tp=%d %% Pass band nominal group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band group delay response ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay response weight\n",Wtp);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase response upper edge\n",fppu);
-fprintf(fid,"pd=%d %% Pass band initial phase (multiples of pi)\n",pd);
+fprintf(fid,"pp=%d %% Pass band initial phase (multiples of pi)\n",pp);
 fprintf(fid,"ppr=%g %% Pass band phase response ripple\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
 fclose(fid);
@@ -263,8 +263,8 @@ print_polynomial(h,"h");
 print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
 eval(sprintf(["save %s.mat ftol ctol n ", ...
- "N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp ", ...
- "fppl fppu ppr Wpp h0 h1 h"],strf));
+ "N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ", ...
+ "fppl fppu pp ppr Wpp h0 h1 h"],strf));
 
 % Done
 toc;

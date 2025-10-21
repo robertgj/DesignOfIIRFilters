@@ -31,8 +31,8 @@ ndigits=3;
 R=2;
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
 Wasl=20,Watl=0.001,Wap=1,Watu=0.001,Wasu=10
-fppl=fapl,fppu=fapu,pp=3.5,Wpp=2
-ftpl=fapl,ftpu=fapu,tp=16,Wtp=1
+fppl=fapl,fppu=fapu,pp=3.5,ppr=0.008,Wpp=2
+ftpl=fapl,ftpu=fapu,tp=16,tpr=0.08,Wtp=1
 fdpl=fapl,fdpu=fapu,dp=0,Wdp=0.001
 
 % Load filter coefficients
@@ -130,11 +130,7 @@ ndigits_alloc=schurOneMlattice_allocsd_Ito ...
 k_allocsd_digits=int16(ndigits_alloc(Rk));
 c_allocsd_digits=int16(ndigits_alloc(Rc));
 printf("k_allocsd_digits=[ ");printf("%2d ",k_allocsd_digits);printf("]';\n");
-print_polynomial(k_allocsd_digits,"k_allocsd_digits", ...
-                 strcat(strf,"_k_allocsd_digits.m"),"%2d");
 printf("c_allocsd_digits=[ ");printf("%2d ",c_allocsd_digits);printf("]';\n");
-print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
-                 strcat(strf,"_c_allocsd_digits.m"),"%2d");
 
 % Find the signed-digit approximations to exact_k and exact_c
 [sd_kc,sdu_kc,sdl_kc]=flt2SD([exact_k;exact_c],nbits,ndigits);
@@ -143,9 +139,7 @@ sd_k=sd_kc(Rk);
 sd_epsilon=exact_epsilon;
 sd_c=sd_kc(Rc);
 print_polynomial(sd_k,"sd_k",nscale);
-print_polynomial(sd_k,"sd_k",strcat(strf,"_sd_k_coef.m"),nscale);
 print_polynomial(sd_c,"sd_c",nscale);
-print_polynomial(sd_c,"sd_c",strcat(strf,"_sd_c_coef.m"),nscale);
 
 [sd_Ito_kc,sdu_Ito_kc,sdl_Ito_kc]=flt2SD([exact_k;exact_c],nbits,ndigits_alloc);
 [sd_Ito_sd_digits,sd_Ito_sd_adders]=SDadders(sd_Ito_kc,nbits);
@@ -153,9 +147,7 @@ sd_Ito_k=sd_Ito_kc(Rk);
 sd_Ito_epsilon=exact_epsilon;
 sd_Ito_c=sd_Ito_kc(Rc);
 print_polynomial(sd_Ito_k,"sd_Ito_k",nscale);
-print_polynomial(sd_Ito_k,"sd_Ito_k",strcat(strf,"_sd_Ito_k_coef.m"),nscale);
 print_polynomial(sd_Ito_c,"sd_Ito_c",nscale);
-print_polynomial(sd_Ito_c,"sd_Ito_c",strcat(strf,"_sd_Ito_c_coef.m"),nscale);
 
 %
 % Calculate responses
@@ -168,8 +160,8 @@ exact_T=schurOneMlatticeT(wt,exact_k,exact_epsilon,p_ones,exact_c);
 exact_dAsqdw=schurOneMlatticedAsqdw(wd,exact_k,exact_epsilon,p_ones,exact_c);
 
 % Calculate "exact" errors
-exact_Asq_pass_error=10*log10(min(exact_Asq(Rap)));
-exact_Asq_stop_error=10*log10(max(exact_Asq(Ras)));
+exact_Asq_pass_error=max(abs(10*log10(exact_Asq(Rap))));
+exact_Asq_stop_error=min(abs(10*log10(exact_Asq(Ras))));
 exact_P_pass_error=max(abs(exact_P-Pd)/pi);
 exact_T_pass_error=max(abs(exact_T-Td));
 exact_dAsqdw_pass_error=max(abs(exact_dAsqdw-Dd));
@@ -183,8 +175,8 @@ sd_T=schurOneMlatticeT(wt,sd_k,sd_epsilon,p_ones,sd_c);
 sd_dAsqdw=schurOneMlatticedAsqdw(wd,sd_k,sd_epsilon,p_ones,sd_c);
 
 % Calculate signed-digit errors
-sd_Asq_pass_error=10*log10(min(sd_Asq(Rap)));
-sd_Asq_stop_error=10*log10(max(sd_Asq(Ras)));
+sd_Asq_pass_error=max(abs(10*log10(sd_Asq(Rap))));
+sd_Asq_stop_error=min(abs(10*log10(sd_Asq(Ras))));
 sd_P_pass_error=max(abs(sd_P-Pd)/pi);
 sd_T_pass_error=max(abs(sd_T-Td));
 sd_dAsqdw_pass_error=max(abs(sd_dAsqdw-Dd));
@@ -198,13 +190,13 @@ sd_Ito_T=schurOneMlatticeT(wt,sd_Ito_k,sd_Ito_epsilon,p_ones,sd_Ito_c);
 sd_Ito_dAsqdw=schurOneMlatticedAsqdw(wd,sd_Ito_k,sd_Ito_epsilon,p_ones,sd_Ito_c);
 
 % Calculate signed-digit Ito errors
-sd_Ito_Asq_pass_error=10*log10(min(sd_Ito_Asq(Rap)));
-sd_Ito_Asq_stop_error=10*log10(max(sd_Ito_Asq(Ras)));
+sd_Ito_Asq_pass_error=max(abs(10*log10(sd_Ito_Asq(Rap))));
+sd_Ito_Asq_stop_error=min(abs(10*log10(sd_Ito_Asq(Ras))));
 sd_Ito_P_pass_error=max(abs(sd_Ito_P-Pd)/pi);
 sd_Ito_T_pass_error=max(abs(sd_Ito_T-Td));
 sd_Ito_dAsqdw_pass_error=max(abs(sd_Ito_dAsqdw-Dd));
 sd_Ito_Esq=schurOneMlatticeEsq(sd_Ito_k,sd_Ito_epsilon,p_ones,sd_Ito_c, ...
-                           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+                               wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
 % Calculate branch-and-bound response
 bandb_Asq=schurOneMlatticeAsq(wa,bandb_k,bandb_epsilon,p_ones,bandb_c);
@@ -213,8 +205,8 @@ bandb_T=schurOneMlatticeT(wt,bandb_k,bandb_epsilon,p_ones,bandb_c);
 bandb_dAsqdw=schurOneMlatticedAsqdw(wd,bandb_k,bandb_epsilon,p_ones,bandb_c);
 
 % Calculate branch-and-bound errors
-bandb_Asq_pass_error=10*log10(min(bandb_Asq(Rap)));
-bandb_Asq_stop_error=10*log10(max(bandb_Asq(Ras)));
+bandb_Asq_pass_error=max(abs(10*log10(bandb_Asq(Rap))));
+bandb_Asq_stop_error=min(abs(10*log10(bandb_Asq(Ras))));
 bandb_P_pass_error=max(abs(bandb_P-Pd)/pi);
 bandb_T_pass_error=max(abs(bandb_T-Td));
 bandb_dAsqdw_pass_error=max(abs(bandb_dAsqdw-Dd));
@@ -228,8 +220,8 @@ socp_T=schurOneMlatticeT(wt,socp_k,socp_epsilon,p_ones,socp_c);
 socp_dAsqdw=schurOneMlatticedAsqdw(wd,socp_k,socp_epsilon,p_ones,socp_c);
 
 % Calculate SOCP-relaxation errors
-socp_Asq_pass_error=10*log10(min(socp_Asq(Rap)));
-socp_Asq_stop_error=10*log10(max(socp_Asq(Ras)));
+socp_Asq_pass_error=max(abs(10*log10(socp_Asq(Rap))));
+socp_Asq_stop_error=min(abs(10*log10(socp_Asq(Ras))));
 socp_P_pass_error=max(abs(socp_P-Pd)/pi);
 socp_T_pass_error=max(abs(socp_T-Td));
 socp_dAsqdw_pass_error=max(abs(socp_dAsqdw-Dd));
@@ -250,7 +242,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fapl=%g,fapu=%g"], ...
              nbits,ndigits,fapl,fapu);
 title(strt);
-legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
+legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -271,7 +263,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
              nbits,ndigits,fasl,fapl,fapu,fasu);
 title(strt);
-legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
+legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -284,7 +276,7 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([fppl fppu mod(pp,2)+0.004*[-1 1]]);
+axis([fppl fppu mod(pp,2)+(ppr/2)*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
@@ -292,7 +284,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
              nbits,ndigits,fppl,fppu);
 title(strt);
-legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
+legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
@@ -313,7 +305,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
              nbits,ndigits,ftpu,ftpu);
 title(strt);
-legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
+legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -335,7 +327,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fdpl=%g,fdpu=%g"], ...
              nbits,ndigits,fdpl,fdpu);
 title(strt);
-legend("Exact","S-D(Ito)","B-and-B","SOCP-relax");
+legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -345,30 +337,382 @@ close
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid, ...
-        ["Exact &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&&\\\\\n"], ...
-        exact_Esq,exact_Asq_pass_error,exact_Asq_stop_error, ...
+        ["Floating point ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &&\\\\\n"], ...
+        exact_Esq, ...
+        exact_Asq_pass_error,exact_Asq_stop_error, ...
         exact_P_pass_error,exact_T_pass_error);
 fprintf(fid, ...
-        "Signed-Digit & %8.2e & %6.2f & %6.2f & %8.2e & %8.2e &%d&%d\\\\\n", ...
-        sd_Esq,sd_Asq_pass_error,sd_Asq_stop_error, ...
+        ["Signed-Digit ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        sd_Esq, ...
+        sd_Asq_pass_error,sd_Asq_stop_error, ...
         sd_P_pass_error,sd_T_pass_error, ...
         sd_sd_digits,sd_sd_adders);
 fprintf(fid, ...
-        "Signed-Digit(Ito) &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        sd_Ito_Esq,sd_Ito_Asq_pass_error,sd_Ito_Asq_stop_error, ...
-        sd_Ito_P_pass_error,sd_Ito_T_pass_error,sd_Ito_sd_digits, ...
-        sd_Ito_sd_adders);
-fprintf(fid,"Branch-and-bound &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        bandb_Esq,bandb_Asq_pass_error,bandb_Asq_stop_error, ...
+        ["Signed-Digit(Ito)",...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        sd_Ito_Esq, ...
+        sd_Ito_Asq_pass_error,sd_Ito_Asq_stop_error, ...
+        sd_Ito_P_pass_error,sd_Ito_T_pass_error, ...
+        sd_Ito_sd_digits,sd_Ito_sd_adders);
+fprintf(fid, ...
+        ["Branch-and-bound ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        bandb_Esq, ...
+        bandb_Asq_pass_error,bandb_Asq_stop_error, ...
         bandb_P_pass_error,bandb_T_pass_error, ...
         bandb_sd_digits,bandb_sd_adders);
-fprintf(fid,"SOCP-relaxation &%8.2e&%6.2f&%6.2f&%8.2e&%8.2e&%d&%d\\\\\n", ...
-        socp_Esq,socp_Asq_pass_error,socp_Asq_stop_error, ...
+fprintf(fid, ...
+        ["SOCP-relaxation ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        socp_Esq, ...
+        socp_Asq_pass_error,socp_Asq_stop_error, ...
         socp_P_pass_error,socp_T_pass_error, ...
         socp_sd_digits,socp_sd_adders);
 fclose(fid);
 
+%
+% Compare with a non-symmetric FIR filter
+%
+strd="directFIRnonsymmetric_socp_slb_bandpass_hilbert_test";
+eval(strcat(strd,"_h_coef;"));
+
+strd="socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test";
+eval(strcat(strd,"_h_sd_coef;"));
+eval(strcat(strd,"_h_Ito_sd_coef;"));
+eval(strcat(strd,"_h_min_coef;"))
+
+socp_h=h;
+socp_h_sd=h_sd;
+socp_h_Ito_sd=h_Ito_sd;
+socp_h_min=h_min;
+
+strd= ...
+"branch_bound_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test";
+eval(strcat(strd,"_h_sd_coef;"));
+eval(strcat(strd,"_h_Ito_sd_coef;"));
+eval(strcat(strd,"_h_min_coef;"));
+
+bandb_h=h;
+bandb_h_sd=h_sd;
+bandb_h_Ito_sd=h_Ito_sd;
+bandb_h_min=h_min;
+
+clear h h_sd h_Ito_sd h_min
+
+if max(abs(socp_h_sd-bandb_h_sd)) > eps
+  error("max(abs(socp_h_sd-bandb_h_sd))(%g*eps) > eps", ...
+        max(abs(socp_h_sd-bandb_h_sd))/eps);
+endif
+if max(abs(socp_h_Ito_sd-bandb_h_Ito_sd)) > eps
+  error("max(abs(socp_h_Ito_sd-bandb_h_Ito_sd))(%g*eps) > eps", ...
+        max(abs(socp_h_Ito_sd-bandb_h_Ito_sd))/eps);
+endif
+
+[socp_h_sd_digits,socp_h_sd_adders]=SDadders(socp_h_sd,nbits);
+[socp_h_Ito_sd_digits,socp_h_Ito_sd_adders]=SDadders(socp_h_Ito_sd,nbits);
+[socp_h_min_digits,socp_h_min_adders]=SDadders(socp_h_min,nbits);
+
+[bandb_h_sd_digits,bandb_h_sd_adders]=SDadders(bandb_h_sd,nbits);
+[bandb_h_Ito_sd_digits,bandb_h_Ito_sd_adders]=SDadders(bandb_h_Ito_sd,nbits);
+[bandb_h_min_digits,bandb_h_min_adders]=SDadders(bandb_h_min,nbits);
+
+Asq_socp_h=directFIRnonsymmetricAsq(wa,socp_h);
+Asq_socp_h_pass_error=max(abs(10*log10(Asq_socp_h(Rap))));
+Asq_socp_h_stop_error=min(abs(10*log10(Asq_socp_h(Ras))));
+P_socp_h=directFIRnonsymmetricP(wp,socp_h);
+P_socp_h_pass_error=max(abs(P_socp_h-Pd)/pi);
+T_socp_h=directFIRnonsymmetricT(wt,socp_h);
+T_socp_h_pass_error=max(abs(T_socp_h-Td));
+Esq_socp_h=directFIRnonsymmetricEsq(socp_h, ...
+                                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_socp_h_sd=directFIRnonsymmetricAsq(wa,socp_h_sd);
+Asq_socp_h_sd_pass_error=max(abs(10*log10(Asq_socp_h_sd(Rap))));
+Asq_socp_h_sd_stop_error=min(abs(10*log10(Asq_socp_h_sd(Ras))));
+P_socp_h_sd=directFIRnonsymmetricP(wp,socp_h_sd);
+P_socp_h_sd_pass_error=max(abs(P_socp_h_sd-Pd)/pi);
+T_socp_h_sd=directFIRnonsymmetricT(wt,socp_h_sd);
+T_socp_h_sd_pass_error=max(abs(T_socp_h_sd-Td));
+Esq_socp_h_sd=directFIRnonsymmetricEsq(socp_h_sd, ...
+                                       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_socp_h_Ito_sd=directFIRnonsymmetricAsq(wa,socp_h_Ito_sd);
+Asq_socp_h_Ito_sd_pass_error=max(abs(10*log10(Asq_socp_h_Ito_sd(Rap))));
+Asq_socp_h_Ito_sd_stop_error=min(abs(10*log10(Asq_socp_h_Ito_sd(Ras))));
+P_socp_h_Ito_sd=directFIRnonsymmetricP(wp,socp_h_Ito_sd);
+P_socp_h_Ito_sd_pass_error=max(abs(P_socp_h_Ito_sd-Pd)/pi);
+T_socp_h_Ito_sd=directFIRnonsymmetricT(wt,socp_h_Ito_sd);
+T_socp_h_Ito_sd_pass_error=max(abs(T_socp_h_Ito_sd-Td));
+Esq_socp_h_Ito_sd=directFIRnonsymmetricEsq(socp_h_Ito_sd, ...
+                                           wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_socp_h_min=directFIRnonsymmetricAsq(wa,socp_h_min);
+Asq_socp_h_min_pass_error=max(abs(10*log10(Asq_socp_h_min(Rap))));
+Asq_socp_h_min_stop_error=min(abs(10*log10(Asq_socp_h_min(Ras))));
+P_socp_h_min=directFIRnonsymmetricP(wp,socp_h_min);
+P_socp_h_min_pass_error=max(abs(P_socp_h_min-Pd)/pi);
+T_socp_h_min=directFIRnonsymmetricT(wt,socp_h_min);
+T_socp_h_min_pass_error=max(abs(T_socp_h_min-Td));
+Esq_socp_h_min=directFIRnonsymmetricEsq(socp_h_min, ...
+                                        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_bandb_h_sd=directFIRnonsymmetricAsq(wa,bandb_h_sd);
+Asq_bandb_h_sd_pass_error=max(abs(10*log10(Asq_bandb_h_sd(Rap))));
+Asq_bandb_h_sd_stop_error=min(abs(10*log10(Asq_bandb_h_sd(Ras))));
+P_bandb_h_sd=directFIRnonsymmetricP(wp,bandb_h_sd);
+P_bandb_h_sd_pass_error=max(abs(P_bandb_h_sd-Pd)/pi);
+T_bandb_h_sd=directFIRnonsymmetricT(wt,bandb_h_sd);
+T_bandb_h_sd_pass_error=max(abs(T_bandb_h_sd-Td));
+Esq_bandb_h_sd=directFIRnonsymmetricEsq(bandb_h_sd, ...
+                                        wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_bandb_h_Ito_sd=directFIRnonsymmetricAsq(wa,bandb_h_Ito_sd);
+Asq_bandb_h_Ito_sd_pass_error=max(abs(10*log10(Asq_bandb_h_Ito_sd(Rap))));
+Asq_bandb_h_Ito_sd_stop_error=min(abs(10*log10(Asq_bandb_h_Ito_sd(Ras))));
+P_bandb_h_Ito_sd=directFIRnonsymmetricP(wp,bandb_h_Ito_sd);
+P_bandb_h_Ito_sd_pass_error=max(abs(P_bandb_h_Ito_sd-Pd)/pi);
+T_bandb_h_Ito_sd=directFIRnonsymmetricT(wt,bandb_h_Ito_sd);
+T_bandb_h_Ito_sd_pass_error=max(abs(T_bandb_h_Ito_sd-Td));
+Esq_bandb_h_Ito_sd=directFIRnonsymmetricEsq(bandb_h_Ito_sd, ...
+                                            wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+Asq_bandb_h_min=directFIRnonsymmetricAsq(wa,bandb_h_min);
+Asq_bandb_h_min_pass_error=max(abs(10*log10(Asq_bandb_h_min(Rap))));
+Asq_bandb_h_min_stop_error=min(abs(10*log10(Asq_bandb_h_min(Ras))));
+P_bandb_h_min=directFIRnonsymmetricP(wp,bandb_h_min);
+P_bandb_h_min_pass_error=max(abs(P_bandb_h_min-Pd)/pi);
+T_bandb_h_min=directFIRnonsymmetricT(wt,bandb_h_min);
+T_bandb_h_min_pass_error=max(abs(T_bandb_h_min-Td));
+Esq_bandb_h_min=directFIRnonsymmetricEsq(bandb_h_min, ...
+                                         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+
+% Plot FIR amplitude 
+Asq_h_min_all=[Asq_socp_h,Asq_socp_h_Ito_sd,Asq_socp_h_min,Asq_bandb_h_min];
+[ax,ha,hs] = plotyy(wa*0.5/pi,10*log10(Asq_h_min_all), ...
+                    wa*0.5/pi,10*log10(Asq_h_min_all));
+% Copy line colour and set line style
+hac=get(ha,"color");
+hls={"-",":","--","-."};
+for c=1:4,
+  set(hs(c),"color",hac{c});
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c});
+endfor
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+axis(ax(1),[0 0.5 -1 0.2]);
+axis(ax(2),[0 0.5 -36 -24]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+legend("FIR F-P","FIR S-D(Ito)","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
+              " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
+             nbits,ndigits,fasl,fapl,fapu,fasu);
+title(strt);
+print(strcat(strf,"_h_min_amplitude"),"-dpdflatex");
+close
+
+% Plot h_min pass band phase response
+P_h_min_all=[P_socp_h,P_socp_h_Ito_sd,P_socp_h_min,P_bandb_h_min];
+ha=plot(wp*0.5/pi,(unwrap(P_h_min_all)+(wp*tp)-(2*pi))/pi);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([fppl fppu mod(pp,2)+0.002*[-1,1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Phase(rad./$\\pi$)");
+legend("FIR F-P","FIR S-D(Ito)","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
+              " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
+             nbits,ndigits,fppl,fppu);
+title(strt);
+print(strcat(strf,"_h_min_phase"),"-dpdflatex");
+close
+
+% Plot h_min pass band delay response
+T_h_min_all=[T_socp_h,T_socp_h_Ito_sd,T_socp_h_min,T_bandb_h_min];
+ha=plot(wt*0.5/pi,T_h_min_all);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4
+  set(ha(c),"linestyle",hls{c});
+endfor
+axis([ftpl ftpu tp+0.02*[-1 1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+legend("FIR F-P","FIR S-D(Ito)","FIR SOCP-relax","FIR B-and-B");
+legend("location","southeast");
+legend("boxoff");
+legend("left");
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
+              " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
+             nbits,ndigits,ftpl,ftpu);
+title(strt);
+print(strcat(strf,"_h_min_delay"),"-dpdflatex");
+close
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_h_min_cost.tab"),"wt");
+fprintf(fid, ...
+        ["Floating-point FIR ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &&\\\\\n"], ...
+        Esq_socp_h, ...
+        Asq_socp_h_pass_error,Asq_socp_h_stop_error, ...
+        P_socp_h_pass_error,T_socp_h_pass_error);
+fprintf(fid, ...
+        ["Signed-digit FIR ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"],...
+        Esq_socp_h_sd, ...
+        Asq_socp_h_sd_pass_error,Asq_socp_h_sd_stop_error, ...
+        P_socp_h_sd_pass_error,T_socp_h_sd_pass_error, ...
+        socp_h_sd_digits,socp_h_sd_adders);
+fprintf(fid, ...
+        ["Signed-digit(Ito) FIR", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"],...
+        Esq_socp_h_Ito_sd, ...
+        Asq_socp_h_Ito_sd_pass_error,Asq_socp_h_Ito_sd_stop_error, ...
+        P_socp_h_Ito_sd_pass_error,T_socp_h_Ito_sd_pass_error, ...
+        socp_h_Ito_sd_digits,socp_h_Ito_sd_adders);
+fprintf(fid, ...
+        ["SOCP-relaxation FIR ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"],...
+        Esq_socp_h_min, ...
+        Asq_socp_h_min_pass_error,Asq_socp_h_min_stop_error, ...
+        P_socp_h_min_pass_error,T_socp_h_min_pass_error, ...
+        socp_h_min_digits,socp_h_min_adders);
+fprintf(fid, ...
+        ["Branch-and-bound FIR ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"],...
+        Esq_bandb_h_min, ...
+        Asq_bandb_h_min_pass_error,Asq_bandb_h_min_stop_error,...
+        P_bandb_h_min_pass_error,T_bandb_h_min_pass_error, ...
+        bandb_h_min_digits,bandb_h_min_adders);
+fclose(fid);
+
+% Plot Schur-FIR amplitude 
+Asq_Schur_FIR=[socp_Asq,bandb_Asq,Asq_socp_h_min,Asq_bandb_h_min];
+[ax,ha,hs] = plotyy(wa*0.5/pi,10*log10(Asq_Schur_FIR), ...
+                    wa*0.5/pi,10*log10(Asq_Schur_FIR));
+% Copy line colour and set line style
+hac=get(ha,"color");
+hls={"-",":","--","-."};
+for c=1:4,
+  set(hs(c),"color",hac{c});
+  set(ha(c),"linestyle",hls{c});
+  set(hs(c),"linestyle",hls{c});
+endfor
+set(ax(1),"ycolor","black");
+set(ax(2),"ycolor","black");
+axis(ax(1),[0 0.5 -1 0.2]);
+axis(ax(2),[0 0.5 -36 -24]);
+grid("on");
+xlabel("Frequency");
+ylabel("Amplitude(dB)");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_Schur_FIR_amplitude"),"-dpdflatex");
+close
+
+% Plot phase response
+P_Schur_FIR=[socp_P,bandb_P,P_socp_h_min,P_bandb_h_min];
+h = plot(wp*0.5/pi,(unwrap(P_Schur_FIR)+(wp*tp)-(2*pi))/pi);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4,
+  set(h(c),"linestyle",hls{c});
+endfor
+axis([fppl fppu mod(pp,2)+0.002*[-1 2]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Phase(rad./$\\pi$)");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","northeast");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_Schur_FIR_phase"),"-dpdflatex");
+close
+
+% Plot delay response
+T_Schur_FIR=[socp_T,bandb_T,T_socp_h_min,T_bandb_h_min];
+h = plot(wt*0.5/pi,T_Schur_FIR);
+% Set line style
+hls={"-",":","--","-."};
+for c=1:4,
+  set(h(c),"linestyle",hls{c});
+endfor
+axis([ftpl ftpu tp+0.2*[-1 1]]);
+grid("on");
+xlabel("Frequency");
+ylabel("Delay(samples)");
+legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("location","south");
+legend("boxoff");
+legend("left");
+print(strcat(strf,"_Schur_FIR_delay"),"-dpdflatex");
+close
+
+% Make a LaTeX table for cost
+fid=fopen(strcat(strf,"_Schur_FIR_cost.tab"),"wt");
+fprintf(fid, ...
+        ["Floating-point Schur ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &&\\\\\n"], ...
+        exact_Esq, ...
+        exact_Asq_pass_error,exact_Asq_stop_error, ...
+        exact_P_pass_error,exact_T_pass_error);        
+fprintf(fid, ...
+        ["Floating-point FIR ", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &&\\\\\n"], ...
+        Esq_socp_h, ...
+        Asq_socp_h_pass_error,Asq_socp_h_stop_error, ...
+        P_socp_h_pass_error,T_socp_h_pass_error);
+fprintf(fid, ...
+        ["SOCP-relax. Schur ", ...
+        "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        socp_Esq, ...
+        socp_Asq_pass_error,socp_Asq_stop_error, ...
+        socp_P_pass_error,socp_T_pass_error, ...
+        socp_sd_digits,socp_sd_adders);
+fprintf(fid, ...
+        ["SOCP-relax. FIR", ...
+        "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        Esq_socp_h_min, ...
+        Asq_socp_h_min_pass_error,Asq_socp_h_min_stop_error, ...
+        P_socp_h_min_pass_error,T_socp_h_min_pass_error, ...
+        socp_h_min_digits,socp_h_min_adders);
+fprintf(fid, ...
+        ["B-and-B Schur", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        bandb_Esq, ...
+        bandb_Asq_pass_error,bandb_Asq_stop_error, ...
+        bandb_P_pass_error,bandb_T_pass_error, ...
+        bandb_sd_digits,bandb_sd_adders);
+fprintf(fid, ...
+        ["B-and-B FIR", ...
+         "&%8.6f &%5.2f &%5.2f &%8.6f &%5.3f &%d&%d\\\\\n"], ...
+        Esq_bandb_h_min, ...
+        Asq_bandb_h_min_pass_error,Asq_bandb_h_min_stop_error,...
+        P_bandb_h_min_pass_error,T_bandb_h_min_pass_error, ...
+        bandb_h_min_digits,bandb_h_min_adders);
+fclose(fid);
+
+%
 % Filter specification
+%
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
@@ -393,7 +737,9 @@ fprintf(fid,"fdpu=%g %% Pass band dAsqdw response upper edge\n",fdpu);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw response weight\n",Wdp);
 fclose(fid);
 
-% Done 
+%
+% Done
+%
 toc;
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));
