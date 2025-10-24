@@ -96,6 +96,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 30]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -117,6 +118,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 30]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -133,6 +135,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([fapl fapu td+2*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close
 
@@ -140,6 +143,7 @@ close
 subplot(111);
 zplane(qroots(N0),qroots(D0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

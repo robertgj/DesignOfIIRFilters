@@ -127,6 +127,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -60 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_remez"),"-dpdflatex");
 close
 

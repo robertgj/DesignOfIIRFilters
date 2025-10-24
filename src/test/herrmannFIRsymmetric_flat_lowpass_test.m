@@ -88,6 +88,7 @@ axis([-0.05 1.05 -0.05 1.05])
 xlabel("x");
 ylabel("$P\_{M,K}\\left(x\\right)$");
 title("$P\_{M,K}\\left(x\\right)$ for $M=10$ and $K=1,\\hdots,M$");
+zticks([]);
 print(strcat(strf,"_M_10_K_1_M"),"-dpdflatex");
 close
 

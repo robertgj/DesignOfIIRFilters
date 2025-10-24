@@ -94,6 +94,7 @@ plot(fa,[A0,A1,Adl,Adu],fa(vR.al),A0(vR.al),"*",fa(vR.au),A0(vR.au),"+");
 axis([0 0.5,-0.02,0.05]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(strcat(strf,"_vR_A0_A1"),"-dpdflatex");
 close
 
@@ -128,6 +129,7 @@ plot(fa,[A0,A1,Adu,Adl], ...
 axis([0, 0.5, -0.02, 0.05]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(strcat(strf,"_vR_A0_vS_A1"),"-dpdflatex");
 close
 

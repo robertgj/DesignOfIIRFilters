@@ -435,6 +435,7 @@ legend("left");
 grid("on");
 strt=sprintf("Parallel all-pass lowpass: dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_sxx_min_pass_amplitude"),"-dpdflatex");
 close
 
@@ -452,6 +453,7 @@ legend("left");
 grid("on");
 strt=sprintf("Parallel all-pass lowpass: dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_sxx_min_stop_amplitude"),"-dpdflatex");
 close
 
@@ -468,6 +470,7 @@ legend("location","east");
 legend("boxoff");
 legend("left");
 title(strt);
+zticks([]);
 print(strcat(strf,"_sxx_min_pass_delay"),"-dpdflatex");
 close
 

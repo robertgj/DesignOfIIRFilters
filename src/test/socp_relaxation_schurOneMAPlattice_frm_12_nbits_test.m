@@ -383,6 +383,7 @@ strt=sprintf(["FRM filter (nbits=%d,ndigits=%d) : fap=%g,fas=%g,dBap=%g,dBas=%g,
  "tp=%g,tpr=%g,ppr=%g*$\\pi$"],nbits,ndigits,fap,fas,dBap,dBas,tp,tpr,ppr);
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -405,6 +406,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_pass_phase"),"-dpdflatex");
 close
 
@@ -427,6 +429,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 

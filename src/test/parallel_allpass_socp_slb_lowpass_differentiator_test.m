@@ -133,6 +133,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.1*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -191,6 +192,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.1*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_abm"),"-dpdflatex");
 close
 
@@ -248,6 +250,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1correction"),"-dpdflatex");
 close
 
@@ -272,6 +275,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+tpr*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -300,6 +304,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1error"),"-dpdflatex");
 close
 
@@ -310,6 +315,7 @@ axis([0 fap 0.02*[-1,1]]);
 title(strt);
 ylabel("Relative amplitude error");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_ab1_relative_error"),"-dpdflatex");
 close
 
@@ -344,20 +350,24 @@ legend("Filter A","Filter B");
 legend("location","southwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 zplane(qroots(flipud(Da1)),qroots(Da1));
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(Db1)),qroots(Db1));
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 zplane(qroots(conv(Nab1,Fz)),qroots(Dab1));
 title("Parallel allpass filters");
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 

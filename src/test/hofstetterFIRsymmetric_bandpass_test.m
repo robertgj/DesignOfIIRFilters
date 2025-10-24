@@ -63,6 +63,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -74,6 +75,7 @@ title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
@@ -81,6 +83,7 @@ close
 zplane(qroots([hM;flipud(hM(1:(end-1)))]));
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 

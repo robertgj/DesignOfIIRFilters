@@ -111,6 +111,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 10 25]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1"),"-dpdflatex");
 close
 
@@ -135,6 +136,7 @@ plot(wt*0.5/pi,T1);
 xlabel("Frequency");
 axis([0.3 0.5 19.9 20.1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 
@@ -142,6 +144,7 @@ close
 showZPplot(x1,U,V,M,Q,R,sprintf ...
 ("Tarczynski et al. Example 2 pole-zero plot : U=%d,V=%d,M=%d,Q=%d,R=%d", ...
 U,V,M,Q,R));
+zticks([]);
 print(strcat(strf,"_x1pz"),"-dpdflatex");
 close
 

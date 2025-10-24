@@ -189,6 +189,7 @@ grid("on");
 title("Chebyshev polynomials of the second kind, \$U\_\{k\}\$");
 legend("0","1","2","3","4","5","6");
 legend("box","off","location","southeast");
+zticks([]);
 print(strcat(strf,"_Uk"),"-dpdflatex");
 
 % Done

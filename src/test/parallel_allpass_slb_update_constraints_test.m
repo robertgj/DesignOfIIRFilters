@@ -134,6 +134,7 @@ xlabel("Frequency");
 title(sprintf(strM,"ab0 pass-band amplitude"));
 legend("Asq","Asqdu","Asqdl","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"pass_band_amplitude"),"-dpdflatex");
 close
 
@@ -147,6 +148,7 @@ xlabel("Frequency");
 title(sprintf(strM,"ab0 stop-band amplitude"));
 legend("Asq","Asqdu","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"stop_band_amplitude"),"-dpdflatex");
 close
 
@@ -161,6 +163,7 @@ strMdelay=sprintf(strM,"ab0 group delay");
 title(strMdelay);
 legend("Tab0","Tdu","Tdl","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"delay"),"-dpdflatex");
 close
 
@@ -175,6 +178,7 @@ strMdelay=sprintf(strM,"ab0 phase");
 title(strMdelay);
 legend("Pab0","Pdu","Pdl","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"phase"),"-dpdflatex");
 close
 

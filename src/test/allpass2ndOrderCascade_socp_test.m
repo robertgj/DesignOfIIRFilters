@@ -72,6 +72,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -112,6 +113,7 @@ plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 % Plot passband response
@@ -127,12 +129,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.2 td-1 td+1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 

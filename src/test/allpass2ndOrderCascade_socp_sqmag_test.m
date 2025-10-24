@@ -74,6 +74,7 @@ plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -119,6 +120,7 @@ plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 % Plot passband response
@@ -134,12 +136,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fp]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title(s);
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 % Dual plot
@@ -159,6 +163,7 @@ plot(wplot*0.5/pi,Tab1)
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
@@ -184,6 +189,7 @@ xlabel("Frequency");
 ylabel("Stop-band amplitude(dB)");
 axis([fas 0.5 -90 -80]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ellip"),"-dpdflatex");
 close
 % Dual plot
@@ -198,6 +204,7 @@ strt=sprintf(["Order %d elliptic amplitude response plot : ", ...
  "fap=%4.2f,dBap=%4.2f,fas=%4.2f,dBas=%2d"],ma+mb,fap,dBap,fas,dBas);
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ellipdual"),"-dpdflatex");
 close
 
@@ -206,6 +213,7 @@ subplot(111);
 zplane(qroots(Nellip),qroots(Dellip));
 strt=sprintf(["Order %d elliptic filter pole-zero plot : ", ...
  "fap=%g,dBap=%g,fas=%g,dBas=%g"],ma+mb,fap,dBap,fas,dBas);
+zticks([]);
 print(strcat(strf,"_ellippz"),"-dpdflatex");
 close
 

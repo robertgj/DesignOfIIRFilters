@@ -150,6 +150,7 @@ endif
 
 % Pole-zero plot
 zplane(qroots(conv(N1(:),[1;0;-1])),qroots(D1(:)));
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -192,6 +193,7 @@ axis([0 0.5 tp+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -234,6 +236,7 @@ axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_error"),"-dpdflatex");
 close
 
@@ -248,6 +251,7 @@ legend("dAsqdwc","Cd","Cdl","Cdu");
 legend("location","southeast")
 legend("boxoff")
 legend("left")
+zticks([]);
 print(strcat(strf,"_correction"),"-dpdflatex");
 close
 
@@ -262,6 +266,7 @@ legend("dAsqdw","Dd","Ddl","Ddu");
 legend("location","southeast")
 legend("boxoff")
 legend("left")
+zticks([]);
 print(strcat(strf,"_dAsqdw"),"-dpdflatex");
 close
 

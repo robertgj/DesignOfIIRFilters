@@ -91,6 +91,7 @@ if 0
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(strcat(strf,"_init_x0"),"-dpdflatex");
   close
 else
@@ -110,10 +111,12 @@ else
   legend("boxoff");
   legend("left");
   grid("on");
+zticks([]);
   print(strcat(strf,"_init_x0"),"-dpdflatex");
   close
 endif
 showZPplot(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_init_x0pz"),"-dpdflatex");
 close
 
@@ -143,9 +146,11 @@ axis([0 0.5 tp-tpr tp+tpr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse_error_x1"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
@@ -179,6 +184,7 @@ axis([0.001 0.6 0 30]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 
@@ -197,9 +203,11 @@ axis([0 0.5 tp-tpr tp+tpr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_error_d1"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 

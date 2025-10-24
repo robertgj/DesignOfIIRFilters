@@ -68,6 +68,7 @@ plot(fa,Azp,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 -0.1 0]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print("johanssonOneMlattice_slb_update_constraints_test_Azp0","-dpdflatex");
 close
 

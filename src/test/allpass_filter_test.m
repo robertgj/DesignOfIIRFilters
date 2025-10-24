@@ -32,6 +32,7 @@ for nm=first,
   ylabel("Maximum phase gradient");
   axis([0 1 1 100]);
   grid("on");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_pgrad",nm{1}),"-dpdflatex");
   close
   semilogy(rR,ng1);
@@ -39,6 +40,7 @@ for nm=first,
   ylabel("Noise gain");
   axis([0 1 0.1 100]);
   grid("on");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_ng",nm{1}),"-dpdflatex");
   close
 endfor
@@ -75,6 +77,7 @@ for nm=1:length(second),
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
   legend("location","southeast");
   legend("boxoff");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_real_pgrad",second{nm}),"-dpdflatex");
   close
   semilogy(realR,ng2R(:,1),"linestyle",":", ...
@@ -88,6 +91,7 @@ for nm=1:length(second),
   legend("r2=0.99","r2=0.75","r2=0.50","r2=0.25");
   legend("location","southeast");
   legend("boxoff");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_real_ng",second{nm}),"-dpdflatex");
   close
 
@@ -115,6 +119,7 @@ for nm=1:length(second),
   legend("r=0.99","r=0.75","r=0.50","r=0.25");
   legend("location","north");
   legend("boxoff");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_complex_pgrad",second{nm}),"-dpdflatex");
   close
   semilogy(thetaR/pi,ng2C(:,1),"linestyle",":", ...
@@ -128,6 +133,7 @@ for nm=1:length(second),
   legend("r=0.99","r=0.75","r=0.50","r=0.25");
   legend("location","north");
   legend("boxoff");
+zticks([]);
   print(sprintf("allpass_filter_test_%s_complex_ng",second{nm}),"-dpdflatex");
   close
 

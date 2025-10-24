@@ -120,6 +120,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -141,6 +142,7 @@ ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([0 max([fap,ftp,fpp]) pd-(pdr/2) pd+(pdr/2)]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
@@ -152,16 +154,19 @@ Dab1=conv(Da1,Db1);
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title(s);
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title(s);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nb1),qroots(Db1));
 title(s);
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
@@ -178,6 +183,7 @@ xlabel("Frequency");
 legend("A","B","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 

@@ -262,6 +262,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

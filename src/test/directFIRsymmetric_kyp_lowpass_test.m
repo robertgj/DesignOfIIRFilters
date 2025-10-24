@@ -103,6 +103,7 @@ grid("on");
 strt=sprintf("N=%d,d=%d,fap=%4.2f,Esq\\_z=%g,fas=%4.2f,Esq\\_s=%g", ...
              N,d,fap,Esq_z,fas,Esq_s);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -164,6 +165,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_mcclellan"),"-dpdflatex");
 close
 fid=fopen(strcat(strf,"_mcclellan_spec.m"),"wt");

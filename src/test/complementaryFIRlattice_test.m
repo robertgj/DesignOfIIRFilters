@@ -47,6 +47,7 @@ legend("Hbrz","Hbrzc");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_brz_brzc_response"),"-dpdflatex");
 close
 
@@ -89,6 +90,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hkrz|^2+|Hkrzhat|^2");
+zticks([]);
 print(strcat(strf,"_krz_krzhat_response"),"-dpdflatex");
 close
 
@@ -116,6 +118,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hebrz|^2+|Hebrzc|^2");
+zticks([]);
 print(strcat(strf,"_ebrz_ebrzc_response"),"-dpdflatex");
 close
 
@@ -183,6 +186,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hpkrz|^2+|Hpkrzhat|^2");
+zticks([]);
 print(strcat(strf,"_pkrz_pkrzhat_response"),"-dpdflatex");
 close
 

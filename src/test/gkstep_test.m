@@ -83,6 +83,7 @@ axis([1 nsamples]);
 grid("on");
 xlabel("Sample");
 ylabel("Amplitude(bits)");
+zticks([]);
 print("gkstep_test_noise","-dpdflatex");
 close
 

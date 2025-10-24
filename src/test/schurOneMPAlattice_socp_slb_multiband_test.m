@@ -45,6 +45,7 @@ axis([0 0.5 0 40])
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -216,6 +217,7 @@ axis([0 0.5 0 40])
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse"),"-dpdflatex");
 close
 
@@ -256,6 +258,7 @@ axis([0 0.5 0 50])
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls"),"-dpdflatex");
 close
 % Passband
@@ -272,6 +275,7 @@ axis(ax(2),[0 0.5 tp2-tpr2 tp2+tpr2]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");
 close
 

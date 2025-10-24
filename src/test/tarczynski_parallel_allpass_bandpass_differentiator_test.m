@@ -137,6 +137,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -162,6 +163,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([minf maxf tp+(0.2*[-1 1])]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband_error"),"-dpdflatex");
 close
 
@@ -169,6 +171,7 @@ close
 subplot(111);
 zplane(qroots(N0),qroots(D0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -183,6 +186,7 @@ xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 

@@ -130,6 +130,7 @@ strt=sprintf(["Search for prototype filter minimum transition-width : ", ...
  "N=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,fap,fas,deltap,deltas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_trans_width"),"-dpdflatex");
 close
 
@@ -242,6 +243,7 @@ else
   ylabel("Transition width($\\Delta\\Omega/2\\pi$)")
   xlabel("Pass-band edge($\\Omega_{p}/2\\pi$)")
 endif
+zticks([]);
 print(strcat(strf,"_trans_width_M"),"-dpdflatex");
 close
 
@@ -260,6 +262,7 @@ strt=sprintf(["Saramaki FIR cascade low-pass Approx. I sub-filter : ", ...
  "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_subfilter_response"),"-dpdflatex");
 close
 
@@ -273,6 +276,7 @@ strt=sprintf(["Saramaki FIR cascade low-pass Approx. I : ", ...
  "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 ax=plotyy(fa,Amin_subfilter(:,kM),fa,Amin_subfilter(:,kM));
@@ -285,6 +289,7 @@ strt=sprintf(["Saramaki FIR cascade low-pass Approx. I : ", ...
  "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response_detail"),"-dpdflatex");
 close
 
@@ -328,6 +333,7 @@ strt=sprintf("Overall cascaded filter : $f_{p}$=%g,$f_{s}$=%g",fap,fas);
 title(strt);
 ylabel("Amplitude(dB)")
 xlabel("Frequency($\\omega/2\\pi$)")
+zticks([]);
 print(strcat(strf,"_threeway_response"),"-dpdflatex");
 close
     
@@ -360,6 +366,7 @@ strt=sprintf(["Saramaki FIR cascade low-pass Approx. I sub-filter : ", ...
  "N=%d,M=%d,$f_{p}$=%g,$f_{s}$=%g,$\\delta_{p}$=%g,$\\delta_{s}$=%g"], ...
              N,M,fap,fas,deltap,deltas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_subfilter_PM_response"),"-dpdflatex");
 close
 

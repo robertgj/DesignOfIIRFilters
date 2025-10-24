@@ -215,6 +215,7 @@ ylabel("dAsqdw");
 xlabel("Frequency");
 axis([0 0.5 (dp+(dpr*0.5*[-1,1]))]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -225,14 +226,17 @@ A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
 zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
+zticks([]);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
+zticks([]);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 zplane(qroots(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d))),qroots(conv(A1d,A2d)));
 title("Parallel allpass filter ");
+zticks([]);
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
 
@@ -253,6 +257,7 @@ title(sprintf(["Parallel all-pass bandpass : ", ...
 grid("on");
 text(0.2,-40,sprintf("Max. phase pass band amplitude error=%7.3f dB", ...
                      max_dB_error_tp_sample_delay));
+zticks([]);
 print(strcat(strf,"_error"),"-dpdflatex");
 close
 

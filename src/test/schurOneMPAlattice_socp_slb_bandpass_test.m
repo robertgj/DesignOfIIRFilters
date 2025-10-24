@@ -140,6 +140,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -156,6 +157,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) td-tdr td+tdr]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -166,10 +168,12 @@ A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
 zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
+zticks([]);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
+zticks([]);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 

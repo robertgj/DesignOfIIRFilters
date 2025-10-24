@@ -109,6 +109,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
+zticks([]);
   print(strcat(strn,"_response"),"-dpdflatex");
   close
 
@@ -127,6 +128,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
     axis([0 max(fap,ftp) (td-1) (td+1)]);
   endif
   grid("on");
+zticks([]);
   print(strcat(strn,"_response_passband"),"-dpdflatex");
   close
 
@@ -134,6 +136,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
   subplot(111);
   zplane(qroots(Na0),qroots(Da0));
   title(s);
+zticks([]);
   print(strcat(strn,"_pz"),"-dpdflatex");
   close
 

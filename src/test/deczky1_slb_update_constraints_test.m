@@ -85,6 +85,7 @@ plot(fa,A,fa,Adu,fa,Adl,fa(vS.al),A(vS.al),"x",fa(vS.au),A(vS.au),"+");
 axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7A"),"-dpdflatex");
 close
 
@@ -96,6 +97,7 @@ axis([0 ftp tp-(tpr*0.6) tp+(tpr*0.6)]);
 title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close
 
@@ -107,6 +109,7 @@ axis([fap fas]);
 title(strM7);
 ylabel("delAdelw");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7X"),"-dpdflatex");
 close
 

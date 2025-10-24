@@ -153,6 +153,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 d-0.2 d+0.6]);
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -220,6 +221,7 @@ axis([0 0.5 0.99 1.01])
 grid("on");
 xlabel("Frequency")
 ylabel("|H|^2+|Hc|^2");
+zticks([]);
 print(strcat(strf,"_k_kc_response"),"-dpdflatex");
 close
 

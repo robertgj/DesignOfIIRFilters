@@ -131,12 +131,14 @@ plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 % Plot initial poles and zeros
 subplot(111);
 zplane(qroots(Nab0),qroots(Dab0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_ab0pz"),"-dpdflatex");
 close
 
@@ -168,6 +170,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_abmdual"),"-dpdflatex");
 close
 
@@ -215,6 +218,7 @@ axis([0 0.5 0 100]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -231,6 +235,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) 0 50]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
@@ -244,6 +249,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
@@ -251,16 +257,19 @@ close
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nb1),qroots(Db1));
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 

@@ -36,13 +36,16 @@ U=Ux,V=Vx,M=Mx,Q=Qx,R=Rx;x0=x;
 % Plot initial filter
 strM0=sprintf(strM,"x0",Wap,Wasl,Wasu,Wtp);
 showZPplot(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0"),"-dpdflatex");
 close
 strMi=sprintf(strM,"x0",Wap,Wasl,Wasu,Wtp);
 showResponsePassBands(ftpl,ftpu,-3,3,x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0pass"),"-dpdflatex");
 close
 
@@ -119,12 +122,15 @@ endif
 printf("R=2 bandpass d1 (pcls) feasible after %d seconds!\n",time()-start_time);
 strP1=sprintf(strM,"d1",Wap,Wasl,Wasu,Wtp);
 showZPplot(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"pcls","d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"pcls","d1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"pcls","d1pass"),"-dpdflatex");
 close
 

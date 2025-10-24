@@ -118,6 +118,7 @@ axis([0 0.5 0 2e-4]);
 ylabel("Amplitude");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"Asq7"),"-dpdflatex");
 close
 
@@ -129,6 +130,7 @@ title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"T7"),"-dpdflatex");
 close
 
@@ -139,6 +141,7 @@ title(strM7);
 ylabel("Phase error(Rad./pi)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"P7"),"-dpdflatex");
 close
 
@@ -152,6 +155,7 @@ xlabel("Frequency")
 legend("D7","Ddu","Ddl")
 legend("location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"D7"),"-dpdflatex");
 close
 

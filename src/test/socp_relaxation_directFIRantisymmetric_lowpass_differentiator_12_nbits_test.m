@@ -228,6 +228,7 @@ legend("location","north");
 legend("boxoff");
 legend("right");
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude_response"),"-dpdflatex");
 close
 
@@ -252,6 +253,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_relative_amplitude_response"),"-dpdflatex");
 close
 

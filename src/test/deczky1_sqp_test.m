@@ -62,9 +62,11 @@ Wt=Wtp*ones(ntp,1);
 strt=sprintf("Initial Deczky Ex. 1 : Ux0=%d,V=%d,M=%d,Q=%d,R=%d", ...
              Ux0,Vx0,Mx0,Qx0,Rx0);
 showResponse(x0,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showZPplot(x0,Ux0,Vx0,Mx0,Qx0,Rx0,strt)
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
@@ -83,12 +85,15 @@ endif
 % Plot MMSE
 strt=sprintf(strM,"x1(mmse)");
 showZPplot(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 
@@ -105,12 +110,15 @@ endif
 % Plot PCLS
 strt=sprintf(strP,"d1(pcls)");
 showZPplot(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(ftp,fap),-0.6,0.2,d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 

@@ -81,6 +81,7 @@ xlabel("Frequency");
 legend("Elliptic","Equalised","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
 
@@ -97,6 +98,7 @@ D1=conv(D0(:),Da1(:));
 subplot(111);
 zplane(qroots(N1),qroots(D1));
 title(s);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 

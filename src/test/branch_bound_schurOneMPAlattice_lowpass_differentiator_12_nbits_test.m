@@ -148,6 +148,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.01*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -268,6 +269,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.02*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_sd_response"),"-dpdflatex");
 close
 
@@ -597,6 +599,7 @@ strt=sprintf(["Parallel all pass latticelow pass differentiator filter ", ...
 title(strt);
 axis([fas, 0.5, 0 0.002]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude_response"),"-dpdflatex");  
 close
 
@@ -615,6 +618,7 @@ strt=sprintf(["Parallel all pass latticelow pass differentiator filter ", ...
 title(strt);
 axis([fas, 0.5, 0 0.002]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop_amplitude_response"),"-dpdflatex");  
 close
 
@@ -633,6 +637,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex"); 
 close
 
@@ -651,6 +656,7 @@ legend("F-P","S-D(Lim)","S-D(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_pass_relative_error"),"-dpdflatex");
 close
 
@@ -669,6 +675,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_phase_response"),"-dpdflatex"); 
 close
 
@@ -687,6 +694,7 @@ legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_delay_response"),"-dpdflatex");
 close
 
@@ -705,6 +713,7 @@ legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -751,12 +760,15 @@ endif
 
 % Plot poles and zeros
 zplane(qroots(flipud(D1k_min(:))),qroots(D1k_min(:)));
+zticks([]);
 print(strcat(strf,"_D1k_min_pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(D2k_min(:))),qroots(D2k_min(:)));
+zticks([]);
 print(strcat(strf,"_D2k_min_pz"),"-dpdflatex");
 close
 zplane(qroots(conv(N_min(:),Fz)),qroots(D_min(:)));
+zticks([]);
 print(strcat(strf,"_k_min_pz"),"-dpdflatex");
 close
 

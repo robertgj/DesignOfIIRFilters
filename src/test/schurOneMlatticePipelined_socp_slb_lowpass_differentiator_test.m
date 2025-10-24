@@ -185,6 +185,7 @@ axis([0 0.5 -0.05 0.15]);
 grid("on");
 ylabel("dCsqdw");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_correction"),"-dpdflatex");
 close
 
@@ -196,6 +197,7 @@ strP=sprintf(["Lowpass differentiator dCsqdw error : ", ...
 title(strP);
 ylabel("dCsqdw error");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -229,6 +231,7 @@ axis([0 0.5 tp+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
@@ -262,6 +265,7 @@ axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
@@ -270,6 +274,7 @@ close
 [N2,D2]=Abcd2tf(A,B,C,dd);
 D2=D2(1:length(D0));
 zplane(qroots(conv(N2(:),Fz)),qroots(D2));
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

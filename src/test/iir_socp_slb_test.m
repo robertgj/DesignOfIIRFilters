@@ -94,9 +94,11 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 fap -0.02 0]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 showZPplot(d2,U,V,M,Q,R,strt)
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

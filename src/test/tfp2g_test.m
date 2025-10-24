@@ -23,6 +23,7 @@ function plot_response(B,A,fname)
   grid("on");
   ylabel("Amplitude(dB)")
   xlabel("Frequency")
+zticks([]);
   print(fname,"-dpdflatex");
   close
 endfunction

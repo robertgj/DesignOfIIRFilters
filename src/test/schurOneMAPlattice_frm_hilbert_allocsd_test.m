@@ -274,6 +274,7 @@ for ndigits=2:3
     xlabel("Frequency");
     ylabel("Delay(Samples)");
     grid("on");
+zticks([]);
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     
@@ -319,6 +320,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
@@ -338,6 +340,7 @@ for ndigits=2:3
   legend("location","northwest");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
 

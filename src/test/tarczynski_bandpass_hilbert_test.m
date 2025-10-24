@@ -104,11 +104,13 @@ axis([0 0.5 0 25]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 subplot(111);
 zplane(Z0(:),P0(:))
 title(s);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

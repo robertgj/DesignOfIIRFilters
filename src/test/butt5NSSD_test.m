@@ -83,6 +83,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt5NSSD_response","-dpdflatex");
 close
 

@@ -329,6 +329,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_pass_amplitude"),"-dpdflatex");
 close
 
@@ -347,6 +348,7 @@ strt=sprintf(["Parallel OneM all-pass lattice low-pass filter (nbits=12) :", ...
 title(strt);
 axis([fas  0.5 -70 -30]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_stop_amplitude"),"-dpdflatex");
 close
 
@@ -366,6 +368,7 @@ grid("on");
 strt=sprintf(["Parallel OneM all-pass lattice low-pass filter (nbits=12) :", ...
               " ftp=%g,tp=%g,Wtp=%g"],ftp,tp,Wtp);
 title(strt);
+zticks([]);
 print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
 close
 
@@ -412,6 +415,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_intro"),"-dpdflatex");
 if print_for_web_page
   print(strcat(strf,"_kmin_intro"),"-dsvg");

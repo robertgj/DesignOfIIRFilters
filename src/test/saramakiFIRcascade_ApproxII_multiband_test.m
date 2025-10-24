@@ -263,6 +263,7 @@ grid("on");
 strt=sprintf("Saramaki FIR cascade multi-band Approx. II sub-filter : M=%d,N=%d", ...
              M,N);
 title(strt);
+zticks([]);
 print(strcat(strf,"_subfilter_response"),"-dpdflatex");
 close
 
@@ -274,6 +275,7 @@ xlabel("Amplitude");
 ylabel("Frequency");
 strt=sprintf("Saramaki FIR cascade multi-band Approx. II : M=%d,N=%d",M,N);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 % Pass-band and stop-band detail
@@ -284,6 +286,7 @@ grid("on");
 ylabel("Amplitude");
 xlabel("Frequency");
 title(strt);
+zticks([]);
 print(strcat(strf,"_response_detail"),"-dpdflatex");
 close
 
@@ -344,6 +347,7 @@ strt=sprintf("Overall cascaded filter : $M$=%d,$N$=%d",M,N);
 title(strt);
 ylabel("Amplitude(dB)")
 xlabel("Frequency($\\omega/2\\pi$)")
+zticks([]);
 print(strcat(strf,"_threeway_response"),"-dpdflatex");
 close
 

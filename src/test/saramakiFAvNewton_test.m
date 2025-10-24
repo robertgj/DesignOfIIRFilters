@@ -27,6 +27,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 strf="saramakiFAvNewton_test";
+zticks([]);
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
@@ -34,6 +35,7 @@ close
 zplane(z,p);
 strt="Saram\\\"{a}ki n>=m filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

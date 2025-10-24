@@ -71,12 +71,14 @@ axis([0 0.5 -0.01 0.01 ]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print("tarczynski_differentiator_R2_test_response",  "-dpdflatex");
 close
 
 subplot(111);
 zplane(qroots(N0),qroots(D0R));
 title(s);
+zticks([]);
 print("tarczynski_differentiator_R2_test_pz",  "-dpdflatex");
 close
 

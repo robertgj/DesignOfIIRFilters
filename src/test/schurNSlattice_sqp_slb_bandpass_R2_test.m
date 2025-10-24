@@ -211,6 +211,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 % Show state variable std. deviation in bits

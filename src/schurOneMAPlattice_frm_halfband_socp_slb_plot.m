@@ -73,6 +73,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex"); 
   close
 
@@ -91,6 +92,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"passband_response"),"-dpdflatex");  
   close
 
@@ -108,6 +110,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"model_response"),"-dpdflatex");
   close
 
@@ -123,6 +126,7 @@ function schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   grid("on");
   tstr=sprintf(strT,strOpt,"masking filters");
   title(tstr);
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"mask_response"),"-dpdflatex");
   close
   

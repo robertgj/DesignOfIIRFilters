@@ -38,6 +38,7 @@ legend("p=2","p=4","p=8","p=16");
 legend("location","northwest");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 % Plot error
@@ -53,6 +54,7 @@ legend("p=2","p=4","p=8","p=16");
 legend("location","southeast");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_error"),"-dpdflatex");
 close
 

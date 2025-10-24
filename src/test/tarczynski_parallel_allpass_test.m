@@ -118,6 +118,7 @@ for flat_delay=[false,true],
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
+zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
 
@@ -136,6 +137,7 @@ for flat_delay=[false,true],
     axis([0 max(fap,ftp) (td-0.1) (td+0.1)]);
   endif
   grid("on");
+zticks([]);
   print(sprintf("%s%s_response_passband",strf,flatstr),"-dpdflatex");
   close
 
@@ -143,6 +145,7 @@ for flat_delay=[false,true],
   subplot(111);
   zplane(qroots(N0),qroots(D0));
   title(s);
+zticks([]);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close
 
@@ -161,6 +164,7 @@ for flat_delay=[false,true],
     legend("Filter A","Filter B","location","northwest");
     legend("boxoff");
     grid("on");
+zticks([]);
     print(sprintf("%s%s_phase",strf,flatstr),"-dpdflatex");
     close
   endif

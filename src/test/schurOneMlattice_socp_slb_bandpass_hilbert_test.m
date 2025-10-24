@@ -158,6 +158,7 @@ endif
 
 % Pole-zero plot
 zplane(qroots(N2(:)),qroots(D2(:)));
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -202,6 +203,7 @@ axis([0 0.5 dp+(0.4*[-1,1])]);
 grid("on");
 ylabel("dAsqdw");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

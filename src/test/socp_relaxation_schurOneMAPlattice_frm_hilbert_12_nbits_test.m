@@ -365,6 +365,7 @@ strt=sprintf(["FRM Hilbert filter (nbits=12) : ", ...
 title(strt);
 axis([0  0.5 -0.3 0.2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
 close
 % Plot phase
@@ -386,6 +387,7 @@ xlabel("Frequency");
 title(strt);
 axis([0 0.5 -0.505 -0.495]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minP"),"-dpdflatex");
 close
 % Plot delay
@@ -407,6 +409,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minT"),"-dpdflatex");
 close
 

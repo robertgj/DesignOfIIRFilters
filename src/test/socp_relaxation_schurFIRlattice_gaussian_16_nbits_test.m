@@ -174,6 +174,7 @@ ylabel("Amplitude")
 xlabel("Symbols")
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_g0_impulse"),"-dpdflatex");
 close
 strt=strcat(strt,sprintf(",nbits=%d,ndigits=%d",nbits,ndigits));
@@ -194,6 +195,7 @@ legend("boxoff");
 legend("left");
 axis([0 fTs(end) -120 10]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_g0_response"),"-dpdflatex");
 close
 
@@ -335,6 +337,7 @@ xlabel("Frequency(Units of 1/Ts)");
 title(strt);
 axis([0  fa(end) -120 10]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kkhat_min"),"-dpdflatex");
 close
 H0_ratio=10*log10((abs(H0_sd(1:nm)).^2)./Asq_kkhat0(1:nm));
@@ -358,6 +361,7 @@ title(strt);
 axis([0 fam(end) -dBap dBap]);
 axis([0 fam(end) -0.2 0.2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kkhat_min_pass"),"-dpdflatex");
 close
 T_kkhat0=complementaryFIRlatticeT(wt,k0,khat0);
@@ -377,6 +381,7 @@ legend("boxoff");
 legend("left");
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kkhat_min_delay"),"-dpdflatex");
 close
 

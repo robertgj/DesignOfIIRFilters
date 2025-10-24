@@ -364,6 +364,7 @@ while ~isempty(kc_active)
     grid("on");
     ylabel("dAsqdw");
     xlabel("Frequency");
+zticks([]);
     print(sprintf("%s_iter_%d_response",strf,iter),"-dpdflatex");
     close
   endif
@@ -462,6 +463,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("right");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -481,6 +483,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -500,6 +503,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
@@ -519,6 +523,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -532,6 +537,7 @@ print_polynomial(D_min,"D_min",strcat(strf,"_D_min_coef.m"));
 zplane(qroots(N_min),qroots(D_min));
 strt="Bandpass Hilbert R=2 filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

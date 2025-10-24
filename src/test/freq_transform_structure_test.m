@@ -47,6 +47,7 @@ axis([0 0.5 -50 5]);
 strt=sprintf("Low-pass prototype : fap=%1.2f", fap);
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_lowpass_response"),"-dpdflatex");
 close
 
@@ -61,6 +62,7 @@ axis([0 0.5 -50 5]);
 strt=sprintf("pA=phi2p([0.1 0.25])=[%1.2f %1.2f %1.2f]",pA(1),pA(2),pA(3));
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_bandpass_A_response"),"-dpdflatex");
 close
 
@@ -75,6 +77,7 @@ axis([0 0.5 -50 5]);
 strt=sprintf("pB=phi2p([0.2 0.3])=[%1.2f %1.2f %1.2f]",pB(1),pB(2),pB(3));
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_bandpass_B_response"),"-dpdflatex");
 close
 

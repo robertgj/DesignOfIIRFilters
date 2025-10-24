@@ -246,6 +246,7 @@ legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -267,6 +268,7 @@ legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -288,6 +290,7 @@ legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
@@ -309,6 +312,7 @@ legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -331,6 +335,7 @@ legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_dAsqdw"),"-dpdflatex");
 close
 
@@ -515,6 +520,7 @@ strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
              nbits,ndigits,fasl,fapl,fapu,fasu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_h_min_amplitude"),"-dpdflatex");
 close
 
@@ -538,6 +544,7 @@ strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
              nbits,ndigits,fppl,fppu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_h_min_phase"),"-dpdflatex");
 close
 
@@ -561,6 +568,7 @@ strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
              nbits,ndigits,ftpl,ftpu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_h_min_delay"),"-dpdflatex");
 close
 
@@ -625,6 +633,7 @@ legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_Schur_FIR_amplitude"),"-dpdflatex");
 close
 
@@ -644,6 +653,7 @@ legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_Schur_FIR_phase"),"-dpdflatex");
 close
 
@@ -663,6 +673,7 @@ legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
 legend("location","south");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_Schur_FIR_delay"),"-dpdflatex");
 close
 

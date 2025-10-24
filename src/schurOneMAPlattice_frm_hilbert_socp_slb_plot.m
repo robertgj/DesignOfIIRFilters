@@ -86,6 +86,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex"); 
   close
 
@@ -110,6 +111,7 @@ function schurOneMAPlattice_frm_hilbert_socp_slb_plot ...
   grid("on");
   tstr=sprintf(strT,strOpt,"u and v masking filters");
   title(tstr);
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"mask_response"),"-dpdflatex");
   close
 

@@ -44280,15 +44280,6 @@ vector or matrix dimensions are compatible. See the Octave manual
 entry \emph{Broadcasting and Legacy Code}~\cite[Section 19.2.1]{Eaton_Octave}.
 
 \subsubsection*{Problems with Octave}
-The \emph{octave-10.3.0.patch} \texttt{here} document within
-\emph{build-octave.sh} patches files to:
-\begin{itemize}
-\item prevent a \emph{valgrind} warning from \emph{load-save.cc}
-\item prevent \emph{g++} warnings from \emph{cdef-object.cc} and
-  \emph{ov-cell.cc}
-\item modify \emph{latex-text-renderer.cc} to cache string extents
-\end{itemize}
-
 I have found that the best way to include plots in this document is to
 print from Octave with the \emph{-dpdflatex} device. Unfortunately, producing
 plots this way is very slow. Here is an example for \emph{octave-9.2.0}:
@@ -44318,10 +44309,24 @@ $123$ times. Next I used \emph{gdb} to look at the \emph{cmd\_str} passed to
 that function. It seems that for each tick-mark label in the \TeX file, the
 \LaTeX, \emph{dvisvgm} and \emph{dvipng} renderers are run in a sub-process $41$
 times each. The aim appears to be to find the bounding box of the label for
-typesetting. The \emph{build-octave.sh} script modifies
-\emph{latex\_renderer::get\_extent()} so that it calls \texttt{latex} to
-determine and cache the width and height of a string but does not create a
-bitmap or SVG file. Here is an Octave test script:
+typesetting. Unfortunately, trying to understand the control flow in
+\emph{libinterp/corefcn/graphics.cc} is a fruitless, quixotic exercise.
+
+The \emph{octave-10.3.0.patch} \texttt{here} document within
+\emph{build-octave.sh} patches files to:
+\begin{itemize}
+\item prevent a \emph{valgrind} warning from \emph{load-save.cc}
+\item prevent \emph{g++} warnings from \emph{cdef-object.cc} and
+  \emph{ov-cell.cc}
+\item modify \emph{latex\_renderer::get\_extent()} so that it calls
+  \texttt{latex} to determine and cache the width and height of a string but
+  does not create a bitmap or SVG file.
+\item modify \emph{text\_renderer::text\_to\_pixels()} and
+  \emph{text\_renderer::text\_to\_strlist()} so that they no longer call the
+  corresponding functions in the \emph{latex\_renderer} class
+\end{itemize}
+
+Further, in Octave code I clear \emph{zticks} before printing to \emph{pdflatex}:
 \begin{small}
 \begin{verbatim}
 set(0,"DefaultFigureVisible","off");
@@ -44329,11 +44334,31 @@ plot(1:2)
 yticks([pi/2])
 yticklabels({"$\\underbrace{3.14}_{\\frac{\\pi}{2}}$"})
 ylabel("Testing");
+zticks([])
 print("tick_test","-dpdflatex")
 \end{verbatim}
 \end{small}
-The change to \texttt{latex-text-renderer.cc} reduces the \emph{real} time
-taken from $7.4$ to $4.6$ seconds.
+
+For \emph{octave-10.3.0} with these changes:
+\begin{small}
+\begin{verbatim}
+$ time octave -q --no-gui src/test/print_latex_test.m
+ans = 10.3.0-robj
+Elapsed time is 6.95797 seconds.
+   #      Function Attr     Time (s)   Time (%)        Calls
+------------------------------------------------------------
+  36           set    R        6.763      92.92           62
+  33 __go_uimenu__             0.198       2.72           24
+ 175       drawnow             0.079       1.08            3
+ 185 __go_delete__             0.079       1.08            1
+ 134       findobj             0.024       0.32            7
+
+real	0m7.821s
+user	0m3.019s
+sys	0m4.644s
+\end{verbatim}
+\end{small}
+
 \subsubsection*{Using the Octave external code interface}
 From the Octave \emph{info} documentation:
 \begin{quotation}Octave offers a versatile interface for including

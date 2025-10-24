@@ -107,6 +107,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print("ellip5NS_response","-dpdflatex");
 close
 
@@ -138,6 +139,7 @@ subplot(212);
 plot(xxf(svk,1), xxf(svk,3));
 xlabel("State variable x1");
 ylabel("State variable x3");
+zticks([]);
 print("ellip5NS_sv_noise_schur_lattice","-dpdflatex");
 close
 subplot(211);
@@ -148,6 +150,7 @@ subplot(212);
 plot(xxdirf(svk,1)/(2^32), xxdirf(svk,3)/(2^32));
 xlabel("State variable x1/2^{32}");
 ylabel("State variable x3/2^{32}");
+zticks([]);
 print("ellip5NS_sv_noise_direct_form","-dpdflatex");
 close
 subplot(211);
@@ -158,6 +161,7 @@ subplot(212);
 plot(xxoptf(svk,1), xxoptf(svk,3));
 xlabel("State variable x1");
 ylabel("State variable x3");
+zticks([]);
 print("ellip5NS_sv_noise_global_optimum","-dpdflatex");
 close
 
@@ -173,6 +177,7 @@ subplot(212);
 plot(xxdirsin(:,1), xxdirsin(:,3))
 xlabel("State variable x1")
 ylabel("State variable x3")
+zticks([]);
 print("ellip5NS_sv_sine_direct_form","-dpdflatex");
 close
 

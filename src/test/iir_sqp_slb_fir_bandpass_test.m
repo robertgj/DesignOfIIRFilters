@@ -34,9 +34,11 @@ U=2;V=0;M=28;Q=0;R=1;
 x0=[ 0.005, -0.7, 0.7, 0.7*ones(1,14), pi*[(1:3)/80, (13:23)/24] ]';
 strM0=sprintf(strM,"x0",Wasl,Wasu);
 showZPplot(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0"),"-dpdflatex");
 close
 
@@ -117,12 +119,15 @@ endif
 strd=sprintf("%s_pcls_%%s",strf);
 strP1=sprintf(strM,"d1(pcls)",Wasl,Wasu);
 showZPplot(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1pass"),"-dpdflatex");
 close
 
@@ -155,9 +160,11 @@ endif
 strd=sprintf("%s_complementary_%%s",strf);
 strC1=sprintf(strM,"c1(mmse)",Wasl,Wasu);
 showZPplot(c1,Uc,Vc,Mc,Qc,R,strC1);
+zticks([]);
 print(sprintf(strd,"c1pz"),"-dpdflatex");
 close
 showResponse(c1,Uc,Vc,Mc,Qc,R,strC1);
+zticks([]);
 print(sprintf(strd,"c1"),"-dpdflatex");
 close
 % Show combined amplitude response
@@ -167,6 +174,7 @@ plot(wa*0.5/pi,20*log10(sqrt((Ad1.^2)+(Ac1.^2))));
 ylabel("Combined response(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf(strd,"d1c1"),"-dpdflatex");
 close
 
@@ -217,9 +225,11 @@ endif
 % Plot complement response
 strd=sprintf("%s_complementary_%%s",strf);
 showZPplot(clc1,Ucl,Vcl,Mcl,Qcl,R,"");
+zticks([]);
 print(sprintf(strd,"clc1pz"),"-dpdflatex");
 close
 showResponse(clc1,Ucl,Vcl,Mcl,Qcl,R,"");
+zticks([]);
 print(sprintf(strd,"clc1"),"-dpdflatex");
 close
 % Show combined amplitude response
@@ -229,6 +239,7 @@ plot(wa*0.5/pi,20*log10(sqrt((Acl0.^2)+(Aclc1.^2))));
 ylabel("Combined response(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf(strd,"cl0clc1"),"-dpdflatex");
 close
 %}

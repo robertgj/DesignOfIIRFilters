@@ -43,6 +43,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 10]);
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -55,6 +56,7 @@ axis(ax(2),[0 0.5 -60 -30]);
 grid("on");
 tstr=sprintf("Amplitude error of parallel all-pass filter and delay : N=%d, DD=%d",N, DD);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
@@ -78,6 +80,7 @@ grid("on");
 tstr=sprintf(["Convergence of parallel all-pass filter and delay : ", ...
               "N=%d, DD=%d"], N, DD);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_convergence"),"-dpdflatex");
 close
 
@@ -102,6 +105,7 @@ grid("on");
 tstr=sprintf("Objective of parallel all-pass filter and delay : N=%d, DD=%d",...
              N, DD);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_Objective"),"-dpdflatex");
 close
 
@@ -126,6 +130,7 @@ grid("on");
 tstr=sprintf(["Pass-band min. and stop-band max. (dB) of ", ...
  "parallel all-pass filter and delay : N=%d, DD=%d"],N, DD);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_Asq_min_max"),"-dpdflatex");
 close
 
@@ -137,6 +142,7 @@ tstr=sprintf(["Pole-zero plot of parallel all-pass filter and delay : ", ...
  "N=%d, DD=%d"], N, DD);
 title(tstr);
 grid("on");
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

@@ -106,6 +106,7 @@ for nmin=6:7
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
+zticks([]);
     print(strcat(strd,"_resp"),"-dpdflatex");
     close
 
@@ -114,6 +115,7 @@ for nmin=6:7
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
     title(strt);
+zticks([]);
     print(strcat(strd,"_pz"),"-dpdflatex");
     close
 
@@ -161,6 +163,7 @@ for nmin=6:7
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
+zticks([]);
     print(strcat(strd,"_pa_resp"),"-dpdflatex");
     close
 
@@ -169,6 +172,7 @@ for nmin=6:7
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter with double zeros";
     title(strt);
+zticks([]);
     print(strcat(strd,"_pa_pz"),"-dpdflatex");
     close
   endfor

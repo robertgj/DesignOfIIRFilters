@@ -214,6 +214,7 @@ grid("on");
 strt=sprintf(["Bandpass OneM PA lattice, nbits=%d,bitstart=%d,", ...
  "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -233,6 +234,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -256,6 +258,7 @@ legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_amplitude_allocsd"),"-dpdflatex");
 close
 
@@ -275,6 +278,7 @@ legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_delay_allocsd"),"-dpdflatex");
 close
 

@@ -25,6 +25,7 @@ title(strt);
 ylabel("f");
 xlabel("x");
 grid("on");
+zticks([]);
 print(sprintf("%s_x_%d_%d",strf,N,L),"-dpdflatex");
 close
 
@@ -39,6 +40,7 @@ title(strt);
 ylabel("f");
 xlabel("x");
 grid("on");
+zticks([]);
 print(sprintf("%s_x_%d_%d",strf,N,L),"-dpdflatex");
 close
 

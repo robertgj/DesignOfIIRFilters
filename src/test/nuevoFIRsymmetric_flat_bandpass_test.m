@@ -55,6 +55,7 @@ xlabel("Frequency");
 ylabel("Amplitude (dB)");
 title(sprintf("Interpolated maximally flat FIR filter : P=%d,M=%d,fc=%g,K=%d",...
               P,M,fc,K));
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -71,6 +72,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Amplitude (dB)");
 title("Interpolator filter")
+zticks([]);
 print(strcat(strf,"_interpolator"),"-dpdflatex");
 close
 
@@ -98,6 +100,7 @@ xlabel("Frequency");
 ylabel("Amplitude (dB)");
 title(sprintf(["Interpolated maximally flat FIR filter amplitude response with ", ...
  "%d-bit rounded coefficients: P=%d,M=%d,fc=%g,K=%d"],nbits,P,M,fc,K));
+zticks([]);
 print(strcat(strf,"_16bit_response"),"-dpdflatex");
 close
 
@@ -108,6 +111,7 @@ xlabel("Frequency");
 ylabel("Amplitude error (dB)");
 title(sprintf(["Interpolated maximally flat FIR filter amplitude response ", ...
  "error with %d-bit rounded coefficients: P=%d,M=%d,fc=%g,K=%d"],nbits,P,M,fc,K));
+zticks([]);
 print(strcat(strf,"_16bit_error"),"-dpdflatex");
 close
 

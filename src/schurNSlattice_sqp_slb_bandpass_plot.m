@@ -46,6 +46,7 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   xlabel("Frequency");
   axis([0 0.5 0 2*tp]);
   grid("on");
+  zticks([]);
   print(strcat(strF,""),"-dpdflatex");
   close
 
@@ -62,6 +63,7 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   xlabel("Frequency");
   axis([ftpl, ftpu, tp-tpr tp+tpr]);
   grid("on");
+  zticks([]);
   print(strcat(strF,"pass"),"-dpdflatex");
   close
 
@@ -70,6 +72,7 @@ function schurNSlattice_sqp_slb_bandpass_plot ...
   subplot(111);
   zplane(qroots(n),qroots(d));
   title(strT);
+  zticks([]);
   print(strcat(strF,"pz"),"-dpdflatex");
   close
   

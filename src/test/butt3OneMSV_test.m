@@ -113,6 +113,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt3OneMSV_test_response_schur_lattice","-dpdflatex");
 close
 
@@ -145,6 +146,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt3OneMSV_test_response_state_variable","-dpdflatex");
 close
 

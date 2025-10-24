@@ -58,6 +58,7 @@ xlabel("Frequency");
 ylabel("Amplitude/2$\\pi$");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -68,6 +69,7 @@ xlabel("Frequency");
 ylabel("Amplitude error");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_error"),"-dpdflatex");
 close
 
@@ -91,6 +93,7 @@ title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
@@ -98,6 +101,7 @@ close
 zplane(qroots(hA57));
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 
@@ -133,6 +137,7 @@ tstr=sprintf ...
 (["Feasible N and L for mcclellanFIRantisymmetric\\_linear\\_differentiator ", ...
  ": deltas=%g,maxiter=%d,tol=%g"],deltas,maxiter,tol);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_feasible"),"-dpdflatex");
 close
 

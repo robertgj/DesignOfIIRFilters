@@ -433,6 +433,7 @@ title(strt);
 ylabel(sprintf("$Z_{%d,%d}(u,%7.5f)$",p,q,k));
 xlabel("w");
 grid("on");
+zticks([]);
 print(sprintf("%s_Z_%d_%d",strf,p,q),"-dpdflatex");
 close
 

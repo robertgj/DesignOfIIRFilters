@@ -135,6 +135,7 @@ axis([0 0.5 0 140]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -149,6 +150,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_ab1dual"),"-dpdflatex");
 close
 
@@ -157,12 +159,14 @@ subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 grid("on");
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nb1),qroots(Db1));
 grid("on");
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 

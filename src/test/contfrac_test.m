@@ -72,6 +72,7 @@ axis([0 0.5 -50 5]);
 title(sprintf(["Simulated response of a continued-fraction elliptic filter : ", ...
  "fc=%g,dBap=%g,dBas=%g"],fc,dBap,dBas));
 grid("on");
+zticks([]);
 print("contfrac_test_response","-dpdflatex");
 close
 

@@ -111,6 +111,7 @@ axis([0 0.5 0 20]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
 
@@ -137,6 +138,7 @@ strt=sprintf(["Nonsymmetric FIR low pass : ", ...
  "N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,fas=%4.2f,dBas=%d"], ...
              N,fap,dBap,ftp,td,fas,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -155,6 +157,7 @@ axis([0 fap td-0.6 td+0.6]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
 

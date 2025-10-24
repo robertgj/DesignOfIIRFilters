@@ -110,6 +110,7 @@ plot(f(nas:end),10*log10([Asq(nas:end),Asqdu(nas:end)]), ...
 axis([fas 0.5 -60 -20]);
 ylabel("Stop band(dB)");
 xlabel("Frequency");
+zticks([]);
 print(sprintf(strd,"amplitude"),"-dpdflatex");
 close
 
@@ -123,6 +124,7 @@ strMdelay=sprintf(strM,"x0k delay");
 title(strMdelay);
 legend("T","Tdu","Tdl","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"delay"),"-dpdflatex");
 close
 

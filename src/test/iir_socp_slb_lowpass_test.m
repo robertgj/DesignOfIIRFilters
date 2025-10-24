@@ -108,9 +108,11 @@ endif
 % Plot initial response
 strt=sprintf("x0:fap=%g,ftp=%g,tp=%g,fas=%g",fap,ftp,tp,fas);
 showResponse(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,max([fap,ftp]),-3,3,x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
 
@@ -141,12 +143,15 @@ endif
 strt=sprintf(["d1(PCLS):fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g", ...
               "dBas=%g,Was=%g"],fap,dBap,ftp,tp,tpr,fas,dBas,Was);
 showResponse(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 

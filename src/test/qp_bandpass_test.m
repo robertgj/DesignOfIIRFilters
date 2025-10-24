@@ -83,10 +83,12 @@ for d=[M,floor(M/2)],
     grid("on");
     ylabel("Delay(samples)");
     xlabel("Frequency");
+zticks([]);
     print(sprintf("%s_hd_response",strf),"-dpdflatex");
     close
   else
     xlabel("Frequency");
+zticks([]);
     print(sprintf("%s_h_response",strf),"-dpdflatex");
     close
   endif
@@ -141,6 +143,7 @@ strt=sprintf(["Symmetric FIR (Parks-McClellan) : ", ...
  "order N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,K=%g,nplot=%d"], ...
              N,fasl,fapl,fapu,fasu,K,nplot);
 title(strt);
+zticks([]);
 print(sprintf("%s_hPM_response",strf),"-dpdflatex");
 close
 

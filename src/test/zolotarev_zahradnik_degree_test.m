@@ -120,6 +120,7 @@ ylabel("Amplitude");
 xlabel("$w$");
 grid("on");
 strfn=sprintf("%s_p_100_q_37",strf);
+zticks([]);
 print(strfn,"-dpdflatex");
 close
 
@@ -301,6 +302,7 @@ strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : $f_{p1}=%6.4f,$f_{m}$=%5.3f,", ...
              p,q,k,fp1,fm,fp2,apdB,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_135_Deltafp_015",strf);
+zticks([]);
 print(strfn,"-dpdflatex");
 close
 plot(wa*0.5/pi,20*log10(abs(Ha)));
@@ -309,6 +311,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 title(strt);
+zticks([]);
 print(sprintf("%s_pass",strfn),"-dpdflatex");
 close
 print_polynomial(ha,"ha",sprintf("%s_coef.m",strfn),"%17.10e");
@@ -366,6 +369,7 @@ strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : ", ...
              p,q,k,fp1,fm,fp2,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_135_Deltafs_050",strf);
+zticks([]);
 print(strfn,"-dpdflatex");
 close
 print_polynomial(ha,"ha",sprintf("%s_coef.m",strfn),"%17.10e");
@@ -435,6 +439,7 @@ strt=sprintf(["$Z_{%d,%d}(w,%10.8f)$ : ", ...
              p,q,k,fp1,fm,fp2,asdB,fmax);
 title(strt);
 strfn=sprintf("%s_fmax_275_asdB_140",strf);
+zticks([]);
 print(strfn,"-dpdflatex");
 close
 % Detailed plot
@@ -454,6 +459,7 @@ axis([0.273 0.277 -140.1 -139.9]);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
+zticks([]);
 print(sprintf("%s_detail",strfn),"-dpdflatex");
 close
 % Save

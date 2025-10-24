@@ -82,12 +82,15 @@ if feasible == 0
 endif
 strt=sprintf(strM,"x1(mmse)",Wap,Was,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2,1,x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 
@@ -102,12 +105,15 @@ if feasible == 0
 endif
 strt=sprintf(strP,"d2(pcls)",Wap,Was,tpr);
 showZPplot(d2,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d2pz"),"-dpdflatex");
 close
 showResponse(d2,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d2"),"-dpdflatex");
 close
 showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d2,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d2pass"),"-dpdflatex");
 close
 

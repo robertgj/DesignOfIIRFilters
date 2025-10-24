@@ -86,6 +86,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 td-1 td+1 ]);
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print("tarczynski_gaussian_response","-dpdflatex");
 close
 % Response error
@@ -97,12 +98,14 @@ grid("on");
 s=sprintf("Tarczynski et al. gaussian : nN=%d,nD=%d,R=%d,td=%g",nN,nD,R,td);
 title(s);
 grid("on");
+zticks([]);
 print("tarczynski_gaussian_response_error",  "-dpdflatex");
 close
 % Pole-zero plot
 subplot(111);
 zplane(qroots(N0),qroots(D0R));
 title(s);
+zticks([]);
 print("tarczynski_gaussian_pz",  "-dpdflatex");
 close
 % Impulse response
@@ -113,6 +116,7 @@ plot(y);
 ylabel("Amplitude");
 xlabel("Sample");
 title(s);
+zticks([]);
 print("tarczynski_gaussian_impulse",  "-dpdflatex");
 close
 

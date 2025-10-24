@@ -572,6 +572,7 @@ legend("left");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -591,6 +592,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_amplitude_error"),"-dpdflatex");
 close
 
@@ -609,6 +611,7 @@ legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","southwest");
 legend("left");
 legend("boxoff");
+zticks([]);
 print(strcat(strf,"_pass_relative_amplitude_error"),"-dpdflatex");
 close
 
@@ -661,6 +664,7 @@ axis([0 0.5 tp+0.01*[-1,1]]);
 legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -680,6 +684,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
 close
 
@@ -699,6 +704,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_phase"),"-dpdflatex");
 close
 
@@ -718,6 +724,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 
@@ -735,6 +742,7 @@ legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -752,6 +760,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
 close
 
@@ -771,6 +780,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop_correction_error"),"-dpdflatex");
 close
 
@@ -792,6 +802,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_correction_error"),"-dpdflatex");
 close
 
@@ -821,12 +832,14 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_correction_amplitude"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(conv(N_min(:),Fz)),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

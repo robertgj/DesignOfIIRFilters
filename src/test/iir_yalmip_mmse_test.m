@@ -88,12 +88,15 @@ Wp=Wpp*ones(size(wp));
 str0=sprintf("Initial filter : fapl=%g,fapu=%g,Wasl=%g,Wasu=%g,tp=%d,Wtp=%g", ...
              fapl,fapu,Wasl,Wasu,tp,Wtp);
 showZPplot(x0,U,V,M,Q,R,str0);
+zticks([]);
 print(strcat(strf,"_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,str0);
+zticks([]);
 print(strcat(strf,"_x0"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-3,3,x0,U,V,M,Q,R,str0);
+zticks([]);
 print(strcat(strf,"_x0pass"),"-dpdflatex");
 close
 
@@ -159,6 +162,7 @@ for solver={"sedumi","scs-direct","scs-indirect","sdpt3"}
   strM=sprintf("MMSE filter : fapl=%g,fapu=%g,Wasl=%g,Wasu=%g,tp=%d,Wtp=%g", ...
                fapl,fapu,Wasl,Wasu,tp,Wtp);
   showZPplot(x1,U,V,M,Q,R,strM);
+zticks([]);
    print(strcat(solver_strf,"_x1pz"),"-dpdflatex");
   close
   showResponse(x1,U,V,M,Q,R,strM);
@@ -171,6 +175,7 @@ for solver={"sedumi","scs-direct","scs-indirect","sdpt3"}
   subplot(212)
   hold;
   plot(wt(vS.tl)*0.5/pi,T1(vS.tl),"x",wt(vS.tu)*0.5/pi,T1(vS.tu),"+");
+zticks([]);
   print(strcat(solver_strf,"_x1"),"-dpdflatex");
   close
   % Plot passbands
@@ -184,6 +189,7 @@ for solver={"sedumi","scs-direct","scs-indirect","sdpt3"}
   subplot(212)
   hold;
   plot(wt(vS.tl)*0.5/pi,T1(vS.tl),"x",wt(vS.tu)*0.5/pi,T1(vS.tu),"+");
+zticks([]);
   print(strcat(solver_strf,"_x1pass"),"-dpdflatex");
   close
   % Plot phase
@@ -194,6 +200,7 @@ for solver={"sedumi","scs-direct","scs-indirect","sdpt3"}
   grid("on");
   xlabel("Frequency")
   ylabel("Phase(rad./$\\pi$)");
+zticks([]);
   print(strcat(solver_strf,"_x1phase"),"-dpdflatex");
   close
 

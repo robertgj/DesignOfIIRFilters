@@ -209,6 +209,7 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
+zticks([]);
     print(strcat(strf_nbits,"_amplitude"),"-dpdflatex");
     close
 
@@ -227,6 +228,7 @@ for ndigits=2:3
     legend("left");
     title(strt);
     grid("on");
+zticks([]);
     print(strcat(strf_nbits,"_pass_amplitude"),"-dpdflatex");
     close
 
@@ -245,6 +247,7 @@ for ndigits=2:3
     legend("left");
     title(strt);
     grid("on");
+zticks([]);
     print(strcat(strf_nbits,"_pass_delay"),"-dpdflatex");
     close
 
@@ -319,6 +322,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_cost"),"-dpdflatex");
   close
 
@@ -338,6 +342,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_sidelobe"),"-dpdflatex");
   close
 
@@ -357,6 +362,7 @@ for ndigits=2:3
   legend("location","northwest");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_digits"),"-dpdflatex");
   close
 
@@ -375,6 +381,7 @@ for ndigits=2:3
   legend("location","southeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_ng"),"-dpdflatex");
   close
   

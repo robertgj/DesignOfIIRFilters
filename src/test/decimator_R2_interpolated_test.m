@@ -168,6 +168,7 @@ axis([0 0.5 10-tpr 10+tpr])
 grid("on");
 ylabel("Delay(samples)")
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_prototype_response"),"-dpdflatex");
 close
 
@@ -211,6 +212,7 @@ legend("Interpolated IIR","Anti-aliasing FIR");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_fir_antialiasing"),"-dpdflatex");
 close
 
@@ -222,6 +224,7 @@ grid("on");
 ylabel("Amplitude(dB)")
 title("Interpolated and anti-aliased IIR filter");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -239,6 +242,7 @@ axis([0 0.04 tpP+(2*tpr*[-1 1])])
 grid("on");
 ylabel("Delay(samples)")
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -254,6 +258,7 @@ ylabel("Amplitude(dB)")
 title(sprintf(["Interpolated and anti-aliased IIR filter : ", ...
  "%d multipliers and %g samples nominal delay"],N1D1_mult,tpP));
 %}
+zticks([]);
 print(strcat(strf,"_remez_comparison_interpolated_IIR"),"-dpdflatex");
 close
 % ... against that of:
@@ -278,6 +283,7 @@ ylabel("Amplitude(dB)")
 title(sprintf(["Interpolated and anti-aliased FIR filter : ", ...
  "%d distinct multipliers and %g samples delay"],bbeq_mult,tdeq));
 %}
+zticks([]);
 print(strcat(strf,"_remez_comparison_interpolated_FIR"),"-dpdflatex");
 close
 %  2. an FIR filter with the same number of distinct multipliers
@@ -294,6 +300,7 @@ ylabel("Amplitude(dB)")
 %{
 title(sprintf("Direct-form FIR filter : %d multipliers",(Nbb/2)+1));
 %}
+zticks([]);
 print(strcat(strf,"_remez_comparison_direct_FIR_multipliers"),"-dpdflatex");
 close
 %  3. an FIR filter with the same nominal delay
@@ -309,6 +316,7 @@ xlabel("Frequency");
 %{
 title(sprintf("Direct-form FIR filter : %g samples delay",(Nbbb/2)));
 %}
+zticks([]);
 print(strcat(strf,"_remez_comparison_direct_FIR"),"-dpdflatex");
 close
 

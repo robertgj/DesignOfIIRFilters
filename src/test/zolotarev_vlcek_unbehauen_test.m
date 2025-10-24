@@ -78,6 +78,7 @@ title(strt);
 ylabel("Amplitude");
 xlabel("$w$");
 grid("on");
+zticks([]);
 print(sprintf("%s_w_%d_%d",strf,p,q),"-dpdflatex");
 close
 % Find the coefficients in w^m
@@ -88,6 +89,7 @@ strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ coefficients ", ...
  "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 grid("on");
+zticks([]);
 print(sprintf("%s_b_%d_%d",strf,p,q),"-dpdflatex");
 close
 % Find the z-domain impulse response
@@ -104,6 +106,7 @@ strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%4.2f)$ impulse response ", ...
  "(Vlcek and Unbehauen)"],p,q,k);
 title(strt);
 grid("on");
+zticks([]);
 print(sprintf("%s_h_%d_%d",strf,p,q),"-dpdflatex");
 close
 
@@ -306,6 +309,7 @@ title(strt);
 ylabel(sprintf("$Z_{%d,%d}(w,%7.5f)$",p,q,k));
 xlabel("$w$");
 grid("on");
+zticks([]);
 print(sprintf("%s_f_%d_%d",strf,p,q),"-dpdflatex");
 close
 % Calculate z-domain impulse response as a sum over w^m=((z^(-1)+z)/2)^m
@@ -338,6 +342,7 @@ strt=sprintf(["Zolotarev polynomial $Z_{%d,%d}(w,%7.5f)$ impulse response ", ...
 title(strt);
 xlabel("$w$");
 grid("on");
+zticks([]);
 print(sprintf("%s_h_%d_%d",strf,p,q),"-dpdflatex");
 close
 % Calculate the frequency response corresponding to the impulse response
@@ -350,6 +355,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf("%s_response_%d_%d",strf,p,q),"-dpdflatex");
 close
 
@@ -424,6 +430,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf("%s_fir_response",strf),"-dpdflatex");
 close
 % ZPTF
@@ -438,12 +445,14 @@ title(strt);
 ylabel("Amplitude");
 xlabel("$w$");
 grid("on");
+zticks([]);
 print(sprintf("%s_fir_zptf",strf),"-dpdflatex");
 close
 % Show z-plane zeros
 zplane(qroots(h),[]);
 title(strt);
 grid("on");
+zticks([]);
 print(sprintf("%s_fir_pz",strf),"-dpdflatex");
 close
 % Save filter specification

@@ -377,6 +377,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter ", ...
 title(strt);
 axis([0  0.5 -70 -20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_stop_amplitude"),"-dpdflatex");
 close
 
@@ -393,6 +394,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_amplitude"),"-dpdflatex");
 close
 
@@ -409,12 +411,14 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_delay"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(N_min),qroots(D_min));
 title("Parallel one-multplier allpass lattice bandpass filter");
+zticks([]);
 print(strcat(strf,"_k_min_pz"),"-dpdflatex");
 close
 

@@ -120,11 +120,13 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([-0.5 0.5 0 10*td]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 showZPplot(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
 close
 
@@ -176,11 +178,13 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([-0.5 0.5 td+(4*tdr*[-1,1])]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 showZPplot(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_pz"),"-dpdflatex");
 close
 
@@ -230,11 +234,13 @@ axis([-0.5 0.5 td-0.1 td+0.1]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

@@ -41,13 +41,16 @@ x0=[ 0.00005, ...
 
 % Plot initial filter
 showZPplot(x0,U,V,M,Q,R,strI);
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strI);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 strMi=sprintf(strM,"x0");
 showResponsePassBands(0,0.5,-3,3,x0,U,V,M,Q,R,strI);
+zticks([]);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
 
@@ -121,12 +124,15 @@ endif
 
 printf("x1=[ ");printf("%14.10f ",x1');printf("]'\n");
 showResponse(x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-0.8,0.4,x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM)
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
@@ -157,12 +163,15 @@ endif
 
 printf("R=2 bandpass d1 (pcls) feasible after %d seconds!\n",time()-start_time);
 showZPplot(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-0.8,0.4,d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 
@@ -233,6 +242,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_compare_magnitude"),"-dpdflatex");
 close
 

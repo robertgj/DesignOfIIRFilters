@@ -156,6 +156,7 @@ axis([0 0.5 -50 5]);
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt6NSPABP_test_freqz","-dpdflatex");
 close
 
@@ -249,6 +250,7 @@ xlabel("Frequency")
 ylabel("A2ap(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 print("butt6NSPABP_test_allpass_response","-dpdflatex");
 close
 
@@ -261,6 +263,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt6NSPABP_test_output_response","-dpdflatex");
 close
 
@@ -273,6 +276,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt6NSPABP_test_combined_allpass_output_response","-dpdflatex");
 close
 
@@ -287,6 +291,7 @@ subplot(212);
 plot(A2xxf(svk,1), A2xxf(svk,2))
 xlabel("A2 state variable x1")
 ylabel("A2 stbutt6NSPABP_test.mate variable x2")
+zticks([]);
 print("butt6NSPABP_test_sv","-dpdflatex");
 close
 

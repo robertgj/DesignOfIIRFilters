@@ -183,6 +183,7 @@ axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -215,6 +216,7 @@ axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse"),"-dpdflatex");
 close
 
@@ -245,6 +247,7 @@ axis([0 0.5 0 40]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls"),"-dpdflatex");
 close
 % Passband
@@ -277,11 +280,13 @@ axis(ax(2),[0 0.5 13 17]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_pass"),"-dpdflatex");
 close
 % Pole-zero plot
 [Z2,P2,K2]=x2zp(x2,U,V,M,Q,R);
 zplane(Z2,P2);
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

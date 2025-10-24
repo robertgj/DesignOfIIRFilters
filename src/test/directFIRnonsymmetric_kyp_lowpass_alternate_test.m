@@ -177,6 +177,7 @@ for altspec=1:9
     strt=sprintf("%s,Esq\\_max=%g",strt,Esq_max);
   endif
   title(strt);
+zticks([]);
   print(sprintf("%s_h%02d_response",strf,altspec),"-dpdflatex");
   close
 
@@ -200,6 +201,7 @@ for altspec=1:9
   ylabel("Delay(samples)");
   grid("on");
   xlabel("Frequency");
+zticks([]);
   print(sprintf("%s_h%02d_passband",strf,altspec),"-dpdflatex");
   close
 

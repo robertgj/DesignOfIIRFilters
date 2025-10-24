@@ -108,6 +108,7 @@ plot(fa,Asq,fa,Asqdu,fa,Asqdl,fa(vS.al),Asql,"x",fa(vS.au),Asqu,"+");
 axis([0 0.5 0 2e-4]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"Asq7"),"-dpdflatex");
 close
 
@@ -119,6 +120,7 @@ axis([0 ftp tp-(tpr*2) tp+(tpr*2)]);
 title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"T7"),"-dpdflatex");
 close
 

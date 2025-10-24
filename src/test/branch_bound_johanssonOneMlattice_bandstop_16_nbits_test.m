@@ -291,6 +291,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 

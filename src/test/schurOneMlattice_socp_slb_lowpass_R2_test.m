@@ -74,6 +74,7 @@ strI=sprintf(["Schur one-multiplier lattice lowpass filter initial ", ...
               "response : fapfap=%g,fas=%g"], ...
              fap,fas);
 title(strI);
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -130,12 +131,14 @@ title(strP);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_k2c2"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(N2),qroots(D2));
 title(strP);
+zticks([]);
 print(strcat(strf,"_pcls_k2c2pz"),"-dpdflatex");
 close
 

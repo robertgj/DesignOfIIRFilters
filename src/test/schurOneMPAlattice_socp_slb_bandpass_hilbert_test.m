@@ -220,6 +220,7 @@ ylabel("$\\frac{dAsq}{d\\omega}$");
 xlabel("Frequency");
 axis([0 0.5 (dp+(dpr*[-1 1]/2))]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -230,16 +231,19 @@ A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 A2d=A2d(:);
 zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
+zticks([]);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
+zticks([]);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
 D2=conv(A1d,A2d);
 zplane(qroots(N2),qroots(D2));
 title("Parallel allpass filter ");
+zticks([]);
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
 

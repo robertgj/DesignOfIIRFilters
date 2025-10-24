@@ -373,6 +373,7 @@ axis([0 0.5 tp+(0.04*[-1,1])]);
 grid("on");
 ylabel("Group delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_kc_min"),"-dpdflatex");
 close
 
@@ -381,6 +382,7 @@ close
 subplot(111);
 zplane(qroots(conv(N_min(:),Fz)),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
 

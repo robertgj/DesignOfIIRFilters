@@ -82,6 +82,7 @@ legend("right");
 grid("on");
 title(sprintf ...
         ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));
+zticks([]);
 print(strcat(strf,sprintf("_n_%d",n)),"-dpdflatex");
 close
 
@@ -139,6 +140,7 @@ legend("right");
 grid("on");
 title(sprintf ...
         ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));
+zticks([]);
 print(strcat(strf,sprintf("_n_%d",n)),"-dpdflatex");
 close
 

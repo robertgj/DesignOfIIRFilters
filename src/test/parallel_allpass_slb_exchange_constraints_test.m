@@ -131,6 +131,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)");
 legend("Asqab0","Asqdu","Asqdl","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"ab0A"),"-dpdflatex");
 close
 
@@ -143,6 +144,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)");
 legend("Asqab0","Asqdu","Asqdu+tol","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"ab0S"),"-dpdflatex");
 close
 
@@ -154,6 +156,7 @@ title(strMab0);
 axis([0,ftp,11.4 11.6])
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"ab0T"),"-dpdflatex");
 close
 
@@ -165,6 +168,7 @@ title(strMab0);
 axis([0 fpp -pdr pdr])
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"ab0P"),"-dpdflatex");
 close
 
@@ -190,6 +194,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 legend("Asqab0","Asqab1","Asqdu","Asqdl","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"ab1A"),"-dpdflatex");
 close
 
@@ -204,6 +209,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 legend("Asqab0","Asqab1","Asqdu","Asqdu+tol","location","northeast");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"ab1S"),"-dpdflatex");
 close
 
@@ -219,6 +225,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("Tab0","Tab1","Tdu","Tdl","location","southwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"ab1T"),"-dpdflatex");
 close
 
@@ -233,6 +240,7 @@ axis([0 fpp -pdr pdr])
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 legend("Pab0","Pab1","Pdu","Pdl","location","southwest");
+zticks([]);
 print(sprintf(strd,"ab1P"),"-dpdflatex");
 close
 

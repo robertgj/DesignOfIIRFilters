@@ -90,6 +90,7 @@ axis([Fas 0.5 -150 -100]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_fir"),"-dpdflatex");
 close
 
@@ -118,6 +119,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki parallel all-pass band-stop IIR response");
+zticks([]);
 print(strcat(strf,"_iir"),"-dpdflatex");
 close
 ax=plotyy(wa*0.5/pi,20*log10(abs(Hbs)), ...
@@ -128,6 +130,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki parallel all-pass band-stop IIR response");
+zticks([]);
 print(strcat(strf,"_iir_dual"),"-dpdflatex");
 close
 
@@ -168,6 +171,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki band-stop complementary responses");
+zticks([]);
 print(strcat(strf,"_comp"),"-dpdflatex");
 close
 subplot(211);
@@ -182,6 +186,7 @@ axis([0 0.5 -110 -105]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_comp_dual"),"-dpdflatex");
 close
 
@@ -197,6 +202,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki band-stop zero-phase response");
+zticks([]);
 print(strcat(strf,"_zp"),"-dpdflatex");
 close
 ax=plotyy(wa*0.5/pi,20*log10(abs(Fr)), ...
@@ -207,6 +213,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki band-stop zero-phase response");
+zticks([]);
 print(strcat(strf,"_zp_dual"),"-dpdflatex");
 close
 

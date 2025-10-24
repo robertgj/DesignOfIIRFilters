@@ -45,6 +45,7 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   xlabel("Frequency");
   axis([0 0.5 0 2*tp]);
   grid("on");
+  zticks([]);
   print(strcat(strF,""),"-dpdflatex");
   close
   
@@ -61,6 +62,7 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   xlabel("Frequency");
   axis([0, max(fap,ftp), tp-tpr tp+tpr]);
   grid("on");
+  zticks([]);
   print(strcat(strF,"pass"),"-dpdflatex");
   close
   
@@ -68,6 +70,7 @@ function schurOneMlattice_socp_slb_lowpass_plot ...
   subplot(111);
   zplane(qroots(n),qroots(d));
   title(strT);
+  zticks([]);
   print(strcat(strF,"pz"),"-dpdflatex");
   close
   

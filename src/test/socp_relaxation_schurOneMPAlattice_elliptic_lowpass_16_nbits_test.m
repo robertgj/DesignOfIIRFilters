@@ -368,6 +368,7 @@ strt=sprintf(["Parallel all-pass lattice elliptic low-pass filter : ", ...
               "nbits=%d,ndigits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g"], ...
              nbits,ndigits,fap,dBap,fas,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_kmin"),"-dpdflatex");
 close
 
@@ -388,6 +389,7 @@ endif
 % Pole-zero plot
 zplane(qroots(N_min(:)),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

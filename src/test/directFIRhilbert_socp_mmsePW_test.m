@@ -100,6 +100,7 @@ legend("initial","PCLS","Adl","Adu");
 legend("location","south");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

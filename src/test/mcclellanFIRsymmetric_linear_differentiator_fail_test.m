@@ -76,6 +76,7 @@ ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_hM_dual"),"-dpdflatex");
 close
 
@@ -87,6 +88,7 @@ xlabel("Frequency");
 ylabel("Amplitude");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

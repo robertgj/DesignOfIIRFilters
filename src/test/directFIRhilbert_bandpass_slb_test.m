@@ -134,6 +134,7 @@ strM=sprintf ...
   ("FIR Hilbert : fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g", ...
    fasl,fapl,fapu,fasu,dBap,dBas);
 title(strM);
+zticks([]);
 print("directFIRhilbert_bandpass_slb_test_response","-dpdflatex");
 close
 % Passband response
@@ -150,6 +151,7 @@ strM=sprintf ...
   ("FIR Hilbert : fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g", ...
    fasl,fapl,fapu,fasu,dBap,dBas);
 title(strM);
+zticks([]);
 print("directFIRhilbert_bandpass_slb_test_passband_response","-dpdflatex");
 close
 

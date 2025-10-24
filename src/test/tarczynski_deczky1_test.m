@@ -89,12 +89,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
+zticks([]);
 print("tarczynski_deczky1_test_response", "-dpdflatex");
 close
 
 subplot(111);
 zplane(qroots(N0),qroots(D0))
 title(s);
+zticks([]);
 print("tarczynski_deczky1_test_pz", "-dpdflatex");
 close
 

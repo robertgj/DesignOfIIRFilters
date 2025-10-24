@@ -180,6 +180,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k1c1_stop"),"-dpdflatex");
 close
 
@@ -198,6 +199,7 @@ legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k1c1_pass"),"-dpdflatex");
 close
 
@@ -216,6 +218,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k1c1_delay"),"-dpdflatex");
 close
 

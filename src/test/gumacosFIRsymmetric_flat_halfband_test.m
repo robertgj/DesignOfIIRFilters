@@ -53,6 +53,7 @@ legend("M=5","M=10","M=15","M=20","M=25");
 legend("location","south");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -67,6 +68,7 @@ legend("M=5","M=10","M=15","M=20","M=25");
 legend("location","south");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_hilbert"),"-dpdflatex");
 close
 

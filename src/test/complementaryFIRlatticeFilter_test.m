@@ -99,6 +99,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hkrz|^2+|Hkrzhat|^2");
+zticks([]);
 print(strcat(strf,"_krz_krzhat_response"),"-dpdflatex");
 close
 
@@ -138,6 +139,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hsdkrz|^2+|Hsdkrzhat|^2");
+zticks([]);
 print(strcat(strf,"_sdkrz_sdkrzhat_response"),"-dpdflatex");
 close
 
@@ -172,6 +174,7 @@ axis([0 0.5 0.9 1.1])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hsdbrz|^2+|Hsdbrzc|^2");
+zticks([]);
 print(strcat(strf,"_sdbrz_sdbrzc_response"),"-dpdflatex");
 close
 

@@ -342,6 +342,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("right");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -361,6 +362,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -380,6 +382,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
@@ -399,6 +402,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 

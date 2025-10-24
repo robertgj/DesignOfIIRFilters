@@ -159,6 +159,7 @@ axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_correction"),"-dpdflatex");
 close
 
@@ -182,6 +183,7 @@ axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -206,18 +208,22 @@ axis([0 0.5]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_error"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 zplane(qroots(flipud(Da0(:))),qroots(Da0(:)));
+zticks([]);
 print(strcat(strf,"_Da0_pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(Db0(:))),qroots(Db0(:)));
+zticks([]);
 print(strcat(strf,"_Db0_pz"),"-dpdflatex");
 close
 zplane(qroots(conv(N0,Fz)),qroots(D0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -232,6 +238,7 @@ xlabel("Frequency");
 legend("Filter A","Filter B","location","southwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 

@@ -28,6 +28,7 @@ axis(ax(2),[0 1 -50 -30]);
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
 grid("on");
+zticks([]);
 print("ellipap1_test_n6_response","-dpdflatex");
 close
 
@@ -49,6 +50,7 @@ axis(ax(2),[0 1 -65 -45]);
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
 grid("on");
+zticks([]);
 print("ellipap1_test_n7_response","-dpdflatex");
 close
 

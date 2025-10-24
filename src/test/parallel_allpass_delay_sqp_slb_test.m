@@ -74,12 +74,14 @@ plot(wplot*0.5/pi,Ta0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot initial filter poles and zeros
 subplot(111);
 zplane(qroots(Na0),qroots(Da0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_a0pz"),"-dpdflatex");
 close
 
@@ -116,6 +118,7 @@ plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
 % Plot response on separate axes
@@ -127,6 +130,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
 close
 
@@ -143,6 +147,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap DD-1 DD+1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 
@@ -154,6 +159,7 @@ title(s);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1phase"),"-dpdflatex");
 close
 
@@ -161,6 +167,7 @@ close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 

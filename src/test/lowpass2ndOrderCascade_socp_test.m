@@ -74,6 +74,7 @@ axis([0, 0.5, 0, 20]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1"),"-dpdflatex");
 close
 % Plot passband response
@@ -89,12 +90,14 @@ axis([0, fpass, td-0.25, td+0.25]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(x1.a),qroots(x1.d))
 title(strt);
+zticks([]);
 print(strcat(strf,"_x1pz"),"-dpdflatex");
 close
 
@@ -124,6 +127,7 @@ axis([0, 0.5, 0, 20]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1sqm"),"-dpdflatex");
 close
 % Plot passband response
@@ -139,12 +143,14 @@ axis([0, fpass, td-1, td+1]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1sqmpass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(x1_sqm.a),qroots(x1_sqm.d))
 title(sqm_strt);
+zticks([]);
 print(strcat(strf,"_x1sqmpz"),"-dpdflatex");
 close
 

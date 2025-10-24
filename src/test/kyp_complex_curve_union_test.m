@@ -123,6 +123,7 @@ for m=1:2,
   ylabel("Real part of roots")
   xlabel("Imaginary part of s")
   grid("on");
+zticks([]);
   print(sprintf("%s_1_root_locus_m%d",strf,m),"-dpdflatex");
   close
 endfor
@@ -225,6 +226,7 @@ axis([-1 1 -2 2]);
 ylabel("Real part of roots");
 xlabel("Imaginary part of s");
 grid("on");
+zticks([]);
 print(sprintf("%s_2_root_locus_real",strf),"-dpdflatex");
 close
 
@@ -244,6 +246,7 @@ axis([-1 1 -2 2]);
 ylabel("Imaginary part of roots");
 xlabel("Imaginary part of s");
 grid("on");
+zticks([]);
 print(sprintf("%s_2_root_locus_imag",strf),"-dpdflatex");
 close
 
@@ -349,6 +352,7 @@ axis([-1 1 0 0.5]);
 ylabel("Angle of roots (rad.)");
 xlabel("Imaginary part of s");
 grid("on");
+zticks([]);
 print(sprintf("%s_3_root_locus",strf),"-dpdflatex");
 close
 
@@ -433,6 +437,7 @@ axis([-1 1 0 pi]);
 ylabel("Angle of roots (rad.)");
 xlabel("Imaginary part of s");
 grid("on");
+zticks([]);
 print(sprintf("%s_4_root_locus",strf),"-dpdflatex");
 close
 
@@ -532,6 +537,7 @@ axis([-1 1 -pi pi]);
 ylabel("Angle of roots (rad.)");
 xlabel("Imaginary part of s");
 grid("on");
+zticks([]);
 print(sprintf("%s_5_root_locus",strf),"-dpdflatex");
 close
 

@@ -71,6 +71,7 @@ plot(fa,A,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 -0.02 0.02]);
 ylabel("Amplitude");
 xlabel("Frequency");
+zticks([]);
 print("directFIRsymmetric_slb_update_constraints_test_hM","-dpdflatex");
 close
 

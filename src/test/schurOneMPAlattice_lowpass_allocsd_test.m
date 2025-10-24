@@ -216,6 +216,7 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
+zticks([]);
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     % Plot the passband detail
@@ -244,6 +245,7 @@ for ndigits=2:3
     ylabel("Delay(samples)");
     axis([0 max(fap,ftp) td-(2*tdr) td+(2*tdr)]);
     grid("on");
+zticks([]);
     print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");
     close
 
@@ -299,6 +301,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
@@ -318,6 +321,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_sidelobe"),"-dpdflatex");
   close
 
@@ -337,6 +341,7 @@ for ndigits=2:3
   legend("location","northwest");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
   

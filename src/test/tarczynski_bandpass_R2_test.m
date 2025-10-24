@@ -94,12 +94,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
+zticks([]);
 print("tarczynski_bandpass_R2_test_response","-dpdflatex");
 close
 
 subplot(111);
 zplane(qroots(N),qroots(DR))
 title(s);
+zticks([]);
 print("tarczynski_bandpass_R2_test_pz","-dpdflatex");
 close
 

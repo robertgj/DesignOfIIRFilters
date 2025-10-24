@@ -13,12 +13,14 @@ n=20;
 zplane(roots(bincoeff(n,0:n)));
 grid on;
 title(sprintf("roots(bincoeff(%d,0:%d))",n,n));
+zticks([]);
 print(strcat(strf,"_roots"),"-dpdflatex");
 close
 zplane(qroots(bincoeff(n,0:n)));
 grid on;
 axis([-1.1 -0.9 -0.1 0.1])
 title(sprintf("qroots(bincoeff(%d,0:%d))",n,n));
+zticks([]);
 print(strcat(strf,"_qroots"),"-dpdflatex");
 close
 

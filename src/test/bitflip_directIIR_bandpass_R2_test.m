@@ -145,6 +145,7 @@ grid("on");
 strt=sprintf(["Bandpass direct-form R=2 IIR, nbits=%d,bitstart=%d,", ...
  "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 % Delay
@@ -163,6 +164,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 

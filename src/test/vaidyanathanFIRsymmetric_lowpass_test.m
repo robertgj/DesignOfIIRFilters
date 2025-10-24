@@ -48,6 +48,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Amplitude (dB)");
 title(sprintf("Vaidyanathan multiplier-less interpolated FIR filter"));
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

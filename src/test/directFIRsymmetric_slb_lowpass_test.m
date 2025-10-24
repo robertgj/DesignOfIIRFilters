@@ -78,6 +78,7 @@ axis([0 0.5 -0.004 0.004]);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -122,6 +123,7 @@ axis([0 0.5 -0.004 0.004]);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_truncated"),"-dpdflatex");
 close
 

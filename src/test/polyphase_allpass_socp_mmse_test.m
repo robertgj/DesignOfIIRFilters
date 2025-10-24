@@ -121,6 +121,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -137,6 +138,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-0.2 td+0.2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
@@ -144,16 +146,19 @@ close
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nb1),qroots(Db1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
@@ -172,6 +177,7 @@ legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 text(0.02,-3.5,"Note: the filter B phase includes the polyphase delay")
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 

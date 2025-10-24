@@ -156,6 +156,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 %axis([0 max(fp,fp) (td-1) (td+1)]);
 grid("on");
+zticks([]);
 print("tarczynski_allpass_phase_shift_test_lowpass_response","-dpdflatex");
 close
 
@@ -164,6 +165,7 @@ subplot(111);
 zplane(qroots(flipud(Da0)),qroots(Da0));
 s=sprintf("All-pass/delay lowpass filter pole-zero : fp=%g,fs=%g,D=%d",fp,fs,D);
 title(s);
+zticks([]);
 print("tarczynski_allpass_phase_shift_test_pz","-dpdflatex");
 close
 
@@ -175,6 +177,7 @@ axis([0 0.5 -0.2 0.2]);
 grid("on");
 s=sprintf("All-pass filter phase response error : m=%d,td=%g,D=%d",m,td,D);
 title(s);
+zticks([]);
 print("tarczynski_allpass_phase_shift_test_phase_error","-dpdflatex");
 close
 

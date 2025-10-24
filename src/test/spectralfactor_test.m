@@ -31,6 +31,7 @@ axis([0 0.5 -50 2]);
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print(strcat(strf,"_ellip13_0_05"),"-dpdflatex");
 close
 plot(0.5*w/pi,20*log10(abs(g)),"--", ...
@@ -45,6 +46,7 @@ axis([0.046 0.054 -3 3]);
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print(strcat(strf,"_ellip13_0_05_detail"),"-dpdflatex");
 close
 

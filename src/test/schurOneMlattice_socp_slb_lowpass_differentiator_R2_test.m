@@ -178,11 +178,13 @@ axis([0 0.5 tp+(2*tpr*[-1,1])]);
 ylabel("Delay(samples)");
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(conv(N0(:),Fz)),qroots(D0R(:)));
+zticks([]);
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
 close
 
@@ -243,6 +245,7 @@ dAsqdw2=(Csq2(Rdp).*dAzsqdw(Rdp))+(dCsqdw2(:).*Azsq(Rdp));
 
 % Pole-zero plot
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
@@ -280,6 +283,7 @@ axis([0 0.5 tp+(0.004*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_error"),"-dpdflatex");
 close
 
@@ -290,6 +294,7 @@ strT=sprintf(["Differentiator PCLS relative error : fap=%g,Arp=%g"],fap,Arp);
 title(strT);
 ylabel("Relative amplitude error");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_pass_amplitude_relative_error"),"-dpdflatex");
 close
 
@@ -304,6 +309,7 @@ legend("Response","Upper PCLS constraint","Lower PCLS constraint");
 legend("location","southwest");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_pcls_dAsqdw_error"),"-dpdflatex");
 close
 
@@ -318,6 +324,7 @@ legend("Response","Upper PCLS constraint","Lower PCLS constraint");
 legend("location","southwest");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_pcls_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -333,6 +340,7 @@ axis([0 fdp 0.01*[-1,1]])
 grid("on");
 ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$ error");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_dCsqdw_dAsqdw_error"),"-dpdflatex");
 close
 
@@ -359,6 +367,7 @@ plot(wt*0.5/pi,gradT2_D);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_direct_sensitivity"),"-dpdflatex");
 close
 
@@ -378,6 +387,7 @@ plot(wt*0.5/pi,gradT2c);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_schur_sensitivity"),"-dpdflatex");
 close
 
@@ -468,6 +478,7 @@ grid("on");
 axis([0 fap 1+0.004*[-1,1]])
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_schur_lattice_correction_simulation"),"-dpdflatex");
 close
 

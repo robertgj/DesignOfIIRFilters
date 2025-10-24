@@ -100,6 +100,7 @@ axis([0, 0.5, 60, 100]);
 xlabel("Frequency");
 ylabel("Delay(samples)");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1"),"-dpdflatex");
 close
 % Plot passband response
@@ -116,6 +117,7 @@ axis([0, 0.3, 76, 84]);
 xlabel("Frequency");
 ylabel("Delay(samples)");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1pass"),"-dpdflatex");
 close
 
@@ -135,6 +137,7 @@ axis([0, 0.5, 0, 200]);
 xlabel("Frequency");
 ylabel("Delay(samples)");
 grid("on");
+zticks([]);
 print(strcat(strf,"_x1model"),"-dpdflatex");
 close
 
@@ -152,6 +155,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf(strM,"FRM masking filters");
 title(strt);
+zticks([]);
 print(strcat(strf,"_x1mask"),"-dpdflatex");
 close
 
@@ -174,6 +178,7 @@ axis([fstop, 0.5, -60, -30]);
 xlabel("Stopband frequency");
 ylabel("Stopband amplitude(dB)");
 grid("on");
+zticks([]);
 print(strcat(strf,"_remez_comparison"),"-dpdflatex");
 close
 

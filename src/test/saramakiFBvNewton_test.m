@@ -37,6 +37,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
@@ -44,6 +45,7 @@ close
 zplane(Z,P);
 strt="Saram\\\"{a}ki n<m filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

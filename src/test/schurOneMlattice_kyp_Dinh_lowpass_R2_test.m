@@ -84,6 +84,7 @@ axis([0 0.5 0 20]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -94,6 +95,7 @@ strP=sprintf(["Pole-zero plot of initial tapped Schur lattice filter : ", ...
              nN,fap,tp,fas);
 title(strP);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_pz"),"-dpdflatex");
 close
 
@@ -548,6 +550,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 20]);
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -571,6 +574,7 @@ grid("on");
 strP=sprintf(["Convergence of tapped Schur lattice filter : ", ...
               "nN=%d, fap=%g, tp=%g, fas=%g"], nN,fap,tp,fas);
 title(strP);
+zticks([]);
 print(strcat(strf,"_convergence"),"-dpdflatex");
 close
 
@@ -594,6 +598,7 @@ grid("on");
 strP=sprintf(["Esq_z and Esq_s  of tapped Schur lattice filter : ", ...
               "nN=%d, fap=%g, tp=%g, fas=%g"], nN,fap,tp,fas);
 title(strP);
+zticks([]);
 print(strcat(strf,"_Esq_z_Esq_s"),"-dpdflatex");
 close
 
@@ -620,6 +625,7 @@ strP=sprintf(["Pass-band $A_{min}$(dB) and stop-band $A_{max}$(dB) of ", ...
               "nN=%d, fap=%g, tp=%g, fas=%g"], ...
              nN,fap,tp,fas);
 title(strP);
+zticks([]);
 print(strcat(strf,"_Asq_min_max"),"-dpdflatex");
 close
 
@@ -630,6 +636,7 @@ strP=sprintf(["Pole-zero plot of tapped Schur lattice filter : ", ...
              nN,fap,tp,fas);
 title(strP);
 grid("on");
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

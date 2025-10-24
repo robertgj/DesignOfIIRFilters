@@ -200,6 +200,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 s=sprintf("Non-symmetric FIR bandpass Hilbert filter : N=%d, tp=%g", N,tp);
 title(s);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -221,6 +222,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([fapl fapu tp+0.02*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
 
@@ -228,6 +230,7 @@ close
 subplot(111);
 zplane(qroots(h),[]);
 title(s);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

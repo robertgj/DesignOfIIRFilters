@@ -78,10 +78,12 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -40 5])
+zticks([]);
 print(strcat(strf,"_h_response"),"-dpdflatex");
 close
 zplane(qroots(h));
 title("Initial filter zeros");
+zticks([]);
 print(strcat(strf,"_h_zeros"),"-dpdflatex");
 close
 
@@ -92,10 +94,12 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -40 5])
+zticks([]);
 print(strcat(strf,"_g_response"),"-dpdflatex");
 close
 zplane(qroots(g));
 title("Complementary filter zeros");
+zticks([]);
 print(strcat(strf,"_g_zeros"),"-dpdflatex");
 close
 
@@ -106,6 +110,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -0.000010 0.000002])
+zticks([]);
 print(strcat(strf,"_hg_response"),"-dpdflatex");
 close
 

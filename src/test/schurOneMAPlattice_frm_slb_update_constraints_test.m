@@ -130,6 +130,7 @@ plot(f,Asqk,f,Asqdu,f,Asqdl,f(vS.al),Asqk(vS.al),"x",f(vS.au),Asqk(vS.au),"+");
 axis([fap 0.5 0 2e-3]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0A"),"-dpdflatex");
 close
 
@@ -141,6 +142,7 @@ axis([0 fap -(tpr*2) +(tpr*2)]);
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0T"),"-dpdflatex");
 close
 
@@ -152,6 +154,7 @@ axis([0 fap -(ppr*2) +(ppr*2)]);
 title(strM0);
 ylabel("Phase(rad.)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0P"),"-dpdflatex");
 close
 

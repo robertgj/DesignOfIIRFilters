@@ -192,6 +192,7 @@ axis([0 0.5 -0.1 0.3]);
 grid("on");
 ylabel("dAsqdw");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_correction_response"),"-dpdflatex");
 close
 
@@ -205,6 +206,7 @@ title(strP);
 ylabel("dAsqdw error");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
 close
 
@@ -218,6 +220,7 @@ title(strP);
 ylabel("dCsqdw error");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -248,6 +251,7 @@ axis([0 0.5 tp+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -278,11 +282,13 @@ axis([0 0.5 tp+(0.04*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -330,6 +336,7 @@ axis([0 0.5 0.001*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_simulated_error_response"),"-dpdflatex");
 close
 

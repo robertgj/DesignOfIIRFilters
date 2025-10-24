@@ -296,6 +296,7 @@ strt=sprintf(["FIR band-pass filter (nbits=%d,ndigits=%d) : ", ...
               "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g"], ...
              nbits,ndigits,fasl,fapl,fapu,fasu,dBap,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex"); 
 close
 

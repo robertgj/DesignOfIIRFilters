@@ -128,6 +128,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -50 10]);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 % Re-plot for the passband (?!?!?)
@@ -141,6 +142,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.06 -2 5]);
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 

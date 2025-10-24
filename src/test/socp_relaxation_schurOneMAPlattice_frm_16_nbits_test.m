@@ -383,6 +383,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -405,6 +406,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_pass_phase"),"-dpdflatex");
 close
 
@@ -427,6 +429,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 

@@ -364,6 +364,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice lowpass filter ", ...
 title(strt);
 axis([0, 0.5, -2*dBas, 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin"),"-dpdflatex");
 close
 
@@ -380,6 +381,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_pass"),"-dpdflatex"); 
 close
 

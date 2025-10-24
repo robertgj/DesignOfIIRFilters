@@ -123,6 +123,7 @@ plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
 axis([fas,0.5,-60,-30]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0Asq"),"-dpdflatex");
 close
 
@@ -134,6 +135,7 @@ plot(ft,[T0,Tdu,Tdl], ...
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0T"),"-dpdflatex");
 close
 
@@ -145,6 +147,7 @@ plot(fp,[P0-Pd,Pdu-Pd,Pdl-Pd], ...
 title(strM0);
 ylabel("Phase(rad.)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0P"),"-dpdflatex");
 close
 
@@ -156,6 +159,7 @@ plot(fd,[D0-Dd,Ddu-Dd,Ddl-Dd], ...
 title(strM0);
 ylabel("dAsqdw");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0D"),"-dpdflatex");
 close
 

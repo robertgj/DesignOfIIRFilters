@@ -76,6 +76,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("ellip5OneM_response","-dpdflatex");
 close
 
@@ -90,6 +91,7 @@ subplot(212);
 plot(xxf(svk,1), xxf(svk,3))
 xlabel("State variable x1")
 ylabel("State variable x3")
+zticks([]);
 print("ellip5OneM_sv_noise","-dpdflatex");
 close
 
@@ -105,6 +107,7 @@ subplot(212);
 plot(xxfsin(:,1), xxfsin(:,3))
 xlabel("State variable x1")
 ylabel("State variable x3")
+zticks([]);
 print("ellip5OneM_sv_sine","-dpdflatex");
 close
 

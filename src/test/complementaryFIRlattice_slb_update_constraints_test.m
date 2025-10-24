@@ -117,6 +117,7 @@ title(strM);
 axis([0,0.5,-35,0.25]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"Asq"),"-dpdflatex");
 close
 
@@ -130,6 +131,7 @@ plot(ft,[T0,T1,Tdu,Tdl], ...
 title(strM);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"T"),"-dpdflatex");
 close
 
@@ -143,6 +145,7 @@ plot(fp,[P0,P1,Pdu,Pdl], ...
 title(strM);
 ylabel("Phase(rad.)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"P"),"-dpdflatex");
 close
 

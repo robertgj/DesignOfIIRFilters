@@ -77,6 +77,7 @@ ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
 title(sprintf(strt,"initial"));
+zticks([]);
 print(strcat(strf,"_init"),"-dpdflatex");
 close
 
@@ -113,6 +114,7 @@ ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
 title(sprintf(strt,"MMSE"));
+zticks([]);
 print(strcat(strf,"_mmse"),"-dpdflatex");
 close
 

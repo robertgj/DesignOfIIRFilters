@@ -151,6 +151,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.2*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -259,6 +260,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.02*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_sd_response"),"-dpdflatex");
 close
 
@@ -536,6 +538,7 @@ axis([0 0.5 tp+(0.02*[-1,1])]);
 grid("on");
 ylabel("Group delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response_error"),"-dpdflatex");
 close
 
@@ -558,20 +561,24 @@ legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_pass_relative_error"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 zplane(qroots(flipud(D1k_min(:))),qroots(D1k_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_D1k_min_pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(D2k_min(:))),qroots(D2k_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_D2k_min_pz"),"-dpdflatex");
 close
 zplane(qroots(conv(N_min(:),Fz)),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_k_min_pz"),"-dpdflatex");
 close
 

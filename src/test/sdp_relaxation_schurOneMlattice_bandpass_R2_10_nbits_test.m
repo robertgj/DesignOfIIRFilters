@@ -322,6 +322,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -341,6 +342,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -360,6 +362,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -396,8 +399,10 @@ ylabel("Stopband amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -50 -36]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_intro"),"-dpdflatex");
 if print_for_web_page
+zticks([]);
   print(strcat(strf,"_intro"),"-dpdflatex");
 endif
 close
@@ -421,6 +426,7 @@ for l=12:length(kc_active_max_n_hist)
 endfor
 text(0.5,19,str_active1,"fontsize",8);
 text(0.5,18,str_active2,"fontsize",8);
+zticks([]);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
 

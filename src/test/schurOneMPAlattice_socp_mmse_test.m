@@ -140,6 +140,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-tpr td+tpr]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_A12"),"-dpdflatex");
 close
 
@@ -166,6 +167,7 @@ ylabel("dAsqdw");
 xlabel("Frequency");
 axis([0 max([fap,ftp,fpp,fdp]) -dpr dpr]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_A12pass"),"-dpdflatex");
 close
 
@@ -175,18 +177,21 @@ close
 subplot(111);
 zplane(qroots(N12),qroots(D12));
 title(s);
+zticks([]);
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
 A1d=schurOneMAPlattice2tf(A1k,A1epsilon0,A1p0);
 subplot(111);
 zplane(qroots(flipud(A1d(:))),qroots(A1d(:)));
 title(s);
+zticks([]);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 subplot(111);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon0,A2p0);
 zplane(qroots(flipud(A2d(:))),qroots(A2d(:)));
 title(s);
+zticks([]);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 
@@ -205,6 +210,7 @@ xlabel("Frequency");
 legend("A","B","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_A1A2phase"),"-dpdflatex");
 close
 

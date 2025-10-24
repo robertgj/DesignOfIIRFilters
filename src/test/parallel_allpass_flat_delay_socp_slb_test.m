@@ -90,12 +90,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot initial allpass poles and zeros
 subplot(111);
 zplane(qroots(flipud(Da0)),qroots(Da0));
 title(strt);
+zticks([]);
 print(strcat(strf,"_a0pz"),"-dpdflatex");
 close
 
@@ -133,6 +135,7 @@ axis([0 0.5 0 20]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
 
@@ -151,6 +154,7 @@ axis([0 0.5 10 11]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1dual"),"-dpdflatex");
 close
 
@@ -158,6 +162,7 @@ close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 

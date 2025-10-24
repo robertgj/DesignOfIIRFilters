@@ -186,6 +186,7 @@ axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_error_response"),"-dpdflatex");
 close
 
@@ -199,6 +200,7 @@ ylabel("dAsqdw error");
 title(strP);
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_dAsqdw"),"-dpdflatex");
 close
 
@@ -212,11 +214,13 @@ ylabel("dCsqdw error");
 title(strP);
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_correction"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

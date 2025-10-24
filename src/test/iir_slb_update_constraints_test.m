@@ -105,6 +105,7 @@ axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"x7A"),"-dpdflatex");
 close
 
@@ -117,6 +118,7 @@ title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close
 
@@ -130,6 +132,7 @@ title(strM7);
 ylabel("Phase(rad.)\n(Corrected for delay)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"x7P"),"-dpdflatex");
 close
 

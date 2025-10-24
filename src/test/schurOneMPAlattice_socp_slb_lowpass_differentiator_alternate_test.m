@@ -145,6 +145,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.2*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -199,6 +200,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp+0.2*[-1,1]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse"),"-dpdflatex");
 close
 
@@ -274,6 +276,7 @@ axis([0 0.5 tp+0.01*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -302,6 +305,7 @@ axis([0 0.5 tp+(0.01*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
@@ -312,6 +316,7 @@ grid("on");
 title(strP);
 ylabel("Relative amplitude error");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pass_relative_error_response"),"-dpdflatex");
 close
 
@@ -341,6 +346,7 @@ axis([0 0.5 0 1.4]);
 grid("on");
 ylabel("dCsqdw");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_correction_response"),"-dpdflatex");
 close
 
@@ -354,6 +360,7 @@ title(strP);
 ylabel("dCsqdw error");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dCsqdw_error"),"-dpdflatex");
 close
 
@@ -367,19 +374,23 @@ title(strP);
 ylabel("dAsqdw error");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dAsqdw_error"),"-dpdflatex");
 close
 
 % Pole-zero plot
 D1k2=schurOneMAPlattice2tf(A1k2);
 zplane(qroots(flipud(D1k2(:))),qroots(D1k2(:)));
+zticks([]);
 print(strcat(strf,"_D1k2_pz"),"-dpdflatex");
 close
 D2k2=schurOneMAPlattice2tf(A2k2);
 zplane(qroots(flipud(D2k2(:))),qroots(D2k2(:)));
+zticks([]);
 print(strcat(strf,"_D2k2_pz"),"-dpdflatex");
 close
 zplane(qroots(conv(N2(:),Fz)),qroots(D2(:)));
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

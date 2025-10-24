@@ -56,6 +56,7 @@ grid("on");
 strt=sprintf(["Selesnick-Burrus flat band-pass FIR : ", ...
  "N=%d,L=%d,$\\delta_{sl}$=%g,$\\delta_{su}$=%g"],N,L,deltasl,deltasu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -67,6 +68,7 @@ title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 

@@ -97,6 +97,7 @@ grid("on");
 strt=sprintf(["Bandpass R=2 Schur NS lattice,nbits=%d,bitstart=%d,", ...
  "msize=%d,ndigits=%d"],nbits,bitstart,msize,ndigits);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 iplot=1:(0.7*nplot); % Avoid overlap with legend
@@ -114,6 +115,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 0 25]);
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 

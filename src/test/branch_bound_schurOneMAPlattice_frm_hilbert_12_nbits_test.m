@@ -481,6 +481,7 @@ ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 axis([0 0.5 -0.502 -0.498]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_remez"),"-dpdflatex");
 close
 % Find the number of signed-digits used
@@ -532,6 +533,7 @@ strt=sprintf(["FRM Hilbert filter (nbits=12) : ", ...
 title(strt);
 axis([0  0.5 -0.2 0.2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minAsq"),"-dpdflatex");
 close
 % Plot phase
@@ -553,6 +555,7 @@ xlabel("Frequency");
 title(strt);
 axis([0 0.5 -0.505 -0.495]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minP"),"-dpdflatex");
 close
 % Plot delay
@@ -574,6 +577,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kuv_minT"),"-dpdflatex");
 close
 

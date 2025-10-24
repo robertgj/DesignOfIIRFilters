@@ -58,10 +58,12 @@ legend("Hbrz","Hbrzc");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_brz_brzc_response"),"-dpdflatex");
 close
 zplane(qroots(brzc));
 title("Minimum phase complementary filter zeros");
+zticks([]);
 print(strcat(strf,"_brzc_zeros"),"-dpdflatex");
 close
 
@@ -85,6 +87,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -40 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_simulated_response"),"-dpdflatex");
 close
 
@@ -163,6 +166,7 @@ endif
 plot(w*0.5/pi, 10*log10(abs(Grzc).^2 + abs(Hbrz).^2));
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 print(strcat(strf,"_cepstral_combined_response"),"-dpdflatex");
 close
 

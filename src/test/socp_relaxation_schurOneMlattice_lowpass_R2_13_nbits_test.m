@@ -397,6 +397,7 @@ legend("initial","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","southwest");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -404,6 +405,7 @@ close
 [N_min,D_min]=schurOneMlattice2tf(k_min,epsilon_min,p_ones,c_min);
 zplane(qroots(conv([1;-1],N_min(:))),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

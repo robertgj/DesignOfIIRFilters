@@ -55,6 +55,7 @@ title("Test local\\_peak.m");
 hold on
 plot(x(idxpeak),y(idxpeak),"*")
 plot(x(idxtrough),y(idxtrough),"x")
+zticks([]);
 print("local_peak_test","-dpdflatex");
 close
 

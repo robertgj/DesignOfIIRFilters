@@ -292,6 +292,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_pass"),"-dpdflatex");
 close
 
@@ -313,6 +314,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_search_pass"),"-dpdflatex");
 close
 
@@ -334,6 +336,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_relative_pass"),"-dpdflatex");
 close
 
@@ -355,6 +358,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_search_relative_pass"),"-dpdflatex");
 close
 
@@ -376,6 +380,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","north");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_stop"),"-dpdflatex");
 close
 
@@ -397,6 +402,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","north");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_search_stop"),"-dpdflatex");
 close
 
@@ -418,6 +424,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_phase"),"-dpdflatex");
 close
 
@@ -439,6 +446,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_search_phase"),"-dpdflatex");
 close
 
@@ -460,6 +468,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_delay"),"-dpdflatex");
 close
 
@@ -481,6 +490,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","north");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_search_delay"),"-dpdflatex");
 close
 
@@ -502,6 +512,7 @@ legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_sd_dAsqdw"),"-dpdflatex");
 close
 
@@ -524,6 +535,7 @@ legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_search_dAsqdw"),"-dpdflatex");
 close
 

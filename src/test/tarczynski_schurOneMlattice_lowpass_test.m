@@ -100,6 +100,7 @@ for R=[1,2],
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(strcat(strf,strR,"_response"),"-dpdflatex");
   close
 
@@ -115,6 +116,7 @@ for R=[1,2],
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(strcat(strf,strR,"_passband_response"),"-dpdflatex");
   close
 

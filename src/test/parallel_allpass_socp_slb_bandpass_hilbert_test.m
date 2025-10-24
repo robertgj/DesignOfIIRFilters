@@ -143,6 +143,7 @@ axis([0 0.5 0 2]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -219,6 +220,7 @@ ylabel("Delay(samples)");
 axis([0 0.5 10 30]);
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -240,16 +242,19 @@ ylabel("Delay(samples)");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) tp-tpr tp+tpr]);
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
 zplane(qroots(flipud(Da1)),qroots(Da1));
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(Db1)),qroots(Db1));
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 
@@ -266,6 +271,7 @@ xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 

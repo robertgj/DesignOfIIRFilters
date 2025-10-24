@@ -79,6 +79,7 @@ axis([0 0.5 -70 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt6OneMSD_response","-dpdflatex");
 close
 

@@ -239,6 +239,7 @@ strt=sprintf(["Direct-form symmetric bandpass filter response ", ...
  "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,fasl=%g,fasu=%g"], ...
              nbits,ndigits,fapl,fapu,fasl,fasu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -254,6 +255,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_stopband_response"),"-dpdflatex");
 close
 

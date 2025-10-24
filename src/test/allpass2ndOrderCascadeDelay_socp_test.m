@@ -66,6 +66,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-1 td+1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a0"),"-dpdflatex");
 close
 % Plot phase response
@@ -76,6 +77,7 @@ title(s);
 ylabel("Phase(rad.)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a0phase"),"-dpdflatex");
 close
 
@@ -111,6 +113,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 25]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1"),"-dpdflatex");
 close
 % Plot passband response
@@ -126,12 +129,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap td-2 td+2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1pass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(Nab1),qroots(Da1));
 title(s);
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 
@@ -167,6 +172,7 @@ axis([0 0.5 0 25]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1sqm"),"-dpdflatex");
 close
 % Plot passband response
@@ -182,12 +188,14 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fap 0 25]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_a1sqmpass"),"-dpdflatex");
 close
 % Plot poles and zeros
 subplot(111);
 zplane(qroots(Nab1sqm),qroots(Da1sqm));
 title(s);
+zticks([]);
 print(strcat(strf,"_a1sqmpz"),"-dpdflatex");
 close
 

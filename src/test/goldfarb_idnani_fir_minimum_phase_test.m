@@ -57,6 +57,7 @@ brz=remez(N-1,2*[0 fasl fapl fapu fasu 0.5],[0 0 1 1 0 0],[1 1 1],"bandpass");
 % Plot initial filter
 zplane(qroots(brz));
 title("Goldfarb-Idnani initial FIR filter")
+zticks([]);
 print(strcat(strf,"_initial_zeros"),"-dpdflatex");
 close
 [Hbrz,w]=freqz(brz,1,1024);
@@ -66,6 +67,7 @@ grid("on");
 xlabel("Frequency"); 
 ylabel("Amplitude(dB)");
 title("Goldfarb-Idnani initial FIR filter");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -105,6 +107,7 @@ if max(abs(z))>1
 endif
 zplane(z);
 title("Goldfarb-Idnani minimum phase FIR filter");
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 [b,a]=x2tf(x,U,V,M,Q,R);
@@ -117,6 +120,7 @@ grid("on");
 xlabel("Frequency"); 
 ylabel("Amplitude(dB)");
 title("Goldfarb-Idnani minimum phase FIR filter");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

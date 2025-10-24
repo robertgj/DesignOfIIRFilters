@@ -527,6 +527,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ",
 title(strt);
 axis([0, 0.5, -50, -30]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_stop"),"-dpdflatex");  
 close
 
@@ -547,6 +548,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_pass"),"-dpdflatex"); 
 close
 
@@ -566,6 +568,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_delay"),"-dpdflatex");
 close
 
@@ -584,6 +587,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_phase"),"-dpdflatex"); 
 close
 
@@ -602,6 +606,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kmin_dAsqdw"),"-dpdflatex");
 close
 

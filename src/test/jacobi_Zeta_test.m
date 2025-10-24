@@ -99,6 +99,7 @@ legend(sprintf("k=%3.1f",k(1)),sprintf("k=%3.1f",k(2)), ...
        sprintf("k=%4.2f",k(3)),sprintf("k=%8.6f",k(4)));
 legend("boxoff");
 legend("location","southwest");
+zticks([]);
 print("jacobi_Zeta_test_DLMF_Figure_22_16_3","-dpdflatex");
 close
 

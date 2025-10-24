@@ -73,6 +73,7 @@ plot(fa,Azp_0,fa,Adu,fa,Adl,fa(vR.al),Al_0,"*",fa(vR.au),Au_0,"+");
 axis([0 0.5 -0.1 0.1]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(strcat(strf,"_init"),"-dpdflatex");
 close
 
@@ -122,6 +123,7 @@ legend("Azp_0","Azp_1","Adu","Adl");
 legend("location","southeast");
 legend("left");
 legend("boxoff");
+zticks([]);
 print(strcat(strf,"_vRvS"),"-dpdflatex");
 close
 
@@ -157,6 +159,7 @@ legend("Azp_0","Azp_1","Adu","Adl");
 legend("location","southeast");
 legend("left");
 legend("boxoff");
+zticks([]);
 print(strcat(strf,"_vRvS_2"),"-dpdflatex");
 close
 

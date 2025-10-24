@@ -64,6 +64,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"response"),"-dpdflatex");
   close
 
@@ -81,6 +82,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"passband_response"),"-dpdflatex");
   close
 
@@ -103,6 +105,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   xlabel("Frequency");
   ylabel("Delay(samples)");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"model_response"),"-dpdflatex");
   close
 
@@ -115,6 +118,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   subplot(212);
   plot(xac);
   ylabel("ac(Comp. Mask)");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"mask_filters"),"-dpdflatex");
   close
   
@@ -142,6 +146,7 @@ function iir_frm_parallel_allpass_socp_slb_plot(x,na,nc,Mmodel,Dmodel,dmask, ...
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+  zticks([]);
   print(sprintf(strF,lower(strOpt),"mask_response"),"-dpdflatex");
   close
   

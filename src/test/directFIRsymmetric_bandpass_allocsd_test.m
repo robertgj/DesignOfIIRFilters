@@ -155,6 +155,7 @@ for ndigits=2:3
     strt=sprintf("Bandpass symmetric FIR,nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
+zticks([]);
     print(strcat(strf_nbits,"_amplitude"),"-dpdflatex");
     close
 
@@ -172,6 +173,7 @@ for ndigits=2:3
     legend("left");
     grid("on");
     title(strt);
+zticks([]);
     print(strcat(strf_nbits,"_pass_amplitude"),"-dpdflatex");
     close
 
@@ -230,6 +232,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_cost"),"-dpdflatex");
   close
 
@@ -249,6 +252,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_sidelobe"),"-dpdflatex");
   close
 
@@ -268,6 +272,7 @@ for ndigits=2:3
   legend("location","northwest");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf_ndigits,"_digits"),"-dpdflatex");
   close
   

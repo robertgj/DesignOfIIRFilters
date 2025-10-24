@@ -52,6 +52,7 @@ legend("Hb17b","Hb17bc");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_b17b_b17bc_response"),"-dpdflatex");
 close
 
@@ -95,6 +96,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hk17b|^2+|Hk17bhat|^2");
+zticks([]);
 print(strcat(strf,"_k17b_k17bhat_response"),"-dpdflatex");
 close
 
@@ -122,6 +124,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Heb17b|^2+|Heb17bc|^2");
+zticks([]);
 print(strcat(strf,"_eb17b_eb17bc_response"),"-dpdflatex");
 close
 
@@ -173,6 +176,7 @@ legend("Tb17b","Tpbk17b");
 legend("location","west");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_Tb17b_Tpbk17b_response"),"-dpdflatex");
 close
 
@@ -208,6 +212,7 @@ axis([0 0.5 0.98 1.02])
 grid("on");
 xlabel("Frequency")
 ylabel("|Hpk17b|^2+|Hpk17bhat|^2");
+zticks([]);
 print(strcat(strf,"_pk17b_pk17bhat_response"),"-dpdflatex");
 close
 

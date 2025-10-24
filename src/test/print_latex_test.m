@@ -10,6 +10,7 @@ version
 x=rand(1000,1);
 plot(x);
 tic;
+zticks([]);
 print("x","-dpdflatex");
 toc;
 close;

@@ -136,6 +136,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([-0.5 0.5 0 10*tp]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -168,6 +169,7 @@ T1=schurOneMlatticeT(wt,k1,epsilon1,p1,c1);
 subplot(111);
 zplane(qroots(N1),qroots(D1));
 title(strt);
+zticks([]);
 print(strcat(strf,"_mmse_pz"),"-dpdflatex");
 close
 
@@ -199,6 +201,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([-0.5 0.5 tp+(tpr*[-1,1])]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
 close
 
@@ -231,6 +234,7 @@ T2=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
 subplot(111);
 zplane(qroots(N2),qroots(D2));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 
@@ -268,6 +272,7 @@ axis([-0.5 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 

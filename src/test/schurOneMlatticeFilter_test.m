@@ -107,6 +107,7 @@ for Nk=1:9
   grid("on");
   xlabel("Frequency")
   ylabel("Amplitude(dB)")
+zticks([]);
   print(sprintf("%s_response_%d",strf,Nk),"-dpdflatex");
   close
   npass=1+(nfpts*fc);

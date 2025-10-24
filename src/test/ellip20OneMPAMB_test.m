@@ -153,6 +153,7 @@ grid("on");
 legend("simulated(s-d)","calculated(s-d)","exact");
 legend("boxoff");
 
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

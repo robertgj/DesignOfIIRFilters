@@ -312,6 +312,7 @@ strt=sprintf(["FIR band-pass Hilbert filter (nbits=%d,ndigits=%d) : ", ...
               "fasl=%g,fapl=%g,dBap=%g,dBas=%g"], ...
              nbits,ndigits,fasl,fapl,dBap,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex"); 
 close
 

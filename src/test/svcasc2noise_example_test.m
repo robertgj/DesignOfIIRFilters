@@ -400,6 +400,7 @@ for t=1:2
   ylabel("Amplitude(dB)")
   axis([0 0.5 -80 1]);
   grid("on");
+zticks([]);
   print(sprintf("svcasc2noise_%spass_response",pass),"-dpdflatex");
   close
 

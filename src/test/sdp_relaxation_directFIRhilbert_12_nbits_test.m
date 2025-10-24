@@ -284,6 +284,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 

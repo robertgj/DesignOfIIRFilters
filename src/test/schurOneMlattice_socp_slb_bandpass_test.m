@@ -161,12 +161,14 @@ axis([0 0.5 tp+(0.02*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(N3(:)),qroots(D3(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

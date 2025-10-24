@@ -237,6 +237,7 @@ set(hax,"color",h2c);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -244,6 +245,7 @@ close
 z=qroots(h);
 zplane(z);
 title(strt);
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 

@@ -439,6 +439,7 @@ legend(ax(1),"initial","s-d","s-d(Ito)","s-d(min)");
 legend(ax(1),"location","northeast");
 legend(ax(1),"boxoff");
 legend(ax(1),"left");
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -459,6 +460,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_amplitude"),"-dpdflatex");
 close
 
@@ -479,6 +481,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop_amplitude"),"-dpdflatex");
 close
 
@@ -499,6 +502,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_phase"),"-dpdflatex");
 close
 
@@ -519,6 +523,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_delay"),"-dpdflatex");
 close
 
@@ -539,6 +544,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass_dAsqdw"),"-dpdflatex");
 close
 

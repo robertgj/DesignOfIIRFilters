@@ -439,12 +439,14 @@ legend("initial","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(N_min(:)),qroots(D_min(:)));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

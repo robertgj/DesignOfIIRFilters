@@ -148,6 +148,7 @@ plot(f(nas:end),10*log10([Asqx0(nas:end),Asqdu(nas:end)]), ...
 axis([fas,0.5,-60,-40]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0A"),"-dpdflatex");
 close
 
@@ -159,6 +160,7 @@ plot(ft,[Tx0(1:nap),Tdu,Tdl], ...
 title(strMx0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0T"),"-dpdflatex");
 close
 
@@ -197,6 +199,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asqx0","Asqx1","Asqdu","Asqdu+tol","location","north");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"x1A"),"-dpdflatex");
 close
 
@@ -210,6 +213,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency")
 legend("Tx0","Tx1","Tdu","Tdl","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"x1T"),"-dpdflatex");
 close
 

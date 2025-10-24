@@ -49,6 +49,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   xlabel("Frequency");
   axis([0 0.5 tp-(tpr*2) tp+(tpr*2)]);
   grid("on");
+  zticks([]);
   print(strF,"-dpdflatex");
   print(strF,"-dsvg");
   close
@@ -58,6 +59,7 @@ function schurOneMlattice_sqp_slb_hilbert_plot ...
   subplot(111);
   zplane(qroots(n),qroots(d));
   title(strT);
+  zticks([]);
   print(strcat(strF,"pz"),"-dpdflatex");
   close
   

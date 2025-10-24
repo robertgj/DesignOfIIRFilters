@@ -225,10 +225,12 @@ for l=1:4,
 endfor
 
 figure(1,"visible","off");
+zticks([]);
 print(sprintf("%s_Q_p_q",strf),"-dpdflatex");
 close
 
 figure(2,"visible","off");
+zticks([]);
 print(sprintf("%s_argHupu0_p_q",strf),"-dpdflatex");
 close
 
@@ -249,6 +251,7 @@ title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 xlabel("$w$");
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 print(sprintf("%s_Q_%d_%d",strf,p,q),"-dpdflatex");
 close
 
@@ -267,6 +270,7 @@ plot(w,Q,wdr,Qdr,"or");
 axis([0.95 1 -0.01 0.11]);
 xlabel("$w$");
 grid("on");
+zticks([]);
 print(sprintf("%s_Q_%d_%d_detail",strf,p,q),"-dpdflatex");
 close
 
@@ -355,6 +359,7 @@ for l=1:m,
   title(strt,"fontsize",10);
   grid("on");
 endfor
+zticks([]);
 print(sprintf("%s_Q_%d_%d_subfilters",strf,p,q),"-dpdflatex");
 close
 
@@ -402,6 +407,7 @@ title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 xlabel("$w$");
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 print(sprintf("%s_Q_%d_%d",strf,p,q),"-dpdflatex");
 close
 
@@ -426,6 +432,7 @@ axis([1-del 1 del*dr]);
 xlabel("$w$");
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 print(sprintf("%s_Q_%d_%d_detail",strf,p,q),"-dpdflatex");
 close
 
@@ -436,6 +443,7 @@ ylabel("Double zero location");
 title(sprintf(["Double zero locations of $Q_{%d,%d}(w,%10.8f)$ ", ...
  "(%d on right, %d on left)"], p,q,k,length(y1),length(y3)));
 grid("on");
+zticks([]);
 print(sprintf("%s_Q_%d_%d_zeros",strf,p,q),"-dpdflatex");
 close
 
@@ -494,6 +502,7 @@ title("Cascade of subfilters 1, 2 and 3");
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 print(sprintf("%s_Q_%d_%d_subfilters",strf,p,q),"-dpdflatex");
 close
 

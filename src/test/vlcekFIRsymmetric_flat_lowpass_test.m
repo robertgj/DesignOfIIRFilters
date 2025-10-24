@@ -42,6 +42,7 @@ xlabel("Frequency");
 ylabel("Amplitude");
 title(sprintf(["Vlcek maximally-flat low-pass filter responses for ", ...
  "M=%d,K=%d,%d,...,%d"],M,K(1),K(2),K(end)));
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

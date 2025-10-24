@@ -72,13 +72,16 @@ x0=[ 0.004; ...
      2*pi/3;pi/2];
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 hold off
 close
 showResponsePassBands(0,fap,-3,3,x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 hold off
 close
@@ -123,13 +126,16 @@ axis([0, 0.5 0 2*(U+M)]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-0.04,0.01,d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 hold off
 close
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 

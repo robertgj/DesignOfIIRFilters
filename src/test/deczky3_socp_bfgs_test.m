@@ -84,12 +84,15 @@ endif
 strM=sprintf(["Deczky Ex.3(MMSE-SOCP-BFGS):", ...
  "fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g"],fap,Wap,fas,Was,ftp,tp,Wtp);
 showResponse(x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-3,3,x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
@@ -110,12 +113,15 @@ printf("Deczky Ex.3 lowpass d2 (PCLS-SOCP-BFGS) feasible after %d seconds!\n", .
 strP=sprintf(["Deczky Ex.3(PCLS-BFGS):fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,", ...
  "Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g"],fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showResponse(d2,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d2"),"-dpdflatex");
 close
 showResponsePassBands(0,ftp,-2*dBap,dBap,d2,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d2pass"),"-dpdflatex");
 close
 showZPplot(d2,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d2pz"),"-dpdflatex");
 close
 

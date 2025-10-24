@@ -257,6 +257,7 @@ for M=[31,200],
   title(strt);
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(sprintf("%s_hM%03d_dual_response",strf,M),"-dpdflatex"); 
   close
 
@@ -266,6 +267,7 @@ for M=[31,200],
   ylabel("Amplitude");
   grid("on");
   title(strt);
+zticks([]);
   print(sprintf("%s_hM%03d_response",strf,M),"-dpdflatex");
   close
   

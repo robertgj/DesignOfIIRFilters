@@ -318,6 +318,7 @@ legend("left");
 strt=sprintf("Direct-form non-symmetric FIR : N=%d,fapl=%4.2f,fapu=%4.2f", ...
              N,fapl,fapu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -338,6 +339,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 title(strt);
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
@@ -358,6 +360,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("right");
 title(strt);
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 

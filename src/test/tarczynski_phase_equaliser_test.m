@@ -138,12 +138,14 @@ for nh=3:4,
     xlabel("Frequency");
     grid("on");
     strf=sprintf("tarczynski_phase_equaliser_test_nh%d_na%d_%%s",nh,na);
+zticks([]);
     print(sprintf(strf,"a1"),"-dpdflatex");
     close
     subplot(111)
     zplane(N1',D1');
     grid("on");
     title(s);
+zticks([]);
     print(sprintf(strf,"a1pz"),"-dpdflatex");
     close
 

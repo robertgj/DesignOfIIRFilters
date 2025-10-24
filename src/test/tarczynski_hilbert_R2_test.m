@@ -122,6 +122,7 @@ subplot(111);
 zplane(qroots(N0),qroots(D0R));
 s=sprintf("Tarczynski nN=%d,nD=%d,R=%d,td=%g IIR Hilbert filter",nN,nD,R,td);
 title(s);
+zticks([]);
 print("tarczynski_hilbert_R2_test_pz","-dpdflatex");
 close
 
@@ -137,6 +138,7 @@ axis([-0.5 0.5 -1 1]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print("tarczynski_hilbert_R2_test_response","-dpdflatex");
 close
 
@@ -155,6 +157,7 @@ axis([-0.5 0.5 -1 1])
 grid("on");
 ylabel("Phase errror(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print("tarczynski_hilbert_R2_test_remez_response","-dpdflatex");
 close
 

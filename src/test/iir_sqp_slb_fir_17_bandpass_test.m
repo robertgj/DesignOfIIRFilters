@@ -31,9 +31,11 @@ U=2;V=0;M=14;Q=0;R=1;
 x0=[ 0.03, 0.9*ones(1,U), 0.9*ones(1,M/2), pi*[[1 2]/80, (10:14)/10] ]';
 strM0=sprintf(strM,"x0",Wasl,Wasu);
 showResponse(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0"),"-dpdflatex");
 close
 showZPplot(x0,U,V,M,Q,R,strM0);
+zticks([]);
 print(sprintf(strd,"initial","x0pz"),"-dpdflatex");
 close
 
@@ -97,12 +99,15 @@ endif
 strd=sprintf("%s_mmse_%%s",strf);
 strX1=sprintf(strM,"x1(mmse)",Wasl,Wasu);
 showZPplot(x1,U,V,M,Q,R,strX1);
+zticks([]);
 print(sprintf(strd,"x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strX1);
+zticks([]);
 print(sprintf(strd,"x1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-2*dBap,dBap,x1,U,V,M,Q,R,strX1);
+zticks([]);
 print(sprintf(strd,"x1pass"),"-dpdflatex");
 close
 
@@ -128,12 +133,15 @@ endif
 strd=sprintf("%s_pcls_%%s",strf);
 strP1=sprintf(strM,"d1(pcls)",Wasl,Wasu);
 showZPplot(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1"),"-dpdflatex");
 close
 showResponsePassBands(fapl,fapu,-2*dBap,dBap,d1,U,V,M,Q,R,strP1);
+zticks([]);
 print(sprintf(strd,"d1pass"),"-dpdflatex");
 close
 

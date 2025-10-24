@@ -187,6 +187,7 @@ for x=1:length(f),
   grid("on");
   xlabel("Frequency")
   ylabel("Amplitude(dB)")
+zticks([]);
   print(sprintf("%s_response_%d",strf,Nk),"-dpdflatex");
   close
 

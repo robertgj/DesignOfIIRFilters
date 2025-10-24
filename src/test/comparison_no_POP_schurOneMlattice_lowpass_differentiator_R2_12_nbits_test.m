@@ -293,6 +293,7 @@ legend("boxoff");
 legend("right");
 %strt=sprintf("Schur one-multiplier lattice lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_amplitude"),"-dpdflatex");
 close
 
@@ -312,6 +313,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -331,6 +333,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_relative_pass"),"-dpdflatex");
 close
 
@@ -352,6 +355,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","north");
 legend("boxoff");
 legend("right");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -373,6 +377,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 
@@ -394,6 +399,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -413,6 +419,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","northwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_dCsqdw"),"-dpdflatex");
 close
 
@@ -432,6 +439,7 @@ legend("F-P","S-D","B-and-B","SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_dAsqdw"),"-dpdflatex");
 close
 
@@ -560,6 +568,7 @@ legend("boxoff");
 legend("left");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_hM_min_amplitude"),"-dpdflatex");
 close
 
@@ -581,6 +590,7 @@ legend("boxoff");
 legend("right");
 % strt=sprintf(["Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_hM_min_pass_error"),"-dpdflatex");
 close
 
@@ -602,6 +612,7 @@ legend("boxoff");
 legend("left");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_hM_min_pass_relative_error"),"-dpdflatex");
 close
 
@@ -623,6 +634,7 @@ legend("boxoff");
 legend("left");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_hM_min_stop"),"-dpdflatex");
 close
 
@@ -666,6 +678,7 @@ legend("boxoff");
 legend("left");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_Schur_FIR_pass_error"),"-dpdflatex");
 close
 
@@ -687,6 +700,7 @@ legend("boxoff");
 legend("left");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_Schur_FIR_pass_relative_error"),"-dpdflatex");
 close
 
@@ -708,6 +722,7 @@ legend("boxoff");
 legend("right");
 % strt=sprintf("Antisymmetric FIR lowpass differentiator filter");
 % title(strt);
+zticks([]);
 print(strcat(strf,"_Schur_FIR_stop"),"-dpdflatex");
 close
 

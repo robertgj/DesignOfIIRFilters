@@ -175,11 +175,13 @@ legend("boxoff");
 legend("location","north");
 strt=sprintf("MA estimator amplitude response : n=%d, N=%d, Rz=%4.2f",n,N,Rz);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close;
 zplane([qroots(h),qroots(hstar)]);
 strt=sprintf("MA estimator zeros : n=%d, N=%d, Rz=%4.2f", n,N,Rz);
 title(strt);
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close;
 

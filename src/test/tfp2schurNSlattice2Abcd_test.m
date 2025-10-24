@@ -25,6 +25,7 @@ function plot_response(B,A,fname)
   grid("on");
   ylabel("Amplitude(dB)")
   xlabel("Frequency")
+zticks([]);
   print(fname,"-dpdflatex");
   close
 endfunction
@@ -133,6 +134,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_schurNS"),"-dpdflatex");
 close
 
@@ -163,6 +165,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_schurOneM"),"-dpdflatex");
 close
 

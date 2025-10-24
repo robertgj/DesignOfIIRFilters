@@ -97,6 +97,7 @@ plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf(strd,"a1"),"-dpdflatex");
 close
 
@@ -113,6 +114,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-1 td+1]);
 grid("on");
+zticks([]);
 print(sprintf(strd,"a1pass"),"-dpdflatex");
 close
 
@@ -120,6 +122,7 @@ close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title(s);
+zticks([]);
 print(sprintf(strd,"a1pz"),"-dpdflatex");
 close
 
@@ -133,6 +136,7 @@ title(s);
 ylabel("Linear phase error(rad.)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf(strd,"a1phase"),"-dpdflatex");
 close
 

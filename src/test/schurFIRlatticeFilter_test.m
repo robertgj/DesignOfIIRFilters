@@ -51,6 +51,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -20 40]);
+zticks([]);
 print("schurFIRlatticeFilter_test_6bits_rounding","-dpdflatex");
 close
 

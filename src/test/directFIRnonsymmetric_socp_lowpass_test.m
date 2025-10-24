@@ -96,12 +96,14 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 subplot(211)
 axis([0 fap -1.0 0.2]);
 subplot(212)
 axis([0 fap d+[-2,2]]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
 

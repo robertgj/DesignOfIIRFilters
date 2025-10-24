@@ -218,6 +218,7 @@ legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -239,6 +240,7 @@ legend("exact","signed-digit (Lim)","bitflip(s-d Lim)","signed-digit (Ito)", ...
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_response_allocsd"),"-dpdflatex");
 close
 

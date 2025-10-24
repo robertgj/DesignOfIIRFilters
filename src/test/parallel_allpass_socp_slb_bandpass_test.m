@@ -133,6 +133,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -184,6 +185,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 20]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -200,6 +202,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([min(fapl,ftpl) max(fapu,ftpu) (tp+[-1 1]*0.04)]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
@@ -215,6 +218,7 @@ xlabel("Frequency");
 legend("Filter A","Filter B","location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 
@@ -222,14 +226,17 @@ close
 subplot(111);
 zplane(qroots(flipud(Da1)),qroots(Da1));
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(Db1)),qroots(Db1));
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 zplane(qroots(Nab1),qroots(Dab1));
 title("Parallel allpass filters");
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 

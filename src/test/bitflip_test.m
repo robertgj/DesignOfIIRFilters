@@ -81,6 +81,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print("bitflip_test_response","-dpdflatex");
 close
 plot(wplot*0.5/pi,20*log10(abs(h0)),"linestyle","-", ...
@@ -95,6 +96,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print("bitflip_test_passband_response","-dpdflatex");
 close
 

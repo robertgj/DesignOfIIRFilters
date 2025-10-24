@@ -116,6 +116,7 @@ strM0=sprintf(strM,"0");
 title(strM0);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0Asq"),"-dpdflatex");
 close
 
@@ -127,6 +128,7 @@ plot(ft,[T0,Tdu,Tdl], ...
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0T"),"-dpdflatex");
 close
 
@@ -138,6 +140,7 @@ plot(fp,[P0,Pdu,Pdl], ...
 title(strM0);
 ylabel("Phase");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"0P"),"-dpdflatex");
 close
 
@@ -158,6 +161,7 @@ strM1=sprintf(strM,"1");
 title(strM1);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"1Asq"),"-dpdflatex");
 close
 
@@ -168,6 +172,7 @@ plot(ft,[T1,Tdu,Tdl], ...
 title(strM1);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"1T"),"-dpdflatex");
 close
 
@@ -178,6 +183,7 @@ plot(fp,[P1,Pdu,Pdl], ...
 title(strM1);
 ylabel("Phase");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"1P"),"-dpdflatex");
 close
 

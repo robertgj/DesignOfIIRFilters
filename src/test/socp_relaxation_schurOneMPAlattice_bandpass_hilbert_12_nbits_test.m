@@ -441,6 +441,7 @@ legend(ax(1),"initial","s-d","s-d(Ito)","s-d(min)");
 legend(ax(1),"location","northeast");
 legend(ax(1),"boxoff");
 legend(ax(1),"left");
+zticks([]);
 print(strcat(strf,"_k_min_amplitude"),"-dpdflatex");
 close
 
@@ -461,6 +462,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_amplitude"),"-dpdflatex");
 close
 
@@ -481,6 +483,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_stop_amplitude"),"-dpdflatex");
 close
 
@@ -501,6 +504,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_phase"),"-dpdflatex");
 close
 
@@ -521,6 +525,7 @@ legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_delay"),"-dpdflatex");
 close
 
@@ -541,12 +546,14 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_k_min_pass_dAsqdw"),"-dpdflatex");
 close
 
 % Pole-zero plot
 zplane(qroots(N_min),qroots(D_min));
 title("Parallel one-multplier allpass lattice bandpass filter");
+zticks([]);
 print(strcat(strf,"_k_min_pz"),"-dpdflatex");
 close
 

@@ -100,6 +100,7 @@ grid("on");
 strt=sprintf(["Direct-form symmetric FIR stop-band : ", ...
  "fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g"],fasl,fasu,dBas,Wasl,Wasu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

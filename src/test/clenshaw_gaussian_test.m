@@ -217,6 +217,7 @@ subplot(212),plot(x,yexact-yapprox);
 ylabel("Error");
 xlabel("x");
 grid("on");
+zticks([]);
 print(strcat(strf,"_approx"),"-dpdflatex");
 close;
 
@@ -229,6 +230,7 @@ subplot(212),plot(x,yexact-yapprox_fixed_point);
 ylabel("Error");
 xlabel("x");
 grid("on");
+zticks([]);
 print(strcat(strf,"_approx_fixed_point"),"-dpdflatex");
 close;
 

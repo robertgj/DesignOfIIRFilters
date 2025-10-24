@@ -24,6 +24,7 @@ plot(w*0.5/pi,20*log10(abs(H)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 print(strcat(strf,"_calculated_response"),"-dpdflatex");
 close
 
@@ -124,6 +125,7 @@ plot(nppts/nfpts,20*log10(abs(Hibf)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 print(strcat(strf,"_simulated_input_balanced_response"),"-dpdflatex");
 close
 
@@ -179,6 +181,7 @@ plot(nppts/nfpts,20*log10(abs(Hpif)));
 axis([0 0.5 -60 3]);
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 print(strcat(strf,"_simulated_error_feedback_response"),"-dpdflatex");
 close
 

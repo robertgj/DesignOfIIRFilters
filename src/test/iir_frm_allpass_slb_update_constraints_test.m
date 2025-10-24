@@ -117,6 +117,7 @@ ylabel("Stop band(dB)");
 xlabel("Frequency");
 legend("Asq","Asqdu","Asqdu+tol","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"amplitude"),"-dpdflatex");
 close
 
@@ -130,6 +131,7 @@ strMdelay=sprintf(strM,"x0k delay");
 title(strMdelay);
 legend("T","Tdu","Tdl","location","northwest");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"delay"),"-dpdflatex");
 close
 

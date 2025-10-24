@@ -190,6 +190,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 (tp+((tpr/2)*[-1 1]))]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -227,16 +228,19 @@ A2d=schurNSAPlattice2tf(A2s20,A2s00,A2s02,A2s22);
 A2d=A2d(:);
 zplane(qroots(flipud(A1d)),qroots(A1d));
 title("Allpass filter 1");
+zticks([]);
 print(strcat(strf,"_A1pz"),"-dpdflatex");
 close
 zplane(qroots(flipud(A2d)),qroots(A2d));
 title("Allpass filter 2");
+zticks([]);
 print(strcat(strf,"_A2pz"),"-dpdflatex");
 close
 N2=(conv(A1d,flipud(A2d))-conv(A2d,flipud(A1d)))/2;
 D2=conv(A1d,A2d);
 zplane(qroots(N2),qroots(D2));
 title("Parallel allpass filter ");
+zticks([]);
 print(strcat(strf,"_A12pz"),"-dpdflatex");
 close
 
@@ -318,6 +322,7 @@ axis([0 0.5 (tp+(0.4*[-1 1]))]);
 grid("on");
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(strcat(strf,"_sim"),"-dpdflatex");
 close
 

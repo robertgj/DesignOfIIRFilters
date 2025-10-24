@@ -141,6 +141,7 @@ for l=1:length(f)
   ylabel("Amplitude(dB)");
   axis([0 0.5 -60 5]);
   grid("on");
+zticks([]);
   print(sprintf("%s_output_response%d",strf,l),"-dpdflatex");
   close
 
@@ -170,6 +171,7 @@ for l=1:length(f)
   ylabel("Amplitude(dB)");
   axis([0 0.5 -0.2 0.2]);
   grid("on");
+zticks([]);
   print(sprintf("%s_allpass_response%d",strf,l),"-dpdflatex");
   close
 

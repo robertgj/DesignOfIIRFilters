@@ -60,9 +60,11 @@ axis([0 0.5 4 7]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_x0_response"),"-dpdflatex");
 close
 showZPplot(x0,U,V,M,Q,R,strI);
+zticks([]);
 print(strcat(strf,"_initial_x0_pz"),"-dpdflatex");
 close
 
@@ -150,9 +152,11 @@ axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_mmse_x1_error"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1_pz"),"-dpdflatex");
 close
 
@@ -208,9 +212,11 @@ axis([0 0.5 tp+tpr*[-1,1]]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_d1_error"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1_pz"),"-dpdflatex");
 close
 

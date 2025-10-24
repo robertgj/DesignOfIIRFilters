@@ -87,6 +87,7 @@ legend("left");
 grid("on");
 strM=sprintf("FIR Hilbert : fapl=%g,fapu=%g,dBap=%g,Was=%g",fapl,fapu,dBap,Was);
 title(strM);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

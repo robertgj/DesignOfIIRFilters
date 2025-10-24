@@ -161,6 +161,7 @@ for M=1:3,
   grid("on");
   strt=sprintf("Parallel all-pass filter and delay : m=%d, DD=%d",m, DD);
   title(strt);
+zticks([]);
   print(sprintf("%s_m_%d_response",strf,m),"-dpdflatex");
   close
 
@@ -173,6 +174,7 @@ for M=1:3,
   zplane(Na1,[zeros(1,length(Na1)-length(Da1)),Da1])
   title(strt);
   grid("on");
+zticks([]);
   print(sprintf("%s_m_%d_pz",strf,m),"-dpdflatex");
   close
   

@@ -158,6 +158,7 @@ if d~=M,
   ylabel("Delay(samples)");
 endif
 xlabel("Frequency");
+zticks([]);
 print(sprintf("%s_d_%02d_response",strf,d),"-dpdflatex");
 close
 

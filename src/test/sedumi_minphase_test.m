@@ -44,6 +44,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -50 10])
+zticks([]);
 print(strcat(strf,"_covariance"),"-dpdflatex");
 close
 
@@ -76,6 +77,7 @@ title("Minimum phase filter impulse response");
 xlabel("Sample");
 ylabel("Impulse response");
 grid("on");
+zticks([]);
 print(strcat(strf,"_impulse"),"-dpdflatex");
 close
 
@@ -87,10 +89,12 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 grid("on");
 axis([0 0.5 -50 10])
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 zplane(qroots(h));
 title("Minimum phase filter zeros");
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 

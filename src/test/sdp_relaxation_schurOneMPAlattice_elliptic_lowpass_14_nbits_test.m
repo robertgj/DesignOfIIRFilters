@@ -316,6 +316,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -335,6 +336,7 @@ legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -383,6 +385,7 @@ strt=sprintf(["Parallel allpass lattice elliptic lowpass filter ", ...
  "amplitude nbits=%d,ndigits=%d) : fap=%g, fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_dual"),"-dpdflatex"); 
 close
 
@@ -399,6 +402,7 @@ for l=2:length(k_active_max_n_hist)
   str_active=strcat(str_active, sprintf(", %d",k_active_max_n_hist(l)));
 endfor
 text(0.5,-140,str_active,"fontsize",8);
+zticks([]);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
       

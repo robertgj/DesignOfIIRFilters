@@ -152,6 +152,7 @@ grid("on");
 strt=sprintf("$S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)/(1-w^{2})^{1/2}$", ...
              p,q,k,p,q,k);
 title(strt);
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_chen_parks",strf,p,q),"-dpdflatex");
 close
 
@@ -180,6 +181,7 @@ ylabel("Amplitude");
 strt=sprintf("Function $(1-w^2)^{1/2}S_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
 grid("on");
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_isoextremal",strf,p,q),"-dpdflatex");
 close
 
@@ -191,6 +193,7 @@ ylabel("Amplitude");
 grid("on");
 strt=sprintf("Generating function $S_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_generator",strf,p,q),"-dpdflatex");
 close
 print_polynomial(Spq,sprintf("Spq_%d_%d",p,q), ...
@@ -219,6 +222,7 @@ grid("on");
 strt=sprintf(["Un-normalised zero-phase transfer function S :", ...
  "p=%d, q=%d, k=%4.2f"],p,q,k);
 title(strt);
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_S",strf,p,q),"-dpdflatex");
 close
 
@@ -239,6 +243,7 @@ ylabel("Amplitude");
 grid("on");
 strt=sprintf("Zero-phase transfer function $Q_{%d,%d}(u,%4.2f)$",p,q,k);
 title(strt);
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_zero_phase",strf,p,q),"-dpdflatex");
 close
 print_polynomial(a,sprintf("a_%d_%d",p,q), ...
@@ -256,6 +261,7 @@ grid("on");
 strt=sprintf("Transfer function (Vlcek and Zahradnik) : p=%d,q=%d,k=%4.2f", ...
              p,q,k);
 title(strt);
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_response",strf,p,q),"-dpdflatex");
 close
 print_polynomial(h,sprintf("h_%d_%d",p,q), ...
@@ -280,6 +286,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf("%s_p_%d_q_%d_response",strf,p,q),"-dpdflatex");
 close
 print_polynomial(h,sprintf("h_%d_%d",p,q), ...
@@ -362,6 +369,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(sprintf("%s_as_120_fp_0_15_response",strf),"-dpdflatex");
 close
 print_polynomial(h,"h",sprintf("%s_as_120_fp_0_15_h_coef.m",strf));

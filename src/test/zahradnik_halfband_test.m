@@ -226,6 +226,7 @@ ylabel("G(v)")
 strt=sprintf(["Zahradnik and Vlcek half-band filter, G(v): ", ...
  "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
+zticks([]);
 print(strcat(strf,"_fig1"),"-dpdflatex");
 close
 
@@ -241,6 +242,7 @@ ylabel("Q(v)")
 strt=sprintf(["Zahradnik and Vlcek half-band filter, Q(v) : ", ...
  "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
+zticks([]);
 print(strcat(strf,"_fig2"),"-dpdflatex");
 close
 
@@ -254,6 +256,7 @@ grid("on");
 strt=sprintf(["Zahradnik and Vlcek half-band filter frequency response : ", ...
  "n=%d, kp=%10.8f, A=%10.8f, B=%10.8f"], n,kp,A,B);
 title(strt);
+zticks([]);
 print(strcat(strf,"_fig2_response"),"-dpdflatex");
 close
 
@@ -285,6 +288,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_G_fp_0_225_as_60"),"-dpdflatex");
 close
 
@@ -324,6 +328,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_fp_0_225_as_60"),"-dpdflatex");
 close
 
@@ -363,6 +368,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_fp_0_225_as_120"),"-dpdflatex");
 close
 
@@ -394,6 +400,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_table_ii"),"-dpdflatex");
 close
 
@@ -434,6 +441,7 @@ title(strt);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_fp_0_240_as_140"),"-dpdflatex");
 close
 

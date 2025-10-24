@@ -67,6 +67,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 d-0.4 d+0.4]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -287,6 +288,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 floor(N/2)-0.1 floor(N/2)+0.1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_amp_response"),"-dpdflatex");
 close
 
@@ -334,7 +336,7 @@ endif
 if ~isdefinite(value(Q_s))
   error("Q_s not positive semi-definite");
 endif
-if ~isdefinite(-value(F_s))
+if ~isdefinite(-value(F_s)+(1.5e-8*eye(rows(F_s))))
   warning("F_s not negative semi-definite\n(min. eigenvalue of -F_s is =%g)",
           min(eigs(-value(F_s),rows(F_s))));
 endif
@@ -356,6 +358,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 d-0.1 d+0.1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kyp_response"),"-dpdflatex");
 close
 

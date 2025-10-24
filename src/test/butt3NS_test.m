@@ -36,6 +36,7 @@ xlabel("Frequency")
 ylabel("Delay(samples)")
 axis([0 0.5 0 10]);
 grid("on");
+zticks([]);
 print("butt3NS_test_expected_response","-dpdflatex");
 close
 
@@ -128,6 +129,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print("butt3NS_test_response","-dpdflatex");
 close
 
@@ -163,6 +165,7 @@ plot(xxf(svk,1), xxf(svk,3));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
+zticks([]);
 print("butt3NS_test_sv_noise_schur_lattice","-dpdflatex");
 close
 subplot(211);
@@ -175,6 +178,7 @@ plot(xxdirf(svk,1), xxdirf(svk,3));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
+zticks([]);
 print("butt3NS_test_sv_noise_direct_form","-dpdflatex");
 close
 subplot(211);
@@ -187,6 +191,7 @@ plot(xxoptf(svk,1), xxoptf(svk,3));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x3");
+zticks([]);
 print("butt3NS_test_sv_noise_global_optimum","-dpdflatex");
 close
 
@@ -209,6 +214,7 @@ ylabel("Amplitude(dB)")
 title("Direct form filter output noise response")
 axis([0 0.5 -100 -60]);
 grid("on");
+zticks([]);
 print("butt3NS_test_response_direct_form_noise","-dpdflatex");
 close
 
@@ -227,6 +233,7 @@ plot(xxsin(:,1), xxsin(:,3))
 axis([-600 600 -600 600]);
 xlabel("State variable x1")
 ylabel("State variable x3")
+zticks([]);
 print("butt3NS_test_sv_sine_schur_lattice","-dpdflatex");
 close
 

@@ -329,6 +329,7 @@ legend("location","northeast");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_stop"),"-dpdflatex");
 close
 
@@ -348,6 +349,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 
@@ -367,6 +369,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
@@ -389,6 +392,7 @@ for l=12:length(kc_active_max_n_hist)
 endfor
 text(0.5,-2.4,str_active1,"fontsize",8);
 text(0.5,-2.7,str_active2,"fontsize",8);
+zticks([]);
 print(strcat(strf,"_coef_hist"),"-dpdflatex"); 
 close
 

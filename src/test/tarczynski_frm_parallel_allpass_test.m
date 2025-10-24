@@ -219,6 +219,7 @@ axis([0 0.5 0 120]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -235,6 +236,7 @@ axis([0 fpass 90 100]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -260,6 +262,7 @@ axis([0 0.5 0 30]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_masking_response"),"-dpdflatex");
 close
 
@@ -286,6 +289,7 @@ axis([0 0.5 60 100]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 

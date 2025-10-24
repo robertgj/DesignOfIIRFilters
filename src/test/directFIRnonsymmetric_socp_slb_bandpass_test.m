@@ -121,6 +121,7 @@ xlabel("Frequency");
 strt=sprintf(["Initial non-symmetric FIR bandpass : ", ...
  "fasl=%g,fapl=%g,fapu=%g,fasu=%g,td=%g"],fasl,fapl,fapu,fasu,td);
 title(strt);
+zticks([]);
 print(strcat(strf,"_initial"),"-dpdflatex");
 close
 
@@ -181,6 +182,7 @@ strt=sprintf(["FIR non-sym. bandpass : ", ...
  "N=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g,deltap=%g,deltas=%g,tdr=%g"], ...
              N,fasl,fapl,fapu,fasu,deltap,deltas,tdr);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -207,6 +209,7 @@ axis([fasu 0.5 0 0.008]);
 ylabel("Amplitude");
 grid("on");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pass_stop"),"-dpdflatex");
 close
 
@@ -214,6 +217,7 @@ close
 subplot(111);
 zplane(qroots(h),[]);
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

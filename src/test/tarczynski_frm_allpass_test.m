@@ -232,6 +232,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 80 120]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -248,6 +249,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 fpass 90 110]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -259,6 +261,7 @@ axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
 title(strt);
+zticks([]);
 print(strcat(strf,"_masking_response"),"-dpdflatex");
 close
 
@@ -277,6 +280,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 50 150]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 

@@ -47,9 +47,11 @@ k0=k0(:);
 khat0=khat0(:);
 Nk=length(k0);
 zplane(qroots(b0));
+zticks([]);
 print(strcat(strf,"_initial_b0_pz"),"-dpdflatex");
 close
 zplane(qroots(bc0));
+zticks([]);
 print(strcat(strf,"_initial_bc0_pz"),"-dpdflatex");
 close
 % Check complementary responses
@@ -176,12 +178,15 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp-tpr tp+tpr]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 zplane(qroots(Nh2));
+zticks([]);
 print(strcat(strf,"_pcls_Nh2_pz"),"-dpdflatex");
 close
 zplane(qroots(Ng2));
+zticks([]);
 print(strcat(strf,"_pcls_Ng2_pz"),"-dpdflatex");
 close
 

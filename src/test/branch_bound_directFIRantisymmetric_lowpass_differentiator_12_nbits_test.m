@@ -266,6 +266,7 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_amplitude_response"),"-dpdflatex");
 close
 
@@ -285,6 +286,7 @@ legend(sprintf("F-P(%d)",Q),sprintf("F-P(%d)",M),"S-D","S-D(Lim,B-and-B)");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_pass_relative_amplitude_response"),"-dpdflatex");
 close
 

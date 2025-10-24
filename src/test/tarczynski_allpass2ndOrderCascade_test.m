@@ -241,6 +241,7 @@ for flat_delay=[false,true],
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
   % Plot passband response
@@ -261,6 +262,7 @@ for flat_delay=[false,true],
     axis([0 max(ftp,fap) 0 40]);
   endif
   grid("on");
+zticks([]);
   print(sprintf("%s%s_passband_response",strf,flatstr),"-dpdflatex");
   close
   % Plot passband and stopband response (fails with gnuplot graphics toolkit)
@@ -279,6 +281,7 @@ for flat_delay=[false,true],
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(sprintf("%s%s_pass_stop_response",strf,flatstr),"-dpdflatex");
   close
   % Plot the relative phase response of the parallel filters
@@ -293,6 +296,7 @@ for flat_delay=[false,true],
   legend("A","B","location","southwest");
   legend("boxoff");
   grid("on");
+zticks([]);
   print(sprintf("%s%s_ABphase",strf,flatstr),"-dpdflatex");
   close
   % Plot phase response error
@@ -305,22 +309,26 @@ for flat_delay=[false,true],
   xlabel("Frequency");
   grid("on");
   title(s);
+zticks([]);
   print(sprintf("%s%s_phase_error",strf,flatstr),"-dpdflatex");
   close
   % Plot poles and zeros
   zplane(qroots(Na0),qroots(Da0))
   s=sprintf("All-pass 2nd order cascade A : ma=%d",ma);
   title(s);
+zticks([]);
   print(sprintf("%s%s_Apz",strf,flatstr),"-dpdflatex");
   close
   zplane(qroots(Nb0),qroots(Db0))
   s=sprintf("All-pass 2nd order cascade B : mb=%d",mb);
   title(s);
+zticks([]);
   print(sprintf("%s%s_Bpz",strf,flatstr),"-dpdflatex");
   close
   subplot(111);
   zplane(qroots(N0),qroots(D0))
   title(s);
+zticks([]);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close
 

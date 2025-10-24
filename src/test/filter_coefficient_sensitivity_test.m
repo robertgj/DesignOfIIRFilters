@@ -90,6 +90,7 @@ axis([0 0.5 0 40])
 grid("on")
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_elliptic_response"),"-dpdflatex");
 close
 % Elliptic filter sensitivity
@@ -115,6 +116,7 @@ axis([0 0.5 -4000 4000]);
 grid("on");
 ylabel("Delay sensitivity");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_elliptic_sensitivity"),"-dpdflatex");
 close
 
@@ -155,6 +157,7 @@ axis([0 0.5 -1500 1500]);
 grid("on");
 ylabel("Delay sensitivity");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_schur_one_multiplier_elliptic_sensitivity"),"-dpdflatex");
 close
 
@@ -212,6 +215,7 @@ axis([0 0.5 -1000 1000]);
 grid("on");
 ylabel("Delay sensitivity");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_schur_parallel_allpass_elliptic_sensitivity"),"-dpdflatex");
 close
 
@@ -261,6 +265,7 @@ xlabel("Frequency");
 tstr=sprintf("FIR lowpass filter : M=%d,fpass=%g,fstop=%g,Wstop=%g", ...
              M,fpass,fstop,Wstop);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_fir_lowpass_response"),"-dpdflatex");
 close
 % FIR low-pass filter sensitivity
@@ -280,6 +285,7 @@ tstr=sprintf(["FIR low-pass filter sensitivity : ", ...
 title(tstr);
 ylabel("$|A|^2$ sensitivity");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_fir_lowpass_sensitivity"),"-dpdflatex");
 close
 

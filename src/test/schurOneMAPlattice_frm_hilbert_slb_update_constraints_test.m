@@ -127,6 +127,7 @@ title(strMa);
 ylabel("Amplitude");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"Asq1"),"-dpdflatex");
 close
 
@@ -139,6 +140,7 @@ title(strMt);
 ylabel("Zero-phase group delay");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"T1"),"-dpdflatex");
 close
 
@@ -152,6 +154,7 @@ title(strMp);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"P1"),"-dpdflatex");
 close
 

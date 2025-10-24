@@ -150,6 +150,7 @@ axis([0 0.5 -0.02 0.02]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
@@ -158,6 +159,7 @@ subplot(111);
 zplane([min_z;1./allpass_p],min_p);
 strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -192,6 +194,7 @@ axis([0 0.5 -0.02 0.02]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_A12_resp"),"-dpdflatex");
 close
 % All-pass filter pole-zero plots
@@ -199,11 +202,13 @@ subplot(111);
 zplane(1./p1,p1);
 strt="Surma-aho-and-Saram\\\"{a}ki A1 all-pass filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_A1_pz"),"-dpdflatex");
 close
 zplane(1./p2,p2);
 strt="Surma-aho-and-Saram\\\"{a}ki A2 all-pass filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_A2_pz"),"-dpdflatex");
 close
 

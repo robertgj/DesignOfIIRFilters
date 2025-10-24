@@ -183,6 +183,7 @@ ylabel("Interpolated f");
 subplot(212)
 plot(x,f-fun(x),xk,zeros(size(xk)),"o");
 ylabel("f-fun(x)");
+zticks([]);
 print(sprintf("%s_n_20_Chebyshev_2",strf),"-dpdflatex");
 close
 
@@ -234,6 +235,7 @@ subplot(111)
 plot(x,f,xk,fk,"o");
 title(sprintf("Berrut and Trefethen : n=%d, linear node spacing",n));
 ylabel("Interpolated f");
+zticks([]);
 print(sprintf("%s_n_20_linear",strf),"-dpdflatex");
 close
 
@@ -284,6 +286,7 @@ plot(x,f,xk,fk,"o");
 title(sprintf("Berrut and Trefethen : n=%d, scaled to [%g,%g]",n,a,b));
 subplot(212)
 plot(x,f-(1.2*fun(x-3)),xk,zeros(size(xk)),"o");
+zticks([]);
 print(sprintf("%s_n_20_Chebyshev_2_scaled",strf),"-dpdflatex");
 close
 

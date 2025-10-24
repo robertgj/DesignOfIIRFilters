@@ -126,6 +126,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 (ceil(max(tp1,tp2)/10)+1)*10]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -142,6 +143,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 (floor(min(tp1,tp2)/10)-1)*10 (ceil(max(tp1,tp2)/10)+1)*10]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response_passband"),"-dpdflatex");
 close
 
@@ -149,6 +151,7 @@ close
 subplot(111);
 zplane(qroots(N),qroots(D));
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
@@ -166,6 +169,7 @@ legend("Filter A","Filter B");
 legend("location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_phase"),"-dpdflatex");
 close
 

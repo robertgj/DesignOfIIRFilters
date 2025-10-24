@@ -61,6 +61,7 @@ legend("K=0","K=4","K=8","K=12","K=16","K=20","K=24");
 legend("boxoff");
 legend("right");
 legend("location","northwest");
+zticks([]);
 print(strcat(strf,"_N30_response"),"-dpdflatex");
 close
 
@@ -94,6 +95,7 @@ legend("K=1","K=5","K=9","K=13","K=17","K=21","K=25");
 legend("boxoff");
 legend("right");
 legend("location","northwest");
+zticks([]);
 print(strcat(strf,"_N31_response"),"-dpdflatex");
 close
 

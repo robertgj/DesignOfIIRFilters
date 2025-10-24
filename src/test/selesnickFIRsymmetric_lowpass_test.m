@@ -85,6 +85,7 @@ for k=["a","b","c","d"]
   ylabel("Amplitude(dB)");
   grid("on");
   title(strt);
+zticks([]);
   print(sprintf("%s_hM%s_response",strf,k),"-dpdflatex");
   close
 
@@ -98,6 +99,7 @@ for k=["a","b","c","d"]
   xlabel("Frequency");
   title(strt);
   grid("on");
+zticks([]);
   print(sprintf("%s_hM%s_dual",strf,k),"-dpdflatex");
   close
 
@@ -105,6 +107,7 @@ for k=["a","b","c","d"]
   zplane(qroots([hM;flipud(hM(1:(end-1)))]));
   title(strt);
   grid("on");
+zticks([]);
   print(sprintf("%s_hM%s_zeros",strf,k),"-dpdflatex");
   close
 

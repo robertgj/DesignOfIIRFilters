@@ -133,12 +133,15 @@ U,V,M,Q
 R=1;
 strt=sprintf(strP,"x0");
 showZPplot(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-3,3,x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 hold off
 close
@@ -159,12 +162,15 @@ if ~feasible
 endif
 strt=sprintf(strP,"x1(MMSE)");
 showZPplot(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 hold off
 close
@@ -180,12 +186,15 @@ if ~feasible
 endif
 strt=sprintf(strP,"d1(PCLS)");
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 hold off
 close

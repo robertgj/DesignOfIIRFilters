@@ -94,6 +94,7 @@ axis([0 0.5 0 2*tp ]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -118,6 +119,7 @@ axis([0 0.5 -0.2 0.2]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_error_response"),"-dpdflatex");
 close
 
@@ -142,6 +144,7 @@ axis([0 0.5 0 2*tp]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_correction_response"),"-dpdflatex");
 close
 
@@ -149,6 +152,7 @@ close
 subplot(111);
 zplane(qroots(conv([1;-1],N0)),qroots(D0R));
 title(s);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

@@ -290,6 +290,7 @@ legend("left");
 strt=sprintf(["Schur One-M lattice lowpass : ", ...
  "fap=%g,dBap=%g,ftp=%g,tp=%g,tpr=%g,fas=%g,dBas=%g"],fap,dBap,ftp,tp,tpr,fas,dBas);
 title(strt);
+zticks([]);
 print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
 close
 
@@ -306,6 +307,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 title(strt);
+zticks([]);
 print(strcat(strf,"_kc_min_pass_amplitude"),"-dpdflatex");
 close
 
@@ -322,6 +324,7 @@ legend("location","north");
 legend("boxoff");
 legend("left");
 grid("on");
+zticks([]);
 print(strcat(strf,"_kc_min_pass_delay"),"-dpdflatex");
 close
 
@@ -330,6 +333,7 @@ close
 subplot(111);
 zplane(roots(n_min),roots(d_min));
 title(strt);
+zticks([]);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
 

@@ -170,6 +170,7 @@ for M=1:2,
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
+zticks([]);
   print(sprintf("%s_m_%d_response",strf,m),"-dpdflatex");
   close
 
@@ -183,6 +184,7 @@ for M=1:2,
   zplane(Na1,[zeros(1,length(Na1)-length(Da1)),Da1])
   title(strt);
   grid("on");
+zticks([]);
   print(sprintf("%s_m_%d_pz",strf,m),"-dpdflatex");
   close
 

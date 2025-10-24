@@ -222,6 +222,7 @@ grid("on");
 strt=sprintf(["KYP symmetric FIR band pass filter:", ...
  " N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,fapu=%4.2f,fasu=%4.2f"],N,d,fasl,fapl,fapu,fasu);
 title(strt);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

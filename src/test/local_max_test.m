@@ -130,8 +130,10 @@ printf("Sal=[");printf("%d ",Sal);printf("]\n");
 printf("vSal=[");printf("%d ",vSal);printf("]\n");
 
 % Done
+zticks([]);
 print("local_max_test","-dpdflatex");
 axis([0.194 0.206 -25 5]);
+zticks([]);
 print("local_max_test_detail","-dpdflatex");
 close
 diary off

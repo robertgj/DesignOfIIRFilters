@@ -98,12 +98,15 @@ printf("E=%g,sqp_iter=%d,func_iter=%d,feasible=%d\n", ...
        E,sqp_iter,func_iter,feasible);
 strM2=sprintf(strM,"x2(mmse)");
 showZPplot(x2,U,V,M,Q,R,strM2);
+zticks([]);
 print(sprintf(strd,"x2pz"),"-dpdflatex");
 close
 showResponse(x2,U,V,M,Q,R,strM2);
+zticks([]);
 print(sprintf(strd,"x2"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x2,U,V,M,Q,R,strM2);
+zticks([]);
 print(sprintf(strd,"x2pass"),"-dpdflatex");
 close
 
@@ -149,12 +152,15 @@ iir_slb_show_constraints(vS,wa,Ax3,ws,Sx3,wt,Tx3,wp,Px3);
 strd=sprintf("iir_sqp_slb_test_%%s");
 strM3=sprintf(strM,"x3(mmse)");
 showZPplot(x3,U,V,M,Q,R,strM3);
+zticks([]);
 print(sprintf(strd,"x3pz"),"-dpdflatex");
 close
 showResponse(x3,U,V,M,Q,R,strM3);
+zticks([]);
 print(sprintf(strd,"x3"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x3,U,V,M,Q,R,strM3);
+zticks([]);
 print(sprintf(strd,"x3pass"),"-dpdflatex");
 close
 

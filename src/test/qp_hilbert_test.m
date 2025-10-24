@@ -42,6 +42,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
 xlabel("Frequency");
+zticks([]);
 print(sprintf("%s_response",strf),"-dpdflatex");
 close
 

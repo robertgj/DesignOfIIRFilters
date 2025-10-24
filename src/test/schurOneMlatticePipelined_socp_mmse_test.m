@@ -148,6 +148,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-tdr td+tdr]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -174,6 +175,7 @@ ylabel("dAsqdw");
 xlabel("Frequency");
 axis([0 max([fap,ftp,fpp,fdp]) [-1 1]*dpr/2 ]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_pass"),"-dpdflatex");
 close
 

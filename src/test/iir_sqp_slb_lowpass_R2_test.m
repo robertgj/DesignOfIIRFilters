@@ -80,6 +80,7 @@ grid("on");
 strI=sprintf(["Initial low-pass IIR filter : ", ...
               "U=%d,V=%d,M=%d,Q=%d,R=%d,fap=%g,fas=%g"],U,V,M,Q,R,fap,fas);
 title(strI);
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -133,11 +134,13 @@ axis([0 0.5 0 30])
 grid("on");
 ylabel("Group-delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
 % Plot pole-zero
 showZPplot(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_pz"),"-dpdflatex");
 close
 

@@ -154,6 +154,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 tp-(tpr) tp+(tpr)]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

@@ -104,6 +104,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 print("sv2block_ellip8_block4_response","-dpdflatex");
 close
 

@@ -123,6 +123,7 @@ for solver_type=1:4
   xlabel("Frequency");
   axis([0 0.5 d-0.1 d+0.1]);
   grid("on");
+zticks([]);
   print(strcat(solver_strf,"_response"),"-dpdflatex");
   close
 

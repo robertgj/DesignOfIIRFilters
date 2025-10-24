@@ -95,6 +95,7 @@ axis([0 0.501 -1e-8 1e-8]);
 xlabel("Frequency");
 ylabel("Gradient of Amplitude");
 title("Example of peak-finding with Halley's method");
+zticks([]);
 print(strcat(strf,"_peak"),"-dpdflatex");
 close
 
@@ -159,6 +160,7 @@ else
   ylabel("Amplitude");
   xlabel("Frequency");
 endif
+zticks([]);
 print(strcat(strf,"_value"),"-dpdflatex");
 close
 

@@ -159,6 +159,7 @@ plot(f,[Asqx0k,Asqdu,Asqdl], ...
 axis([0,0.5,0,25e-5]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0kA"),"-dpdflatex");
 close
 
@@ -169,6 +170,7 @@ plot(f(1:nap),[Tx0k(1:nap),Tdu,Tdl], ...
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x0kT"),"-dpdflatex");
 close
 
@@ -198,6 +200,7 @@ plot(f,[Asqx0k,Asqx1k,Asqdu,Asqdl], ...
 axis([fap,0.5,0,5e-4]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x1kA"),"-dpdflatex");
 close
 
@@ -208,6 +211,7 @@ plot(f(1:nap),[Tx0k(1:nap),Tx1k(1:nap),Tdu,Tdl], ...
 title(strM1);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x1kT"),"-dpdflatex");
 close
 

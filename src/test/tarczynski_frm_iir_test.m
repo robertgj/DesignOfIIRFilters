@@ -269,6 +269,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 60 120]);
 grid("on");
+zticks([]);
 print("tarczynski_frm_iir_test_response","-dpdflatex");
 close
 
@@ -280,6 +281,7 @@ axis([0 0.5 -40 5]);
 grid("on");
 s=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
 title(s);
+zticks([]);
 print("tarczynski_frm_iir_test_masking_response","-dpdflatex");
 close
 
@@ -297,6 +299,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 0 100]);
 grid("on");
+zticks([]);
 print("tarczynski_frm_iir_test_model_response","-dpdflatex");
 close
 

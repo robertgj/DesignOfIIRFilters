@@ -50,6 +50,7 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
   xlabel("Frequency");
   axis([0 0.5 0 2*td]);
   grid("on");
+  zticks([]);
   print(strcat(strF,"_response"),"-dpdflatex"); 
   close
   
@@ -68,6 +69,7 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
   xlabel("Frequency");
   axis([0, max(fap,ftp), td-tdr td+tdr]);
   grid("on");
+  zticks([]);
   print(strcat(strF,"_passband_response"),"-dpdflatex"); 
   close
   
@@ -78,18 +80,21 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
   strT=sprintf(["Parallel Schur one-multiplier lattice pole zero plot : ", ...
  "fap=%g,dBap=%g,ftp=%g,td=%g,tdr=%g"],fap,dBap,ftp,td,tdr);
   title(strT);
+  zticks([]);
   print(strcat(strF,"_A1pz"),"-dpdflatex");
   close
   d2=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
   subplot(111);
   zplane(qroots(flipud(d2(:))),qroots(d2(:)));
   title(strT);
+  zticks([]);
   print(strcat(strF,"_A2pz"),"-dpdflatex");
   close
   [n,d]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
   subplot(111);
   zplane(qroots(n),qroots(d));
   title(strT);
+  zticks([]);
   print(strcat(strF,"_pz"),"-dpdflatex");
   close
 
@@ -110,6 +115,7 @@ function schurOneMPAlattice_socp_slb_lowpass_plot ...
   xlabel("Frequency");
   axis([0 0.5]);
   grid("on"); 
+  zticks([]);
   print(strcat(strF,"_sensitivity"),"-dpdflatex");
   close
     

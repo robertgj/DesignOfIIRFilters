@@ -101,6 +101,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
 close
 
@@ -144,6 +145,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 %axis([0 0.5 td-0.5 td+0.5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1"),"-dpdflatex");
 close
 
@@ -160,6 +162,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 max(fap,ftp) td-0.1 td+0.1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
@@ -167,16 +170,19 @@ close
 subplot(111);
 zplane(qroots(Na1),qroots(Da1));
 title("Allpass filter A");
+zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nb1),qroots(Db1));
 title("Allpass filter B");
+zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
 close
 subplot(111);
 zplane(qroots(Nab1),qroots(Dab1));
 title("Lowpass filter with flat pass-band delay");
+zticks([]);
 print(strcat(strf,"_ab1pz"),"-dpdflatex");
 close
 
@@ -194,6 +200,7 @@ legend("Filter A","Filter B")
 legend("location","northwest");
 legend("boxoff");
 grid("on");
+zticks([]);
 print(strcat(strf,"_ab1phase"),"-dpdflatex");
 close
 

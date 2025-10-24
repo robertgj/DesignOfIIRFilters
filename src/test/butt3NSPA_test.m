@@ -229,6 +229,7 @@ xlabel("Frequency")
 ylabel("A2ap(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 print("butt3NSPA_test_allpass_response","-dpdflatex");
 close
 
@@ -241,6 +242,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt3NSPA_test_output_response","-dpdflatex");
 close
 
@@ -253,6 +255,7 @@ axis([0 0.5 -50 5])
 grid("on");
 xlabel("Frequency")
 ylabel("Amplitude(dB)")
+zticks([]);
 print("butt3NSPA_test_combined_allpass_output_response","-dpdflatex");
 close
 
@@ -262,6 +265,7 @@ svk=(nsamples/2):((nsamples/2)+nstates);
 plot(A1xxf(svk,1), A1xxf(svk,2))
 xlabel("A1 state variable x1")
 ylabel("A1 state variable x2")
+zticks([]);
 print("butt3NSPA_test_sv","-dpdflatex");
 close
 

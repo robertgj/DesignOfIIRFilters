@@ -123,6 +123,7 @@ for flat_delay=[false,true],
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
+zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
 
@@ -145,6 +146,7 @@ for flat_delay=[false,true],
     axis([0 max(fap,ftp) (td-0.2) (td+0.2)]);
   endif
   grid("on");
+zticks([]);
   print(sprintf("%s%s_response_passband",strf,flatstr),"-dpdflatex");
   close
 
@@ -162,6 +164,7 @@ for flat_delay=[false,true],
     text(0.02,-3.5,"Note: the filter B phase includes the polyphase delay")
     legend("boxoff");
     grid("on");
+zticks([]);
     print(sprintf("%s%s_phase",strf,flatstr),"-dpdflatex");
     close
   endif

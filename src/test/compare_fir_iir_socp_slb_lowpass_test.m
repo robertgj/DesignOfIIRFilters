@@ -86,6 +86,7 @@ grid("on");
 legend("FIR","IIR","Symmetric FIR(21 coef.)","Symmetric FIR(31 coef.)");
 legend("boxoff");
 legend("location","southwest");
+zticks([]);
 print(strcat(strf,"_A"),"-dpdflatex");
 close
 
@@ -104,6 +105,7 @@ grid("on");
 legend("FIR","IIR","Symmetric FIR(21 coef.)");
 legend("boxoff");
 legend("location","northwest");
+zticks([]);
 print(strcat(strf,"_T"),"-dpdflatex");
 close
 

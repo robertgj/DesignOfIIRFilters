@@ -32,12 +32,15 @@ printf("x0=[ ");printf("%f ",x0');printf("]'\n");
 % Plot initial filter
 strMI=sprintf("Initial decimator R=2 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strMI);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-3,3,x0,U,V,M,Q,R,strMI);
+zticks([]);
 print(strcat(strf,"_initial_x0pass"),"-dpdflatex");
 close
 showZPplot(x0,U,V,M,Q,R,strMI)
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
@@ -101,12 +104,15 @@ printf("x1=[ ");printf("%f ",x1');printf("]'\n");
 strM=sprintf("x1(MMSE) : fap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g", ...
              fap,fas,Was,ftp,tp,Wtp);
 showResponse(x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-0.4,0.2,x1,U,V,M,Q,R,strM);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 showZPplot(x1,U,V,M,Q,R,strM)
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 
@@ -157,12 +163,15 @@ printf("d1:TS=[ ");printf("%f ",TS');printf(" (samples)\n");
 strP=sprintf(["d1(PCLS) : fap=%g,dBap=%g,fas=%g,dBas=%g,Was=%g,", ...
  "ftp=%g,tp=%g,tpr=%g,Wtp=%g"],fap,dBap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showResponse(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-0.4,0.2,d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 showZPplot(d1,U,V,M,Q,R,strP);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 
@@ -184,6 +193,7 @@ axis([0 0.5 9.99 10.01]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_pcls_d1dual"),"-dpdflatex");
 close
 

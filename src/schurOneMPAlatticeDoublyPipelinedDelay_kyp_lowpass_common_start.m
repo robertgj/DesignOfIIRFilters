@@ -44,6 +44,7 @@ grid("on");
 tstr=sprintf(["Initial response of parallel all-pass filter and delay : ", ...
  "N=%d, DD=%d"],N, DD);
 title(tstr);
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 %

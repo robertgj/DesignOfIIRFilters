@@ -88,6 +88,7 @@ legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_vR_A0"),"-dpdflatex");
 close
 
@@ -116,6 +117,7 @@ legend("A0","A1","Adu","Adl");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 print(strcat(strf,"_vR_A0_vS_A1"),"-dpdflatex");
 close
 

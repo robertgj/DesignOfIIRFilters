@@ -149,6 +149,7 @@ axis([0 0.5 -0.08 0.08]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_resp"),"-dpdflatex");
 close
 
@@ -157,6 +158,7 @@ subplot(111);
 zplane([min_z;1./allpass_p],min_p);
 strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
 title(strt);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

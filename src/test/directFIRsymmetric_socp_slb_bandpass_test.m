@@ -115,6 +115,7 @@ ylabel("Amplitude");
 xlabel("Frequency");
 axis([fasu 0.5 -0.01 0.01]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -125,6 +126,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Amplitude");
 title(strt);
+zticks([]);
 print(strcat(strf,"_dual_response"),"-dpdflatex");
 close
 

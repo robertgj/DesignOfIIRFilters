@@ -148,6 +148,7 @@ title(strMa0);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"Asq0"),"-dpdflatex");
 close
 
@@ -162,6 +163,7 @@ title(strMt0);
 ylabel("Zero-phase group delay");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"T0"),"-dpdflatex");
 close
 
@@ -175,6 +177,7 @@ title(strMp0);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency")
 grid("on");
+zticks([]);
 print(sprintf(strd,"P0"),"-dpdflatex");
 close
 
@@ -200,6 +203,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency")
 legend("Asq0","Asq1","Asqdu","Asqdl","location","south");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"Asq1"),"-dpdflatex");
 close
 
@@ -214,6 +218,7 @@ ylabel("Zero-phase group delay");
 xlabel("Frequency")
 legend("T0","T1","Tdu","Tdl","location","north");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"T1"),"-dpdflatex");
 close
 
@@ -228,6 +233,7 @@ ylabel("Zero-phase group delay");
 xlabel("Frequency")
 legend("P0","P1","Pdu","Pdl","location","north");
 legend("boxoff");
+zticks([]);
 print(sprintf(strd,"P1"),"-dpdflatex");
 close
 

@@ -330,6 +330,7 @@ strt=sprintf("Hilbert filter: R=2,ftt=%g,dBar=%g,tp=%g,pr=%g,Wap=%g,Wpp=%g", ...
              ftt,dBar,tp,ppr,Wap,Wpp);
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kc_min_amplitude"),"-dpdflatex");
 close
 
@@ -351,6 +352,7 @@ legend("boxoff");
 legend("left");
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kc_min_phase"),"-dpdflatex");
 close
 
@@ -372,6 +374,7 @@ legend("boxoff");
 legend("left");
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_kc_min_delay"),"-dpdflatex");
 close
 
@@ -380,6 +383,7 @@ close
 subplot(111);
 zplane(roots(n_min),roots(d_min));
 title(strt);
+zticks([]);
 print(strcat(strf,"_kc_min_pz"),"-dpdflatex");
 close
 

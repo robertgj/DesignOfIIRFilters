@@ -205,6 +205,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 td-10 td+10]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -221,6 +222,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.25 td-2 td+2]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband_response"),"-dpdflatex");
 close
 
@@ -235,6 +237,7 @@ legend("Fma","Fmc","location","northeast");
 legend("boxoff");
 strt=sprintf("F2M masking filters : na=%d,",na);
 title(strt);
+zticks([]);
 print(strcat(strf,"_masking_response"),"-dpdflatex");
 close
 
@@ -253,6 +256,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 60 120]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_model_response"),"-dpdflatex");
 close
 
@@ -284,6 +288,7 @@ plot(wplot*0.5/pi,Tw_hilbert);
 ylabel("Delay(samples)");
 axis([0 0.5 td-1 td+1]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

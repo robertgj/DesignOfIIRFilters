@@ -188,6 +188,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 76 82]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -254,6 +255,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0 0.5 76 82]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 

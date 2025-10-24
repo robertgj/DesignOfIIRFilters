@@ -125,6 +125,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 s=sprintf("Nonsymmetric FIR : N=%d,td=%g", N,td);
 title(s);
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -146,6 +147,7 @@ axis([fppl fppu pd-ppr pd+ppr]);
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_passband"),"-dpdflatex");
 close
 
@@ -153,6 +155,7 @@ close
 subplot(111);
 zplane(qroots(h),[]);
 title(s);
+zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 

@@ -135,6 +135,7 @@ for ndigits=2:3
     ylabel("Amplitude(dB)");
     axis([0 0.5 -60 10]);
     grid("on");
+zticks([]);
     print(strcat(namestr,"_response"),"-dpdflatex");
     close
 
@@ -185,6 +186,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex"); 
   close
 
@@ -204,6 +206,7 @@ for ndigits=2:3
   legend("location","northeast");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_sidelobe"),"-dpdflatex");
   close
 
@@ -223,6 +226,7 @@ for ndigits=2:3
   legend("location","northwest");
   legend("boxoff");
   legend("left");
+zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
   

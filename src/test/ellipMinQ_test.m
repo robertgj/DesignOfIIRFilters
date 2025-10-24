@@ -106,6 +106,7 @@ ylabel("$cd^2(nuG,\\gamma)$");
 xlabel("$\\Omega$(u)");
 grid("on");
 strf="ellipMinQ_test";
+zticks([]);
 print(strcat(strf,"_cd"),"-dpdflatex");
 close
 
@@ -165,6 +166,7 @@ ylabel("Amplitude(dB)");
 xlabel("$\\Omega$");
 grid("on");
 strf="ellipMinQ_test";
+zticks([]);
 print(strcat(strf,"_s_resp"),"-dpdflatex");
 close
 
@@ -219,6 +221,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 strf="ellipMinQ_test";
+zticks([]);
 print(strcat(strf,"_z_resp"),"-dpdflatex");
 close
 
@@ -227,6 +230,7 @@ zplane(zz,pz);
 strt="Minimal-Q elliptic filter poles and zeros";
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_z_pz"),"-dpdflatex");
 close
 
@@ -290,6 +294,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
 strf=sprintf("%s_z_resp_sd",strf);
+zticks([]);
 print(strf,"-dpdflatex");
 close
 

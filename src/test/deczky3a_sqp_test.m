@@ -70,9 +70,11 @@ Wp=[];
 % Initial response
 strt=sprintf("Initial Deczky Ex. 3 : U=%d,V=%d,M=%d,Q=%d,R=%d", U,V,M,Q,R);
 showResponse(x0,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_initial_x0"),"-dpdflatex");
 close
 showZPplot(x0,U,V,M,Q,R,strt)
+zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 
@@ -94,12 +96,15 @@ strt=sprintf(["MMSE x1: ", ...
  "fap=%g,dBap=%f,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,Wtp=%g"], ...
              fap,dBap,Wap,fas,dBas,Was,ftp,tp,Wtp);
 showZPplot(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,x1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 close
 %}
@@ -121,12 +126,15 @@ strt=sprintf(["PCLS d1 : ", ...
  "fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g,ftp=%g,tp=%g,tpr=%g,Wtp=%g"], ...
              fap,dBap,Wap,fas,dBas,Was,ftp,tp,tpr,Wtp);
 showZPplot(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close
 

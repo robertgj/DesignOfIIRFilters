@@ -71,6 +71,7 @@ axis([0 0.5 1.499 1.501]);
 ylabel("Phase/$\\pi$ (Adjusted for delay)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 close
 
@@ -86,6 +87,7 @@ title(strt);
 ylabel("Amplitude error");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 print(strcat(strf,"_dual"),"-dpdflatex");
 close
 
@@ -93,6 +95,7 @@ close
 zplane(qroots(b));
 title(strt);
 grid("on");
+zticks([]);
 print(strcat(strf,"_zeros"),"-dpdflatex");
 close
 

@@ -50,6 +50,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 axis([0 0.5 -40 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_expected_response"),"-dpdflatex");
 close
 
@@ -138,6 +139,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -40 5]);
 grid("on");
+zticks([]);
 print(strcat(strf,"_output_response"),"-dpdflatex");
 close
 

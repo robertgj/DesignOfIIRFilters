@@ -121,6 +121,7 @@ plot(f,[AAx2,AAdu,AAdl], ...
 axis([0,0.5,0,0.02]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x2A"),"-dpdflatex");
 close
 
@@ -132,6 +133,7 @@ plot(ft,[Tx2,Tdu,Tdl], ...
 title(strM2);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x2T"),"-dpdflatex");
 close
 
@@ -143,6 +145,7 @@ plot(fp,[Px2-Pd,Pdu-Pd,Pdl-Pd], ...
 title(strM2);
 ylabel("Phase(rad.)\n(Corrected for delay)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x2P"),"-dpdflatex");
 close
 
@@ -174,6 +177,7 @@ plot(f,[AAx2,AAx7,AAdu,AAdl], ...
 axis([0 0.5 0 2e-2]);
 ylabel("Amplitude");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7A"),"-dpdflatex");
 close
 
@@ -186,6 +190,7 @@ axis([0 ftp tp-(2*tpr) tp+(2*tpr)]);
 title(strM7);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7T"),"-dpdflatex");
 close
 
@@ -199,6 +204,7 @@ axis([0 fpp -ppr ppr]);
 title(strM2);
 ylabel("Phase(rad.)\n(Corrected for delay)");
 xlabel("Frequency")
+zticks([]);
 print(sprintf(strd,"x7P"),"-dpdflatex");
 close
 

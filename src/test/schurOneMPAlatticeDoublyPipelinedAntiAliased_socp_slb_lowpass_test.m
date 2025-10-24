@@ -168,6 +168,7 @@ axis([0 0.5 0 20]);
 grid("on")
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_sanity_check_response"),"-dpdflatex");
 close
 
@@ -246,6 +247,7 @@ axis([0 0.5,tp+0.2*[-1,1]])
 grid("on")
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
@@ -362,6 +364,7 @@ axis([0 0.5,tp+tpr*[-1,1]])
 grid("on")
 ylabel("Delay(samples)");
 xlabel("Frequency");
+zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
 close
 
