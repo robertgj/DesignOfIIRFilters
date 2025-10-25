@@ -22,15 +22,13 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 % Band-pass filter specification
+N=30;
 d=16;
 fasl=0.05;fapl=0.1;fapu=0.2;fasu=0.25;
-if 0
-  N=40; % Order
-  Esq_z=5e-5;Esq_sl=1e-3;Esq_su=5e-4;Esq_max=1;
-else
-  N=30;
-  Esq_z=1e-3;Esq_sl=1e-3;Esq_su=1e-3;Esq_max=1.05;
-endif
+Esq_z=1e-3;Esq_sl=1e-3;Esq_su=1e-3;Esq_max=1.05;
+
+% Also: N=40;fapl=0.09;fapu=0.21;
+
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -175,7 +173,7 @@ axis(ax(2),[0 0.5 -50 -25]);
 grid("on");
 ylabel("Amplitude(dB)");
 strt=sprintf(["N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,", ...
-              "Esq\\_z=%10.8f,Esq\\_sl=%6.4f,Esq\\_su=%6.4f"], ...
+              "Esq\\_z=%5.3f,Esq\\_sl=%5.3f,Esq\\_su=%5.3f"], ...
              N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_sl,Esq_su);
 title(strt);
 subplot(312)

@@ -25,9 +25,9 @@ N=length(h)-1; % Filter order
 % Hilbert filter frequency specification
 
 fasl=0.05;fapl=0.1;fapu=0.2;fasu=0.25;
-dBap=1;dBas=27;Wasl=1;Watl=0.01;Wap=1;Watu=0.01;Wasu=2;
-pp=3.5;ppr=0.008;fppl=fapl;fppu=fapu;Wpp=2;
-tp=16;tpr=0.04;ftpl=fapl;ftpu=fapu;Wtp=1;
+dBap=1.2;dBas=28;Wasl=1;Watl=0.01;Wap=1;Watu=0.01;Wasu=2;
+pp=3.5;ppr=0.01;fppl=fapl;fppu=fapu;Wpp=2;
+tp=16;tpr=0.08;ftpl=fapl;ftpu=fapu;Wtp=1;
 
 n=500;
 
@@ -164,7 +164,7 @@ while ~isempty(h_active)
                                  wa,Asqd,Asqdu,Asqdl,Wa, ...
                                  wt,Td,Tdu,Tdl,Wt, ...
                                  wp,Pd,Pdu,Pdl,Wp, ...
-                                 maxiter,ftol,ctol,verbose)
+                                 maxiter,ftol,ctol,verbose);
     slb_iter=slb_iter+siter;
     socp_iter=socp_iter+soiter;
     func_iter=func_iter+fiter;
@@ -219,7 +219,7 @@ fprintf(fid,"%d-bit %d-signed-digit & %10.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_sd,h_sd_digits,h_sd_adders);  
 fprintf(fid,"%d-bit %d-signed-digit(Ito) & %10.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_Ito_sd,h_Ito_sd_digits,h_Ito_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(branch-and-bound)&%10.2e&%d&%d\\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP)&%10.2e&%d&%d\\\\\n", ...
         nbits,ndigits,Esq_min,h_min_digits,h_min_adders);
 fclose(fid);
 
@@ -331,7 +331,7 @@ hls={"-",":","--","-."};
 for c=1:4,
   set(ha(c),"linestyle",hls{c});
 endfor
-axis([ftpl ftpu tp+0.02*[-1,1]]);
+axis([ftpl ftpu tp+0.04*[-1,1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Delay(samples)");

@@ -645,7 +645,7 @@ hls={"-",":","--","-."};
 for c=1:4,
   set(h(c),"linestyle",hls{c});
 endfor
-axis([fppl fppu mod(pp,2)+0.002*[-1 2]]);
+axis([fppl fppu mod(pp,2)+0.004*[-1 1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");

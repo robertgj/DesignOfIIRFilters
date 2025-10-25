@@ -83,7 +83,7 @@ cat > test_h_min_cost.ok << 'EOF'
 Floating-point FIR &0.003232 & 1.00 &29.99 &0.000143 &0.012 &&\\
 Signed-digit FIR &0.003039 & 0.97 &29.02 &0.000923 &0.020 &81&50\\
 Signed-digit(Ito) FIR&0.003065 & 1.01 &28.79 &0.001101 &0.017 &76&45\\
-SOCP-relaxation FIR &0.003148 & 0.99 &28.16 &0.001402 &0.021 &76&45\\
+SOCP-relaxation FIR &0.003165 & 0.99 &28.19 &0.001429 &0.022 &76&45\\
 Branch-and-bound FIR &0.002993 & 1.00 &28.20 &0.001256 &0.021 &76&45\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_h_min_cost.ok"; fail; fi
@@ -92,7 +92,7 @@ cat > test_Schur_FIR_cost.ok << 'EOF'
 Floating-point Schur &0.003385 & 0.16 &33.99 &0.001000 &0.100 &&\\
 Floating-point FIR &0.003232 & 1.00 &29.99 &0.000143 &0.012 &&\\
 SOCP-relax. Schur &0.004437 & 0.26 &32.04 &0.002301 &0.144 &81&50\\
-SOCP-relax. FIR&0.003148 & 0.99 &28.16 &0.001402 &0.021 &76&45\\
+SOCP-relax. FIR&0.003165 & 0.99 &28.19 &0.001429 &0.022 &76&45\\
 B-and-B Schur&0.004031 & 0.24 &33.60 &0.002041 &0.132 &89&58\\
 B-and-B FIR&0.002993 & 1.00 &28.20 &0.001256 &0.021 &76&45\\
 EOF

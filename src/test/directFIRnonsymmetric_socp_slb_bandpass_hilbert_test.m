@@ -43,6 +43,8 @@ pp=3.5 % Initial phase offset in multiples of pi radians
 ppr=0.02 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=10
 
+% Also : N=40;dBas=37;Wpp=20;
+
 % Desired squared magnitude response
 nasl=ceil(n*fasl/0.5)+1;
 napl=floor(n*fapl/0.5)+1;
