@@ -13,6 +13,7 @@
 # qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools
 # qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympy
 # java-21-openjdk-devel xerces-j2 util-linux util-linux-core util-linux-script
+# qscintilla-qt6 qscintilla-qt6-devel eigen3-devel eigen3-doc boost-devel jekyll
 #
 # See https://wiki.octave.org/GraphicsMagick for GraphicksMagic dependencies
 #
@@ -34,6 +35,10 @@
 #    gpg2 --import gnu-keyring.gpg
 # then verify the .sig file with (for example):
 #    gpg2 --verify octave-8.2.0.tar.lz.sig
+# For GraphicsMagick copy the public key from
+#  http://www.graphicsmagick.org/security.html
+# to, for example gm-sigs.asc, and then
+#  gpg --import gm-sigs.asc
 #
 # Note the worrying error from Octave-forge package control-3.2.0.tar.gz in
 # the FORTRAN file from slicot.tar.gz, MA02ID.f at lines 188 and 230:
@@ -102,7 +107,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.11.0}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.12.2}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -131,14 +136,14 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.5.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.6.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
   wget -c $SUNDIALS_URL
 fi
 
-GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.45}
+GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.46}
 GRAPHICSMAGICK_ARCHIVE=GraphicsMagick-$GRAPHICSMAGICK_VER".tar.xz"
 GRAPHICSMAGICK_URL=https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/$GRAPHICSMAGICK_VER/GraphicsMagick-$GRAPHICSMAGICK_VER.tar.xz
 if ! test -f $GRAPHICSMAGICK_ARCHIVE; then
@@ -170,14 +175,21 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.1.3}
+CONTROL_VER=${CONTROL_VER:-4.2.1}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-IO_VER=${IO_VER:-2.7.0}
+DATATYPES_VER=${DATATYPES_VER:-1.1.8}
+DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
+DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
+if ! test -f $DATATYPES_ARCHIVE; then
+  wget -c $DATATYPES_URL 
+fi
+
+IO_VER=${IO_VER:-2.7.1}
 IO_ARCHIVE=io-$IO_VER".tar.gz"
 IO_URL=$OCTAVE_FORGE_URL/$IO_ARCHIVE
 if ! test -f $IO_ARCHIVE; then
@@ -206,14 +218,14 @@ if ! test -f $PIQP_ARCHIVE; then
     mv piqp-octave.tar.gz $PIQP_ARCHIVE
 fi
 
-SIGNAL_VER=${SIGNAL_VER:-1.4.6}
+SIGNAL_VER=${SIGNAL_VER:-1.4.7}
 SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
-SIGNAL_URL=$OCTAVE_FORGE_URL/$SIGNAL_ARCHIVE
+SIGNAL_URL=https://github.com/gnu-octave/octave-signal/releases/download/$SIGNAL_VER/$SIGNAL_ARCHIVE
 if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.7.5}
+STATISTICS_VER=${STATISTICS_VER:-1.8.1}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
@@ -661,12 +673,14 @@ ldconfig $OCTAVE_LIB_DIR
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$IO_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STRUCT_ARCHIVE
 
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$DATATYPES_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$STATISTICS_ARCHIVE
 rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_ADD
 rm -f $OCTAVE_SHARE_DIR/packages/statistics-$STATISTICS_VER/PKG_DEL
 
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$CONTROL_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$PIQP_ARCHIVE
+$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SIGNAL_ARCHIVE
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$SYMBOLIC_ARCHIVE
 
 #
@@ -718,36 +732,6 @@ NEW_PARALLEL_ARCHIVE=parallel-$PARALLEL_VER".new.tar.gz"
 tar -czf $NEW_PARALLEL_ARCHIVE parallel-$PARALLEL_VER
 $OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_PARALLEL_ARCHIVE
 rm -Rf parallel-$PARALLEL_VER parallel-$PARALLEL_VER.patch $NEW_PARALLEL_ARCHIVE
-
-#
-# Fix signal package and install the new signal package
-#
-tar -xf $SIGNAL_ARCHIVE
-cat > signal-$SIGNAL_VER.patch << 'EOF'
---- signal-1.4.6.new/inst/zplane.m	2024-09-20 22:54:20.000000000 +1000
-+++ signal-1.4.6/inst/zplane.m	2024-10-07 16:31:36.611737803 +1100
-@@ -115,8 +115,9 @@
-       for i = 1:length (x_u)
-         n = sum (x_u(i) == x(:,c));
-         if (n > 1)
--          label = sprintf (" ^%d", n);
--          text (real (x_u(i)), imag (x_u(i)), label, "color", color);
-+          label = sprintf ("%d", n);
-+          text (real (x_u(i)), imag (x_u(i)), label, "color", color, ...
-+                "verticalalignment", "bottom", "horizontalalignment", "left");
-         endif
-       endfor
-     endfor
-EOF
-pushd signal-$SIGNAL_VER
-patch -p1 < ../signal-$SIGNAL_VER.patch
-popd
-NEW_SIGNAL_ARCHIVE=signal-$SIGNAL_VER".new.tar.gz"
-tar -czf $NEW_SIGNAL_ARCHIVE signal-$SIGNAL_VER
-rm -Rf signal-$SIGNAL_VER signal-$SIGNAL_VER.patch
-
-$OCTAVE_BIN_DIR/octave-cli --eval "pkg -verbose install "$NEW_SIGNAL_ARCHIVE
-rm -f $NEW_SIGNAL_ARCHIVE
 
 #
 #
@@ -1065,7 +1049,7 @@ fi
 unzip $SCS_MATLAB_ARCHIVE
 
 # Get SCS source
-SCS_VER=${SCS_VER:-3.2.7}
+SCS_VER=${SCS_VER:-3.2.11}
 SCS_ARCHIVE=scs-$SCS_VER".tar.gz"
 SCS_URL="https://github.com/cvxgrp/scs/archive/refs/tags/"$SCS_VER.tar.gz
 if ! test -f $SCS_ARCHIVE ; then
@@ -1075,88 +1059,89 @@ fi
 tar -xf $SCS_ARCHIVE
 
 # Copy SCS source 
-mv -f scs-${SCS_VER}/* $SCS_MATLAB"/scs"
+cp -Rf scs-${SCS_VER}/* $SCS_MATLAB"/scs"
 
 # Patch SCS
 cat > $SCS_MATLAB".patch.gz.uue" <<EOF
 begin-base64 644 scs-matlab-master.patch.gz
-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
+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
+P6WjyUM6mqR09G/ldlJ54i4AAA==
 ====
 EOF
 uudecode $SCS_MATLAB".patch.gz.uue"
@@ -1164,7 +1149,6 @@ gunzip $SCS_MATLAB".patch.gz"
 pushd $SCS_MATLAB
 patch -p 1 < ../$SCS_MATLAB".patch"
 popd
-rm -Rf $SCS_MATLAB".patch.gz.uue" $SCS_MATLAB".patch.gz"  $SCS_MATLAB".patch"
 
 # Install scs_qprintf.c
 cat > scs_qprintf.c.gz.uue <<EOF
@@ -1209,8 +1193,7 @@ RAt1qA5DTmlYcWWdUfhHOfUIs02EnX8Bw1Fc6pAWAAA=
 EOF
 uudecode scs_qprintf.c.gz.uue
 gunzip scs_qprintf.c.gz
-mv scs_qprintf.c  $SCS_MATLAB
-rm -f scs_qprintf.c.gz.uue scs_qprintf.c.gz
+mv scs_qprintf.c $SCS_MATLAB
 
 # Build and install SCS
 rm -Rf $OCTAVE_SITE_M_DIR/SCS
@@ -1223,19 +1206,19 @@ popd
 # Build HTML documentation
 #
 # Install (at least) the following Fedora packages:
-#    texlive-cancel texlive-ellipse texlive-hyphen-polish texlive-pict2e
-#    sphinx sphinx-php sphinxbase sphinxbase-devel sphinxbase-libs
-#    python3-sphinx python3-sphinx-theme-alabaster python3-sphinx_rtd_theme
-#    python-sphinx_rtd_theme-doc python3-sphinxcontrib-devhelp
-#    python3-sphinxcontrib-htmlhelp python3-sphinxcontrib-jquery
-#    python3-sphinxcontrib-qthelp python3-sphinxcontrib-serializinghtml
+#   doxygen texlive-cancel texlive-ellipse texlive-hyphen-polish texlive-pict2e
+#   sphinx sphinx-php python3-sphinx python3-sphinx-theme-alabaster
+#   python3-sphinx_rtd_theme python-sphinx_rtd_theme-doc
+#   python3-sphinxcontrib-devhelp python3-sphinxcontrib-htmlhelp
+#   python3-sphinxcontrib-jquery python3-sphinxcontrib-qthelp
+#   python3-sphinxcontrib-serializinghtml python3-breathe
 #
 # Building LaTeX documentation fails, possibly due to multirow:
 #    ! Misplaced \omit.
 #    \math@cr@@@ ...@ \@ne \add@amps \maxfields@ \omit 
 #                                                  \kern -\alignsep@ \iftag@ ...
 #    l.421 \end{align}\end{split}
-#
+
 pushd $SCS_MATLAB/scs/docs/src
 doxygen -u
 make html
@@ -1245,6 +1228,8 @@ mv _build/html $OCTAVE_SHARE_DIR/doc/scs
 popd
 
 # Done
+rm -Rf $SCS_MATLAB".patch.gz.uue" $SCS_MATLAB".patch.gz"  $SCS_MATLAB".patch"
+rm -f scs_qprintf.c.gz.uue scs_qprintf.c.gz
 rm -Rf scs-$SCS_VER $SCS_MATLAB $SCS_MATLAB.patch $SCS_MATLAB.patch.uue
 
 #

@@ -63,6 +63,19 @@ optimised result or changing the relative weights on the filter bands. I
 endeavour to build the *DesignOfIIRFilters.pdf* document with user-mode
 virtual machine QEMU emulation of an Intel Nehalem CPU.
 
+### Problems with DRI3
+After an update to my Fedora 43 system, printing to the Octave *pdflatex* device
+fails. A workaround disables DRI3 in 
+*/etc/X11/xorg.conf.d/01-disable-dri3.conf*:
+```
+Section "Device"
+        Identifier  "Card0"
+        Driver      "amdgpu"
+        Option      "DRI"       "2"
+        BusID       "PCI:1:0:0"
+EndSection
+```
+
 ### External source code and licensing
 
 **Read the licences!**

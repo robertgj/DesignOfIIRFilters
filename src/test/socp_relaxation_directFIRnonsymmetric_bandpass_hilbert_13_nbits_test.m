@@ -1,5 +1,5 @@
 % socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_13_nbits_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 % SOCP-relaxation search for the  13-bit 3-signed-digit coefficients of a
 % direct-form non-symmetric Hilbert bandpass filter
@@ -313,7 +313,7 @@ endfor
 axis([fppl fppu 1.5+0.002*[-1,1]]);
 grid("on");
 xlabel("Frequency");
-ylabel("Phase(rad./$\\pi$");
+ylabel("Phase(rad./$\\pi$)");
 legend("Exact","s-d","s-d(Ito)","s-d(SOCP)");
 legend("location","northeast");
 legend("boxoff");

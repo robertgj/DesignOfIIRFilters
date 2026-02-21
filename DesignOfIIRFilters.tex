@@ -149,7 +149,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \end{center}
 
 \vspace*{11cm}
-Copyright \copyright\; 2017--2025 Robert G. Jenssen
+Copyright \copyright\; 2017--2026 Robert G. Jenssen
 
 This work is licensed under the Creative Commons Attribution 4.0 International
 License.\\ View a copy of the license at 
@@ -44084,37 +44084,50 @@ amplitude of the filter design.
 \pdfbookmark[0]{Requirements}{requirements}
 \setcounter{footnote}{0}
 \section*{Software requirements}
-I currently use the Fedora 42 distribution of Linux~\cite{Fedora_website} with:
+I currently use the Fedora 43 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.16.11-200.fc42.x86\_64}
-\item \emph{gcc} version \emph{15.2.1 20250808 (Red Hat 15.2.1-1)}
+\item \texttt{uname -r} is \emph{6.18.10-200.fc43.x86\_64}
+\item \emph{gcc} version \emph{15.2.1 20260123 (Red Hat 15.2.1-7)}
 \item a local build of \emph{octave-10.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.9.2-1} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2023-76} and various packages are installed
-\item \emph{dia-0.97.3-29} is used for line drawings
+  \emph{qt6-qtbase-6.10.1-3} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2023-80} and various packages are installed
+\item \emph{dia-0.97.3-30} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-10.3.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
-dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
-gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf \
-bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel \
-librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype \
-freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel hdf5 hdf5-devel \
-qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
-libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU \
-mesa-libGLU-devel qt qt6-qtbase qt6-qtbase-common qt6-qtbase-devel \
-qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools \
-qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympywget \
-rapidjson-devel python3-sympy java-21-openjdk-devel xerces-j2 \
-util-linux util-linux-script
+wget readline-devel lzip sharutils maxima gcc gcc-c++
+gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf 
+bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
+librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype
+freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel hdf5 hdf5-devel
+qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
+libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
+mesa-libGLU-devel qt qt6-qtbase qt6-qtbase-common qt6-qtbase-devel
+qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools
+qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympy
+java-21-openjdk-devel xerces-j2 util-linux util-linux-core util-linux-script
+qscintilla-qt6 qscintilla-qt6-devel eigen3-devel eigen3-doc boost-devel jekyll
+\end{verbatim}
+\end{small}
+
+The \emph{Splitting Conic Solver}
+(SCS)~\cite{Bodonoghue_SCS,BODonoghueAbbott_Matlab_SCS,BODonoghueChuParikhBoyd_SCS} requires the following packages to build the HTML documentation:
+\begin{small}
+\begin{verbatim}
+doxygen texlive-cancel texlive-ellipse texlive-hyphen-polish texlive-pict2e
+sphinx sphinx-php python3-sphinx python3-sphinx-theme-alabaster
+python3-sphinx_rtd_theme python-sphinx_rtd_theme-doc
+python3-sphinxcontrib-devhelp python3-sphinxcontrib-htmlhelp
+python3-sphinxcontrib-jquery python3-sphinxcontrib-qthelp
+python3-sphinxcontrib-serializinghtml python3-breathe python3-breathe-doc
 \end{verbatim}
 \end{small}
 
@@ -44186,9 +44199,9 @@ libraries:
   DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
   are compiled with the \texttt{-freal-8-real-16} flag.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.11.0}~\cite{SUITESPARSE_website},
-\emph{sundials-7.5.0}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.45}~\cite{GraphicsMagick_website}.
+\emph{SuiteSparse-7.12.2}~\cite{SUITESPARSE_website},
+\emph{sundials-7.6.0}~\cite{SUNDIALS_website} and
+\emph{GraphicsMagick-1.3.46}~\cite{GraphicsMagick_website}.
 
 Display the Octave internal build configuration with:
 \begin{small}
@@ -44280,6 +44293,7 @@ vector or matrix dimensions are compatible. See the Octave manual
 entry \emph{Broadcasting and Legacy Code}~\cite[Section 19.2.1]{Eaton_Octave}.
 
 \subsubsection*{Problems with Octave}
+\paragraph{Printing to the \emph{pdflatex} device is very slow}
 I have found that the best way to include plots in this document is to
 print from Octave with the \emph{-dpdflatex} device. Unfortunately, producing
 plots this way is very slow. Here is an example for \emph{octave-9.2.0}:
@@ -44358,6 +44372,56 @@ user	0m3.019s
 sys	0m4.644s
 \end{verbatim}
 \end{small}
+\paragraph{Printing to the \emph{pdflatex} device fails with DRI3}
+After a Fedora update printing to the \emph{pdflatex} device fails.
+This example code:
+\begin{small}
+\begin{verbatim}
+pkg load signal
+[N0,D0]=butter(6,0.1);
+[H,w]=freqz(N0,D0,100);
+subplot(211)
+plot(w*0.5/pi,abs(H))
+subplot(212)
+plot(w*0.5/pi,unwrap(arg(H))/pi)
+print("t","-dpdflatex");
+close
+\end{verbatim}
+\end{small}
+produces a warning message:
+\begin{small}
+\begin{verbatim}
+warning: gl2ps_renderer::draw_axes: empty feedback buffer and/or nothing else to print
+warning: called from
+    __opengl_print__ at line 209 column 7
+    print at line 790 column 11
+\end{verbatim}
+\end{small}
+A work-around disables DRI3 in \emph{/etc/X11/xorg.conf.d/01-disable-dri3.conf}:
+\begin{small}
+\begin{verbatim}
+Section "Device"
+        Identifier  "Card0"
+        Driver      "amdgpu"
+        Option      "DRI" "2"
+        BusID       "PCI:1:0:0"
+EndSection
+Section "Device"
+        Identifier  "Card1"
+        Driver      "amdgpu"
+        Option      "DRI" "2"
+        BusID       "PCI:1:0:1"
+EndSection
+\end{verbatim}
+\end{small}
+Alternatively, the \emph{mesa} documentation~\cite{MESA_envvars} suggests
+setting this environment variable before running Octave:
+\begin{small}
+\begin{verbatim}
+export LIBGL_DRI3_DISABLE=1
+\end{verbatim}
+\end{small}
+This alternative did not work for me.
 
 \subsubsection*{Using the Octave external code interface}
 From the Octave \emph{info} documentation:
@@ -44404,16 +44468,6 @@ The \emph{build-octave.sh} script installs the \emph{SeDuMi}, \emph{SDPT3},
 \emph{SCS} and \emph{YALMIP} from their respective software repositories,
 and forked versions of the \emph{SparsePOP} and \emph{gloptipoly3} solvers from
 \url{https://github.com/robertgj}.
-
-\subsubsection*{Problems with Octave-Forge packages}
-The following packages are patched with shell \emph{here} documents
-within \emph{build-octave.sh}:
-\begin{itemize}
-\item the \emph{signal-1.4.6} package \texttt{zplane} function is patched to
-  avoid a \LaTeX~error.
-\item the \emph{signal-1.4.6} package \texttt{grpdelay} function is replaced
-  with a local version called \texttt{delayz}.
-\end{itemize}
 
 \pdfbookmark[1]{Building Octave}{building-octave}
 \subsection*{Building Octave}
@@ -44469,7 +44523,7 @@ LD_PRELOAD=/usr/lib64/libasan.so.8 octave-cli --eval oct_file_test_script
 To install Octave packages from a remote Octave-Forge file-server:
 \begin{small}
 \begin{verbatim}
-octave-cli --eval 'pkg install -forge struct io statistics optim control signal'
+octave-cli --eval 'pkg install -forge struct io datatypes statistics optim control signal'
 \end{verbatim}
 \end{small}
 
@@ -44556,11 +44610,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas     & 243.1 \\
-Shared reference lapack and blas            &  48.8 \\
-Shared reference lapack and blas, LTO       &  48.6 \\
-Shared reference lapack and blas, PGO       &  49.7 \\
-Shared reference lapack and blas, LTO, PGO  &  48.5 \\
+Debug, shared reference lapack and blas     & 242.7 \\
+Shared reference lapack and blas            &  48.2 \\
+Shared reference lapack and blas, LTO       &  48.0 \\
+Shared reference lapack and blas, PGO       &  48.4 \\
+Shared reference lapack and blas, LTO, PGO  &  48.0 \\
 \bottomrule
 \end{tabular}
 \egroup
@@ -44577,7 +44631,7 @@ benchmark script and a script that solves a KYP problem by calling YALMIP and
 SeDuMi. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.12.1} and \emph{lapack-3.12.1} and
-the Fedora 40 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora 43 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
@@ -44594,13 +44648,13 @@ Previous versions of \emph{atlas} produced slightly different results on each
 run.}:
 \begin{small}
 \begin{verbatim}
-atlas.x86_64            3.10.3-28.fc42
-blas.x86_64             3.12.0-8.fc42
-lapack.x86_64           3.12.0-8.fc42
-gsl.x86_64              2.8-1.fc42
-gsl-devel.x86_64        2.8-1.fc42
-openblas.x86_64         0.3.29-1.fc42
-openblas-threads.x86_64 0.3.29-1.fc42
+atlas.x86_64            3.10.3-30.fc43
+blas.x86_64             3.12.0-10.fc43
+lapack.x86_64           3.12.0-10.fc43
+gsl.x86_64              2.8-2.fc43
+gsl-devel.x86_64        2.8-2.fc43
+openblas.x86_64         0.3.29-2.fc43
+openblas-threads.x86_64 0.3.29-2.fc43
 \end{verbatim}
 \end{small}
 
@@ -44622,7 +44676,7 @@ export OPENBLAS_NUM_THREADS=2
 \end{small}
 
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
-execution time for $10$\footnote{Probably nt enough!} runs of each test.
+execution time for $10$\footnote{Probably not enough!} runs of each test.
 The normalised residuals for the two ATLAS libraries varied between two values.
 The largest is shown.
 
@@ -44637,18 +44691,18 @@ The largest is shown.
 \cmidrule{2-5}             & MFLOPS & Normalised  & Execution time & Execution time \\
                            &        & residual    & (seconds)      & (seconds) \\
   \midrule
-x86-64 libblas/liblapack   &  6496  & 21.3        &  48.8          &  55.7 \\
-Nehalem libblas/liblapack  &  6478  & 21.3        &  48.8          &  55.7 \\
-Haswell libblas/liblapack  &  8791  & 18.5        &  48.5          &  50.1 \\
-Skylake libblas/liblapack  &  8745  & 18.5        &  48.6          &  50.0 \\
-Fedora 42 libblas/liblapack&  6597  & 21.3        &  48.7          &  55.6 \\
-libgslcblas                &  6486  & 21.3        &  48.7          &  55.8 \\
-libsatlas                  & 13331  & 12.1        &  49.9          &  60.7 \\
-libtatlas                  & 20065  & 12.8        &  49.4          &  60.7 \\
-libopenblas                & 33002  &  9.9        &  48.0          &  50.0 \\
-libopenblasp (1 thread)    & 33066  &  9.9        &  48.1          &  50.5 \\
-libopenblasp (2 threads)   & 46215  & 12.1        &  48.3          &  50.5 \\
-libopenblasp (4 threads)   & 58242  & 10.8        &  48.3          &  50.5 \\
+x86-64 libblas/liblapack   &  6484  & 21.3        &  48.0          &  55.5 \\
+Nehalem libblas/liblapack  &  6491  & 21.3        &  48.1          &  55.5 \\
+Haswell libblas/liblapack  &  9175  & 18.5        &  48.0          &  49.9 \\
+Skylake libblas/liblapack  &  8773  & 18.5        &  48.0          &  49.9 \\
+Fedora 43 libblas/liblapack&  6587  & 21.3        &  48.2          &  55.5 \\
+libgslcblas                &  6486  & 21.3        &  48.2          &  55.5 \\
+libsatlas                  & 13288  & 12.1        &  49.4          &  61.2 \\
+libtatlas                  & 20111  & 12.8        &  49.0          &  60.5 \\
+libopenblas                & 33047  &  9.9        &  47.4          &  49.9 \\
+libopenblasp (1 thread)    & 33099  &  9.9        &  47.4          &  50.3 \\
+libopenblasp (2 threads)   & 46590  & 12.1        &  47.7          &  50.3 \\
+libopenblasp (4 threads)   & 58542  & 10.8        &  47.8          &  50.3 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -44911,8 +44965,9 @@ floating-point numbers SCS was $1$ to $2$ orders of magnitude slower than
 with \texttt{double} floating-point numbers.
 
 \subsubsection*{Problems with SCS}
+The GIT repository for the SCS Matlab interface has no release tags. 
 The documentation is confusing. In many cases SeDuMi and SDPT3 find a better
-solution.
+solution. 
 
 \pdfbookmark[1]{PIQP}{PIQP}
 \subsection*{PIQP}

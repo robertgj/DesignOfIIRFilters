@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_bandpass_hilbert_R2_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -175,16 +175,19 @@ strP=sprintf(["Bandpass hilbert response : ", ...
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
 title(strP);
 ylabel("Ampl.(dB)");
-subplot(412);
+zticks([]);
+subplot(212);
 plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(413);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
+zticks([]);
 subplot(414);
 plot(wd*0.5/pi,[dAsqdw1 Ddl Ddu]);
 axis([0 0.5 dp+(dpr*[-1,1])]);
