@@ -130,6 +130,11 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 %\renewcommand{\thefootnote}{\arabic{footnote}}
 \renewcommand{\thefootnote}{\alph{footnote}}
                                                   
+% For 4-digit page numbers in the table-of-contents (default is 1.55em)
+\makeatletter
+\renewcommand{\@pnumwidth}{2em}
+\makeatother
+
 \title{On the design of IIR filters}
 \author{Robert G. Jenssen}
 
