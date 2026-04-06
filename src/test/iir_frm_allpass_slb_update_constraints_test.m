@@ -1,5 +1,5 @@
 % iir_frm_allpass_slb_update_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -108,6 +108,7 @@ ylabel("Pass band(dB)");
 legend("Asq","Asqdu","Asqdl","location","northwest");
 legend("boxoff");
 title(sprintf(strM,"x0k amplitude"));
+zticks([]);
 subplot(212)
 plot(f(nas:end),10*log10([Asq(nas:end),Asqdu(nas:end),Asqdu(nas:end)+tol]), ...
      f(vS.al),10*log10(Asql),"x", ...

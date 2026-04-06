@@ -1,5 +1,5 @@
 % iir_piqp_slb_hilbert_R2_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -112,11 +112,13 @@ title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 0.6 1.2 ]);
 grid("on");
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,([P0,Pdl,Pdu]+(w*tp)+(pp*pi))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([-0.5 0.5 -1 1]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[T0,Tdl,Tdu]);
 ylabel("Delay(samples)");
@@ -168,6 +170,7 @@ title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 0.98 1.02]);
 grid("on");
+zticks([]);
 subplot(312);
 Px1_plot=[Px1 Pdl Pdu]+(w*tp)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Px1_plot(1:(non2-npt),:)/pi, ...
@@ -182,6 +185,7 @@ axis(ax(1),[-0.5 0.5  0.5+(ppr*[-1,1])]);
 axis(ax(2),[-0.5 0.5 -0.5+(ppr*[-1,1])]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[Tx1 Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -218,6 +222,7 @@ title(strt);
 ylabel("Amplitude");
 grid("on");
 axis([-0.5 0.5 0.98 1.02]);
+zticks([]);
 subplot(312);
 Pplot=[Pd1 Pdl Pdu]+(w*tp)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Pplot(1:(non2-npt),:)/pi, ...
@@ -232,6 +237,7 @@ axis(ax(1),[-0.5 0.5  0.5+(0.02*[-1 1])]);
 axis(ax(2),[-0.5 0.5 -0.5+(0.02*[-1 1])]); 
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[Td1 Tdl Tdu]);
 axis([-0.5 0.5 tp-0.2 tp+0.2]);

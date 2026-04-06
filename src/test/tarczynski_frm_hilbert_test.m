@@ -1,5 +1,5 @@
 % tarczynski_frm_hilbert_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an FRM Hilbert filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -177,11 +177,13 @@ grid("on");
 strt=sprintf("Initial FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d", ...
              mr,na,Mmodel,Dmodel,td);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_init))+(wplot*td))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tw_init);
 ylabel("Delay(samples)");
@@ -244,11 +246,13 @@ grid("on");
 strt=sprintf("FRM Hilbert filter:mr=%d,na=%d,Mmodel=%d,Dmodel=%d,td=%d", ...
              mr,na,Mmodel,Dmodel,td);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot*td))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 -0.6 -0.4]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tw_hilbert);
 ylabel("Delay(samples)");

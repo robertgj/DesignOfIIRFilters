@@ -1,5 +1,5 @@
 % surmaahoFAvLogNewton_test.m
-% Copyright (C) 2018-2025 Robert G. Jenssen
+% Copyright (C) 2018-2026 Robert G. Jenssen
 
 test_common;
 
@@ -100,13 +100,14 @@ for nmin=6:7
     title(strt);
     ylabel("Amplitude(dB)");
     grid("on");
+    zticks([]);
     subplot(212); 
     plot(Fp,Pp);
     axis([0 0.5 -0.4 0.4]);
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-zticks([]);
+    zticks([]);
     print(strcat(strd,"_resp"),"-dpdflatex");
     close
 
@@ -115,7 +116,7 @@ zticks([]);
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter";
     title(strt);
-zticks([]);
+    zticks([]);
     print(strcat(strd,"_pz"),"-dpdflatex");
     close
 
@@ -157,13 +158,14 @@ zticks([]);
     title(strt);
     ylabel("Amplitude(dB)");
     grid("on");
+    zticks([]);
     subplot(212);
     plot(Fp,Pp);
     axis([0 0.5 -0.4 0.4]);
     grid("on");
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-zticks([]);
+    zticks([]);
     print(strcat(strd,"_pa_resp"),"-dpdflatex");
     close
 
@@ -172,7 +174,7 @@ zticks([]);
     zplane([min_z;1./allpass_p],min_p);
     strt="Surma-aho-and-Saram\\\"{a}ki combined filter with double zeros";
     title(strt);
-zticks([]);
+    zticks([]);
     print(strcat(strd,"_pa_pz"),"-dpdflatex");
     close
   endfor

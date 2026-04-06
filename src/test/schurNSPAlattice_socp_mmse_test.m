@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_mmse_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 test_common;
 
@@ -143,11 +143,13 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,((P+(tp*wp))/pi)-pd);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 -pdr pdr]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");

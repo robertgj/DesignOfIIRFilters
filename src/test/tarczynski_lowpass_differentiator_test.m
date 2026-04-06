@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -82,12 +82,14 @@ grid("on");
 s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,tp=%g", ...
           nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(angle(H))+(wplot*tp))/pi);
 axis([0 0.5]);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,T);
 axis([0 0.5 0 2*tp ]);
@@ -108,11 +110,13 @@ s=sprintf ...
     ("Tarczynski et al. lowpass differentiator error : nN=%d,nD=%d,R=%d,tp=%g",
           nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,unwrap(angle(H)-angle(Hd))/pi);
 axis([0 0.5 -0.01 0.01]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,T-tp)
 axis([0 0.5 -0.2 0.2]);
@@ -132,12 +136,14 @@ grid("on");
 s=sprintf(["Tarczynski et al. lowpass_differentiator correction : ", ...
  "nN=%d,nD=%d,R=%d,tp=%g"],nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(angle(Hc))+(wplot*(tp-0.5)))/pi);
 axis([0 0.5]);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tc);
 axis([0 0.5 0 2*tp]);

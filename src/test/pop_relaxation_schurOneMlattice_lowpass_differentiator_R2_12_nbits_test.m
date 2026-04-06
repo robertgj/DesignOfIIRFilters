@@ -4,7 +4,7 @@
 % lattice lowpass differentiator filter with 12-bit signed-digit coefficients
 % having an average of 3 signed-digits
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -583,6 +583,7 @@ ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
+zticks([]);
 % Plot phase pass-band response
 subplot(312);
 plot(wp*0.5/pi,(unwrap(P_kc0)+(wp*tp))/pi,"linestyle","-", ...
@@ -596,6 +597,7 @@ legend("exact","s-d(Lim)","s-d(POP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("right");
+zticks([]);
 % Plot group-delay pass-band response
 subplot(313);
 plot(wt*0.5/pi,T_kc0,"linestyle","-", ...

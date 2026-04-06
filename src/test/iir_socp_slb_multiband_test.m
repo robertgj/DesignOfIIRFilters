@@ -1,5 +1,5 @@
 % iir_socp_slb_multiband_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -177,6 +177,7 @@ plot(w*0.5/pi,20*log10(A0))
 axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T0);
 axis([0 0.5 0 40]);
@@ -210,6 +211,7 @@ plot(w*0.5/pi,20*log10(A1))
 axis([0 0.5 -40 1])
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T1);
 axis([0 0.5 0 40]);
@@ -241,6 +243,7 @@ plot(w*0.5/pi,20*log10(A2))
 axis([0 0.5 -40 10])
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T2);
 axis([0 0.5 0 40]);
@@ -265,6 +268,7 @@ axis(ax(1),[0 0.5 -1 0.2])
 axis(ax(2),[0 0.5 -1 0.2])
 ylabel("Amplitude (dB)");
 grid("on");
+zticks([]);
 subplot(212)
 ntp1l=floor(nplot*ftp1l/0.5);
 ntp1u=ceil(nplot*ftp1u/0.5);

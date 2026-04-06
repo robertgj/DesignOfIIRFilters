@@ -1,5 +1,5 @@
 % yalmip_kyp_lowpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 %
 % Somewhat better numerical performance with (kron(P,Phi)+kron(Q,Psi)) !?!?
 %
@@ -379,6 +379,7 @@ for d=[10,12,M],
   grid("on");
   title(strt);
   if d~=M,
+    zticks([]);
     subplot(212)
     plot(f(1:nap),T(1:nap));
     axis([0 0.5 d-1 d+1]);

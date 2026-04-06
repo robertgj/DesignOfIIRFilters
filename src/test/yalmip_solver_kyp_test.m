@@ -1,5 +1,5 @@
 % yalmip_solver_kyp_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -117,13 +117,14 @@ for solver_type=1:4
   strt=sprintf("KYP %s non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
                solver_str,N,d,fap,fas);
   title(strt);
+  zticks([]);
   subplot(212);
   plot(w(1:nap)*0.5/pi,T(1:nap));
   ylabel("Delay(samples)");
   xlabel("Frequency");
   axis([0 0.5 d-0.1 d+0.1]);
   grid("on");
-zticks([]);
+  zticks([]);
   print(strcat(solver_strf,"_response"),"-dpdflatex");
   close
 

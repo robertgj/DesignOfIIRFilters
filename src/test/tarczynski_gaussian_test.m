@@ -1,5 +1,5 @@
 % tarczynski_gaussian_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a Gaussian filter using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -80,6 +80,7 @@ legend("location","northeast");
 grid("on");
 s=sprintf("Tarczynski et al. gaussian : nN=%d,nD=%d,R=%d,td=%g",nN,nD,R,td);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T);
 ylabel("Delay(samples)");

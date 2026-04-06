@@ -1,6 +1,6 @@
 % parallel_allpass_socp_mmse_test.m
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -114,6 +114,7 @@ axis([0 0.5 -80 5]);
 grid("on");
 s=sprintf("Parallel allpass : ma=%d,mb=%d,td=%g", ma,mb,td);
 title(s);
+zticks([]);
 subplot(212);
 plot(wt*0.5/pi,T1);
 ylabel("Delay(samples)");
@@ -131,11 +132,13 @@ ylabel("Amplitude(dB)");
 axis([0 max([fap,ftp,fpp]) -3 1]);
 grid("on");
 title(s);
+zticks([]);
 subplot(312);
 plot(wt*0.5/pi,T1);
 ylabel("Delay(samples)");
 axis([0 max([fap,ftp,fpp]) td-(tdr/2) td+(tdr/2)]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wp*0.5/pi,(P1+(wp*td)-pd)/pi);
 ylabel("Phase(rad./$\\pi$)");

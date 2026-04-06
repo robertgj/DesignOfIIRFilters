@@ -1,5 +1,5 @@
 % clenshaw_gaussian_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -213,6 +213,7 @@ subplot(211),plot(x,yapprox);
 title("Chebyshev polynomial approximation to a Gaussian function");
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(212),plot(x,yexact-yapprox);
 ylabel("Error");
 xlabel("x");
@@ -226,6 +227,7 @@ title(["Chebyshev polynomial approximation to a Gaussian function with ", ...
  "fixed point arithmetic"]);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(212),plot(x,yexact-yapprox_fixed_point);
 ylabel("Error");
 xlabel("x");

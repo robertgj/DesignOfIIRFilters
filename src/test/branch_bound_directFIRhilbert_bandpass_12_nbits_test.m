@@ -1,5 +1,5 @@
 % branch_bound_directFIRhilbert_bandpass_12_nbits_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 % Branch-and-bound search of a direct-form Hilbert bandpass filter
 % with 12-bit 2-signed-digit coefficients
@@ -257,10 +257,12 @@ plot(wplot*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM_min)),"linestyle","-.");
 ylabel("Amplitude(dB)");
 axis([0.15 0.25 -0.2 0.2]);
-strt=sprintf(["Direct-form FIR Hilbert bandpass filter (nbits=%d,ndigits=%d) : ", ...
- "fasl=%g,fapl=%g,Wap=%g,Was=%g"],nbits,ndigits,fasl,fapl,Wap,Was);
+strt=sprintf(["Direct-form FIR Hilbert bandpass filter", ...
+              " (nbits=%d,ndigits=%d) : fasl=%g,fapl=%g,Wap=%g,Was=%g"],
+             nbits,ndigits,fasl,fapl,Wap,Was);
 title(strt);
 grid("on");
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,20*log10(abs(A_hM2)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(A_hM2_sd)),"linestyle",":", ...

@@ -1,5 +1,5 @@
 % schurOneMlatticePipelined_slb_update_constraints_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -112,6 +112,7 @@ axis([0 0.5 0.8 1.2]);
 title(strM7);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(212);
 plot(fa,Asq7,fa,Asqdu,fa,Asqdl,fa(vS.al),Asql,"x",fa(vS.au),Asqu,"+");
 axis([0 0.5 0 2e-4]);

@@ -1,5 +1,5 @@
 % iir_frm_parallel_allpass_slb_update_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -103,6 +103,7 @@ plot(f(1:nap),10*log10([Asq(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
 axis([0 fap -1 1]);
 ylabel("Pass band(dB)");
 title(sprintf(strM,"x0k amplitude"));
+zticks([]);
 subplot(212)
 plot(f(nas:end),10*log10([Asq(nas:end),Asqdu(nas:end)]), ...
      f(vS.al),10*log10(Asql),"x", ...

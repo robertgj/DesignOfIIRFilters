@@ -1,5 +1,5 @@
 % halleyFIRsymmetricA_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -128,39 +128,45 @@ if use_remez_bandpass
   axis([0.00 0.06 -0.002 0.002])
   ylabel("Amplitude");
   title("Example of value finding on a band-pass filter with Halley's method");
+  zticks([]);
   subplot(312)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.09 0.21 0.98 1.02])
   ylabel("Amplitude"); 
+  zticks([]);
   subplot(313)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.22 0.501 -0.002 0.002])
   ylabel("Amplitude");
   xlabel("Frequency");
+  zticks([]);
 elseif use_selesnick_flat_lowpass
   subplot(211)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.0 0.05 0.98 1.02])
   ylabel("Amplitude");
   title("Example of value finding on a low-pass filter with Halley's method");
+  zticks([]);
   subplot(212)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.15 0.501 -0.002 0.002])
   ylabel("Amplitude");
   xlabel("Frequency");
+  zticks([]);
 else
   subplot(211)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.0 0.11 0.999 1.001])
   ylabel("Amplitude");
   title("Example of value finding on a low-pass filter with Halley's method");
+  zticks([]);
   subplot(212)
   plot(fplot,Aplot,wx*0.5/pi,Awx,"*");
   axis([0.18 0.501 -0.0001 0.0001])
   ylabel("Amplitude");
   xlabel("Frequency");
+  zticks([]);
 endif
-zticks([]);
 print(strcat(strf,"_value"),"-dpdflatex");
 close
 

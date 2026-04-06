@@ -1,5 +1,5 @@
 % svcasc2noise_example_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -400,7 +400,7 @@ for t=1:2
   ylabel("Amplitude(dB)")
   axis([0 0.5 -80 1]);
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("svcasc2noise_%spass_response",pass),"-dpdflatex");
   close
 

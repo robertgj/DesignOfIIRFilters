@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -155,6 +155,7 @@ axis(ax(2),[0 0.5 -dBas+[-5,1]]);
 grid("on");
 title(strt);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(wt*0.5/pi,T);
 axis([0 0.5 tp+(0.02*[-1,1])]);

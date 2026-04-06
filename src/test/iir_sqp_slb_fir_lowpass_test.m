@@ -1,6 +1,6 @@
   % iir_sqp_slb_fir_lowpass_test.m
 
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -152,6 +152,8 @@ zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);
@@ -187,12 +189,17 @@ zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);
 print(strcat(strf,"_mmse_x1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2,1,x1,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
+subplot(212)
 zticks([]);
 print(strcat(strf,"_mmse_x1pass"),"-dpdflatex");
 hold off
@@ -220,12 +227,16 @@ close
 showResponse(d1,U,V,M,Q,R,strt);
 subplot(211)
 axis([0 0.5 -80 10]);
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
+subplot(212)
 zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close

@@ -1,5 +1,5 @@
 % complementaryFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -90,6 +90,7 @@ legend("Hk17b","Hk17bhat");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hk17b).^2+abs(Hk17bhat).^2));
 axis([0 0.5 0.98 1.02])
@@ -118,6 +119,7 @@ legend("Heb17b","Heb17bc");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Heb17b).^2+abs(Heb17bc).^2));
 axis([0 0.5 0.98 1.02])
@@ -206,6 +208,7 @@ legend("Hpk17b","Hpk17bhat");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hpk17b).^2+abs(Hpk17bhat).^2));
 axis([0 0.5 0.98 1.02])

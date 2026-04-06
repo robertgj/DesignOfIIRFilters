@@ -1,5 +1,5 @@
 % sqp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % Optimisation of Schur one-multiplier lattice bandpass filter response with
 % 10-bit signed-digit coefficients having Ito et al. allocation and SQP
@@ -339,6 +339,7 @@ if ~print_for_web_page
  "(nbits=%d) : ftpl=%g,ftpu=%g,tp=%g,tpr=%g"],nbits,ftpl,ftpu,tp,tpr);
   title(strt);
 endif
+zticks([]);
 subplot(312)
 Trange=floor(nplot*ftpl/0.5):ceil(nplot*ftpu/0.5);
 plot(wplot(Trange)*0.5/pi,T_kc0(Trange),"linestyle","-", ...
@@ -346,6 +347,7 @@ plot(wplot(Trange)*0.5/pi,T_kc0(Trange),"linestyle","-", ...
 ylabel("Delay(samples)");
 axis([0 0.5 15.9 16.1]);
 grid("on");
+zticks([]);
 subplot(313)
 plot(wplot*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ... 
      wplot*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","--");

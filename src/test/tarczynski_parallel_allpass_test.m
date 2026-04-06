@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a lowpass filter from two parallel allpass filters using
 % the method of Tarczynski et al. 
@@ -110,6 +110,7 @@ for flat_delay=[false,true],
     s=sprintf("Parallel all-pass filters : ma=%d,mb=%d",ma,mb);
   endif
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T);
   ylabel("Delay(samples)");
@@ -118,7 +119,7 @@ for flat_delay=[false,true],
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
 
@@ -129,6 +130,7 @@ zticks([]);
   axis([0 max(fap,ftp) -3 1]);
   grid("on");
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T);
   ylabel("Delay(samples)");
@@ -137,7 +139,7 @@ zticks([]);
     axis([0 max(fap,ftp) (td-0.1) (td+0.1)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_response_passband",strf,flatstr),"-dpdflatex");
   close
 
@@ -145,7 +147,7 @@ zticks([]);
   subplot(111);
   zplane(qroots(N0),qroots(D0));
   title(s);
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close
 
@@ -164,7 +166,7 @@ zticks([]);
     legend("Filter A","Filter B","location","northwest");
     legend("boxoff");
     grid("on");
-zticks([]);
+    zticks([]);
     print(sprintf("%s%s_phase",strf,flatstr),"-dpdflatex");
     close
   endif

@@ -1,5 +1,5 @@
 % allpass2ndOrderCascade_socp_sqmag_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -69,6 +69,7 @@ s=sprintf ...
 (["Parallel all-pass 2nd order cascade initial response (squared-magnitude) : ", ...
  "ma=%d,mb=%d"],ma,mb);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
@@ -115,6 +116,7 @@ grid("on");
 s=sprintf ...
 ("Parallel all-pass 2nd order cascade (squared-magnitude): ma=%d,mb=%d",ma,mb);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -130,6 +132,7 @@ ylabel("Amplitude(dB)");
 axis([0 fp -0.1 0.1]);
 grid("on");
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -158,6 +161,7 @@ axis(ax(2),[0 0.5 -90 -80]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1)
 ylabel("Delay(samples)");
@@ -183,6 +187,7 @@ grid("on");
 st=sprintf("Order %d elliptic filter response : fap=%g,dBap=%g,fas=%g,dBas=%g", ...
            ma+mb,fap,dBap,fas,dBas);
 title(st);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,20*log10(abs(Hellip)));
 xlabel("Frequency");

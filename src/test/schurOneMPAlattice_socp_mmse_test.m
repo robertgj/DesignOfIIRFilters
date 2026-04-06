@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_mmse_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -129,11 +129,13 @@ axis([0 0.5 -40 5]);
 grid("on");
 s=sprintf("Parallel Schur one-multiplier allpass : ma=%d,mb=%d,td=%g", ma,mb,td);
 title(s);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
 axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
@@ -151,16 +153,19 @@ ylabel("Amplitude(dB)");
 axis([0 max([fap,ftp,fpp,fdp]) -3 1]);
 grid("on");
 title(s);
+zticks([]);
 subplot(412);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
 axis([0 max([fap,ftp,fpp,fdp]) ppr*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 axis([0 max([fap,ftp,fpp,fdp]) td-tpr td+tpr]);
 grid("on");
+zticks([]);
 subplot(414);
 plot(wd*0.5/pi,D);
 ylabel("dAsqdw");

@@ -1,5 +1,5 @@
 % socp_relaxation_schurOneMPAlattice_lowpass_differentiator_12_nbits_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -139,11 +139,13 @@ axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf("Initial parallel allpass");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P_k0 Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.002*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T_k0 Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -258,11 +260,13 @@ axis([0 0.5 0.01*[-1,1]]);
 grid("on");
 strt=sprintf("Signed-digit parallel allpass");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P_k0 P_k0_sd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.002*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T_k0 T_k0_sd Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -484,6 +488,7 @@ strt=sprintf(["Low-pass differentiator filter : ", ...
              fap,fas,Arp,Ars,tp,tpr,ppr);
 title(strt);
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(P_k0+(wp*tp))/pi,"linestyle","-", ...
      wp*0.5/pi,(P_k0_sd+(wp*tp))/pi,"linestyle","--", ...
@@ -495,6 +500,7 @@ legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k0_sd,"linestyle","--", ...

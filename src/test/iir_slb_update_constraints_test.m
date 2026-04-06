@@ -1,5 +1,5 @@
 % iir_slb_update_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -99,6 +99,7 @@ axis([0 0.5 0.9 1.02]);
 title(strM7);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(212);
 plot(f,AA,f,AAdu,f,AAdl,fs(vS.sl),S(vS.sl),"x",fs(vS.su),S(vS.su),"+");
 axis([0 0.5 0 2e-2]);

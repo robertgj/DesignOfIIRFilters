@@ -1,5 +1,5 @@
 % ellip5OneM_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with 
 % single multiplier form. Use the transposed transfer function to
@@ -87,6 +87,7 @@ subplot(211);
 plot(xxf(svk,1), xxf(svk,2))
 xlabel("State variable x1")
 ylabel("State variable x2")
+zticks([]);
 subplot(212);
 plot(xxf(svk,1), xxf(svk,3))
 xlabel("State variable x1")
@@ -103,6 +104,7 @@ subplot(211);
 plot(xxfsin(:,1), xxfsin(:,2))
 xlabel("State variable x1")
 ylabel("State variable x2")
+zticks([]);
 subplot(212);
 plot(xxfsin(:,1), xxfsin(:,3))
 xlabel("State variable x1")

@@ -22,7 +22,7 @@
 %      July, 2011. Available at:
 %      https://set.kuleuven.be/optec/Software/softwarefiles/bmipaper
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -78,6 +78,7 @@ grid("on");
 strI=sprintf(["Initial response of tapped Schur lattice filter : ", ...
               "nN=%d, fap=%g, tp=%g, fas=%g"], nN,fap,tp,fas);
 title(strI);
+zticks([]);
 subplot(212);
 plot(w*0.5/pi,T0);
 axis([0 0.5 0 20]);
@@ -544,6 +545,7 @@ grid("on");
 strP=sprintf(["Response of tapped Schur lattice filter : ", ...
               "nN=%d, fap=%g, tp=%g, fas=%g"], nN,fap,tp,fas);
 title(strP);
+zticks([]);
 subplot(212)
 plot(f,T1);
 ylabel("Delay(samples)");

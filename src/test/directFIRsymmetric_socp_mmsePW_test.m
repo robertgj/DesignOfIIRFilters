@@ -1,5 +1,5 @@
 % directFIRsymmetric_socp_mmsePW_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -91,6 +91,7 @@ grid("on");
 strt=sprintf(["Direct-form symmetric FIR pass-band : ", ...
  "fapl=%g,fapu=%g,dBap=%g,Wap=%g"],fapl,fapu,dBap,Wap);
 title(strt);
+zticks([]);
 % Plot stop-band response
 subplot(212)
 plot(wa*0.5/pi,20*log10(A));

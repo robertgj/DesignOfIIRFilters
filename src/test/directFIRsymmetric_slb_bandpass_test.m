@@ -1,5 +1,5 @@
 % directFIRsymmetric_slb_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % Also M=31;dBap=0.039217209;dBas=60.01714835;dBapt=0.188164;dBast=44.152;
 
@@ -80,6 +80,7 @@ strt=sprintf(["Bandpass FIR : fapl=%g,fapu=%g,dBap=%g,Wap=%g,", ...
  "fasl=%g,fasu=%g,dBas=%g,Wasl=%g,Wasu=%g"], ...
              fapl,fapu,dBap,Wap,fasl,fasu,dBas,Wasl,Wasu);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A1,"--",wa*0.5/pi,Adu,"-",wa*0.5/pi,Adl,"-");
 axis([0 0.5 -0.02 0.02]);
@@ -129,6 +130,7 @@ strt=sprintf(["Bandpass FIR (coefficients %d,%d,%d rounded to %d bits) : ", ...
  "fapl=%g,fapu=%g,dBapt=%g,fasl=%g,fasu=%g,dBast=%g"], ...
              hM_inactive,nbits,fapl,fapu,dBapt,fasl,fasu,dBast);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A2,"--",wa*0.5/pi,Adut,"-",wa*0.5/pi,Adlt,"-");
 axis([0 0.5 -0.1 0.1]);

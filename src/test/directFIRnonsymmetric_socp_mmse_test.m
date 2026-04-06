@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_socp_mmse_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -136,11 +136,13 @@ ylabel("Amplitude(dB)");
 axis([fapl fapu -3 1]);
 grid("on");
 title(s);
+zticks([]);
 subplot(312);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 axis([ftpl ftpu td-tdr td+tdr]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wp*0.5/pi,(P+(wp*td))/pi);
 axis([fppl fppu pd-ppr pd+ppr]);

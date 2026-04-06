@@ -1,5 +1,5 @@
 % iir_sqp_slb_minimum_phase_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -120,6 +120,7 @@ axis([0, 0.5, -80, 10]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(0.5*w/pi,T);
 axis([0, 0.5 0 2*(U+M)]);
@@ -130,6 +131,9 @@ zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
 showResponsePassBands(0,fap,-0.04,0.01,d1,U,V,M,Q,R,strt);
+subplot(211);
+zticks([]);
+subplot(212);
 zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 hold off

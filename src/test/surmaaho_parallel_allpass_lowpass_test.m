@@ -1,5 +1,5 @@
 % surmaaho_parallel_allpass_lowpass_test.m
-% Copyright (C) 2018-2025 Robert G. Jenssen
+% Copyright (C) 2018-2026 Robert G. Jenssen
 
 test_common;
 
@@ -144,6 +144,7 @@ strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212); 
 plot(Fp,Pp);
 axis([0 0.5 -0.02 0.02]);
@@ -188,6 +189,7 @@ strt="Surma-aho-and-Saram\\\"{a}ki combined parallel all-pass filter response";
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212); 
 plot(Fp,P12p);
 axis([0 0.5 -0.02 0.02]);

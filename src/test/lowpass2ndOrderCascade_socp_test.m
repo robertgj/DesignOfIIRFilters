@@ -1,5 +1,5 @@
 % lowpass2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -68,6 +68,7 @@ axis([0, 0.5, -80, 10]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,t)
 axis([0, 0.5, 0, 20]);
@@ -84,6 +85,7 @@ axis([0, fpass, -1, 1]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,t)
 axis([0, fpass, td-0.25, td+0.25]);
@@ -121,6 +123,7 @@ axis([0, 0.5, -80, 10]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(sqm_strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, 0.5, 0, 20]);
@@ -137,6 +140,7 @@ axis([0, fpass, -0.01, 0.01]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(sqm_strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,t_sqm)
 axis([0, fpass, td-1, td+1]);

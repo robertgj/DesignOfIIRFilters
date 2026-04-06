@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_slb_update_constraints_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -125,6 +125,7 @@ axis([0 fas 0.8 1.2]);
 strM0=sprintf(strM,"x0k");
 title(strM0);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(f,Asqk,f,Asqdu,f,Asqdl,f(vS.al),Asqk(vS.al),"x",f(vS.au),Asqk(vS.au),"+");
 axis([fap 0.5 0 2e-3]);

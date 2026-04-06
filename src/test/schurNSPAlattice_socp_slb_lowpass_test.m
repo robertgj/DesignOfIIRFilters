@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 test_common;
 
@@ -147,6 +147,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass lowpass : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");

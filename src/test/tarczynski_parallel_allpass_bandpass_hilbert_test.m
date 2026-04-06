@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_hilbert_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass Hilbert filter
 % as the difference of two parallel allpass filters. See:
@@ -129,11 +129,13 @@ grid("on");
 strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%d(rad./$\\pi$)", ...
              ma,mb,tp,pp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,rem(((P0+(w*tp))/pi),2));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 0 2]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");
@@ -153,11 +155,13 @@ ylabel("Amplitude(dB)");
 axis([minf maxf -0.4 0.1]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,rem(pp-((P0+(w*tp))/pi),2));
 ylabel("Phase error(rad./$\\pi$)");
 axis([minf maxf -0.001 0.001]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");

@@ -1,5 +1,5 @@
 % iir_yalmip_mmse_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -172,10 +172,11 @@ zticks([]);
        wa(vS.au)*0.5/pi,20*log10(A1(vS.au)),"+", ...
        ws(vS.sl)*0.5/pi,20*log10(S1(vS.sl)),"x", ...
        ws(vS.su)*0.5/pi,20*log10(S1(vS.su)),"+")
+  zticks([]);
   subplot(212)
   hold;
   plot(wt(vS.tl)*0.5/pi,T1(vS.tl),"x",wt(vS.tu)*0.5/pi,T1(vS.tu),"+");
-zticks([]);
+  zticks([]);
   print(strcat(solver_strf,"_x1"),"-dpdflatex");
   close
   % Plot passbands
@@ -186,10 +187,11 @@ zticks([]);
        wa(vS.au)*0.5/pi,20*log10(A1(vS.au)),"+", ...
        ws(vS.sl)*0.5/pi,20*log10(S1(vS.sl)),"x", ...
        ws(vS.su)*0.5/pi,20*log10(S1(vS.su)),"+")
+  zticks([]);
   subplot(212)
   hold;
   plot(wt(vS.tl)*0.5/pi,T1(vS.tl),"x",wt(vS.tu)*0.5/pi,T1(vS.tu),"+");
-zticks([]);
+  zticks([]);
   print(strcat(solver_strf,"_x1pass"),"-dpdflatex");
   close
   % Plot phase
@@ -200,7 +202,7 @@ zticks([]);
   grid("on");
   xlabel("Frequency")
   ylabel("Phase(rad./$\\pi$)");
-zticks([]);
+  zticks([]);
   print(strcat(solver_strf,"_x1phase"),"-dpdflatex");
   close
 

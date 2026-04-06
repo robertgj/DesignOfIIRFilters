@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_highpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 % SDP design of a direct-form FIR highpass filter with the KYP lemma.
 % See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma: Unified
@@ -109,6 +109,7 @@ grid("on");
 strt=sprintf("N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%10.8f,Esq\\_s=%6.4f", ...
              N,d,fap,fas,Esq_z,Esq_s);
 title(strt);
+zticks([]);
 subplot(212);
 plot(w(nap:end)*0.5/pi,T(nap:end));
 axis([0 0.5 d+2*[-1,1]]);

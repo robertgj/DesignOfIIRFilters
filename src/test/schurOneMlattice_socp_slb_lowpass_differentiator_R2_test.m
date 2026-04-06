@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_differentiator_R2_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -167,11 +167,13 @@ strP= ...
 title(strP);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(P0+(wp*tp))/pi);
 axis([0 0.5 pp+(2*ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T0);
 axis([0 0.5 tp+(2*tpr*[-1,1])]);
@@ -268,6 +270,7 @@ strT=sprintf(["Differentiator PCLS error : ", ...
 %title(strT);
 ylabel("Amplitude error");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(([P2 Pdu Pdl]+(wp*tp))/pi)-pp);
 axis([0 0.5 (0.0002*[-1,1])]);
@@ -277,6 +280,7 @@ legend("Response","Upper PCLS constraint","Lower PCLS constraint");
 legend("location","east");
 legend("boxoff");
 legend("right");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T2 Tdu Tdl]);
 axis([0 0.5 tp+(0.004*[-1,1])]);
@@ -334,6 +338,7 @@ plot(wd*0.5/pi,[dCsqdw2,Cdu,Cdl]-Cd)
 axis([0 fdp 0.01*[-1,1]])
 grid("on");
 ylabel("$\\frac{d\\lvert C\\rvert^{2}}{dw}$ error");
+zticks([]);
 subplot(212)
 plot(wd*0.5/pi,[dAsqdw2,Ddu,Ddl]-Dd)
 axis([0 fdp 0.01*[-1,1]])
@@ -358,10 +363,12 @@ strP=sprintf("Direct form correction filter coefficient sensitivity");
 title(strP);
 ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,gradP2_D);
 ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,gradT2_D);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
@@ -378,10 +385,12 @@ strP=sprintf("Tapped Schur lattice correction filter coefficient sensitivity");
 title(strP);
 ylabel("$\\nabla_{\\chi}\\lvert C\\left(\\chi,\\omega\\right)\\rvert^{2}$");
 grid("on");
+zticks([]);
 subplot(312); 
 plot(wp*0.5/pi,gradP2c);
 ylabel("$\\nabla_{\\chi}P\\left(\\chi,\\omega\\right)$");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,gradT2c);
 ylabel("$\\nabla_{\\chi}T\\left(\\chi,\\omega\\right)$");
@@ -472,6 +481,7 @@ legend("Exact","12-bit,3-S-D");
 legend("location","east");
 legend("boxoff");
 legend("right");
+zticks([]);
 subplot(212)
 plot(fb,unwrap(Pb+Pd)/pi,"-",fb,unwrap(arg(Hfb(:))+Pd)/pi,"-.");
 grid("on");

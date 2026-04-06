@@ -5,7 +5,7 @@
 % (1-z^{-1}) with a Schur one-multiplier lattice correction filter having
 % denominator polynomial coefficients only in z^-2.
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -637,6 +637,7 @@ ylabel("Amplitude");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"],nbits,ndigits,fap,fas);
 title(strt);
+zticks([]);
 % Plot phase pass-band response
 subplot(312);
 plot(wp*0.5/pi,(unwrap(P_kc0)+(wp*tp))/pi,"linestyle","-", ...
@@ -651,6 +652,7 @@ legend("Exact","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("right");
+zticks([]);
 % Plot group-delay pass-band response
 subplot(313);
 plot(wt*0.5/pi,T_kc0,"linestyle","-", ...

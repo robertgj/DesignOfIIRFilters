@@ -1,5 +1,5 @@
 % schurFIRlatticeFilter_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Script for testing schurFIRlatticeFilter.m
 

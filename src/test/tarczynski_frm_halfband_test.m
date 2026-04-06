@@ -1,5 +1,5 @@
 % tarczynski_frm_halfband_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an FRM filter from IIR halfband model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -199,6 +199,7 @@ strt=sprintf(["F2M halfband/delay filter : ", ...
  "fpass=%g,mr=%d,na=%d,Mmodel=%d,Dmodel=%d,Was=%d"], ...
              fpass,mr,na,Mmodel,Dmodel,Was);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Delay(samples)");
@@ -216,6 +217,7 @@ ylabel("Amplitude(dB)");
 axis([0 0.25 -0.2 0.2]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Delay(samples)");
@@ -250,6 +252,7 @@ grid("on");
 strt=sprintf("F2M halfband model filter plus delay : mr=%d,Mmodel=%d,Dmodel=%d", ...
              mr,Mmodel,Dmodel);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model);
 ylabel("Delay(samples)");
@@ -277,12 +280,14 @@ grid("on");
 strt=sprintf("F2M halfband Hilbert filter : mr=%d,Mmodel=%d,Dmodel=%d,na=%d", ...
              mr,Mmodel,Dmodel,na);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(arg(Hw_hilbert))+(wplot.*td))/pi)
 ylabel("Phase(rad./$\\pi$)\Adjusted for delay");
 xlabel("Frequency");
 axis([0 0.5 -0.504 -0.496]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tw_hilbert);
 ylabel("Delay(samples)");

@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -175,11 +175,13 @@ strP=sprintf(["Differentiator PCLS : ", ...
 title(strP);
 ylabel("Amplitude error");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
 axis([0 0.5 pp+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T2 Tdl Tdu]);
 axis([0 0.5 tp+(tpr*[-1,1])]);

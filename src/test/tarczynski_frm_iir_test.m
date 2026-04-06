@@ -1,5 +1,5 @@
 % tarczynski_frm_iir_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an FRM filter from IIR model and FIR masking filters using
 % the method of Tarczynski et al. The masking filters have odd lengths
@@ -263,6 +263,7 @@ grid("on");
 s=sprintf("FRM filter : mn=%d,mr=%d,na=%d,nc=%d,M=%d,D=%d,Was=%d", ...
           mn,mr,na,nc,M,D,Was);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Delay(samples)");
@@ -293,6 +294,7 @@ axis([0 0.5 -10 10]);
 grid("on");
 s=sprintf("FRM IIR model filter : mn=%d,mr=%d,M=%d,D=%d",mn,mr,M,D);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_ad);
 ylabel("Delay(samples)");

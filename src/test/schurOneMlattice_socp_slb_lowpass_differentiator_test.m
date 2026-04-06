@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_differentiator_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -176,16 +176,19 @@ strP=sprintf(["Lowpass differentiator correction filter : ", ...
  "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g"],fap,Arp,fas,Ars,tp);
 title(strP);
 ylabel("Amplitude");
+zticks([]);
 subplot(412);
 plot(wp*0.5/pi,(P2c+(wp*(tp-0.5)))/pi);
 axis([0 0.5 1+(0.001*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(413);
 plot(wt*0.5/pi,T2c);
 axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
+zticks([]);
 subplot(414);
 plot(wd*0.5/pi,dCsqdw2);
 axis([0 0.5 -0.1 0.3]);
@@ -240,11 +243,13 @@ strP=sprintf(["Lowpass differentiator response : ", ...
  "fap=%g,Arp=%g,fas=%g,Ars=%g,tp=%g,tpr=%g,ppr=%g"],fap,Arp,fas,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
 axis([0 0.5 pp+0.001*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T2 Tdl Tdu]);
 axis([0 0.5 tp+tpr*[-1,1]]);
@@ -271,11 +276,13 @@ strP=sprintf(["Differentiator PCLS : ", ...
 title(strP);
 ylabel("Amplitude error");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P2 Pdl Pdu]+(wp*tp))/pi);
 axis([0 0.5 pp+(0.001*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T2 Tdl Tdu]);
 axis([0 0.5 tp+(0.04*[-1,1])]);
@@ -330,6 +337,7 @@ axis(ax(2),[0 0.5 0.02*[-1,1]]);
 grid("on");
 ylabel("Amplitude");
 title("Simulated differentiator PCLS error");
+zticks([]);
 subplot(212)
 plot(Tf(rTap),unwrap(arg(Txy(rTap))+(Tw(rTap)*tp)-TPp)/pi)
 axis([0 0.5 0.001*[-1,1]]);

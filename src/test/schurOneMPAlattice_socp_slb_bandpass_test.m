@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -134,6 +134,7 @@ grid("on");
 strt=sprintf("Parallel allpass bandpass : m1=%d,m2=%d,dBap=%g,dBas=%g", ...
              m1,m2,dBap,dBas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");
@@ -151,6 +152,7 @@ ylabel("Amplitude(dB)");
 axis([min(fapl,ftpl) max(fapu,ftpu) -3 1]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");

@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_bandpass_hilbert_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 %
 % SDP design of a direct-form FIR bandpass Hilbert filter with the KYP
 % lemma. The pass band response is set to -je^{-j*w*d}.
@@ -176,11 +176,13 @@ strt=sprintf(["N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,", ...
               "Esq\\_z=%5.3f,Esq\\_sl=%5.3f,Esq\\_su=%5.3f"], ...
              N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_sl,Esq_su);
 title(strt);
+zticks([]);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);
 axis([0 0.5 1.5+(0.01*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 plot(w(napl:napu)*0.5/pi,T(napl:napu));
 ylabel("Delay(samples)");

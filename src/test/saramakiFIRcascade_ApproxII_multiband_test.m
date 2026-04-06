@@ -1,5 +1,5 @@
 % saramakiFIRcascade_ApproxII_multiband_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 %
 % Design a multi-band FIR filter as the tapped cascade of sub-filters
 % following Saramaki's Approximation Problem II.
@@ -315,6 +315,7 @@ strt=sprintf("Prototype filter : M=%d,N=%d,$\\delta_{p}$=%g,$\\delta_{s}$=%g",..
 title(strt);
 ylabel("Frequency($\\Omega/2\\pi$)")
 xlabel("Amplitude (dB)")
+zticks([]);
 subplot(222)
 plot(f,Omega/(2*pi), ...
      f,Fap_line,"linewidth",line_linewidth,"color",line_colour, ...
@@ -331,6 +332,7 @@ axis([min(f) max(f) min(f) max(f)]);
 grid("on");
 strt=sprintf("Sub-filter : M=%d,$F_{p}$=%5.3f,$F_{s}$=%5.3f",M,Fap,Fas);
 title(strt);
+zticks([]);
 subplot(224)
 plot(f,20*log10(abs(ANM)), ...
      fasu1_line,Amp_line,"linewidth",line_linewidth,"color",line_colour, ...

@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_R2_alternate_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -140,6 +140,7 @@ strP=sprintf(["Lowpass Schur one-multiplier R=2 filter : ", ...
 title(strP);
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212);
 plot(wa*0.5/pi,T2);
 axis([0 0.5 0 20]);

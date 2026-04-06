@@ -1,5 +1,5 @@
 % butt3NS_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for the 3rd order Butterworth lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
@@ -30,6 +30,7 @@ xlabel("Frequency")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -50 5]);
 grid("on");
+zticks([]);
 subplot(212);
 plot(0.5*w/pi,T);
 xlabel("Frequency")
@@ -160,6 +161,7 @@ plot(xxf(svk,1), xxf(svk,2));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
+zticks([]);
 subplot(212);
 plot(xxf(svk,1), xxf(svk,3));
 axis([-600 600 -600 600]);
@@ -173,6 +175,7 @@ plot(xxdirf(svk,1), xxdirf(svk,2));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
+zticks([]);
 subplot(212);
 plot(xxdirf(svk,1), xxdirf(svk,3));
 axis([-600 600 -600 600]);
@@ -186,6 +189,7 @@ plot(xxoptf(svk,1), xxoptf(svk,2));
 axis([-600 600 -600 600]);
 xlabel("State variable x1");
 ylabel("State variable x2");
+zticks([]);
 subplot(212);
 plot(xxoptf(svk,1), xxoptf(svk,3));
 axis([-600 600 -600 600]);
@@ -206,6 +210,7 @@ title("Optimum filter output noise response")
 ylabel("Amplitude(dB)")
 axis([0 0.5 -100 -60]);
 grid("on");
+zticks([]);
 Hdirdiff=filter(ones(box,1)/box,1,crossWelch(u,ydirf-ydir,nfpts));
 subplot(212);
 plot(nppts/nfpts,20*log10(abs(Hdirdiff)));
@@ -228,6 +233,7 @@ plot(xxsin(:,1), xxsin(:,2))
 axis([-600 600 -600 600]);
 xlabel("State variable x1")
 ylabel("State variable x2")
+zticks([]);
 subplot(212);
 plot(xxsin(:,1), xxsin(:,3))
 axis([-600 600 -600 600]);

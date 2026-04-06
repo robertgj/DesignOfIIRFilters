@@ -1,5 +1,5 @@
 % tfp2g_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Script for testing frequency transformations
 
@@ -17,13 +17,14 @@ function plot_response(B,A,fname)
   axis([0 0.5 -50 10]);
   grid("on");
   ylabel("Amplitude(dB)")
+  zticks([]);
   subplot(212);
   plot(0.5*w/pi,20*log10(abs(h)))
   axis([0 0.5 -0.5 0.1]);
   grid("on");
   ylabel("Amplitude(dB)")
   xlabel("Frequency")
-zticks([]);
+  zticks([]);
   print(fname,"-dpdflatex");
   close
 endfunction

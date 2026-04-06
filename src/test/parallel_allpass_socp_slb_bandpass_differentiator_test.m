@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_differentiator_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -107,11 +107,13 @@ axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf("Initial parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P0 Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.02*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T0 Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -155,11 +157,13 @@ axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf("Initial parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Pm Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(2*ppr*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tm Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -213,11 +217,13 @@ strt=sprintf(["Parallel allpass : ", ...
  "ma=%d,mb=%d,Arsl=%4.2f,Arp=%4.2f,Arsu=%4.2f,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,tp,tpr);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,unwrap([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(ppr*[-1,1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -250,11 +256,13 @@ strt=sprintf(["Parallel allpass : ", ...
               "ma=%d,mb=%d,Arsl=%4.2f,Arp=%6.4f,Arsu=%4.2f,ppr=%g,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,ppr,tp,tpr);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,unwrap([P1 Pdu Pdl]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.001*[-1,1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdu Tdl]);
 ylabel("Delay(samples)");

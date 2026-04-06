@@ -1,5 +1,5 @@
 % iir_sqp_slb_differentiator_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -49,11 +49,13 @@ strI=sprintf("Differentiator initial response:R=%d,tp=%g",R,tp);
 title(strI);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,(P0+(w*tp))/pi);
 axis([0 0.5 -0.6 -0.4]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T0);
 axis([0 0.5 4 7]);
@@ -141,11 +143,13 @@ strM=sprintf(["Differentiator correction filter MMSE response : ", ...
 title(strM);
 ylabel("Amplitude error");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*(tp-0.5)))/pi);
 axis([0 0.5 1+(2*ppr)*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu])
 axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
@@ -201,11 +205,13 @@ strP=sprintf(["Differentiator PCLS response:", ...
              R,ft1,ft2,Ar1,Ar2,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude error");
+zticks([]);
 subplot(312);
 plot(w(2:end)*0.5/pi,([Pd1(2:end) Pdl(2:end) Pdu(2:end)]+(w(2:end)*tp))/pi);
 axis([0 0.5 1.5+0.0006*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w(2:end)*0.5/pi,[Td1(2:end) Tdl(2:end) Tdu(2:end)]);
 axis([0 0.5 tp+tpr*[-1,1]]);

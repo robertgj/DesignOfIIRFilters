@@ -1,5 +1,5 @@
 % iir_sqp_slb_pink_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -84,6 +84,7 @@ if 0
   legend("boxoff");
   legend("left");
   grid("on");
+  zticks([]);
   subplot(212);
   T0=iirT(wt,x0,U,V,M,Q,R);
   plot(wt*0.5/pi,T0,"linestyle","-", ...
@@ -91,7 +92,7 @@ if 0
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_init_x0"),"-dpdflatex");
   close
 else
@@ -111,7 +112,7 @@ else
   legend("boxoff");
   legend("left");
   grid("on");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_init_x0"),"-dpdflatex");
   close
 endif
@@ -139,6 +140,7 @@ strt=sprintf("Pink noise filter MMSE response : fat=%g, ftt=%g,tp=%g", ...
              fat,ftt,tp);
 title(strt);
 ylabel("Amplitude error(dB)");
+zticks([]);
 subplot(212);
 Tx1=iirT(wt,x1,U,V,M,Q,R);
 plot(wt*0.5/pi,[Tx1 Tdu Tdl]);
@@ -177,6 +179,7 @@ strt=sprintf(["Pink noise filter response : ", ...
 title(strt);
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212);
 T=delayz(N1,D1,n);
 semilogx(w(ni:end)*0.5/pi,T(ni:end));
@@ -196,6 +199,7 @@ axis([0 0.5 -AdBr AdBr]);
 grid("on");
 title(strt);
 ylabel("Amplitude error(dB)");
+zticks([]);
 subplot(212);
 Td1=iirT(wt,d1,U,V,M,Q,R);
 plot(wt*0.5/pi,[Td1 Tdu Tdl]);

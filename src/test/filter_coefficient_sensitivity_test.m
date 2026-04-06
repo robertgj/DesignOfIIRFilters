@@ -16,7 +16,7 @@
 %    globally optimised state-variable IIR
 %    parallel all-pass gain-pole-zero
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -84,6 +84,7 @@ tstr=sprintf ...
        ("Elliptic filter : norder=%d,fpass=%g,dBpass=%g,fstop=%g,dBstop=%g",...
         norder,fpass,dBpass,fstop,dBstop);
 title(tstr);
+zticks([]);
 subplot(212);
 plot(w*0.5/pi,T0_IIR);
 axis([0 0.5 0 40])
@@ -110,6 +111,7 @@ tstr=sprintf(["Elliptic filter sensitivity : ", ...
               norder,fpass,dBpass,fstop,dBstop);
 title(tstr);
 ylabel("$|A|^2$ sensitivity");
+zticks([]);
 subplot(212)
 plot(w(Rpass)*0.5/pi,gradT0_IIR(Rpass,:));
 axis([0 0.5 -4000 4000]);
@@ -151,6 +153,7 @@ tstr=sprintf(["Schur one-multiplier elliptic filter sensitivity : ", ...
               norder,fpass,dBpass,fstop,dBstop);
 title(tstr);
 ylabel("$|A|^2$ sensitivity");
+zticks([]);
 subplot(212)
 plot(w(Rpass)*0.5/pi,gradT0_S1M(Rpass,:));
 axis([0 0.5 -1500 1500]);
@@ -209,6 +212,7 @@ tstr=sprintf(["Schur parallel allpass elliptic filter sensitivity : ", ...
               norder,fpass,dBpass,fstop,dBstop);
 title(tstr);
 ylabel("$|A|^2$ sensitivity");
+zticks([]);
 subplot(212)
 plot(w(Rpass)*0.5/pi,gradT0_PA(Rpass,:));
 axis([0 0.5 -1000 1000]);

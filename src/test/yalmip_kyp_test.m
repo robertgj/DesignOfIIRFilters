@@ -1,5 +1,5 @@
 % yalmip_kyp_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -61,6 +61,7 @@ grid("on");
 strt=sprintf(["KYP quadratic non-symmetric FIR filter : ", ...
  "N=%d,d=%d,fap=%g,Wap=%g,Wat=%g,fas=%g,Was=%g"],N,d,fap,Wap,Wat,fas,Was);
 title(strt);
+zticks([]);
 subplot(212);
 plot(w(1:nap)*0.5/pi,T(1:nap));
 ylabel("Delay(samples)");
@@ -282,6 +283,7 @@ grid("on");
 strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
              N,d,fap,fas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(w(1:nap)*0.5/pi,T_amp(1:nap));
 ylabel("Delay(samples)");
@@ -352,6 +354,7 @@ grid("on");
 strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
              N,d,fap,fas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(w(1:nap)*0.5/pi,T_kyp(1:nap));
 ylabel("Delay(samples)");

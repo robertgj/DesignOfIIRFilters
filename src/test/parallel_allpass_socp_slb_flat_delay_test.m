@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_flat_delay_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -95,6 +95,7 @@ axis([0 0.5 -100 5]);
 grid("on");
 strt=sprintf("Initial parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
@@ -139,6 +140,7 @@ grid("on");
 strt=sprintf("Parallel allpass : ma=%d,mb=%d,dBap=%4.2f,dBas=%4.1f,td=%g,tdr=%g", ...
              ma,mb,dBap,dBas,td,tdr);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -156,6 +158,7 @@ ylabel("Amplitude(dB)");
 axis([0 max(fap,ftp) -3 1]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");

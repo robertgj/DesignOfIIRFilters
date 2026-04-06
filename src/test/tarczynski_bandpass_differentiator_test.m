@@ -1,5 +1,5 @@
 % tarczynski_bandpass_differentiator_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % Design a bandpass differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -90,11 +90,13 @@ grid("on");
 s=sprintf("Tarczynski et al. bandpass differentiator : nN=%d,nD=%d,R=%d,tp=%g", ...
           nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,([unwrap(angle(H)),unwrap(angle(Hd))+(pp*pi)]+(wplot*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,[T,tp*ones(size(T))]);
 axis([0 0.5 0 2*tp ]);
@@ -115,11 +117,13 @@ s=sprintf ...
     ("Tarczynski et al. bandpass differentiator error : nN=%d,nD=%d,R=%d,tp=%g",
      nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(unwrap(angle(H))-(unwrap(angle(Hd))+(pp*pi)))/pi);
 axis([0 0.5 -0.04 0.04]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,T-tp)
 axis([0 0.5 -1 1]);

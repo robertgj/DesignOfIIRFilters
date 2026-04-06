@@ -4,7 +4,7 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -193,16 +193,19 @@ axis([0 fasl 0 0.008]);
 ylabel("Amplitude");
 grid("on");
 title(strt);
+zticks([]);
 subplot(412);
 plot(wa(napl:napu)*0.5/pi,sqrt(abs(Asq(napl:napu))));
 axis([fapl fapu 1+(deltap*2*[-1 1])]);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(413);
 plot(wa(napl:napu)*0.5/pi,T(napl:napu));
 axis([fapl fapu td-(tdr) td+(tdr)]);
 ylabel("Delay(samples)");
 grid("on");
+zticks([]);
 subplot(414);
 plot(wa(nasu:end)*0.5/pi,sqrt(Asq(nasu:end)));
 axis([fasu 0.5 0 0.008]);

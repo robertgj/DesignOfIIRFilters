@@ -1,5 +1,5 @@
 % johansson_cascade_allpass_bandstop_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -84,6 +84,7 @@ axis([0 Fap -50e-6 0]);
 ylabel("Amplitude(dB)");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki FIR pass-band and stop-band responses");
+zticks([]);
 subplot(212);
 plot(wa(nFas:end)*0.5/pi,20*log10(abs(Hf(nFas:end))));
 axis([Fas 0.5 -150 -100]);
@@ -180,6 +181,7 @@ axis([0 0.5 -5e-5 0]);
 ylabel("Amplitude(dB)");
 grid("on");
 title("Johansson-and-Saram\\\"{a}ki band-stop complementary responses");
+zticks([]);
 subplot(212);
 plot(wa*0.5/pi,20*log10(abs([H Hc])));
 axis([0 0.5 -110 -105]);

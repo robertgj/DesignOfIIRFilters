@@ -5,7 +5,7 @@
 % FREQUENCY INTERVALS", GOELE PIPELEERS, TETSUYA IWASAKI, AND SHINJI HARA, 
 % SIAM J. CONTROL OPTIM., Vol. 52, No. 6, pp. 3618–3638
 %
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -104,11 +104,13 @@ strt=sprintf(["FIR symmetric bandpass filter : ", ...
              M,fasl,fapl,fapu,fasu,deltap,deltas);
 title(strt);
 grid("on");
+zticks([]);
 subplot(312)
 plot(wa(napl:napu)*0.5/pi,A_hM1(napl:napu));
 ylabel("Amplitude");
 axis([fapl fapu 1+0.0002*[-1 1]]);
 grid("on");
+zticks([]);
 subplot(313)
 plot(wa(nasu:end)*0.5/pi,A_hM1(nasu:end));
 ylabel("Amplitude");

@@ -1,5 +1,5 @@
 % iir_sqp_mmse_tarczynski_ex2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a filter implementing the response of Example 2 of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -105,6 +105,7 @@ title(sprintf(["Tarczynski et al. Example 2 response : ", ...
  "U=%d,V=%d,M=%d,Q=%d,R=%d"],U,V,M,Q,R));
 axis([0 0.5 -8 2]);
 grid("on");
+zticks([]);
 subplot(212);
 plot(wt*0.5/pi,T1);
 ylabel("Delay(samples)");
@@ -121,16 +122,19 @@ plot(wa*0.5/pi,20*log10(abs(A1)));
 ylabel("Amplitude(dB)");
 axis([0 0.2 -0.2 0.2]);
 grid("on");
+zticks([]);
 subplot(222);
 plot(wa*0.5/pi,20*log10(abs(A1)));
 axis([0.3 0.5 -6.2 -5.8]);
 grid("on");
+zticks([]);
 subplot(223);
 plot(wt*0.5/pi,T1);
 xlabel("Frequency");
 ylabel("Delay(samples)");
 axis([0 0.2 14.2 14.4]);
 grid("on");
+zticks([]);
 subplot(224);
 plot(wt*0.5/pi,T1);
 xlabel("Frequency");

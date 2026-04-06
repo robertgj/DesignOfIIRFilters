@@ -1,5 +1,5 @@
 % ellip5NS_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for the 5th order elliptic lattice filter with
 % scaled-normalised form. Use the transposed transfer function to
@@ -135,6 +135,7 @@ subplot(211);
 plot(xxf(svk,1), xxf(svk,2));
 xlabel("State variable x1");
 ylabel("State variable x2");
+zticks([]);
 subplot(212);
 plot(xxf(svk,1), xxf(svk,3));
 xlabel("State variable x1");
@@ -146,6 +147,7 @@ subplot(211);
 plot(xxdirf(svk,1)/(2^32), xxdirf(svk,2)/(2^32));
 xlabel("State variable x1/2^{32}");
 ylabel("State variable x2/2^{32}");
+zticks([]);
 subplot(212);
 plot(xxdirf(svk,1)/(2^32), xxdirf(svk,3)/(2^32));
 xlabel("State variable x1/2^{32}");
@@ -157,6 +159,7 @@ subplot(211);
 plot(xxoptf(svk,1), xxoptf(svk,2));
 xlabel("State variable x1");
 ylabel("State variable x2");
+zticks([]);
 subplot(212);
 plot(xxoptf(svk,1), xxoptf(svk,3));
 xlabel("State variable x1");
@@ -173,6 +176,7 @@ subplot(211);
 plot(xxdirsin(:,1), xxdirsin(:,2))
 xlabel("State variable x1")
 ylabel("State variable x2")
+zticks([]);
 subplot(212);
 plot(xxdirsin(:,1), xxdirsin(:,3))
 xlabel("State variable x1")

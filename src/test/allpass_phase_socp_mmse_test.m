@@ -1,5 +1,5 @@
 % allpass_phase_socp_mmse_test.m
-% Copyright (C) 2018-2025 Robert G. Jenssen
+% Copyright (C) 2018-2026 Robert G. Jenssen
 
 test_common;
 
@@ -72,6 +72,7 @@ grid("on");
 s=sprintf(["Elliptic filter with delay equaliser (pass-band) : ", ...
  "nh=%d,fap=%g,dBap=%g,dBas=%g,na=%d,fpp=%g,tp=%g"],nh,fap,dBap,dBas,na,fpp,tp);
 title(s);
+zticks([]);
 subplot(212);
 f=w*0.5/pi;
 plot(f,(Px+(tp*w))/pi,"linestyle","-.",f,(Px+Pa1+(tp*w))/pi);

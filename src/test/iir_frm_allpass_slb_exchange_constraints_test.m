@@ -1,5 +1,5 @@
 % iir_frm_allpass_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -141,6 +141,7 @@ axis([0,fap,-1,1]);
 strMx0=sprintf(strM,"x0");
 title(strMx0);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(f(nas:end),10*log10([Asqx0(nas:end),Asqdu(nas:end)]), ...
      f(vRx0.al),10*log10(Asqx0(vRx0.al)),"*", ...
@@ -185,6 +186,7 @@ axis([0,fap,-1,1]);
 strMx1=sprintf(strM,"x1");
 title(strMx1);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(f(nas:end), ...
      10*log10([Asqx0(nas:end),Asqx1(nas:end),Asqdu(nas:end), ...

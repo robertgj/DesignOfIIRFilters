@@ -1,5 +1,5 @@
 % mcclellanFIRdifferentiator_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 %
 % See: "Chebyshev Approximation for Nonrecursive Digital Filters with
 % Linear Phase", T. W. Parks and J. H. McClellan, IEEE Transactions
@@ -65,6 +65,7 @@ axis([0 0.5 -0.1 1.6]);
 ylabel("Amplitude");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,mod((P+(wa*M))/pi,2))
 axis([0 0.5 1.499 1.501]);

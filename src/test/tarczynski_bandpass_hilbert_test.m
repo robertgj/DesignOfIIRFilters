@@ -1,5 +1,5 @@
 % tarczynski_bandpass_hilbert_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -93,11 +93,13 @@ axis([0 0.5 -60 10]);
 grid("on");
 s=sprintf("Tarczynski bandpass example : N=%d,R=%d",N,R);
 title(s);
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,(unwrap(P)+(w*tp))/pi);
 axis([0 0.5 pp+(0.01*[-1,1])]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T);
 axis([0 0.5 0 25]);

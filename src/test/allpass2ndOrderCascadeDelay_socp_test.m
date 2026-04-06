@@ -1,5 +1,5 @@
 % allpass2ndOrderCascadeDelay_socp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -60,6 +60,7 @@ s=sprintf ...
 ("Parallel delay and 2nd order all-pass initial response : ma=%d,D=%d,td=%g",
  ma,D,td);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
@@ -107,6 +108,7 @@ grid("on");
 s=sprintf("Parallel delay and 2nd order all-pass : ma=%d,D=%d,td=%g", ...
           ma,D,td);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -123,6 +125,7 @@ ylabel("Amplitude(dB)");
 axis([0 fap -0.2 0.2]);
 grid("on");
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -166,6 +169,7 @@ grid("on");
 s=sprintf("Parallel delay and 2nd order all-pass squared-magnitude: ma=%d,D=%d", ...
           ma,D);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1sqm);
 axis([0 0.5 0 25]);
@@ -182,6 +186,7 @@ ylabel("Amplitude(dB)");
 axis([0 fap -1 0.5]);
 grid("on");
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1sqm);
 ylabel("Delay(samples)");

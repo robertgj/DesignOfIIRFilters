@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_slb_exchange_constraints_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -155,6 +155,7 @@ axis([0,fap,-1,1]);
 strM0=sprintf(strM,"Asq0");
 title(strM0);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(f(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
      f(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
@@ -209,6 +210,7 @@ axis([0,fap,-1,1]);
 strM1=sprintf(strM,"Asq1");
 title(strM1);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(f(nas:end), ...
      10*log10([Asq0(nas:end),Asq1(nas:end),Asqdu(nas:end), ...

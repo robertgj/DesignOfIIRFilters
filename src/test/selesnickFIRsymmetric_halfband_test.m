@@ -1,5 +1,5 @@
 % selesnickFIRsymmetric_halfband_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -114,6 +114,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Selesnick-Burrus Hofstetter Hilbert : M=%d,delta=%g",M,delta);
 title(strt);
+zticks([]);
 subplot(212)
 plot(F,mod((unwrap(angle(Hhilbert))+(wa*(M)))/pi,2));
 axis([0 0.5 1.49 1.51]);

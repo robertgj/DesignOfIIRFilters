@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_delay_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a lowpass filter from the parallel combination of an allpass
 % filter and a delay using the method of Tarczynski et al. 
@@ -101,6 +101,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
   grid("on");
   s=sprintf("Parallel all-pass filter and delay : m=%d,td=%g",length(a0),td);
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,Ta0);
   ylabel("Delay(samples)");
@@ -109,7 +110,7 @@ for tarczynski_parallel_allpass_delay_flat_delay=[true,false]
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(strcat(strn,"_response"),"-dpdflatex");
   close
 
@@ -120,6 +121,7 @@ zticks([]);
   axis([0 max(fap,ftp) -3 1]);
   grid("on");
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,Ta0);
   ylabel("Delay(samples)");
@@ -128,7 +130,7 @@ zticks([]);
     axis([0 max(fap,ftp) (td-1) (td+1)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(strcat(strn,"_response_passband"),"-dpdflatex");
   close
 
@@ -136,7 +138,7 @@ zticks([]);
   subplot(111);
   zplane(qroots(Na0),qroots(Da0));
   title(s);
-zticks([]);
+  zticks([]);
   print(strcat(strn,"_pz"),"-dpdflatex");
   close
 

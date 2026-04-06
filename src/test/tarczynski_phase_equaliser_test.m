@@ -1,5 +1,5 @@
 % tarczynski_phase_equaliser_test.m
-% Copyright (C) 2018-2025 Robert G. Jenssen
+% Copyright (C) 2018-2026 Robert G. Jenssen
 
 test_common;
 
@@ -131,6 +131,7 @@ for nh=3:4,
     s=sprintf(["Elliptic filter with all-pass delay equaliser : ", ...
                "nh=%d,na=%d,ftp=%g,tp=%g"],nh,na,ftp,tp);
     title(s);
+    zticks([]);
     subplot(212)
     plot(w*0.5/pi,T1(:)-tp);
     axis([0 0.5 -2 2]);
@@ -138,14 +139,14 @@ for nh=3:4,
     xlabel("Frequency");
     grid("on");
     strf=sprintf("tarczynski_phase_equaliser_test_nh%d_na%d_%%s",nh,na);
-zticks([]);
+    zticks([]);
     print(sprintf(strf,"a1"),"-dpdflatex");
     close
     subplot(111)
     zplane(N1',D1');
     grid("on");
     title(s);
-zticks([]);
+    zticks([]);
     print(sprintf(strf,"a1pz"),"-dpdflatex");
     close
 

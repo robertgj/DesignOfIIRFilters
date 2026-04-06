@@ -1,5 +1,5 @@
 % pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_14_nbits_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % POP relaxation optimisation of a Schur one-multiplier tapped allpass
 % lattice bandpass Hilbert filter with 13-bit signed-digit coefficients having
@@ -348,23 +348,26 @@ while ~isempty(kc_active)
                  iter,fasl,fapl,fapu,fasu,dBap,dBas,tp);
     title(strP);
     ylabel("Amplitude");
+    zticks([]);
     subplot(412);
     plot(wp*0.5/pi,(P_kc-(pp*pi)+(wp*tp))/pi);
     %axis([0 0.5 [-1,1])]);
     grid("on");
     ylabel("Phase(rad./$\\pi$)");
+    zticks([]);
     subplot(413);
     plot(wt*0.5/pi,T_kc);
     %axisa([0 0.5 tp+tpr*[-1,1]]);
     grid("on");
     ylabel("Delay(samples)");
+    zticks([]);
     subplot(414);
     plot(wd*0.5/pi,dAsqdw_kc);
     axis([0 0.5 -1 1]);
     grid("on");
     ylabel("dAsqdw");
     xlabel("Frequency");
-zticks([]);
+    zticks([]);
     print(sprintf("%s_iter_%d_response",strf,iter),"-dpdflatex");
     close
   endif

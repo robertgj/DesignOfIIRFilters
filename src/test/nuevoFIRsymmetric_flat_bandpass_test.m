@@ -2,7 +2,7 @@
 % Design an interpolated FIR filter by the method of Nuevo et al. with
 % a maximally-flat model filter.
 %
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -65,6 +65,7 @@ axis([0 0.5 -100 10])
 grid("on");
 ylabel("Amplitude (dB)");
 title(sprintf("Interpolated model filter : P=%d,M=%d,fc=%g,K=%d",P,M,fc,K));
+zticks([]);
 subplot(212)
 plot(w*0.5/pi,20*log10(Aza.*Azb));
 axis([0 0.5 -100 10])

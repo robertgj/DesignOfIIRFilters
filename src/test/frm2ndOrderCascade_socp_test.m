@@ -1,5 +1,5 @@
 % frm2ndOrderCascade_socp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -94,6 +94,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf(strM,"FRM filter response");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.5, 60, 100]);
@@ -111,6 +112,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf(strM,"FRM filter passband response");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm)
 axis([0, 0.3, 76, 84]);
@@ -131,6 +133,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf(strM,"FRM model filter");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model)
 axis([0, 0.5, 0, 200]);
@@ -171,6 +174,7 @@ axis([0, fpass, -3, 5]);
 ylabel("Passband amplitude(dB)");
 xlabel("Passband frequency");
 grid("on");
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,20*log10(abs(Hw_frm)), "--", ...
      wplot*0.5/pi,20*log10(abs(Hfir)), "-");

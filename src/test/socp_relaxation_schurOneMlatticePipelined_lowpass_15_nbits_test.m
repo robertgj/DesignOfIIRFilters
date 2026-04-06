@@ -4,7 +4,7 @@
 % low-pass filter implemented as a tapped pipelined Schur one-multiplier
 % all-pass lattice filter 
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -425,6 +425,7 @@ strt=sprintf("Low-pass filter : nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g", ...
 title(strt);
 grid("on");
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 h=plot(wt*0.5/pi,[T_kc0,T_kc0_sd_no_alloc,T_kc0_sd,T_kc_min]);
 for c=1:4

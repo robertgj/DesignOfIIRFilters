@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -204,16 +204,19 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 subplot(412);
 plot(wp*0.5/pi,mod((unwrap(P)+(tp*wp))/pi,2.0));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 (mod(pp,2.0)+(ppr*[-1 1]/2))]);
 grid("on");
+zticks([]);
 subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 axis([0 0.5 (tp+(0.02*[-1 1]))]);
 grid("on");
+zticks([]);
 subplot(414);
 plot(wd*0.5/pi,D);
 ylabel("$\\frac{dAsq}{d\\omega}$");

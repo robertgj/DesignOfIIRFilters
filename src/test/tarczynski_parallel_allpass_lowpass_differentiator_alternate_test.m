@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a lowpass differentiator filter
 % as the difference of two parallel allpass filters followed by (z+1)^2.
@@ -138,11 +138,13 @@ strt=sprintf ...
  "ma=%d,mb=%d,fap=%g,fas=%g,tp=%g"],
         ma,mb,fap,fas,tp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w(1:nap)*0.5/pi,(P0c(1:nap)+(w(1:nap)*tp)-(w(1:nap).*Tz(1:nap)))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w(Rap)*0.5/pi,T0c);
 axis([0 0.5]);
@@ -162,11 +164,13 @@ grid("on");
 strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,fap=%g,fas=%g,tp=%g", ...
              ma,mb,fap,fas,tp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w(Rap)*0.5/pi,(P0+(w(Rap)*tp))/pi);
 ylabel("Phase (rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w(Rap)*0.5/pi,T0);
 axis([0 0.5]);
@@ -187,11 +191,13 @@ strt=sprintf(["Parallel all-pass filter error : ",...
               "ma=%d,mb=%d,fap=%g,fas=%g,tp=%g"], ...
              ma,mb,fap,fas,tp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w(Rap)*0.5/pi,(P0+(w(Rap)*tp))/pi);
 axis([0 0.5]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w(Rap)*0.5/pi,T0);
 axis([0 0.5]);

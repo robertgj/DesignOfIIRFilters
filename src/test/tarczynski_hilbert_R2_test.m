@@ -1,5 +1,5 @@
 % tarczynski_hilbert_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a full-band Hilbert transform filter, H(w)=-jsign(w), using
 % the method of Tarczynski et al.  See "A WISE Method for Designing 
@@ -132,6 +132,7 @@ axis([-0.5 0.5 0.6 1.2]);
 grid("on");
 title(s);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(wd*0.5/pi,(unwrap(arg(H0))+(wd*td)+(pp*pi))/pi)
 axis([-0.5 0.5 -1 1]);
@@ -151,6 +152,7 @@ axis([-0.5 0.5 0 1.2])
 grid("on");
 title("Remez nN=11 FIR Hilbert filter");
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(wd*0.5/pi,(unwrap(arg(H))+(wd*td)+(pp*pi))/pi);
 axis([-0.5 0.5 -1 1])

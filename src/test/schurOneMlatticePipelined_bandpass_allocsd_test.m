@@ -2,7 +2,7 @@
 % Test Lims and Itos signed-digit allocation algorithms with
 % coefficients of a band-pass one-multiplier pipelined lattice filter.
 
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -322,7 +322,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf_ndigits,"_cost"),"-dpdflatex");
   close
 
@@ -342,7 +342,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf_ndigits,"_sidelobe"),"-dpdflatex");
   close
 
@@ -362,7 +362,7 @@ zticks([]);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf_ndigits,"_digits"),"-dpdflatex");
   close
 
@@ -381,7 +381,7 @@ zticks([]);
   legend("location","southeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf_ndigits,"_ng"),"-dpdflatex");
   close
   

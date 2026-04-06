@@ -1,5 +1,5 @@
 % tarczynski_frm_parallel_allpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an FRM filter from a parallel allpass IIR model filter
 % and FIR masking filters using the method of Tarczynski et al.
@@ -213,6 +213,7 @@ else
  "dmask=%3.1f,Was=%d,tol=%4.3g"],mr,ms,na,nc,Mmodel,Dmodel,dmask,Was,tol);
 endif
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm,"linestyle","-");
 axis([0 0.5 0 120]);
@@ -230,6 +231,7 @@ axis([0 fpass -2 2]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm,"linestyle","-");
 axis([0 fpass 90 100]);
@@ -255,6 +257,7 @@ ylabel("Amplitude(dB)");
 grid("on");
 s=sprintf("FRM masking filters : na=%d,nc=%d",na,nc);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_aa,"linestyle","-", ...
      wplot*0.5/pi,Tw_ac,"linestyle","-.");
@@ -283,6 +286,7 @@ else
  "Dmodel=%3.1f,dmask=%3.1f"],mr,ms,Mmodel,Dmodel,dmask);
 endif
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_ad,"linestyle","-");
 axis([0 0.5 60 100]);

@@ -1,5 +1,5 @@
 % tarczynski_polyphase_allpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a lowpass filter from the polyphase combination of two
 % allpass filters using the method of Tarczynski et al. 
@@ -115,6 +115,7 @@ for flat_delay=[false,true],
     s=sprintf("Polyphase all-pass filters : ma=%d,mb=%d",ma,mb);
   endif    
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T0);
   ylabel("Delay(samples)");
@@ -123,7 +124,7 @@ for flat_delay=[false,true],
     axis([0 0.5 (td-1) (td+1)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
 
@@ -138,6 +139,7 @@ zticks([]);
   endif
   grid("on");
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T0);
   ylabel("Delay(samples)");
@@ -146,7 +148,7 @@ zticks([]);
     axis([0 max(fap,ftp) (td-0.2) (td+0.2)]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_response_passband",strf,flatstr),"-dpdflatex");
   close
 
@@ -164,7 +166,7 @@ zticks([]);
     text(0.02,-3.5,"Note: the filter B phase includes the polyphase delay")
     legend("boxoff");
     grid("on");
-zticks([]);
+    zticks([]);
     print(sprintf("%s%s_phase",strf,flatstr),"-dpdflatex");
     close
   endif

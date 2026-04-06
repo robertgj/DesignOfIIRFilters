@@ -1,5 +1,5 @@
 % iir_frm_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -152,6 +152,7 @@ axis([0,0.5,0.8,1.1]);
 strM0=sprintf(strM,"x0k");
 title(strM0);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(f,[Asqx0k,Asqdu,Asqdl], ...
      f(vRx0k.al),Asqx0k(vRx0k.al),"*", ...
@@ -193,6 +194,7 @@ axis([0,fas,0.8,1.1]);
 strM1=sprintf(strM,"x1k");
 title(strM1);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(f,[Asqx0k,Asqx1k,Asqdu,Asqdl], ...
      f(vRx0k.al),Asqx0k(vRx0k.al),"*", f(vRx0k.au),Asqx0k(vRx0k.au),"+", ...

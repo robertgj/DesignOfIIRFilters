@@ -1,5 +1,5 @@
 % tarczynski_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 %
 % Design a lowpass differentiator using the method of Tarczynski et al.
 % This script designs a correction filter for (z-1). See:
@@ -83,6 +83,7 @@ grid("on");
 s=sprintf("Tarczynski et al. lowpass differentiator : nN=%d,nD=%d,R=%d,tp=%g", ...
           nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(212);
 plot(wd*0.5/pi,T);
 axis([0 0.5 0 2*tp]);
@@ -103,6 +104,7 @@ s=sprintf(["Tarczynski et al. lowpass_differentiator error : ", ...
  "nN=%d,nD=%d,R=%d,tp=%g"],
           nN,nD,R,tp);
 title(s);
+zticks([]);
 subplot(212);
 plot(wd*0.5/pi,((unwrap(arg(H))-((pi/2)-(wd*tp)))/pi));
 axis([0 0.5 -0.02 0.02 ]);

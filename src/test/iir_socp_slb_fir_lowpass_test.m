@@ -1,5 +1,5 @@
 % iir_socp_slb_fir_lowpass_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -156,6 +156,8 @@ zticks([]);
 print(strcat(strf,"_initial_x0pz"),"-dpdflatex");
 close
 showResponse(x0,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);
@@ -186,6 +188,8 @@ zticks([]);
 print(strcat(strf,"_mmse_x1pz"),"-dpdflatex");
 close
 showResponse(x1,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);
@@ -212,6 +216,8 @@ zticks([]);
 print(strcat(strf,"_pcls_d1pz"),"-dpdflatex");
 close
 showResponse(d1,U,V,M,Q,R,strt);
+subplot(211)
+zticks([]);
 subplot(212)
 axis([0 0.5 0 2*td]);
 zticks([]);

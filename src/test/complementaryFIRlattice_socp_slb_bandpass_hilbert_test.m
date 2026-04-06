@@ -3,7 +3,7 @@
 % Neither the filter or the complementary filter is constrained to be
 % minimum-phase.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -167,11 +167,13 @@ strt=sprintf(["fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,", ...
  "tp=%g,tpr=%g,pp=%g$\\pi$,ppr=%g$\\pi$"],
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,pp,ppr);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,(P_plot+(wplot*tp))/pi);
 axis([0 0.5 (pp-ppr) (pp+ppr)]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,T_plot);
 ylabel("Delay(samples)");

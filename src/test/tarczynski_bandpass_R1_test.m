@@ -1,5 +1,5 @@
 % tarczynski_bandpass_R1_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass filter. See:
 % "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -90,6 +90,7 @@ axis([0 0.5 -80 5]);
 grid("on");
 strt=sprintf("Initial band-pass R=1 filter");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Ti);
 ylabel("Delay(samples)");
@@ -112,6 +113,7 @@ axis([0 0.5 -80 5]);
 grid("on");
 strt=sprintf("Band-pass R=1 filter : td=%g",td);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
@@ -129,6 +131,7 @@ ylabel("Amplitude(dB)");
 axis([fapl fapu -3 1]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");

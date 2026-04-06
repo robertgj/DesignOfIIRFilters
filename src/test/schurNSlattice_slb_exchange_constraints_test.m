@@ -1,5 +1,5 @@
 % schurNSlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -104,6 +104,7 @@ axis([0,fap,-0.25,0.25]);
 strM2=sprintf(strM,"2");
 title(strM2);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(fa(nas:end),10*log10([Asq2(nas:end),Asqdu(nas:end)]), ...
      fa(vR2.al),10*log10(Asq2(vR2.al)),"*", ...
@@ -147,6 +148,7 @@ axis([0,fap,-0.25,0.25]);
 strM7=sprintf(strM,"7");
 title(strM7);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(fa(nas:end), ...
      10*log10([Asq2(nas:end),Asq7(nas:end),Asqdu(nas:end), ...

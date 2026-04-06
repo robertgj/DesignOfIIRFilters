@@ -1,5 +1,5 @@
 % parallel_allpass_flat_delay_socp_slb_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Design an allpass filter in parallel with a delay with approximately flat
 % passband delay response
@@ -84,6 +84,7 @@ axis([0 0.5 -60 5]);
 grid("on");
 strt=sprintf("Initial parallel allpass and delay : m=%d,DD=%d,td=%4.1f",m,DD,td);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Ta0);
 ylabel("Delay(samples)");
@@ -129,6 +130,7 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -60 5]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Ta1);
 axis([0 0.5 0 20]);
@@ -148,6 +150,7 @@ axis(ax(2),[0 0.5 -50 -30]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot(1:nap)*0.5/pi,Ta1(1:nap));
 axis([0 0.5 10 11]);

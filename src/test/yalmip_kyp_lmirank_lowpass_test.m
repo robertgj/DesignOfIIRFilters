@@ -1,5 +1,5 @@
 % yalmip_kyp_lmirank_lowpass_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Try using LMIRank to solve the KYP lemma problem without
 % using the Schur complement using the constraint : rank(X)<=1
@@ -157,6 +157,7 @@ axis(ax(2),[0 0.5 -80 -40]);
 ylabel(ax(1),"Amplitude(dB)");
 grid("on");
 title(strt);
+zticks([]);
 if d~=M,
   subplot(212)
   plot(f(1:nap),T(1:nap));

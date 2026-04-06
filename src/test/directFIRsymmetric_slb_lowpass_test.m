@@ -1,5 +1,5 @@
 % directFIRsymmetric_slb_lowpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -72,6 +72,7 @@ grid("on");
 strt=sprintf("Lowpass FIR : fap=%g,dBap=%g,Wap=%g,fas=%g,dBas=%g,Was=%g", ...
              fap,dBap,Wap,fas,dBas,Was);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A1,"--",wa*0.5/pi,Adu,"-",wa*0.5/pi,Adl,"-");
 axis([0 0.5 -0.004 0.004]);
@@ -117,6 +118,7 @@ strt=sprintf(["Lowpass FIR (coefficient %d rounded to %d bits) : ", ...
  "fap=%g,dBapt=%g,Wap=%g,fas=%g,dBast=%g,Was=%g"], ...
              hM_inactive,nbits,fap,dBapt,Wap,fas,dBast,Was);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,A0,"-",wa*0.5/pi,A2,"--",wa*0.5/pi,Adut,"-",wa*0.5/pi,Adlt,"-");
 axis([0 0.5 -0.004 0.004]);

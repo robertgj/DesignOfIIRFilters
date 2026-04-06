@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_R2_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % Example of SOCP optimisation of a low-pass IIR R=2 filter
 % with constraints on the pole locations and on the amplitude response.
@@ -129,6 +129,7 @@ strP=sprintf(["Low-pass IIR filter : ", ...
               "U=%d,V=%d,M=%d,Q=%d,R=%d,fap=%g,dBap=%g,fas=%g,dBas=%g"], ...
              U,V,M,Q,R,fap,dBap,fas,dBas);
 title(strP);
+zticks([]);
 subplot(212)
 T=iirT(wa,d1,U,V,M,Q,R);
 plot(wa*0.5/pi,T);

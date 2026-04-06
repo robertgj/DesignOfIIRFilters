@@ -5,7 +5,7 @@
 % P.Zahradnik, M.Susta, B.Simak and M.Vlcek, IEEE Transactions on Circuits
 % and Systems-II:Express Briefs, Vol. 64, No. 4, April 2017, pp. 407-411
 % 
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -211,6 +211,7 @@ for l=1:4,
   strt=sprintf("q=%d and p=%d",q(l),p(l));
   title(strt);
   grid("on");
+  zticks([]);
 
   figure(2,"visible","off");
   subplot(2,2,l)
@@ -222,10 +223,10 @@ for l=1:4,
   ylabel(sprintf("$2\\arg H(u+u_{0},%4.2f)(%d/\\pi)$",k,n));
   title(strt);
   grid("on");
+  zticks([]);
 endfor
 
 figure(1,"visible","off");
-zticks([]);
 print(sprintf("%s_Q_p_q",strf),"-dpdflatex");
 close
 
@@ -261,10 +262,12 @@ plot(w,Q,wdr,Qdr,"or")
 axis([-1 -0.95 -0.01 0.11]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 grid("on");
+zticks([]);
 subplot(312)
 plot(w,Q,wdr,Qdr,"or"); 
 axis([ws-0.05 wp+0.05 -0.05 1.05]);
 grid("on");
+zticks([]);
 subplot(313)
 plot(w,Q,wdr,Qdr,"or");
 axis([0.95 1 -0.01 0.11]);
@@ -342,6 +345,8 @@ for l=1:m,
     continue;
   endif
   strt_start=strcat(strt_start,sprintf(",%d",rho(l)));
+  zticks([]);
+  
   subplot(m,2,(2*l));
   plot(wHazs*0.5/pi,abs(Hazsc{l}));
   if l==1 || l==3
@@ -421,11 +426,13 @@ axis([-1 -1+del del*dr]);
 title(sprintf("$Q_{%d,%d}(w,%10.8f)$",p,q,k));
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312)
 plot(w,Q,wdr,Qdr,"or");
 axis([ws-5*del wp+5*del dr]);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(313)
 plot(w,Q,wdr,Qdr,"or");
 axis([1-del 1 del*dr]);
@@ -482,12 +489,14 @@ axis([0 0.5 -100 20])
 title("Subfilter m=1");
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(2,2,2);
 plot(wHazs*0.5/pi,20*log10(abs(Hazs{2})));
 axis([0 0.5 -100 20])
 title("Subfilter m=2");
 grid("on");
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(2,2,3);
 plot(wHazs*0.5/pi,20*log10(abs(Hazs{3})));
 axis([0 0.5 -100 20])
@@ -495,6 +504,7 @@ title("Subfilter m=3");
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(2,2,4);
 plot(wHazs*0.5/pi,20*log10(abs(Hazsc{3})));
 axis([0 0.5 -100 20])

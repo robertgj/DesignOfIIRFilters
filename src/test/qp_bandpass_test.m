@@ -1,5 +1,5 @@
 % qp_bandpass_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 test_common;
 
@@ -56,6 +56,7 @@ for d=[M,floor(M/2)],
     strt=sprintf(["Non-symmetric FIR : order N=%d,d=%d,fasl=%4.2f,fapl=%4.2f,", ...
  "fapu=%4.2f,fasu=%4.2f"],N,d,fasl,fapl,fapu,fasu);
     subplot(211);
+    zticks([]);
   else
     h=[h;h(M:-1:1)];
     print_polynomial(h,"h","%13.10f");
@@ -83,12 +84,12 @@ for d=[M,floor(M/2)],
     grid("on");
     ylabel("Delay(samples)");
     xlabel("Frequency");
-zticks([]);
+    zticks([]);
     print(sprintf("%s_hd_response",strf),"-dpdflatex");
     close
   else
     xlabel("Frequency");
-zticks([]);
+    zticks([]);
     print(sprintf("%s_h_response",strf),"-dpdflatex");
     close
   endif

@@ -1,5 +1,5 @@
 % branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % Branch-and-bound search of FRM Hilbert filter response with 12-bit
 % signed-digit coefficients. The model filter is implemented as the parallel
@@ -475,6 +475,7 @@ legend("left");
 ylabel("Amplitude(dB)");
 axis([0 0.5 -0.5 0.5]);
 grid("on");
+zticks([]);
 subplot(212);
 plot(wp*0.5/pi,Pfir_sd/pi,"-",wp*0.5/pi,P_kuv_min/pi,"-.");
 ylabel("Phase(rad./$\\pi$)");

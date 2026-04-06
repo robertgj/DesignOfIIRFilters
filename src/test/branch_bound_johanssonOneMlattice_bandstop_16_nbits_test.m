@@ -1,5 +1,5 @@
 % branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 % Branch-and-bound search of Johansson and Saramaki cascade all-pass band-stop
 % filter response with 16-bit 3-signed-digit coefficients
@@ -279,6 +279,7 @@ strt=sprintf(["Johansson-and-Saram\\\"{a}ki cascade all-pass band-stop ", ...
  "response after branch-and-bound search (nbits=%d)"],nbits);
 title(strt);
 grid("on");
+zticks([]);
 subplot(212)
 plot(wplot*0.5/pi,20*log10(abs(Azp_fMk)),"linestyle","-", ...
      wplot*0.5/pi,20*log10(abs(Azp_fMk_sd)),"linestyle","--", ...

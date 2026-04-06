@@ -1,5 +1,5 @@
 % tarczynski_frm_allpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an FRM filter from IIR allpass model in parallel with a delay
 % and FIR masking filters using the method of Tarczynski et al. The 
@@ -226,6 +226,7 @@ strt=sprintf(["FRM allpass/delay filter : ", ...
  "fpass=%g,mr=%d,na=%d,nc=%d,R=%d,Mmodel=%d,Dmodel=%d,Was=%d"], ...
           fpass,mr,na,nc,R,Mmodel,Dmodel,Was);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Delay(samples)");
@@ -243,6 +244,7 @@ ylabel("Amplitude(dB)");
 axis([0 fpass -0.4 0.4]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_frm);
 ylabel("Delay(samples)");
@@ -274,6 +276,7 @@ grid("on");
 strt=sprintf(["FRM allpass model filter plus delay : ", ...
  "mr=%d,R=%d,Mmodel=%d,Dmodel=%d"],mr,R,Mmodel,Dmodel);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tw_model);
 ylabel("Delay(samples)");

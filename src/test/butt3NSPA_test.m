@@ -1,5 +1,5 @@
 % butt3NSPA_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 % 
 % Test case for the 3rd order Butterworth lattice filter
 % implemented as the parallel combination of two allpass
@@ -207,6 +207,7 @@ plot(nppts/nfpts,20*log10(abs(HA1)));
 ylabel("A1(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA1ap=crossWelch(u,A1yapf,nfpts);
 subplot(412);
@@ -214,6 +215,7 @@ plot(nppts/nfpts,20*log10(abs(HA1ap)));
 ylabel("A1ap(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA2=crossWelch(u,A2yf,nfpts);
 subplot(413);
@@ -221,6 +223,7 @@ plot(nppts/nfpts,20*log10(abs(HA2)));
 ylabel("A2(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA2ap=crossWelch(u,A2yapf,nfpts);
 subplot(414);

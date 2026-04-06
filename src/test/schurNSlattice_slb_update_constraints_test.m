@@ -1,5 +1,5 @@
 % schurNSlattice_slb_update_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -85,6 +85,7 @@ plot(fa,Asq,fa,Asqdu,fa,Asqdl,fa(vS.al),Asql,"x",fa(vS.au),Asqu,"+");
 axis([0 0.5 0.8 1.02]);
 title(strM7);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(fa,Asq,fa,Asqdu,fa,Asqdl,fa(vS.al),Asql,"x",fa(vS.au),Asqu,"+");
 axis([0 0.5 0 2e-4]);

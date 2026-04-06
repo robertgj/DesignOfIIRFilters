@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_union_double_bandpass_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 %
 % SDP design of a non-symmetric FIR double bandpass filter with the KYP
 % lemma. The pass band responses are set to e^{-j*w*d}. The stop band
@@ -317,6 +317,7 @@ ylabel("Amplitude(dB)");
 strt=sprintf(["KYP non-symmetric double pass-band FIR filter : ", ...
  "N=%d,d=%d,fapl1=%g,fapu1=%g,fapl2=%g,fapu2=%g"],N,d,fapl1,fapu1,fapl2,fapu2);
 title(strt);
+zticks([]);
 subplot(312)
 [ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,(P(napl1:napu1)/pi)+2, ...
                   w(napl2:napu2)*0.5/pi,(P(napl2:napu2)/pi)+8);
@@ -327,6 +328,7 @@ set(h1,"color",h1c);
 set(h2,"color",h1c);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 [ax,h1,h2]=plotyy(w(napl1:napu1)*0.5/pi,T(napl1:napu1), ...
                   w(napl2:napu2)*0.5/pi,T(napl2:napu2));

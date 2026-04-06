@@ -1,5 +1,5 @@
 % schurOneMPAlattice_lowpass_allocsd_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with the coefficients
 % of a parallel one-multiplier all-pass lattice low-pass filter.
@@ -216,7 +216,7 @@ for ndigits=2:3
     legend("location","northeast");
     legend("boxoff");
     legend("left");
-zticks([]);
+    zticks([]);
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     % Plot the passband detail
@@ -235,6 +235,7 @@ zticks([]);
     legend("left");
     axis([0 max(fap,ftp) -2*dBap dBap]);
     grid("on");
+    zticks([]);
     subplot(212)
     plot(wt*0.5/pi,T_ex,"linestyle","-", ...
          wt*0.5/pi,T_rd,"linestyle",":", ...
@@ -245,7 +246,7 @@ zticks([]);
     ylabel("Delay(samples)");
     axis([0 max(fap,ftp) td-(2*tdr) td+(2*tdr)]);
     grid("on");
-zticks([]);
+    zticks([]);
     print(strcat(nbits_strf,"_passband_response"),"-dpdflatex");
     close
 
@@ -301,7 +302,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
@@ -321,7 +322,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_sidelobe"),"-dpdflatex");
   close
 
@@ -341,7 +342,7 @@ zticks([]);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
   

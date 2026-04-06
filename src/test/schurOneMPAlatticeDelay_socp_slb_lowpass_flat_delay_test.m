@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDelay_socp_slb_lowpass_flat_delay_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 % Design a lowpass filter consisting of the parallel combination of a
 % Schur one-multiplier lattice allpass filter and a delay and having an
@@ -163,14 +163,15 @@ for M=1:2,
   strt=sprintf("Parallel all-pass filter and delay : m=%d,DD=%d,tp=%g",m,DD,tp);
   title(strt);
   grid("on");
-  ylabel("Amplitude(dB)");
+  ylabel("Amplitude(dB)"); 
+  zticks([]);
   subplot(212);
   plot(wa(1:nas)*0.5/pi,T(1:nas));
   axis([0 0.5 tp-tpr tp+tpr]);
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s_m_%d_response",strf,m),"-dpdflatex");
   close
 
@@ -184,7 +185,7 @@ zticks([]);
   zplane(Na1,[zeros(1,length(Na1)-length(Da1)),Da1])
   title(strt);
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s_m_%d_pz",strf,m),"-dpdflatex");
   close
 

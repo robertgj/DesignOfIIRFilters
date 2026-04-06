@@ -1,5 +1,5 @@
 % tarczynski_ex2_standalone_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a filter implementing the response of Example 2 of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -85,6 +85,7 @@ axis([0 0.5 -8 2]);
 grid("on");
 s=sprintf("Tarczynski et al. Example 2 : nN=%d,nD=%d,R=%d",nN,nD,R);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T);
 ylabel("Delay(samples)");

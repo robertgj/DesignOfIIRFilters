@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_union_bandpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 %
 % SDP design of a direct-form FIR bandpass filter with the KYP
 % lemma. The pass band response is set to e^{-j*w*d}. The stop band
@@ -224,12 +224,14 @@ ylabel("Amplitude(dB)");
 strt=sprintf(["KYP non-symmetric band-pass FIR filter : ", ...
  "N=%d,d=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"],N,d,fasl,fapl,fapu,fasu);
 title(strt);
+zticks([]);
 subplot(312)
 hax=plot(w(napl:napu)*0.5/pi,(P(napl:napu)/pi)-4);
 axis([0 0.5 0.0004*[-1 1]]);
 set(hax,"color",h2c);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 hax=plot(w(napl:napu)*0.5/pi,T(napl:napu));
 axis([0 0.5 d+0.1*[-1 1]]);

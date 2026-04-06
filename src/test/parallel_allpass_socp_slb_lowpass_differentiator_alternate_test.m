@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_lowpass_differentiator_alternate_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 % Design of a lowpass differentiator filter implemented as the difference
 % of two all pass filters followed by (1+z)^2. The first zero at z=1
@@ -114,11 +114,13 @@ axis([0 0.5 0 1]);
 grid("on");
 strt=sprintf("Initial parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P0 Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.02*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T0 Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -165,11 +167,13 @@ axis([0 0.5 0.02*[-1,1]]);
 grid("on");
 strt=sprintf("MMSE parallel allpass : ma=%d,mb=%d", ma,mb);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Pm Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.001*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tm Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -241,11 +245,13 @@ strt=sprintf(["Parallel allpass correction : ", ...
               " ma=%d,mb=%d,Arp=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"],
              ma,mb,Arp,Ars,ppr,tp,tpr);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(Pab1+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -266,11 +272,13 @@ strt=sprintf(["Parallel allpass : ", ...
               "ma=%d,mb=%d,Arp=%g,Ars=%g,ppr=%g,tp=%g,tpr=%g"], ...
              ma,mb,Arp,Ars,ppr,tp,tpr);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+ppr*[-1,1]]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -295,11 +303,13 @@ axis(ax(2),[0 0.5 0.001*[-1,1]]);
 ylabel("Amplitude error");
 grid("on");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P1 Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.0002*[-1,1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");

@@ -1,5 +1,5 @@
 % yalmip_kyp_lowpass_Esq_s_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Use YALMIP to design low-pass FIR filters optimising (W_z*Esq_z)+(W_s*Esq_s)
 test_common;
@@ -141,6 +141,7 @@ for d=[10,12,M],
   grid("on");
   title(strt);
   if d~=M,
+    zticks([]);
     subplot(212)
     plot(f(1:nap),T(1:nap));
     axis([0 0.5 (d+0.2*[-1,1])]);

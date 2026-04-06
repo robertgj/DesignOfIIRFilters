@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_allocsd_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 %
 % Test the Ito and Lim signed-digit allocation algorithms with the
 % coefficients of an FRM low-pass filter with a model filter implemented
@@ -239,6 +239,7 @@ for ndigits=2:3
     strt=sprintf("FRM low-pass : nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
+    zticks([]);
     subplot(312)
     plot(wp*0.5/pi,P_ex/pi,"linestyle","-", ...
          wp*0.5/pi,P_rd/pi,"linestyle",":", ...
@@ -247,7 +248,8 @@ for ndigits=2:3
          wp*0.5/pi,P_Ito/pi,"linestyle","-")
     ylabel("Phase error(rad./$\\pi$)");
     xlabel("Frequency");
-    grid("on");
+    grid("on"); 
+    zticks([]);
     subplot(313)
     plot(wt*0.5/pi,T_ex+tp,"linestyle","-", ...
          wt*0.5/pi,T_rd+tp,"linestyle",":", ...
@@ -257,7 +259,7 @@ for ndigits=2:3
     ylabel("Delay(Samples)");
     xlabel("Frequency");
     grid("on");
-zticks([]);
+    zticks([]);
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     
@@ -303,7 +305,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
@@ -323,7 +325,7 @@ zticks([]);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
 

@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_hilbert_allocsd_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for Lims signed-digit allocation algorithm with coefficients of
 % a bandpass lattice filter in one multiplier form.
@@ -256,6 +256,7 @@ for ndigits=2:3
     strt=sprintf("FRM Hilbert one-multiplier lattice : nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
+    zticks([]);
     subplot(312)
     plot(wp*0.5/pi,P_ex/pi,"linestyle","-", ...
          wp*0.5/pi,P_rd/pi,"linestyle",":", ...
@@ -265,6 +266,7 @@ for ndigits=2:3
     xlabel("Frequency");
     ylabel("Phase(rad./$\\pi$)");
     grid("on");
+    zticks([]);
     subplot(313)
     plot(wt*0.5/pi,T_ex+tp,"linestyle","-", ...
          wt*0.5/pi,T_rd+tp,"linestyle",":", ...
@@ -274,7 +276,7 @@ for ndigits=2:3
     xlabel("Frequency");
     ylabel("Delay(Samples)");
     grid("on");
-zticks([]);
+    zticks([]);
     print(strcat(nbits_strf,"_response"),"-dpdflatex");
     close
     
@@ -320,7 +322,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex");
   close
 
@@ -340,7 +342,7 @@ zticks([]);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
 

@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_differentiator_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -105,11 +105,13 @@ strI=sprintf("Differentiator initial response : fap=%g,fas=%g,tp=%g",fap,fas,tp)
 title(strI);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Px0,Pdl,Pdu]-Pconst+(wp*tp))/pi);
 axis([0 0.5 pp+(0.001*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tx0,Tdl,Tdu]);
 axis([0 0.5 tp+(0.1*[-1,1])]);
@@ -170,11 +172,13 @@ strM=sprintf("Differentiator MMSE error : fap=%g,fas=%g,tp=%g", fap,fas,tp);
 title(strM);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu]-Td)
 axis([0 0.5 tpr*[-1,1]]);
@@ -232,11 +236,13 @@ strPerror=sprintf(["Differentiator PCLS error : ", ...
 title(strPerror);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([(Pd1z+Pconst) Pdl Pdu]-Pd)/pi);
 axis([0 0.5 ppr*[-1,1]]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Td1z Tdl Tdu]-Td);
 axis([0 0.5 tpr*[-1,1]]);
@@ -264,11 +270,13 @@ strP=sprintf(["Differentiator PCLS : ", ...
 title(strP);
 ylabel("Amplitude");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Pd1z Pdl-Pconst Pdu-Pconst]+(wp*tp))/pi);
 axis([0 0.5 pp+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Td1z Tdl Tdu])
 axis([0 0.5 tp+(tpr*[-1,1])]);

@@ -1,7 +1,7 @@
 % branch_bound_schurOneMPAlattice_lowpass_differentiator_alternate_12_nbits_test.m
 % Branch-and-bound optimisation of the response of a low pass differentiator
 % filter with 12-bit 3-signed-digit coefficients.
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -143,11 +143,13 @@ axis([0 0.5 0.002*[-1,1]]);
 grid("on");
 strt=sprintf("Initial parallel allpass");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(P_k0+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.0002*[-1,1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T_k0);
 ylabel("Delay(samples)");
@@ -264,11 +266,13 @@ axis([0 0.5 0.01*[-1,1]]);
 grid("on");
 strt=sprintf("Signed-digit parallel allpass");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([P_k0 P_k0_sd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 pp+(0.004*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T_k0 T_k0_sd Tdl Tdu]);
 ylabel("Delay(samples)");

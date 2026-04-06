@@ -1,5 +1,5 @@
 % tarczynski_differentiator_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a full-band differentiator using the method of Tarczynski et al. 
 % See "A WISE Method for Designing IIR Filters", A. Tarczynski et al.,
@@ -65,6 +65,7 @@ grid("on");
 s=sprintf("Tarczynski et al. differentiator : nN=%d,nD=%d,R=%d,td=%g", ...
           nN,nD,R,td);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,(unwrap(arg(H))+(pi/2)+(wplot*td))/pi);
 axis([0 0.5 -0.01 0.01 ]);

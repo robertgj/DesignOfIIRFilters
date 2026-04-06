@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_lowpass_to_multiband_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 
 test_common;
 
@@ -107,6 +107,7 @@ plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -50 1])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T(10:end))
 axis([0 0.5 0 40])
@@ -262,6 +263,7 @@ plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -50 1])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w*0.5/pi,T)
 axis([0 0.5 0 40])
@@ -302,6 +304,7 @@ plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -40 1])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T(10:end))
 axis([0 0.5 0 50])
@@ -317,6 +320,7 @@ plot(w*0.5/pi,10*log10(Asq))
 axis([0 0.5 -2*dBap dBap])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 ax=plotyy(w(1+(ntp1l:ntp1u))*0.5/pi,T(1+(ntp1l:ntp1u)), ...
           w(1+(ntp2l:ntp2u))*0.5/pi,T(1+(ntp2l:ntp2u)));

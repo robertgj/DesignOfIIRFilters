@@ -1,5 +1,5 @@
 % schurOneMPAlattice_socp_slb_bandpass_delay_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 %
 % Find a parallel all-pass one-multiplier Schur lattice bandpass filter for
 % which the phase at the phase pass-band lower edge is (w*tp)+(n*pi).
@@ -198,17 +198,20 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 subplot(412);
 plot(wp*0.5/pi,((P+(tp*wp))/pi)-pp);
 ylabel("Phase error(rad./$\\pi$)");
 axis([0 0.5 (ppr*0.5*[-1,1])]);
 grid("on");
+zticks([]);
 subplot(413);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
 %axis([0 0.5 (tp+(tpr*0.5*[-1,1]))]);
 axis([0 0.5 (tp+(tpr*0.5*[-1,1]))]);
 grid("on");
+zticks([]);
 subplot(414);
 plot(wd*0.5/pi,D);
 ylabel("dAsqdw");

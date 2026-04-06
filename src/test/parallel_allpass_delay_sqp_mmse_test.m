@@ -1,5 +1,5 @@
 % parallel_allpass_delay_sqp_mmse_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -93,6 +93,7 @@ axis([0 0.5 -80 5]);
 grid("on");
 s=sprintf("Parallel allpass : m=%d,DD=%d", m,DD);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");
@@ -109,6 +110,7 @@ ylabel("Amplitude(dB)");
 axis([0 fap -3 1]);
 grid("on");
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Ta1);
 ylabel("Delay(samples)");

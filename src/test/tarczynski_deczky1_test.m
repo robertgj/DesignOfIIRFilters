@@ -1,5 +1,5 @@
 % tarczynski_deczky1_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -83,6 +83,7 @@ axis([0 0.5 -60 10]);
 grid("on");
 s=sprintf("Tarczynski deczky1 example : nN=%d,nD=%d",nN,nD);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");

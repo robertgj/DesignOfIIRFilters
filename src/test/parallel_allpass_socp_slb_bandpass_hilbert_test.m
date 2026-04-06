@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -132,11 +132,13 @@ grid("on");
 ylabel("Amplitude(dB)");
 strt=sprintf("Initial parallel allpass bandpass Hilbert : ma=%d,mb=%d",ma,mb);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wa*0.5/pi,T0);
 axis([0 0.5 0 20]);
 grid("on");
 ylabel("Delay(samples)");
+zticks([]);
 subplot(313);
 plot(wa*0.5/pi,(P0+(wa*tp))/pi);
 axis([0 0.5 0 2]);
@@ -209,11 +211,13 @@ strt=sprintf ...
        ("Parallel allpass bandpass Hilbert : ma=%d,mb=%d,dBap=%g,dBas=%g,tp=%d",
         ma,mb,dBap,dBas,tp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,mod((Pab1+(wplot*tp))/pi,2));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 0 2]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");
@@ -231,11 +235,13 @@ ylabel("Amplitude(dB)");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) -0.06 0.02]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(312);
 plot(wplot*0.5/pi,mod((Pab1+(wplot*tp))/pi,2));
 ylabel("Phase(rad./$\\pi$)");
 axis([min([fapl,ftpl,fppl]) max([fapu,ftpu,fppl]) pd-(2*pdr) pd+(2*pdr)]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");

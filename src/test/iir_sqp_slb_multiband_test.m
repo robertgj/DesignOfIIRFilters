@@ -177,6 +177,7 @@ plot(wa*0.5/pi,20*log10(A0))
 axis([0 0.5 -40 5])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(wa(10:end)*0.5/pi,T0);
 axis([0 0.5 0 40]);
@@ -211,6 +212,7 @@ plot(wa*0.5/pi,20*log10(A1))
 axis([0 0.5 -40 5])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(wa(10:end)*0.5/pi,T1);
 axis([0 0.5 0 40]);
@@ -242,6 +244,7 @@ plot(wa*0.5/pi,20*log10(A2))
 axis([0 0.5 -40 5])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 plot(wa(10:end)*0.5/pi,T2);
 axis([0 0.5 0 40]);
@@ -257,6 +260,7 @@ plot(wa*0.5/pi,20*log10(A2))
 axis([0 0.5 -3 1])
 ylabel("Amplitude(dB)");
 grid("on");
+zticks([]);
 subplot(212)
 T2=iirT(wt,x2,U,V,M,Q,R);
 ax=plotyy(wt1*0.5/pi,T2(1:length(wt1)), ...

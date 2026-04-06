@@ -5,7 +5,7 @@
 %      P.Zahradnik, M.Susta, B.Simak and M.Vlcek, IEEE Transactions on Circuits
 %      and Systems-II:Express Briefs, Vol. 64, No. 4, April 2017, pp 407-411
 %
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -453,6 +453,7 @@ grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,20*log10(abs(Ha)));
 axis([0.273 0.277 -140.1 -139.9]);

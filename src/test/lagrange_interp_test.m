@@ -1,6 +1,6 @@
 % lagrange_interp_test.m
 %
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -180,6 +180,7 @@ subplot(211)
 plot(x,f,xk,fk,"o");
 title(sprintf("Berrut and Trefethen : n=%d, Chebyshev type 2 node spacing",n));
 ylabel("Interpolated f");
+zticks([]);
 subplot(212)
 plot(x,f-fun(x),xk,zeros(size(xk)),"o");
 ylabel("f-fun(x)");
@@ -284,6 +285,7 @@ endif
 subplot(211)
 plot(x,f,xk,fk,"o");
 title(sprintf("Berrut and Trefethen : n=%d, scaled to [%g,%g]",n,a,b));
+zticks([]);
 subplot(212)
 plot(x,f-(1.2*fun(x-3)),xk,zeros(size(xk)),"o");
 zticks([]);

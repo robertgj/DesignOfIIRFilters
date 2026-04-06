@@ -1,7 +1,7 @@
 % schurOneMlattice_socp_slb_hilbert_R2_test.m
 % Schur one-multiplier lattice implementation of a Hilbert filter
 % with denominator polynomial having coefficients only for z^2 terms
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -123,11 +123,13 @@ title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 0.6 1.2 ]);
 grid("on");
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,([P0 Pd Pdl Pdu]+(w*td)+(pp*pi))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([-0.5 0.5 -1 1]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[T0 Td Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -179,6 +181,7 @@ title(strt);
 ylabel("Amplitude");
 axis([-0.5 0.5 0.9 1.1]);
 grid("on");
+zticks([]);
 subplot(312);
 P1_plot=[P1 Pdl Pdu]+(w*td)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   P1_plot(1:(non2-npt),:)/pi, ...
@@ -193,6 +196,7 @@ axis(ax(1),[-0.5 0.5  0.5+(4*ppr*[-1,1])]);
 axis(ax(2),[-0.5 0.5 -0.5+(4*ppr*[-1,1])]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[T1 Tdl Tdu]);
 ylabel("Delay(samples)");
@@ -250,6 +254,7 @@ title(strt);
 ylabel("Amplitude");
 grid("on");
 axis([-0.5 0.5 0.98 1.02]);
+zticks([]);
 subplot(312);
 Pplot=[P2 Pdl Pdu]+(w*td)+(pp*pi);
 [ax,h1,h2]=plotyy(w(1:(non2-npt))*0.5/pi,   Pplot(1:(non2-npt),:)/pi, ...
@@ -264,6 +269,7 @@ axis(ax(1),[-0.5 0.5  0.5+(0.02*[-1,1])]);
 axis(ax(2),[-0.5 0.5 -0.5+(0.02*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,[T2 Tdl Tdu]);
 axis([-0.5 0.5 td+(tdr*[-1,1])]);

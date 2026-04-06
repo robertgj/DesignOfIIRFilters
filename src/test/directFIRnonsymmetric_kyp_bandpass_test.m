@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_kyp_bandpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 % SDP design of a direct-form FIR bandpass filter with the KYP lemma.
 % See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma: Unified
@@ -142,11 +142,13 @@ ylabel("Amplitude(dB)");
 strt=sprintf(["N=%d,d=%d,fasu=%5.3f,fapl=%5.3f,fapu=%5.3f,fasu=%5.3f,", ...
  "Esq\\_z=%10.8f,Esq\\_s=%6.4f"],N,d,fasl,fapl,fapu,fasu,Esq_z,Esq_s);
 title(strt);
+zticks([]);
 subplot(312)
 plot(w(napl:napu)*0.5/pi, (P(napl:napu)/pi)-2);
 axis([0 0.5 -0.004 0.004]);
 grid("on");
 ylabel("Phase error(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 plot(w(napl:napu)*0.5/pi,T(napl:napu));
 ylabel("Delay(samples)");
@@ -215,6 +217,7 @@ legend("left");
 strt=sprintf(["KYP FIR lattice filter simulated response : ", ...
  "N=%d,d=%d,fasu=%d,fapl=%g,fapu=%g,fasu=%g"],N,d,fasl,fapl,fapu,fasu);
 title(strt);
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(H).^2+abs(Hc).^2));
 axis([0 0.5 0.99 1.01])

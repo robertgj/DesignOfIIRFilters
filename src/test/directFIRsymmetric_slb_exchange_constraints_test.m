@@ -1,5 +1,5 @@
 % directFIRsymmetric_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -89,6 +89,7 @@ ylabel("Amplitude");
 legend("A0","A1","Adu","Adl","location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(fa,[A0,A1,Adl,Adu],fa(vR.al),A0(vR.al),"*",fa(vR.au),A0(vR.au),"+");
 axis([0 0.5,-0.02,0.05]);
@@ -120,6 +121,7 @@ ylabel("Amplitude");
 legend("A0","A1","Adu","Adl","location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(fa,[A0,A1,Adu,Adl], ...
      fa(vR.al),A1(vR.al),"*", ...

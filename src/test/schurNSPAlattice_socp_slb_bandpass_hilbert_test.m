@@ -1,5 +1,5 @@
 % schurNSPAlattice_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 test_common;
 
@@ -179,11 +179,13 @@ ylabel("Amplitude(dB)");
 grid("on");
 strt=sprintf("Parallel all-pass bandpass Hilbert : dBap=%g,dBas=%g",dBap,dBas);
 title(strt);
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,mod(((P+(tp*wp))/pi),2));
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5 (mod(pp,2)+(ppr/10)*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T);
 ylabel("Delay(samples)");
@@ -302,6 +304,7 @@ grid("on");
 strt=sprintf(["Simulated parallel all-pass bandpass Hilbert ", ...
               "(moving mean of %d samples)"],mov_window);
 title(strt);
+zticks([]);
 subplot(312);
 Psim=unwrap(arg(Hsim));
 Psim_corrected=Psim+(tp*wpts);
@@ -312,6 +315,7 @@ plot(fpts_p,mod(Psim_mean/pi,2));
 axis([0 0.5 mod(pp,2)+((ppr/5)*[-1 1])])
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313);
 Tsim=-diff(Psim)/((fpts(2)-fpts(1))*2*pi);
 Rfpts_t=(floor(nfpts*ftpl)+1):(ceil(nfpts*ftpu)+1);

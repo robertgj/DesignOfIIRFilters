@@ -1,5 +1,5 @@
 % complementaryFIRlatticeFilter_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -93,6 +93,7 @@ legend("Hkrz","Hkrzhat");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hkrz).^2+abs(Hkrzhat).^2));
 axis([0 0.5 0.9 1.1])
@@ -133,6 +134,7 @@ legend("Hsdkrz","Hsdkrzhat");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hsdkrz).^2+abs(Hsdkrzhat).^2));
 axis([0 0.5 0.9 1.1])
@@ -168,6 +170,7 @@ legend("Hsdbrz","Hsdbrzc");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(212);
 plot(nppts/nfpts,abs(abs(Hsdbrz).^2+abs(Hsdbrzc).^2));
 axis([0 0.5 0.9 1.1])

@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMlattice_bandpass_R2_10_nbits_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur one-multiplier lattice
 % bandpass filter 10-bit signed-digit coefficients
@@ -387,11 +387,13 @@ if ~print_for_web_page
                nbits,ftpl,ftpu,tp,tpr);
   title(strt);
 endif
+zticks([]);
 subplot(312)
 plot(wt*0.5/pi,T_kc0,"linestyle","-",wt*0.5/pi,T_kc_min,"linestyle","--");
 ylabel("Delay(samples)");
 axis([0 0.5 15.9 16.1]);
 grid("on");
+zticks([]);
 subplot(313)
 plot(wa*0.5/pi,10*log10(abs(Asq_kc0)),"linestyle","-", ... 
      wa*0.5/pi,10*log10(abs(Asq_kc_min)),"linestyle","--");

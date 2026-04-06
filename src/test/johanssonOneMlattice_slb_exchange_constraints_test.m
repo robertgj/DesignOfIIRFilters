@@ -1,5 +1,5 @@
 % johanssonOneMlattice_slb_exchange_constraints_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -68,6 +68,7 @@ plot(fa,Azp_0,fa,Adu,fa,Adl,fa(vR.al),Al_0,"x",fa(vR.au),Au_0,"+");
 axis([0 0.5 0.9 1.1]);
 ylabel("Amplitude");
 title(strcat(strt," initial response"));
+zticks([]);
 subplot(212);
 plot(fa,Azp_0,fa,Adu,fa,Adl,fa(vR.al),Al_0,"*",fa(vR.au),Au_0,"+");
 axis([0 0.5 -0.1 0.1]);
@@ -112,6 +113,7 @@ legend("Azp_0","Azp_1","Adu","Adl");
 legend("location","southeast");
 legend("left");
 legend("boxoff");
+zticks([]);
 subplot(212);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
      fa(vR.al),Azp_0(vR.al),"*",fa(vR.au),Azp_0(vR.au),"+", ...
@@ -148,6 +150,7 @@ legend("Azp_0","Azp_1","Adu","Adl");
 legend("location","southeast");
 legend("left");
 legend("boxoff");
+zticks([]);
 subplot(212);
 plot(fa,[Azp_0,Azp_1,Adu,Adl], ...
      fa(vR_2.al),Azp_0(vR_2.al),"*",fa(vR_2.au),Azp_0(vR_2.au),"+", ...

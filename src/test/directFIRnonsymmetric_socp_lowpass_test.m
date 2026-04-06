@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_socp_lowpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 % SDP design of a direct-form non-symmetric FIR lowpass filter with SOCP
 
 test_common;
@@ -90,6 +90,7 @@ strt=sprintf(["SOCP designed non-symmetric FIR filter : ", ...
  "N=%d,d=%d,fap=%g,dBap=%g,tdr=%g,Wap=%g,fas=%g,dBas=%g,Was=%g"],
              N,d,fap,dBap,tdr,Wap,fas,dBas,Was);
 title(strt);
+zticks([]);
 subplot(212)
 plot(w*0.5/pi,T);
 xlabel("Frequency");
@@ -100,6 +101,7 @@ zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
 subplot(211)
 axis([0 fap -1.0 0.2]);
+zticks([]);
 subplot(212)
 axis([0 fap d+[-2,2]]);
 grid("on");

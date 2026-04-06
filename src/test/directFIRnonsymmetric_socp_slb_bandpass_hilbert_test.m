@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -213,11 +213,13 @@ ylabel("Amplitude(dB)");
 axis([fapl fapu -1 0.2]);
 grid("on");
 title(s);
+zticks([]);
 subplot(312);
 plot(wa*0.5/pi,mod(P+(wa*tp),2*pi)/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([fapl fapu mod(pp+0.0002*[-1,1],2)]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(wa*0.5/pi,T);
 ylabel("Delay(samples)");

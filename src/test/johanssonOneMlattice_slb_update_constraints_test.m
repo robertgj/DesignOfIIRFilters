@@ -1,5 +1,5 @@
 % johanssonOneMlattice_slb_update_constraints_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -63,6 +63,7 @@ subplot(211);
 plot(fa,Azp,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 0.9 1.1]);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(fa,Azp,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 -0.1 0]);

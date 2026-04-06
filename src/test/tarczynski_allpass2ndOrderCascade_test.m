@@ -1,5 +1,5 @@
 % tarczynski_allpass2ndOrderCascade_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design a lowpass filter that is the parallel combination of two 2nd order
 % cascade allpass filters using the method of Tarczynski et al. 
@@ -236,12 +236,13 @@ for flat_delay=[false,true],
     s=sprintf("Parallel all-pass 2nd order cascade : ma=%d,mb=%d",ma,mb);
   endif
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T);
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_response",strf,flatstr),"-dpdflatex");
   close
   % Plot passband response
@@ -252,6 +253,7 @@ zticks([]);
   axis([0 max(ftp,fap) -3 1]);
   grid("on");
   title(s);
+  zticks([]);
   subplot(212);
   plot(wplot*0.5/pi,T);
   ylabel("Delay(samples)");
@@ -262,7 +264,7 @@ zticks([]);
     axis([0 max(ftp,fap) 0 40]);
   endif
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_passband_response",strf,flatstr),"-dpdflatex");
   close
   % Plot passband and stopband response (fails with gnuplot graphics toolkit)
@@ -276,12 +278,13 @@ zticks([]);
   ylabel("Amplitude(dB)");
   grid("on");
   title(s);
+  zticks([]);
   subplot(212);
   ax=plotyy(wplot(1:np)*0.5/pi,T(1:np),wplot(ns:end)*0.5/pi,T(ns:end));
   ylabel("Delay(samples)");
   xlabel("Frequency");
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_pass_stop_response",strf,flatstr),"-dpdflatex");
   close
   % Plot the relative phase response of the parallel filters
@@ -296,7 +299,7 @@ zticks([]);
   legend("A","B","location","southwest");
   legend("boxoff");
   grid("on");
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_ABphase",strf,flatstr),"-dpdflatex");
   close
   % Plot phase response error
@@ -309,26 +312,26 @@ zticks([]);
   xlabel("Frequency");
   grid("on");
   title(s);
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_phase_error",strf,flatstr),"-dpdflatex");
   close
   % Plot poles and zeros
   zplane(qroots(Na0),qroots(Da0))
   s=sprintf("All-pass 2nd order cascade A : ma=%d",ma);
   title(s);
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_Apz",strf,flatstr),"-dpdflatex");
   close
   zplane(qroots(Nb0),qroots(Db0))
   s=sprintf("All-pass 2nd order cascade B : mb=%d",mb);
   title(s);
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_Bpz",strf,flatstr),"-dpdflatex");
   close
   subplot(111);
   zplane(qroots(N0),qroots(D0))
   title(s);
-zticks([]);
+  zticks([]);
   print(sprintf("%s%s_pz",strf,flatstr),"-dpdflatex");
   close
 

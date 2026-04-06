@@ -1,5 +1,5 @@
 % tarczynski_bandpass_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 
 test_common;
@@ -88,6 +88,7 @@ axis([0 0.5 -60 10]);
 grid("on");
 s=sprintf("Tarczynski bandpass example : nN=%d,nD=%d,R=%d",nN,nD,R);
 title(s);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,T);
 ylabel("Delay(samples)");

@@ -1,5 +1,5 @@
 % tarczynski_allpass_phase_shift_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Design an allpass filter with a phase shift of pi over a transition
 % band using the method of Tarczynski et al.
@@ -150,6 +150,7 @@ axis([0 0.5 -50 5]);
 s=sprintf("All-pass/delay lowpass filter response : fp=%g,fs=%g,D=%d",fp,fs,D);
 title(s);
 grid("on");
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,(Ta1+D)/2);
 ylabel("Delay(samples)");

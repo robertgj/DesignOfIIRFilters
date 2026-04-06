@@ -1,5 +1,5 @@
 % saramakiFIRcascade_ApproxI_lowpass_test.m
-% Copyright (C) 2020-2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 %
 % Design a low-pass FIR filter as the tapped cascade of sub-filters
 % following Saramaki's Approximation Problem I.
@@ -229,6 +229,7 @@ if 0
   legend("boxoff");
   legend("left");
   title(strt);
+  zticks([]);
 else
   subplot(211)
   plot(Fapmin_subfilter,2*Mmin_subfilter);
@@ -236,14 +237,15 @@ else
   grid("on");
   ylabel("Minimum sub-filter order($2M$)")
   title(strt);
+  zticks([]);
   subplot(212)
   plot(Fapmin,(Fasmin-Fapmin));
   axis([0 0.3 0.15 0.25])
   grid("on")
   ylabel("Transition width($\\Delta\\Omega/2\\pi$)")
   xlabel("Pass-band edge($\\Omega_{p}/2\\pi$)")
+  zticks([]);
 endif
-zticks([]);
 print(strcat(strf,"_trans_width_M"),"-dpdflatex");
 close
 
@@ -312,6 +314,7 @@ strt=sprintf("Prototype filter : N=%d,$\\delta_{p}$=%g,$\\delta_{s}$=%g", ...
 title(strt);
 ylabel("Frequency($\\Omega/2\\pi$)")
 xlabel("Amplitude (dB)")
+zticks([]);
 subplot(222)
 plot(fa,Omega_subfilter(:,kM)/(2*pi), ...
      fa,Fap_line,"linewidth",line_linewidth,"color",line_colour, ...
@@ -323,6 +326,7 @@ grid("on");
 strt=sprintf("Sub-filter : M=%d,$F_{p}$=%g,$F_{s}$=%g", ...
              M,Fapmin_subfilter(kM),Fasmin_subfilter(kM));
 title(strt);
+zticks([]);
 subplot(224)
 plot(fa,20*log10(abs(Amin_subfilter(:,kM))), ...
      fap_line,Amp_line,"linewidth",line_linewidth,"color",line_colour, ...

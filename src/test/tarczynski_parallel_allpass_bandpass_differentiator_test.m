@@ -1,5 +1,5 @@
 % tarczynski_parallel_allpass_bandpass_differentiator_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % Use the method of Tarczynski et al to design a bandpass differentiator filter
 % as the difference of two parallel allpass filters. See:
@@ -126,11 +126,13 @@ grid("on");
 strt=sprintf("Parallel all-pass filters : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,unwrap(P0+(w*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([0 0.5]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");
@@ -152,11 +154,13 @@ grid("on");
 strt=sprintf("Parallel all-pass filter : ma=%d,mb=%d,tp=%g,pp=%g", ...
              ma,mb,tp,pp);
 title(strt);
+zticks([]);
 subplot(312);
 plot(w*0.5/pi,unwrap(P0+(w*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
 axis([minf maxf -2+pp+(0.02*[-1 1])]);
 grid("on");
+zticks([]);
 subplot(313);
 plot(w*0.5/pi,T0);
 ylabel("Delay(samples)");

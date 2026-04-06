@@ -1,5 +1,5 @@
 % polyphase_allpass_socp_slb_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -129,6 +129,7 @@ grid("on");
 strt=sprintf("Polyphase allpass : ma=%d,mb=%d,dBap=%5.3g,dBas=%2d", ...
              ma,mb,dBap,dBas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 axis([0 0.5 0 140]);

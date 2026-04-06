@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_slb_exchange_constraints_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 test_common;
 
@@ -109,6 +109,7 @@ axis([0,fap,-0.1,0.1]);
 strM0=sprintf(strM,"0");
 title(strM0);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(212);
 plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
      fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
@@ -168,6 +169,7 @@ title(strM1);
 ylabel("Amplitude(dB)");
 legend("Asq0","Asq1","Asqdu","Asqdu+tol","location","southwest");
 legend("boxoff");
+zticks([]);
 subplot(212);
 plot(fa(nas:end), ...
      10*log10([Asq0(nas:end),Asq1(nas:end),Asqdu(nas:end), ...

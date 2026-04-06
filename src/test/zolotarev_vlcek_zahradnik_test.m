@@ -7,7 +7,7 @@
 % P. Zahradnik, 2013 European Conference on Circuit Theory and Design,
 % DOI: 10.1109/ECCTD.2013.6662301
 % 
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -137,6 +137,7 @@ legend("left");
 strt=sprintf("$(1-w^{2})^{1/2}S_{%d,%d}(u,%4.2f)$ and $Z_{%d,%d}(u,%4.2f)$", ...
              p,q,k,p,q,k);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wx,Swx,"-",wx,SZwx,"-.");
 axis([-1.1 1.1 -10 10]);

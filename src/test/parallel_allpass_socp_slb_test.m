@@ -1,5 +1,5 @@
 % parallel_allpass_socp_slb_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -126,6 +126,7 @@ grid("on");
 strt=sprintf("Parallel allpass initial response : ma=%d,mb=%d,fap=%g,fas=%g", ...
              ma,mb,fap,fas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab0);
 ylabel("Delay(samples)");
@@ -212,6 +213,7 @@ grid("on");
 strt=sprintf(["Parallel allpass PCLS response : ", ...
  "ma=%d,mb=%d,fap=%4.2f,dBap=%4.2f,fas=%7.5f,dBas=%5.2f"],ma,mb,fap,dBap,fas,dBas);
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 axis([0 0.5 0 100]);
@@ -229,6 +231,7 @@ ylabel("Amplitude(dB)");
 axis([0 max(fap,ftp) -0.04 0.01]);
 grid("on");
 title(strt);
+zticks([]);
 subplot(212);
 plot(wplot*0.5/pi,Tab1);
 ylabel("Delay(samples)");

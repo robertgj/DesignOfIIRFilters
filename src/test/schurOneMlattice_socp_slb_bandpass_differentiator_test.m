@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_bandpass_differentiator_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -182,11 +182,13 @@ strP=sprintf(["Bandpass differentiator response : ", ...
              fasl,fapl,fapu,fasu,Arp,Ars,tp,tpr,ppr);
 title(strP);
 ylabel("Amplitude");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+ppr*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 axis([0 0.5 tp+tpr*[-1,1]]);
@@ -225,11 +227,13 @@ strP=sprintf("Differentiator PCLS");
 title(strP);
 ylabel("Amplitude error");
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
 axis([0 0.5 tp+(tpr*[-1,1])]);

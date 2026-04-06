@@ -1,6 +1,6 @@
 % directFIRnonsymmetric_socp_slb_lowpass_test.m
 % Optimisation of direct-form nonsymmetric FIR lowpass filter response
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 
 %{
 % See Example 1 of "Estimation of filter order for prescribed, reduced
@@ -105,6 +105,7 @@ ylabel("Amplitude(dB)");
 strt=sprintf(["Nonsymmetric FIR MMSE low pass : ", ...
  "N=%d,fap=%4.2f,ftp=%5.3f,td=%d,fas=%4.2f"],N,fap,ftp,td,fas);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wa*0.5/pi,T_mmse);
 axis([0 0.5 0 20]);
@@ -151,6 +152,7 @@ ylabel("Amplitude(dB)");
 strt=sprintf(["Nonsymmetric FIR low pass pass band : ", ...
  "N=%d,fap=%4.2f,dBap=%d,ftp=%5.3f,td=%d,tdr=%d"],N,fap,dBap,ftp,td,tdr);
 title(strt);
+zticks([]);
 subplot(212)
 plot(wt*0.5/pi,T);
 axis([0 fap td-0.6 td+0.6]);

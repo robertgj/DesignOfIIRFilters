@@ -1,5 +1,5 @@
 % iir_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -113,6 +113,7 @@ plot(f,[AAx2,AAdu,AAdl], ...
 axis([0,0.5,0.9,1.1]);
 title(strM2);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 fs=ws*0.5/pi;
 plot(f,[AAx2,AAdu,AAdl], ...
@@ -170,6 +171,7 @@ plot(f,[AAx2,AAx7,AAdu,AAdl], ...
 axis([0,0.5,10^(-10*dBap/20),10^(2*dBap/20)]);
 title(strM7);
 ylabel("Amplitude");
+zticks([]);
 subplot(212);
 plot(f,[AAx2,AAx7,AAdu,AAdl], ...
      fs(vRx2.sl),Sx2(vRx2.sl),"*",fs(vRx2.su),Sx2(vRx2.su),"+", ...

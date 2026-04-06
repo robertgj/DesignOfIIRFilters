@@ -1,5 +1,5 @@
 % directFIRhilbert_allocsd_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test Lims and Itos signed-digit allocation algorithms with
 % the distinct non-zero coefficients of a Hilbert FIR filter
@@ -125,6 +125,7 @@ for ndigits=2:3
     strt=sprintf("Hilbert FIR,nbits=%d,ndigits=%d", ...
                  nbits,ndigits);
     title(strt);
+    zticks([]);
     subplot(212)
     plot(wa*0.5/pi,20*log10(abs(A_ex)),"linestyle","-", ...
          wa*0.5/pi,20*log10(abs(A_rd)),"linestyle",":", ...
@@ -135,7 +136,7 @@ for ndigits=2:3
     ylabel("Amplitude(dB)");
     axis([0 0.5 -60 10]);
     grid("on");
-zticks([]);
+    zticks([]);
     print(strcat(namestr,"_response"),"-dpdflatex");
     close
 
@@ -186,7 +187,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_cost"),"-dpdflatex"); 
   close
 
@@ -206,7 +207,7 @@ zticks([]);
   legend("location","northeast");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_sidelobe"),"-dpdflatex");
   close
 
@@ -226,7 +227,7 @@ zticks([]);
   legend("location","northwest");
   legend("boxoff");
   legend("left");
-zticks([]);
+  zticks([]);
   print(strcat(strf,"_digits"),"-dpdflatex");
   close
   

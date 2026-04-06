@@ -4,7 +4,7 @@
 % low-pass differentiator filter implemented as the series combination of
 % (1-z^{-1}) with a pipelined Schur one-multiplier lattice correction filter.
 %
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -395,6 +395,7 @@ title(strt);
 axis(ax(1),[0 0.5 Arp*[-1,1]]);
 axis(ax(2),[0 0.5 0.02*[-1,1]]);
 grid("on");
+zticks([]);
 subplot(312);
 plot(wp*0.5/pi,(P_kc0+Pz+(wp*tp))/pi,"linestyle","-", ...
      wp*0.5/pi,(P_kc0_sd+Pz+(wp*tp))/pi,"linestyle","--", ...
@@ -406,6 +407,7 @@ legend("exact","s-d(Ito)","s-d(SOCP-relax)");
 legend("location","east");
 legend("boxoff");
 legend("left");
+zticks([]);
 subplot(313);
 plot(wt*0.5/pi,T_kc0+Tz,"linestyle","-", ...
      wt*0.5/pi,T_kc0_sd+Tz,"linestyle","--", ...

@@ -1,5 +1,5 @@
 % directFIRsymmetric_slb_update_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -66,6 +66,7 @@ legend("A","Adu","Adl");
 legend("boxoff");
 legend("left");
 legend("location","northeast");
+zticks([]);
 subplot(212);
 plot(fa,A,fa,Adu,fa,Adl,fa(vS.al),Al,"x",fa(vS.au),Au,"+");
 axis([0 0.5 -0.02 0.02]);

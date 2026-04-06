@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -404,6 +404,7 @@ if ~print_for_web_page
  "fap=%g,dBap=%g,fas=%g,dBas=%g,tp=%g,tpr=%g"],nbits,fap,dBap,fas,dBas,tp,tpr);
   title(strt);
 endif
+zticks([]);
 subplot(212)
 plot(wt*0.5/pi,T_k,"linestyle","-", ...
      wt*0.5/pi,T_kmin,"linestyle","-.");

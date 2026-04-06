@@ -1,5 +1,5 @@
 % butt6NSPABP_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for the 6th order Butterworth band-pass lattice filter
 
@@ -228,6 +228,7 @@ plot(nppts/nfpts,20*log10(abs(HA1)));
 ylabel("A1(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA1ap=crossWelch(uRn60,A1yapf,nfpts);
 subplot(412);
@@ -235,6 +236,7 @@ plot(nppts/nfpts,20*log10(abs(HA1ap)));
 ylabel("A1ap(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA2=crossWelch(uRn60,A2yf,nfpts);
 subplot(413);
@@ -242,6 +244,7 @@ plot(nppts/nfpts,20*log10(abs(HA2)));
 ylabel("A2(dB)")
 axis([0 0.5 -5 5])
 grid("on");
+zticks([]);
 
 HA2ap=crossWelch(uRn60,A2yapf,nfpts);
 subplot(414);
@@ -287,6 +290,7 @@ subplot(211);
 plot(A1xxf(svk,1), A1xxf(svk,2))
 xlabel("A1 state variable x1")
 ylabel("A1 state variable x2")
+zticks([]);
 subplot(212);
 plot(A2xxf(svk,1), A2xxf(svk,2))
 xlabel("A2 state variable x1")

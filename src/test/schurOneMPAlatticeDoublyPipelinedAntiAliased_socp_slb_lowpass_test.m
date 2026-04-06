@@ -4,7 +4,7 @@
 % parallel all-pass Schur one-multiplier lattice in series with a
 % parallel all-pass half-band anti-aliasing filter.
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -157,11 +157,13 @@ tstr=sprintf("Lowpass sanity check response fap=%g,fas=%g,tp=%g,pp=%g", ...
              fap,fas,tp,pp);
 title(tstr);
 ylabel("Amplitude");
+zticks([]);
 subplot(312)
 plot(wp*0.5/pi,([P0c2,Pd]+(wp*tp))/pi)
 axis([0 0.5 -1 1]);
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 plot(wt*0.5/pi,[T0c2,Td])
 axis([0 0.5 0 20]);
@@ -236,11 +238,13 @@ grid("on")
 tstr=sprintf("Lowpass initial response : fap=%g,fas=%g,tp=%g",fap,fas,tp);
 title(tstr);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(312)
 plot(wp*0.5/pi,(P0+(wp*tp))/pi)
 axis([0 0.5 pp+0.004*[-1,1]])
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 plot(wt*0.5/pi,T0)
 axis([0 0.5,tp+0.2*[-1,1]])
@@ -353,11 +357,13 @@ tstr=sprintf("Lowpass PCLS response : fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g", ...
              fap,dBap,tp,fas,dBas);
 title(tstr);
 ylabel("Amplitude(dB)");
+zticks([]);
 subplot(312)
 plot(wp*0.5/pi,([(P2+Pz2),Pd,Pdu,Pdl]+(wp*tp))/pi)
 axis([0 0.5 pp+ppr*[-1,1]])
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313)
 plot(wt*0.5/pi,[(T2-Tz2),Td,Tdu,Tdl])
 axis([0 0.5,tp+tpr*[-1,1]])
