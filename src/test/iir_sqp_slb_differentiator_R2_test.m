@@ -12,7 +12,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 ftol=1e-4
-ctol=ftol/20
+ctol=ftol/10
 maxiter=2000
 verbose=false
 
@@ -28,9 +28,10 @@ print_pole_zero(x0,U,V,M,Q,R,"x0",strcat(strf,"_x0_coef.m"));
 
 % Low-pass differentiator filter specification
 ft1=0.390;ft2=0.455;
-Ar1=0.0040;Ar2=0.0100;Wap=1;
-tp=5.5;tpr=0.0089;Wtp=0.0135;
-pp=1.5;ppr=0.00067;Wpp=0.0275;
+Ar1=0.004;Ar2=0.01;Wap=1;
+tp=5.5;tpr=0.009;Wtp=0.05;
+pp=1.5;ppr=0.0007;Wpp=0.05;
+
 
 % Frequency points
 n=1000;
@@ -137,7 +138,7 @@ Tx1=iirT(wt,x1,U,V,M,Q,R);
 Px1=iirP(wp,x1,U,V,M,Q,R);
 subplot(311);
 plot(wa*0.5/pi,[Ax1 Adl Adu]-Ad)
-axis([0 0.5 -max(Ar1,Ar2)/2 max(Ar1,Ar2)/2]);
+axis([0 0.5 (0.004*[-1,1])]);
 strM=sprintf(["Differentiator correction filter MMSE response : ", ...
  "R=%d,ft1=%g,ft2=%g,tp=%g"],R,ft1,ft2,(tp-0.5));
 title(strM);
@@ -146,13 +147,13 @@ grid("on");
 zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Px1 Pdl Pdu]+(wp*(tp-0.5)))/pi);
-axis([0 0.5 1+(2*ppr)*[-1,1]]);
+axis([0 0.5 1+(0.0004*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tx1 Tdl Tdu])
-axis([0 0.5 (tp-0.5)+tpr*[-1,1]]);
+axis([0 0.5 (tp-0.5)+(0.006*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -208,13 +209,13 @@ ylabel("Amplitude error");
 zticks([]);
 subplot(312);
 plot(w(2:end)*0.5/pi,([Pd1(2:end) Pdl(2:end) Pdu(2:end)]+(w(2:end)*tp))/pi);
-axis([0 0.5 1.5+0.0006*[-1,1]]);
+axis([0 0.5 (1.5+0.0004*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 zticks([]);
 subplot(313);
-plot(w(2:end)*0.5/pi,[Td1(2:end) Tdl(2:end) Tdu(2:end)]);
-axis([0 0.5 tp+tpr*[-1,1]]);
+plot(w(2:end)*0.5/pi, [Td1(2:end) Tdl(2:end) Tdu(2:end)]);
+axis([0 0.5 tp+(0.006*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");

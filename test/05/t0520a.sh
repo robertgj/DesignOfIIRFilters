@@ -58,14 +58,14 @@ Yb=
   -0.7623   0.2364   0.2364
   -0.7623   0.2364   0.2364
 isdefinite(Yb)=1
-norm(Xa-Xb)= 9.34e-06
+norm(Xa-Xb)=9.339e-06
 norm(Ya-Yb)=1.468e-05
 ta=    2.549
 tb=    2.549
 tc=    2.549
-norm(ta-tb)=1.436e-09
-norm(ta-tc)=3.004e-09
-norm(tb-tc)=1.568e-09
+norm(ta-tb)=1.692e-09
+norm(ta-tc)=3.258e-09
+norm(tb-tc)=1.566e-09
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok "; fail; fi
 

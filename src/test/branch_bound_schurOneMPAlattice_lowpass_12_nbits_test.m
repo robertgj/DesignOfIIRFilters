@@ -175,13 +175,13 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min = 422
-  A1k_min = [     1592,     -168,     -536,     -128, ... 
-                  -128,      480,     -296,       -4, ... 
-                   352,     -337,      120 ]'/nscale;
-  A2k_min = [      800,     -580,      384,      336, ... 
-                   -96,       84,     -400,      368, ... 
-                    10,     -376,      321,     -123 ]'/nscale;
+  branches_min = 298
+  A1k_min = [     1576,     -184,     -544,     -128, ... 
+                  -128,      508,     -306,       -8, ... 
+                   336,     -324,      120 ]'/nscale;
+  A2k_min = [      800,     -548,      384,      328, ... 
+                   -96,      100,     -416,      376, ... 
+                     6,     -365,      308,     -120 ]'/nscale;
   k_min=[A1k_min(:);A2k_min(:)];
   Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
                                 A2k_min,A2epsilon0,A2p_ones, ...
@@ -385,7 +385,7 @@ fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP B-and-B) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
@@ -415,7 +415,7 @@ T_kmin=schurOneMPAlatticeT ...
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("exact","s-d(Ito)","s-d(SOCP B-and-B)");
 legend("location","northwest");
 legend("boxoff");
 legend("left");
@@ -439,7 +439,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(strt);
 axis([0, max(fap,ftp), -0.15, 0.05]);
-legend("exact","s-d(Ito)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(B-and-B)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -456,7 +456,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 title(strt);
 axis([0, max(fap,ftp), tp-tpr, tp+tpr]);
-legend("exact","s-d(Ito)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(B-and-B)");
 legend("location","northwest");
 legend("boxoff");
 legend("left");
@@ -504,7 +504,7 @@ plot(wt*0.5/pi,T_k0,"linestyle","-",wt*0.5/pi,T_kmin,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
 axis([0, 0.5, tp-(tpr/2), tp+(tpr/2)]);
-legend("exact","3-s-d(Ito) and b-and-b");
+legend("exact","3-s-d(Ito) and B-and-B");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

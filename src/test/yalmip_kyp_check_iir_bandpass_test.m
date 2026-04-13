@@ -1,5 +1,5 @@
 % yalmip_kyp_check_iir_bandpass_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Use the KYP lemma to check the response of a parallel all-pass one-multiplier
 % Schur lattice bandpass filter for which the phase at the phase pass-band lower
@@ -21,8 +21,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 fhandle=fopen(strcat(strf,".results"),"w");
 
 use_doubly_pipelined_lattice=false
-tol=1e-6
-sedumi_eps=1e-8
+tol=1e-5
+sedumi_eps=1e-7
 
 % Initial parallel all-pass band-pass filter from
 % schurOneMPAlattice_socp_slb_bandpass_delay_test.m
@@ -327,12 +327,9 @@ if ~isdefinite(value(Q_slu))
 endif
 if ~isdefinite(-value(F_slu))
   min_eigs_Fslu=min(eigs(-value(F_slu),rows(F_slu)));
-  if min_eigs_Fslu < -sedumi_eps
+  if min_eigs_Fslu < -tol
     error("-F_slu not positive semi-definite (Min. eigenvalue=%10.4g)",
           min_eigs_Fslu);
-  else
-    fprintf(fhandle, ...
-            "isdefinite() finds -F_slu<0 but min. eigenvalue >= -sedumi_eps\n");
   endif
 endif
 

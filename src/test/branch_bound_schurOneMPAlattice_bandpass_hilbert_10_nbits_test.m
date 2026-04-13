@@ -2,7 +2,7 @@
 % Branch-and-bound optimisation of the response of a Hilbert band-pass filter
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 10-bit 3-signed-digit coefficients.
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -194,16 +194,18 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 
 % Fix one coefficient at each iteration 
 if use_best_branch_and_bound_found
-  branches_min=438;
-  A1k_min = [   -232,      432,     -134,       33, ... 
-                 352,     -168,       38,      271, ... 
-                -191,      134 ]'/512;
-  A2k_min = [   -416,      446,     -158,        8, ... 
-                 352,     -152,       52,      268, ... 
-                -184,      142 ]'/512;
+  branches_min=382;
+  A1k_min = [     -232,      432,     -164,       92, ... 
+                  328,     -192,      108,      226, ... 
+                  -176,      130 ]'/512;
+  A1epsilon_min=[ 1 1 1 -1 1 1 -1 -1 1 1 ]';
+  A2k_min = [     -416,      452,     -200,       73, ... 
+                   336,     -176,      112,      228, ... 
+                  -168,      135 ]'/512;
+  A2epsilon_min=[ 1 1 1 -1 -1 -1 -1 1 1 -1 ]';
   k_min=[A1k_min(:);A2k_min(:)];
-  Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon0,A1p_ones, ...
-                                A2k_min,A2epsilon0,A2p_ones, ...
+  Esq_min=schurOneMPAlatticeEsq(A1k_min,A1epsilon_min,A1p_ones, ...
+                                A2k_min,A2epsilon_min,A2p_ones, ...
                                 difference, ...
                                 wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
   improved_solution_found=true;
@@ -392,7 +394,7 @@ fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP B-and-B) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
@@ -481,7 +483,7 @@ printf("kmin:DS=[ ");printf("%f ",DS');printf("]\n")
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d","s-d(SOCP b-and-b)");
+legend("exact","s-d","s-d(SOCP B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -508,7 +510,7 @@ title(strt);
 fpmin=min([fapl,ftpl,fppl,fdpl]);
 fpmax=max([fapu,ftpu,fppu,fdpu]);
 axis([fpmin, fpmax, -0.2, 0.1]);
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -527,7 +529,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ",
  "pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([fpmin, fpmax, tp-tpr, tp+tpr]);
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -546,7 +548,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ",
  "pass-band(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g"],nbits,ndigits,ftpl,ftpu);
 title(strt);
 axis([fpmin, fpmax, mod(pp-(ppr/4),2), mod(pp+(ppr/4),2)]);
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -565,7 +567,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass Hilbert filter ",
  "pass-band(nbits=%d,ndigits=%d) : fdpl=%g,fdpu=%g"],nbits,ndigits,fdpl,fdpu);
 title(strt);
 axis([fpmin,fpmax,(dp+([-dpr,dpr]/2))]);
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");

@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -56,8 +56,8 @@ R2=(NA1+1):(NA1+NA2);
 
 % Band pass filter specification
 difference=true
-tol=1e-4
-ctol=1e-6
+tol=1e-3
+ctol=1e-5
 rho=127/128
 m1=length(A1k0);
 m2=length(A2k0);
@@ -75,7 +75,7 @@ Wasu=2e4
 ftpl=0.09
 ftpu=0.21
 td=16
-tdr=0.2
+tdr=0.4
 Wtp=1
 
 %
@@ -197,13 +197,13 @@ printf("Initial k_b=[ ");printf("%g ",k_b');printf("]';\n");
 if use_best_branch_and_bound_found
   branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim=false
   branch_bound_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito=true
-  branches_min=257;
-  A1k_min = [     -800,     1360,     1040,    -1092, ... 
-                  1312,     -688,      -32,      688, ... 
-                  -480,      292 ]'/2048;
-  A2k_min = [    -1531,     1503,     1032,    -1186, ... 
-                  1344,     -528,       48,      672, ... 
-                  -529,      272 ]'/2048;
+  branches_min=151;
+  A1k_min = [     -840,     1440,      880,    -1080, ... 
+                  1300,     -752,       20,      636, ... 
+                  -448,      276 ]'/2048;
+  A2k_min = [    -1551,     1588,      864,    -1168, ... 
+                  1348,     -576,       96,      608, ... 
+                  -512,      248 ]'/2048;
   A1epsilon_min=schurOneMscale(A1k_min);
   A2epsilon_min=schurOneMscale(A2k_min);
   k_min=[A1k_min(:);A2k_min(:)];
@@ -410,7 +410,7 @@ fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Ito)& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %8.6f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP B-and-B) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
@@ -436,7 +436,7 @@ T_kmin=schurOneMPAlatticeT(wt,A1k_min,A1epsilon_min,A1p_ones, ...
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("exact","s-d(Ito)","s-d(SOCP B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -461,7 +461,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter pass-band"
  "(nbits=%d,ndigits=%d) : fapl=%g,fapu=%g,dBap=%g"],nbits,ndigits,fapl,fapu,dBap);
 title(strt);
 axis([fapl fapu -3, 1]);
-legend("exact","s-d(Ito)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(B-and-B)");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
@@ -480,7 +480,7 @@ strt=sprintf(["Parallel one-multplier allpass lattice bandpass filter pass-band"
  "(nbits=%d,ndigits=%d) : ftpl=%g,ftpu=%g,tdr=%g"],nbits,ndigits,ftpl,ftpu,tdr);
 title(strt);
 axis([ftpl ftpu, td-tdr, td+tdr]);
-legend("exact","s-d(Ito)","s-d(b-and-b)");
+legend("exact","s-d(Ito)","s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

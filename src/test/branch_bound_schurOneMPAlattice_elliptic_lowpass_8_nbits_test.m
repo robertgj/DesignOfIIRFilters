@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 8-bit 2-signed-digit coefficients.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -329,7 +329,7 @@ fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(b-and-b) & %8.6f & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(B-and-B) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
@@ -353,7 +353,7 @@ Asq_kmin=schurOneMPAlatticeAsq ...
 plot(wplot*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wplot*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wplot*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -376,7 +376,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(strt);
 axis([0, fas, -2*dBap, dBap]);
-legend("exact","s-d","s-d(b-and-b)");
+legend("exact","s-d","s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

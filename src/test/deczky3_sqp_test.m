@@ -1,5 +1,5 @@
 % deczky3_sqp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -22,7 +22,7 @@ verbose=false
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.2,Wap=1
 fas=0.3,dBas=33,Was=0.5
-ftp=0.25,tp=10,tpr=0.008,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0 
+ftp=0.25,tp=10,tpr=0.01,Wtp_mmse1=0.125,Wtp_mmse2=0.5,Wtp_pcls=4.0
 
 % Strings
 strM=sprintf("%%s:fap=%g,Wap=%g,fas=%g,Was=%g,ftp=%g,tp=%g,Wtp\\_mmse=%%g", ...

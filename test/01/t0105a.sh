@@ -42,7 +42,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 s10 =
-   0.732702   0.330469   0.231570   0.078429
+   0.732750   0.330377   0.231487   0.078403
 
 s11 =
    0.6805   0.9438   0.9728   0.3514
@@ -61,24 +61,24 @@ s22 =
 
 sn =
  Columns 1 through 7:
-          0          0   0.078429   0.071103   0.006836   0.071089   0.078420
+          0          0   0.078403   0.071078   0.006840   0.071124   0.078424
  Columns 8 through 12:
           0          0          0          0          0
 
 sdR =
  Columns 1 through 8:
-   1.0000        0  -1.1714        0   0.4863        0        0        0
+   1.0000        0  -1.1715        0   0.4863        0        0        0
  Columns 9 through 12:
         0        0        0        0
 
 max(abs(sn(3:7)-n'))=0.000000
 max(abs(sdR(1:5)-dR'))=0.000000
-ngABCD = 0.7088
+ngABCD = 0.7089
 ngABCDap = 3.0000
 est_varyd = 0.1424
-varyd = 0.1424
+varyd = 0.1420
 est_varydap = 0.3333
-varydap = 0.3300
+varydap = 0.3306
 stdxxABCD =
  Columns 1 through 8:
    129.45   130.32   129.44   128.27   128.27   130.43   128.29   130.56

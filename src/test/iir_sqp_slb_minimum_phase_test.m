@@ -12,21 +12,21 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 ftol=1e-4
-ctol=ftol/100
+ctol=ftol/10
 maxiter=10000
 verbose=false
 
 % Filter specifications
 U=2,V=1,M=8,Q=4,R=2
 fap=0.125
-dBap=0.035
+dBap=0.04
 Wap=1
 fas=0.25
 dBas=50
-Was=2
+Was=10
 
 % Frequency vectors
-n=1000;
+n=500;
 
 % Amplitude constraints
 nap=ceil(n*fap/0.5)+1;

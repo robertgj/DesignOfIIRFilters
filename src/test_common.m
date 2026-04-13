@@ -1,5 +1,5 @@
 % test_common.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % Normally these would be in .octaverc or ~/.octaverc
 
@@ -64,6 +64,9 @@ warning("off","Octave:LaTeX:internal-error");
 warning("off","signal:delayz-singularity");
 warning("off","signal:grpdelay-singularity");
 warning("off","Octave:delete:no-such-file");
+
+% This warning occurs during initialisation and cannot be disabled here!
+warning("off","Octave:gnuplot-graphics");
 
 % Check for Octave extensions
 cmd_opt = cmdline_options();

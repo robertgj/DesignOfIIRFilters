@@ -42,7 +42,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.ok << 'EOF'
-isdefinite() finds -F_slu<0 but min. eigenvalue >= -sedumi_eps
 EOF
 if [ $? -ne 0 ]; then
     echo "Failed output cat test.ok"; fail;

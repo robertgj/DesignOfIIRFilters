@@ -1,5 +1,5 @@
 % bitflip_schurFIRlattice_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for the bit-flipping algorithm with coefficients of
 % a bandpass FIR Schurlattice filter.
@@ -136,12 +136,12 @@ plot(wplot(iplot)*0.5/pi,    t0(iplot),"linestyle","-", ...
      wplot(iplot)*0.5/pi,  t_sd(iplot),"linestyle","-.", ... 
      wplot(iplot)*0.5/pi,t_bfsd(iplot),"linestyle","-");
 legend("exact","round","bitflip(round)","signed-digit","bitflip(s-d)");
-legend("location","northeast");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 xlabel("Frequency");
 ylabel("Delay(samples)");
-axis([0 0.5 0 25]);
+axis([0 0.5 0 10]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");

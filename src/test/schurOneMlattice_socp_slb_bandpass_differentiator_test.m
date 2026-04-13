@@ -11,7 +11,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-ftol=1e-5
+ftol=1e-3
 ctol=ftol/100
 maxiter=20000
 verbose=false
@@ -30,10 +30,10 @@ p_ones=ones(size(k0));
 
 % Band-pass differentiator filter specification
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,
-Arp=0.02,Ars=0.02,Wasl=0.1,Watl=0.001,Wap=0.1,Watu=0.001,Wasu=0.1
+Arp=0.02,Ars=0.02,Wasl=10,Watl=0.01,Wap=1,Watu=0.01,Wasu=20
 fppl=0.1,fppu=0.2,pp=3.5,ppr=0.002,Wpp=0.5
-ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.02
-fdpl=0.1,fdpu=0.2,dpr=0.62,Wdp=0.01
+ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.5
+fdpl=0.1,fdpu=0.2,dpr=1,Wdp=0.01
 
 % Frequency points
 n=1000;
@@ -120,13 +120,33 @@ dAsqdw0c=schurOneMlatticedAsqdw(wa,k0,epsilon0,p0,c0);
 dAsqdw0=(dAsqdw0c.*Azsqm1sq) + (((Ad./Azsqm1).^2).*(4*sin(2*wa)));
 
 %
+% MMSE pass
+%
+printf("\nMMSE pass :\n");
+feasible=false;
+[k1,c1,opt_iter,func_iter,feasible] = ...
+  schurOneMlattice_socp_mmse([], ...
+   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
+   wa,(Ad./Azsqm1).^2,(Adu./Azsqm1).^2,(Adl./Azsqm1).^2,Wa, ...
+   wt,Td-Tzsqm1,Tdu-Tzsqm1,Tdl-Tzsqm1,Wt, ...
+   wp,Pd-Pzsqm1,Pdu-Pzsqm1,Pdl-Pzsqm1,Wp, ...
+   wd,Cd,Cdu,Cdl,Wd, ...
+   maxiter,ftol,ctol,verbose);
+if feasible == 0
+  error("k1 (MMSE) infeasible");
+endif
+[N1,D1]=schurOneMlattice2tf(k1,epsilon0,p0,c1);
+[k1,epsilon1,p1,c1]=tf2schurOneMlattice(N1,D1);
+k1=k1(:);epsilon1=epsilon1(:);p1=p1(:);c1=c1(:);
+
+%
 % PCLS pass
 %
 printf("\nPCLS pass :\n");
 feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
-   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
+   k1,epsilon1,p_ones,c1,kc_u,kc_l,kc_active,dmax, ...
    wa,(Ad./Azsqm1).^2,(Adu./Azsqm1).^2,(Adl./Azsqm1).^2,Wa, ...
    wt,Td-Tzsqm1,Tdu-Tzsqm1,Tdl-Tzsqm1,Wt, ...
    wp,Pd-Pzsqm1,Pdu-Pzsqm1,Pdl-Pzsqm1,Wp, ...
@@ -141,40 +161,62 @@ printf("\nBefore recalculating epsilon and c:\n");
 print_polynomial(epsilon0,"epsilon0");
 print_polynomial(c2,"c2");
 printf("\n");
-[N1,D1]=schurOneMlattice2tf(k2,epsilon0,p0,c2);
-[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N1,D1);
+[N2,D2]=schurOneMlattice2tf(k2,epsilon1,p_ones,c2);
+[k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
 if max(abs(k2-k2r))>1000*eps
   error("max(abs(k2-k2r))(%g*eps)>1000*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Pole-zero plot
-zplane(qroots(conv(N1(:),[1;0;-1])),qroots(D1(:)));
+zplane(qroots(conv(N2(:),[1;0;-1])),qroots(D2(:)));
 zticks([]);
 print(strcat(strf,"_pz"),"-dpdflatex");
 close
 
 % Calculate the overall response
-Asq1c=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
-A1c=sqrt(Asq1c);
-A1=A1c.*Azsqm1;
-P1c=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
-P1=P1c+Pzsqm1;
-T1c=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
-T1=T1c+Tzsqm1;
-dAsqdw1c=schurOneMlatticedAsqdw(wa,k2,epsilon2,p2,c2);
-dAsqdw1=(dAsqdw1c.*Azsqm1sq) + (((Ad./Azsqm1).^2).*(4*sin(2*wa)));
+Asq2c=schurOneMlatticeAsq(wa,k2,epsilon2,p2,c2);
+A2c=sqrt(Asq2c);
+A2=A2c.*Azsqm1;
+P2c=schurOneMlatticeP(wp,k2,epsilon2,p2,c2);
+P2=P2c+Pzsqm1;
+T2c=schurOneMlatticeT(wt,k2,epsilon2,p2,c2);
+T2=T2c+Tzsqm1;
+dAsqdw2c=schurOneMlatticedAsqdw(wa,k2,epsilon2,p2,c2);
+dAsqdw2=(dAsqdw2c.*Azsqm1sq) + (((Ad./Azsqm1).^2).*(4*sin(2*wa)));
 
 % Check amplitude of transfer function
-HH=freqz(N1,D1,wa);
-if max(abs((abs(HH).^2)-Asq1c)) > 1000*eps
-  error("max(abs((abs(HH).^2)-Asq1c))(%g*eps) > 1000*eps", ...
-        max(abs((abs(HH).^2)-Asq1c))/eps);
+HH=freqz(N2,D2,wa);
+if max(abs((abs(HH).^2)-Asq2c)) > 1000*eps
+  error("max(abs((abs(HH).^2)-Asq2c))(%g*eps) > 1000*eps", ...
+        max(abs((abs(HH).^2)-Asq2c))/eps);
 endif
+
+% Amplitude, delay and phase at local peaks
+vAsql=local_max((Adl.^2)-(A2.^2));
+vAsqu=local_max((A2.^2)-(Adu.^2));
+wAsqS=unique([wa(vAsql);wa(vAsqu);wa([1,nasl,napl,napu,nasu,end])]);
+AsqS=schurOneMlatticeAsq(wAsqS,k2,epsilon2,p2,c2);
+printf("fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("AsqS=[ ");printf("%f ",AsqS');printf(" ]\n");
+
+vTl=local_max(Tdl-T2);
+vTu=local_max(T2-Tdu);
+wTS=unique([wt(vTl);wt(vTu);wt([1,end])]);
+TS=schurOneMlatticeT(wTS,k2,epsilon2,p2,c2);
+printf("fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("TS=[ ");printf("%f ",TS');printf(" (samples)\n");
+
+vPl=local_max(Pdl-P2);
+vPu=local_max(P2-Pdu);
+wPS=unique([wp(vPl);wp(vPu);wp([1,end])]);
+PS=schurOneMlatticeP(wPS,k2,epsilon2,p2,c2);
+printf("fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("PS=[ ");printf("%f ",(PS+(wPS*tp))'/pi-pp);printf("] (rad./pi)\n");
 
 % Plot response
 subplot(311);
-plot(wa*0.5/pi,[A1,Adl,Adu]);
+plot(wa*0.5/pi,[A2,Adl,Adu]);
 axis([0 0.5 0 1]);
 grid("on");
 strP=sprintf(["Bandpass differentiator response : ", ...
@@ -184,13 +226,13 @@ title(strP);
 ylabel("Amplitude");
 zticks([]);
 subplot(312);
-plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
+plot(wp*0.5/pi,mod((unwrap([P2 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+ppr*[-1,1]]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(313);
-plot(wt*0.5/pi,[T1 Tdl Tdu]);
+plot(wt*0.5/pi,[T2 Tdl Tdu]);
 axis([0 0.5 tp+tpr*[-1,1]]);
 grid("on");
 ylabel("Delay(samples)");
@@ -204,13 +246,13 @@ subplot(311);
 rasl=1:nasl;
 raplu=napl:napu;
 rasu=nasu:(n-1);
-ha=plot(wa(rasl)*0.5/pi,A1(rasl)-Ad(rasl), ...
+ha=plot(wa(rasl)*0.5/pi,A2(rasl)-Ad(rasl), ...
         wa(rasl)*0.5/pi,Adl(rasl)-Ad(rasl), ...
         wa(rasl)*0.5/pi,Adu(rasl)-Ad(rasl), ...
-        wa(raplu)*0.5/pi,A1(raplu)-Ad(raplu), ...
+        wa(raplu)*0.5/pi,A2(raplu)-Ad(raplu), ...
         wa(raplu)*0.5/pi,Adl(raplu)-Ad(raplu), ...
         wa(raplu)*0.5/pi,Adu(raplu)-Ad(raplu), ...
-        wa(rasu)*0.5/pi,A1(rasu)-Ad(rasu), ...
+        wa(rasu)*0.5/pi,A2(rasu)-Ad(rasu), ...
         wa(rasu)*0.5/pi,Adl(rasu)-Ad(rasu), ...
         wa(rasu)*0.5/pi,Adu(rasu)-Ad(rasu));
 % Set line style and copy line colour
@@ -222,20 +264,20 @@ for c=1:3
   set(ha(c+3),"color",hac{c});
   set(ha(c+6),"color",hac{c});
 endfor
-axis([0 0.5 Ars*[-1,1]]);
+axis([0 0.5 max(Arp,Ars)*[-1,1]]);
 strP=sprintf("Differentiator PCLS");
 title(strP);
 ylabel("Amplitude error");
 grid("on");
 zticks([]);
 subplot(312);
-plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
+plot(wp*0.5/pi,mod((unwrap([P2 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 zticks([]);
 subplot(313);
-plot(wt*0.5/pi,[T1 Tdl Tdu]);
+plot(wt*0.5/pi,[T2 Tdl Tdu]);
 axis([0 0.5 tp+(tpr*[-1,1])]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -245,7 +287,7 @@ print(strcat(strf,"_error"),"-dpdflatex");
 close
 
 % Plot correction filter dAsqdw response
-ax=plot(wd*0.5/pi,[dAsqdw1c(ndpl:ndpu),Cdl,Cdu,Cd]);
+ax=plot(wd*0.5/pi,[dAsqdw2c(ndpl:ndpu),Cdl,Cdu,Cd]);
 title("Differentiator PCLS correction filter dAsqdw response");
 axis([fdpl fdpu 0.4*[-1,1]])
 ylabel("Amplitude");
@@ -260,14 +302,14 @@ print(strcat(strf,"_correction"),"-dpdflatex");
 close
 
 % Plot differentiator filter dAsqdw response
-ax=plot(wd*0.5/pi,[dAsqdw1(ndpl:ndpu),Ddl,Ddu,Dd]);
+ax=plot(wd*0.5/pi,[dAsqdw2(ndpl:ndpu),Ddl,Ddu,Dd]);
 title("Differentiator PCLS filter dAsqdw response");
-axis([fdpl fdpu 0 0.8])
+axis([fdpl fdpu 0 2])
 ylabel("Amplitude");
 xlabel("Frequency");
 grid("on");
 legend("dAsqdw","Dd","Ddl","Ddu");
-legend("location","southeast")
+legend("location","northwest")
 legend("boxoff")
 legend("left")
 zticks([]);
@@ -284,10 +326,10 @@ print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");
 print_polynomial(c2,"c2",strcat(strf,"_c2_coef.m"));
 
-print_polynomial(N1,"N1");
-print_polynomial(N1,"N1",strcat(strf,"_N1_coef.m"));
-print_polynomial(D1,"D1");
-print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
+print_polynomial(N2,"N2");
+print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
+print_polynomial(D2,"D2");
+print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
@@ -327,7 +369,7 @@ fclose(fid);
 eval(strcat(sprintf("save %s.mat ftol ctol n ",strf), ...
             " fasl fapl fapu fasu Arp Ars Wasl Watl Wap Watu Wasu ", ...
             " fppl fppu pp ppr Wpp ftpl ftpu tp tpr Wtp fdpl fdpu dpr Wdp ", ...
-            " N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N1 D1"));
+            " N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"));
 
 % Done
 toc;

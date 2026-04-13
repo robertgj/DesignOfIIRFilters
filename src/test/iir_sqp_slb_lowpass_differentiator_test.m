@@ -33,11 +33,11 @@ nN=length(N0)-1;
 % Low-pass differentiator filter specification
 fap=0.3;fas=0.4;
 Arp=0.02;Art=0.02;Ars=0.02;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=0.5;ppr=0.0002;Wpp=0.5;
+fpp=fap;pp=0.5;ppr=0.0002;Wpp=1;
 ftp=fap;tp=nN-1;tpr=0.04;Wtp=2;
 
 % Frequency points
-n=1000;
+n=500;
 w=pi*(1:(n-1))'/n;
 nap=ceil(fap*n/0.5);
 nas=floor(fas*n/0.5);

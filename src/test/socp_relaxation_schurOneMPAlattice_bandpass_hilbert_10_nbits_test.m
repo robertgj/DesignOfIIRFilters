@@ -16,8 +16,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=2000
-ftol=1e-4
-ctol=1e-5
+ftol=1e-3
+ctol=ftol/100
 verbose=false;
 
 nbits=10;
@@ -32,9 +32,9 @@ fasl=0.05
 fapl=0.1
 fapu=0.2
 fasu=0.25
-dBap=0.2
+dBap=0.16
 Wap=20
-dBas=36
+dBas=33
 Watl=1e-3
 Watu=1e-3
 Wasl=50000
@@ -42,13 +42,13 @@ Wasu=5000
 ftpl=0.11
 ftpu=0.19
 tp=16
-tpr=0.32
+tpr=0.24
 Wtp=2
 fppl=0.11
 fppu=0.19
 pp=3.5    % Initial phase offset (rad./pi)
-ppr=0.012 % Peak-to-peak phase ripple (rad./pi)
-Wpp=20
+ppr=0.008 % Peak-to-peak phase ripple (rad./pi)
+Wpp=50
 fdpl=fapl % Pass band dAsqdw response lower edge
 fdpu=fapu % Pass band dAsqdw response upper edge
 dp=0      % Pass band dAsqdw response nominal value
@@ -492,13 +492,13 @@ plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
      wp*0.5/pi,((P_k_min+(wp*tp))/pi)-pp,"linestyle","-.");
 xlabel("Frequency");
 ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), ppr*[-1,1]]);
 strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
               "phase (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g"],
              nbits,ndigits,fppl,fppu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
-legend("location","north");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -540,7 +540,7 @@ strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
              nbits,ndigits,fdpl,fdpu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(min)");
-legend("location","south");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");

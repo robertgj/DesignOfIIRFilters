@@ -18,7 +18,7 @@ verbose=false
 
 % Bandpass filter specification
 fapl=0.095,fapu=0.205,dBap=0.1,Wap=1,Wat=0.0001
-fasl=0.05,fasu=0.25,dBas=35,Wasl=1000,Wasu=1000
+fasl=0.05,fasu=0.25,dBas=35,Wasl=100,Wasu=100
 ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/100,Wtp=0.1
 
 % Initial filter (found by tarczynski_bandpass_R2_test.m)

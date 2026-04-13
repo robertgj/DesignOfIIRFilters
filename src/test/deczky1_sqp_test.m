@@ -1,5 +1,5 @@
 % deczky1_sqp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -18,8 +18,8 @@ verbose=false
 
 % Filter specifications
 fap=0.25,ftp=0.25,fas=0.3
-dBap=1,dBas=35,tp=8,tpr=2
-Wap=1,Wat=0.01,Was=0.5,Wtp=0.01
+dBap=0.6,dBas=35,tp=8,tpr=2
+Wap=1,Wat=0.01,Was=1,Wtp=0.01
 
 % Initial filter from tarczynski_deczky1_test.m
 tarczynski_deczky1_test_x0_coef;
@@ -117,7 +117,7 @@ showResponse(d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(ftp,fap),-0.6,0.2,d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
+showResponsePassBands(0,max(ftp,fap),-0.4,0.1,d1,Ux0,Vx0,Mx0,Qx0,Rx0,strt);
 zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close

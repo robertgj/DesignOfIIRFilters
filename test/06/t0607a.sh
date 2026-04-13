@@ -1,10 +1,10 @@
 #!/bin/sh
 
 prog=yalmip_kyp_check_iir_lowpass_test.m
-depends="test/yalmip_kyp_check_iir_lowpass_test.m test_common.m qroots.oct \
+depends="test/yalmip_kyp_check_iir_lowpass_test.m test_common.m KW.m optKW.m \
 tf2Abcd.m Abcd2tf.m tf2schurNSlattice.m tf2schurOneMlattice.m schurOneMscale.m \
 schurOneMAPlattice2Abcd.m schurOneMlatticeDoublyPipelined2Abcd.m tf2pa.m \
-schurdecomp.oct schurexpand.oct schurNSscale.oct \
+schurdecomp.oct schurexpand.oct schurNSscale.oct qroots.oct \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct spectralfactor.oct"
 
 tmp=/tmp/$$
@@ -43,61 +43,25 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 
-Checking filter type direct:tol=1e-10,tolH=1e-07,tolPD=0.0001
+Checking filter type GlobalOpt:tol=1e-10,tolH=1e-07,tolPD=0.0002
 
 
 YALMIP numerical problems!
 
 
-YALMIP numerical problems (upper edge trans. band)!
+Checking filter type schurNS:tol=1e-09,tolH=1e-09,tolPD=1e-07
 
 
-YALMIP numerical problems (lower edge trans. band)!
-
-
-Checking filter type schurNS:tol=1e-11,tolH=1e-09,tolPD=2e-09
-
-
-YALMIP numerical problems!
-
-
-YALMIP numerical problems (upper edge trans. band)!
-
-
-YALMIP numerical problems (lower edge trans. band)!
-
-
-Checking filter type schurOneM:tol=1e-11,tolH=1e-09,tolPD=2e-09
-
-
-YALMIP numerical problems!
-
-
-YALMIP numerical problems (upper edge trans. band)!
-
-
-YALMIP numerical problems (lower edge trans. band)!
+Checking filter type schurOneM:tol=1e-09,tolH=1e-09,tolPD=1e-08
 
 
 Checking filter type schurOneMPA:tol=1e-09,tolH=1e-09,tolPD=1e-07
-
-
-YALMIP numerical problems!
-
-
-YALMIP numerical problems (lower edge trans. band)!
 
 
 Checking filter type schurOneMPADP:tol=1e-09,tolH=1e-09,tolPD=1e-06
 
 
 YALMIP numerical problems!
-
-
-YALMIP numerical problems (upper edge trans. band)!
-
-
-YALMIP numerical problems (lower edge trans. band)!
 
 Test complete!
 EOF

@@ -13,12 +13,13 @@ script_id=tic;
 
 maxiter=10000
 ftol=1e-4
-ctol=1e-6
+ctol=ftol/100
 verbose=false
 
 % Bandpass filter specification (Also ftpl=0.095,ftpu=0.205)
-fapl=0.08,fapu=0.22,dBap=0.08,Wap=1,Wat=0.01
-fasl=0.05,fasu=0.25,dBas=40,Wasl=20000,Wasu=10000
+fasl=0.05,fapl=0.08,fapu=0.22,fasu=0.25
+dBap=0.08,Wap=1,Wat=0.01
+dBas=40,Wasl=10000,Wasu=10000
 ftpl=0.1,ftpu=0.2,tp=16,tpr=tp/500,Wtp=1
 
 % Initial filter (found by tarczynski_bandpass_R1_test.m)

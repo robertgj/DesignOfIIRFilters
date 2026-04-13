@@ -1,5 +1,5 @@
 % schurNSlattice_sqp_slb_bandpass_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -17,9 +17,11 @@ maxiter=5000
 verbose=false
 
 % Bandpass R=2 filter specification
-fapl=0.1,fapu=0.2,dBap=2;Wap=1
-fasl=0.05,fasu=0.25,dBas=30,Wasl=10,Wasu=20
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.4,Wtp=1
+fapl=0.1,fapu=0.2,dBap=2,Wap=1
+fasl=0.05,fasu=0.25,dBas=30,Wasl=100,Wasu=200
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.4,Wtp=0.1
+
+dBap=1
 
 % Initial filter from iir_sqp_slb_bandpass_R2_test.m
 U=2,V=0,M=18,Q=10,R=2
@@ -87,8 +89,9 @@ sxx_symmetric=false;
 
 % Common strings
 strt=sprintf...
-  ("%%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,Wtp=%%g,Was=%%g",
-   fapl,fapu,dBap,fasl,fasu,dBas);
+       (["Schur NS SQP %%s:fapl=%g,fapu=%g,dBap=%g,fasl=%g,fasu=%g,dBas=%g,", ...
+        "Wasl=%g,Wasu=%g,Wtp=%g"],
+        fapl,fapu,dBap,fasl,fasu,dBas,Wasl,Wasu,Wtp);
 
 %
 % SOCP MMSE pass
@@ -106,9 +109,9 @@ if feasible == 0
 endif
 % Plot the MMSE response
 mmse_strf=strcat(strf,"_mmse_sxx_1");
-mmse_strt=sprintf(strt,"Schur normalised-scaled SQP MMSE",Wtp,Wasl);
+mmse_strt=sprintf(strt,"MMSE");
 schurNSlattice_sqp_slb_bandpass_plot ...
-  (s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,fapl,fapu,dBap,ftpl,ftpu,tp,5*tpr, ...
+  (s10_1,s11_1,s20_1,s00_1,s02_1,s22_1,fapl,fapu,dBap,ftpl,ftpu,tp,tpr, ...
    fasl,fasu,dBas,mmse_strf,mmse_strt);
 
 %
@@ -146,9 +149,9 @@ if feasible == 0
 endif
 % Plot the PCLS response
 pcls_strf=strcat(strf,"_pcls_sxx_2");
-pcls_strt=sprintf(strt,"Schur normalised-scaled SQP PCLS",Wtp,Wasl);
+pcls_strt=sprintf(strt,"PCLS");
 schurNSlattice_sqp_slb_bandpass_plot ...
-  (s10_2,s11_2,s20_2,s00_2,s02_2,s22_2,fapl,fapu,dBap/10,ftpl,ftpu,tp,tpr/20, ...
+  (s10_2,s11_2,s20_2,s00_2,s02_2,s22_2,fapl,fapu,0.1,ftpl,ftpu,tp,0.1, ...
    fasl,fasu,dBas,pcls_strf,pcls_strt);
 
 %

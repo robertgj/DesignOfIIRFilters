@@ -11,9 +11,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-maxiter=2000;
-ftol=1e-4;
-ctol=1e-6;
+maxiter=5000;
+ftol=1e-3;
+ctol=ftol/10;
 verbose=false;
 
 nplot=1000;
@@ -56,12 +56,12 @@ fap1l=0.09;fap1u=0.10;
 fas2l=0.13;fas2u=0.16;
 fap2l=0.19;fap2u=0.22;
 fas3l=0.25;
-dBap=1;Wap=1;
-dBas=30;Was=1;
-tp=20;tpr=0.1;Wtp=0.01;
+dBap=3;Wapl=2;Wapu=1;
+dBas=33;Was=1;
+tp=20;tpr=0.2;Wtp=0.01;
 
 dBas1=dBas;dBap1=dBap;dBas2=dBas;dBap2=dBap;dBas3=dBas;
-Was1=Was;Wap1=Wap;Was2=Was;Wap2=Wap;Was3=Was;
+Was1=Was;Wap1=Wapl;Was2=Was;Wap2=Wapu;Was3=Was;
 ftp1l=fap1l;ftp1u=fap1u;
 ftp2l=fap2l;ftp2u=fap2u;
 tp1=tp;tpr1=tpr;tp2=tp;tpr2=tpr;
@@ -190,7 +190,8 @@ k_active=find(k0~=0);
 %
 % SOCP MMSE pass
 %
-[A1kmmse,A2kmmse,socp_iter,func_iter,feasible] = ...
+printf("MMSE pass:\n");
+[A1k_mmse,A2k_mmse,socp_iter,func_iter,feasible] = ...
   schurOneMPAlattice_socp_mmse([],A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                difference,k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
@@ -199,13 +200,19 @@ k_active=find(k0~=0);
 if feasible == 0 
   error("A1k,A2k(mmse) infeasible");
 endif
+[A1epsilon_mmse,A1p_mmse]=schurOneMscale(A1k_mmse);
+[A2epsilon_mmse,A2p_mmse]=schurOneMscale(A2k_mmse);
 
 %
 % Plot MMSE result
 %
-Asq=schurOneMPAlatticeAsq(w,A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+Asq=schurOneMPAlatticeAsq(w, ...
+                          A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                          A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                           difference);
-T=schurOneMPAlatticeT(w,A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+T=schurOneMPAlatticeT(w, ...
+                      A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                      A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                       difference);
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
@@ -226,9 +233,11 @@ close
 %
 % SOCP PCLS pass
 %
+printf("PCLS pass:\n");
 [A1k,A2k,slb_iter,socp_iter,func_iter,feasible] = ...
 schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
-                       A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+                       A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                       A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                        difference,k_u,k_l,k_active,dmax, ...
                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
@@ -267,7 +276,7 @@ close
 % Passband
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
-axis([0 0.5 -1.5 0.5])
+axis([0 0.5 -3 0.5])
 ylabel("Amplitude(dB)");
 grid("on");
 zticks([]);
@@ -344,10 +353,10 @@ print_polynomial(A2k0,"A2k0",strcat(strf,"_A2k0_coef.m"));
 print_polynomial(A2epsilon0,"A2epsilon0","%2d");
 print_polynomial(A2epsilon0,"A2epsilon0", ...
                  strcat(strf,"_A2epsilon0_coef.m"),"%2d");
-print_polynomial(A1kmmse,"A1kmmse");
-print_polynomial(A1kmmse,"A1kmmse",strcat(strf,"_A1kmmse_coef.m"));
-print_polynomial(A2kmmse,"A2kmmse");
-print_polynomial(A2kmmse,"A2kmmse",strcat(strf,"_A2kmmse_coef.m"));
+print_polynomial(A1k_mmse,"A1k_mmse");
+print_polynomial(A1k_mmse,"A1k_mmse",strcat(strf,"_A1k_mmse_coef.m"));
+print_polynomial(A2k_mmse,"A2k_mmse");
+print_polynomial(A2k_mmse,"A2k_mmse",strcat(strf,"_A2k_mmse_coef.m"));
 print_polynomial(A1k,"A1k");
 print_polynomial(A1k,"A1k",strcat(strf,"_A1k_coef.m"));
 print_polynomial(A2k,"A2k");
@@ -376,7 +385,7 @@ eval(sprintf(["save %s.mat ", ...
  "fas1u fap1l fap1u fas2l fas2u fap2l fap2u fas3l ", ...
  "dBas1 dBap1 dBas2 dBap2 dBas3 Was1 Wap1 Was2 Wap2 Was3 ", ...
  "ftp1l ftp1u ftp2l ftp2u tp1 tpr1 tp2 tpr2 Wtp1 Wtp2 ", ...
- "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 A1kmmse A2kmmse ", ...
+ "A1k0 A1epsilon0 A1p0 A2k0 A2epsilon0 A2p0 A1k_mmse A2k_mmse ", ...
  "A1k A1epsilon A1p A2k A2epsilon A2p A1d A2d N2 D2"],strf));
 
 % Done

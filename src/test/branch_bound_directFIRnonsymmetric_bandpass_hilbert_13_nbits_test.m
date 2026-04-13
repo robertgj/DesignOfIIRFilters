@@ -25,8 +25,8 @@ N=length(h)-1; % Filter order
 
 fasl=0.05;fapl=0.1;fapu=0.2;fasu=0.25;
 Wasl=1;Watl=0.01;Wap=1;Watu=0.01;Wasu=2;
-pp=3.5;fppl=fapl;fppu=fapu;Wpp=2;
-tp=16;ftpl=fapl;ftpu=fapu;Wtp=1;
+pp=3.5;fppl=fapl;fppu=fapu;Wpp=5
+tp=16;ftpl=fapl;ftpu=fapu;Wtp=5;
 
 n=500;
 
@@ -335,7 +335,7 @@ grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$");
 legend("Exact","s-d","s-d(Ito)","s-d(B-and-B)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 title(strt);
@@ -351,7 +351,7 @@ hls={"-",":","--","-."};
 for c=1:4,
   set(ha(c),"linestyle",hls{c});
 endfor
-axis([ftpl ftpu tp+0.02*[-1,1]]);
+axis([ftpl ftpu tp+0.04*[-1,1]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Delay(samples)");

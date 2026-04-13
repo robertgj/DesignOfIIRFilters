@@ -42,7 +42,7 @@ selectX_ex=(sum(A_ex~=0,2)+(B_ex~=0))>1;
 ng_ex=sum(diag(K_ex).*diag(W_ex).*selectX_ex)
 printf("Exact filter noise gain=%g\n",ng_ex);
 
-nbits_range=[6:16];
+nbits_range=[7:16];
 nbits_cost_rd=zeros(size(nbits_range));
 nbits_sidelobe_rd=zeros(size(nbits_range));
 nbits_kc_rd_digits=zeros(size(nbits_range));

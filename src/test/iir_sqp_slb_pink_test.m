@@ -12,8 +12,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=10000
-ftol=2e-5
-ctol=ftol
+ftol=1e-3
+ctol=ftol/50
 verbose=false
 
 % Initial pink noise filter from tarczynski_pink_test.m
@@ -158,6 +158,7 @@ close
 
 % PCLS pass
 printf("\nPCLS pass:\n");
+feasible = false;
 [d1,E,slb_iter,sqp_iter,func_iter,feasible] = ...
   iir_slb(@iir_sqp_mmse,x1,xu,xl,dmax,U,V,M,Q,R, ...
           wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
@@ -166,6 +167,7 @@ printf("\nPCLS pass:\n");
 if feasible == 0 
   error("d1 (pcls) infeasible");
 endif
+
 [N1,D1]=x2tf(d1,U,V,M,Q,R);
 
 % Plot results

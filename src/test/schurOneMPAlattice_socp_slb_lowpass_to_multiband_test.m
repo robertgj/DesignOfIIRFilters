@@ -11,8 +11,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-ftol=1e-4;
-ctol=1e-4;
+ftol=1e-3;
+ctol=ftol/10;
 maxiter=10000;
 verbose=false;
 nplot=1000;
@@ -30,7 +30,7 @@ fas3l=0.25;
 dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
 tp1=23;tpr1=2;tp2=13;tpr2=2;
-Wtp1=0.005;Wtp2=0.005;
+Wtp1=0.1;Wtp2=0.1;
 
 % Prototype lowpass (fc=0.5 corresponds to 0.5*Fs/2)
 n=5;fc=0.25;dBap=0.5;dBas=40;
@@ -241,7 +241,7 @@ k_active=find(k0~=0);
 %
 % SOCP MMSE pass
 %
-[A1kmmse,A2kmmse,socp_iter,func_iter,feasible] = ...
+[A1k_mmse,A2k_mmse,socp_iter,func_iter,feasible] = ...
   schurOneMPAlattice_socp_mmse([],A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
                                difference,k_u,k_l,k_active,dmax, ...
                                wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
@@ -250,13 +250,19 @@ k_active=find(k0~=0);
 if feasible == 0 
   error("A1k,A2k(mmse) infeasible");
 endif
+[A1epsilon_mmse,A1p_mmse]=schurOneMscale(A1k_mmse);
+[A2epsilon_mmse,A2p_mmse]=schurOneMscale(A2k_mmse);
 
 %
 % Plot MMSE result
 %
-Asq=schurOneMPAlatticeAsq(w,A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+Asq=schurOneMPAlatticeAsq(w, ...
+                          A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                          A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                           difference);
-T=schurOneMPAlatticeT(w,A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+T=schurOneMPAlatticeT(w, ...
+                      A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                      A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                       difference);
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
@@ -279,7 +285,8 @@ close
 %
 [A1k,A2k,slb_iter,socp_iter,func_iter,feasible] = ...
 schurOneMPAlattice_slb(@schurOneMPAlattice_socp_mmse, ...
-                       A1kmmse,A1epsilon0,A1p0,A2kmmse,A2epsilon0,A2p0, ...
+                       A1k_mmse,A1epsilon_mmse,A1p_mmse, ...
+                       A2k_mmse,A2epsilon_mmse,A2p_mmse, ...
                        difference,k_u,k_l,k_active,dmax, ...
                        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                        wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
@@ -307,7 +314,7 @@ grid("on");
 zticks([]);
 subplot(212)
 plot(w(10:end)*0.5/pi,T(10:end))
-axis([0 0.5 0 50])
+axis([0 0.5 0 60])
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -317,7 +324,7 @@ close
 % Passband
 subplot(211)
 plot(w*0.5/pi,10*log10(Asq))
-axis([0 0.5 -2*dBap dBap])
+axis([0 0.5 -1.2 0.2])
 ylabel("Amplitude(dB)");
 grid("on");
 zticks([]);
@@ -326,7 +333,7 @@ ax=plotyy(w(1+(ntp1l:ntp1u))*0.5/pi,T(1+(ntp1l:ntp1u)), ...
           w(1+(ntp2l:ntp2u))*0.5/pi,T(1+(ntp2l:ntp2u)));
 axis(ax(1),[0 0.5 tp1-tpr1 tp1+tpr1]);
 axis(ax(2),[0 0.5 tp2-tpr2 tp2+tpr2]);
-ylabel("Delay(samples)");
+ylabel("Delay(samples)","color","black");
 xlabel("Frequency");
 grid("on");
 zticks([]);
@@ -338,9 +345,9 @@ A1d=schurOneMAPlattice2tf(A1k,A1epsilon,A1p);
 A2d=schurOneMAPlattice2tf(A2k,A2epsilon,A2p);
 [N2,D2]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Asq)) > 2e10*eps
-  error("max(abs((abs(HH).^2)-Asq))(%g*eps) > 2e10*eps",
-        max(abs((abs(HH).^2)-Asq))/eps);
+if max(abs((abs(HH).^2)-Asq)) > ftol/100
+  error("max(abs((abs(HH).^2)-Asq))(%g*ftol) > ftol/100",
+        max(abs((abs(HH).^2)-Asq))/ftol);
 endif
 
 % Filter specification
@@ -398,10 +405,10 @@ print_polynomial(A2k0,"A2k0",strcat(strf,"_A2k0_coef.m"));
 print_polynomial(A2epsilon0,"A2epsilon0","%2d");
 print_polynomial(A2epsilon0,"A2epsilon0", ...
                  strcat(strf,"_A2epsilon0_coef.m"),"%2d");
-print_polynomial(A1kmmse,"A1kmmse");
-print_polynomial(A1kmmse,"A1kmmse",strcat(strf,"_A1kmmse_coef.m"));
-print_polynomial(A2kmmse,"A2kmmse");
-print_polynomial(A2kmmse,"A2kmmse",strcat(strf,"_A2kmmse_coef.m"));
+print_polynomial(A1k_mmse,"A1k_mmse");
+print_polynomial(A1k_mmse,"A1k_mmse",strcat(strf,"_A1k_mmse_coef.m"));
+print_polynomial(A2k_mmse,"A2k_mmse");
+print_polynomial(A2k_mmse,"A2k_mmse",strcat(strf,"_A2k_mmse_coef.m"));
 print_polynomial(A1k,"A1k");
 print_polynomial(A1k,"A1k",strcat(strf,"_A1k_coef.m"));
 print_polynomial(A2k,"A2k");

@@ -4,7 +4,7 @@
 % with 16-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -61,11 +61,11 @@ Was=1 % Stop band amplitude weight
 ftp=fap % Delay pass band edge
 tp=(Mmodel*Dmodel)+dmask;
 tpr=0.8 % Peak-to-peak pass band delay ripple
-Wtp=0.1 % Pass band delay weight
+Wtp=0.5 % Pass band delay weight
 fpp=fap % Phase pass band edge
 pp=0 % Pass band zero-phase phase
 ppr=0.02 % Peak-to-peak pass band phase ripple (rad./pi)
-Wpp=0.1 % Pass band phase weight
+Wpp=0.5 % Pass band phase weight
 rho=127/128 % Stability constraint on pole radius
 
 %

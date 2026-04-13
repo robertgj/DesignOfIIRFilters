@@ -1,5 +1,5 @@
 % iir_sqp_slb_fir_17_bandpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 % Design a minimum-phase FIR filter with order 17.
 
 test_common;
@@ -10,7 +10,7 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-maxiter=2500
+maxiter=5000
 ftol=1e-3
 ctol=ftol
 verbose=false
@@ -18,7 +18,7 @@ verbose=false
 % Bandpass filter specification
 % (frequencies are normalised to sample rate)
 fapl=0.1,fapu=0.2,dBap=3,Wap=1
-fasl=0.05,fasu=0.25,dBas=24,Wasl=10,Wasu=5
+fasl=0.05,fasu=0.25,dBas=23,Wasl=5,Wasu=5
 
 % Initialise strings
 strM=sprintf( ...

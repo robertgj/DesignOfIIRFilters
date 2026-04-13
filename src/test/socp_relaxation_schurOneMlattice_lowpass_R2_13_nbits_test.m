@@ -3,7 +3,7 @@
 % Use SOCP relaxation to find the 13 bit 4 signed-digit coefficients of a
 % low-pass filter implemented as a tapped Schur one-multiplier all-pass lattice  % filter having denominator polynomial coefficients only in z^-2.
 %
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -18,15 +18,15 @@ tic;
 verbose=false
 maxiter=5000
 ftol=1e-4
-ctol=5e-7
+ctol=ftol/1000
 nbits=13
 nscale=2^(nbits-1);
 ndigits=4
 
 % Options
 socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Lim=false
-socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Ito=true
-socp_relaxation_schurOneMlattice_lowpass_R2_recalc_c=true
+socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Ito=false
+socp_relaxation_schurOneMlattice_lowpass_R2_recalc_c=false
 
 %
 % Initial filter
@@ -43,12 +43,11 @@ p_ones=ones(size(k0));
 % Lowpass R=2 filter specification
 %
 % Low-pass filter specification (denominator polynomial in z^-2 only)
-R=2;fap=0.15;dBap=0.1;Wap=1;fas=0.18;dBas=55;Was=5e6;
+R=2;fap=0.15;dBap=0.1;Wap=1;fas=0.18;dBas=51;Was=1e3;
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice filter
 %
-
 n=1000;
 w=(0:(n-1))'*pi/n;
 wa=w;
@@ -106,6 +105,8 @@ print_polynomial(c0_sd_no_alloc,"c0_sd_no_alloc", ...
 % Find the number of signed-digits and adders used by kc0_sd_no_alloc
 [kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders] = ...
   SDadders(kc0_sd_no_alloc(find(kc0_sd_no_alloc~=0)),nbits);
+print_polynomial(kc0_sd_no_alloc_digits,"kc0_no_alloc_sd_digits","%1d");
+print_polynomial(kc0_sd_no_alloc_adders,"kc0_no_alloc_sd_adders","%1d");
 
 % Find kc0_sd_no_alloc error
 Esq0_sd_no_alloc= ...
@@ -304,9 +305,12 @@ printf("%d %d-bit adders used for coefficient multiplications\n",
 %
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
 fprintf(fid,"Exact & %10.4e & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %d & %d \\\\\n", ...
-        nbits,ndigits, ...
-        Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
+if socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Lim ...
+   || socp_relaxation_schurOneMlattice_lowpass_R2_allocsd_Ito
+  fprintf(fid,"%d-bit %d-signed-digit & %10.4e & %d & %d \\\\\n", ...
+          nbits,ndigits, ...
+          Esq0_sd_no_alloc,kc0_sd_no_alloc_digits,kc0_sd_no_alloc_adders);
+endif
 fprintf(fid,"%d-bit %d-signed-digit(%s)& %10.4e & %d & %d \\\\\n",
         nbits,ndigits,strItoLim,Esq0_sd,kc0_sd_digits,kc0_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %10.4e & %d & %d \\\\\n",
@@ -371,21 +375,19 @@ endif
 rap=1:nap;
 ras=nas:(n-1);
 [ax,ha,hs]= plotyy(wa(rap)*0.5/pi, ...
-                   10*log10([Asq_kc0(rap),Asq_kc0_sd_no_alloc(rap), ...
-                             Asq_kc0_sd(rap),Asq_kc_min(rap)]), ...
+                   10*log10([Asq_kc0(rap),Asq_kc0_sd(rap),Asq_kc_min(rap)]), ...
                    wa(ras)*0.5/pi, ...
-                   10*log10([Asq_kc0(ras),Asq_kc0_sd_no_alloc(ras), ...
-                             Asq_kc0_sd(ras),Asq_kc_min(ras)]));
+                   10*log10([Asq_kc0(ras),Asq_kc0_sd(ras),Asq_kc_min(ras)]));
 % Copy line colour
 hac=get(ha,"color");
-hls={"-",":","--","-."};
-for c=1:4
+hls={"-",":","--"};
+for c=1:3
   set(hs(c),"color",hac{c});
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c});
 endfor
-axis(ax(1),[0  0.5 -0.15 0.05]);
-axis(ax(2),[0  0.5 -70 -50]);
+axis(ax(1),[0  0.5 -0.08 0.02]);
+axis(ax(2),[0  0.5 -75 -50]);
 strt=sprintf(["Low-pass R=2 filter : ", ...
              "nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g,ctol=%g"], ...
              nbits,fap,dBap,fas,dBas,ctol);
@@ -393,8 +395,8 @@ title(strt);
 grid("on");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-legend("initial","s-d",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
-legend("location","southwest");
+legend("initial",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
+legend("location","southeast");
 legend("boxoff");
 legend("right");
 zticks([]);

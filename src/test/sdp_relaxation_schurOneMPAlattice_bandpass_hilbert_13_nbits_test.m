@@ -1,5 +1,5 @@
 % sdp_relaxation_schurOneMPAlattice_bandpass_hilbert_13_nbits_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice bandpass filter with 13-bit signed-digit coefficients having
@@ -40,18 +40,18 @@ Wap=20
 dBas=36
 Watl=1e-3
 Watu=1e-3
-Wasl=50000
-Wasu=5000
+Wasl=100
+Wasu=100
 ftpl=0.11
 ftpu=0.19
 tp=16
 tpr=0.16
-Wtp=2
+Wtp=10
 fppl=0.11
 fppu=0.19
 pp=3.5    % Initial phase offset (rad./pi)
 ppr=0.004 % Peak-to-peak phase ripple (rad./pi)
-Wpp=20
+Wpp=200
 fdpl=fapl % Pass band dAsqdw response lower edge
 fdpu=fapu % Pass band dAsqdw response upper edge
 dp=0      % Pass band dAsqdw response nominal value
@@ -466,7 +466,7 @@ strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter stop-band ", ...
  "(nbits=%d,ndigits=%d) : fasl=%g,fasu=%g"],nbits,ndigits,fasl,fasu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -509,7 +509,7 @@ strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
              nbits,ndigits,ftpl,ftpu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","southeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -518,20 +518,20 @@ print(strcat(strf,"_delay"),"-dpdflatex");
 close
 
 % Plot phase response
-plot(wp*0.5/pi,((P_k0+(wp*tp))/pi)-pp,"linestyle","-", ...
-     wp*0.5/pi,((P_k0_sd+(wp*tp))/pi)-pp,"linestyle",":", ...
-     wp*0.5/pi,((P_k0_Ito+(wp*tp))/pi)-pp,"linestyle","--", ...
-     wp*0.5/pi,((P_k0_sdp+(wp*tp))/pi)-pp,"linestyle","-", ...
-     wp*0.5/pi,((P_k_min+(wp*tp))/pi)-pp,"linestyle","-.");
+plot(wp*0.5/pi,mod((P_k0+(wp*tp))/pi,2),"linestyle","-", ...
+     wp*0.5/pi,mod((P_k0_sd+(wp*tp))/pi,2),"linestyle",":", ...
+     wp*0.5/pi,mod((P_k0_Ito+(wp*tp))/pi,2),"linestyle","--", ...
+     wp*0.5/pi,mod((P_k0_sdp+(wp*tp))/pi,2),"linestyle","-", ...
+     wp*0.5/pi,mod((P_k_min+(wp*tp))/pi,2),"linestyle","-.");
 xlabel("Frequency");
-ylabel("Phase error(rad./$\\pi$)");
-axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), (ppr/2)*[-1,1]]);
+ylabel("Phase (rad./$\\pi$)");
+axis([min([fapl ftpl fppl]), max([fapu ftpu ftpu]), mod(pp,2)+(ppr*[-1,1])]);
 strt=sprintf(["Parallel allpass lattice bandpass Hilbert filter pass-band ", ...
               "phase (nbits=%d,ndigits=%d) : fppl=%g,fppu=%g"], ...
              nbits,ndigits,fppl,fppu);
 title(strt);
 legend("initial","s-d","s-d(Ito)","s-d(SDP)","s-d(min)");
-legend("location","southwest");
+legend("location","northwest");
 legend("boxoff");
 legend("left");
 grid("on");

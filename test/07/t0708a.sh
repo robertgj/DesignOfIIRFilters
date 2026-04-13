@@ -61,36 +61,36 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.k.ok << 'EOF'
-k_min = [   -11150,    10740,    -8758,     5776, ... 
-             -2788,      762,        0,        0, ... 
+k_min = [   -11088,    10632,    -8586,     5568, ... 
+             -2656,      716,        0,        0, ... 
                  0 ]'/16384;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k.ok"; fail; fi
 
 cat > test.c.ok << 'EOF'
-c_min = [     6917,    15098,     1392,    -2105, ... 
-              -767,      244,      336,       32, ... 
-              -128,      -66 ]'/16384;
+c_min = [     6912,    14640,     1304,    -2048, ... 
+              -728,      256,      320,       32, ... 
+              -120,      -64 ]'/16384;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.c.ok"; fail; fi
 
 cat > test.kk.ok << 'EOF'
-kk_min = [    -7310,    -5744,    -3085,     -980, ... 
-               -129,        0,        0,        0 ]'/16384;
+kk_min = [    -7198,    -5573,    -2920,     -900, ... 
+               -115,        0,        0,        0 ]'/16384;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.kk.ok"; fail; fi
 
 cat > test.ck.ok << 'EOF'
-ck_min = [     9900,        0,     -736,        0, ... 
-                  0,        0,        0,        0 ]'/16384;
+ck_min = [     9504,        0,     -704,        0, ... 
+                 16,        0,        0,        0 ]'/16384;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ck.ok"; fail; fi
 
 cat > test.cost.ok << 'EOF'
-Exact & 2.5484e-04 & & \\
-15-bit 4-signed-digit & 2.6228e-04 & 84 & 60 \\
-15-bit 4-signed-digit(Lim)& 1.6223e-04 & 90 & 67 \\
-15-bit 4-signed-digit(SOCP-relax) & 1.9840e-04 & 91 & 68 \\
+Exact & 5.4215e-04 & & \\
+15-bit 4-signed-digit & 1.8244e-04 & 83 & 59 \\
+15-bit 4-signed-digit(Ito)& 1.3377e-04 & 85 & 61 \\
+15-bit 4-signed-digit(SOCP-relax) & 1.7833e-04 & 83 & 59 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

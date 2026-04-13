@@ -16,7 +16,7 @@ ctol=1e-3;
 maxiter=1000;
 verbose=false;
 nplot=1000;
-npoints=700;
+npoints=400;
 
 % Desired frequency response specification
 fas1u=0.05;
@@ -29,7 +29,7 @@ fas3l=0.25;
 dBas1=20;dBap1=1;dBas2=dBas1;dBap2=dBap1;dBas3=dBas1;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
 tp1=20;tpr1=2;tp2=15;tpr2=2;
-Wtp1=0.001;Wtp2=0.001;
+Wtp1=0.1;Wtp2=0.1;
 
 % Initial elliptic filter with lowpass to double bandpass transformation
 n=5;fc=0.25;dBap=0.5;dBas=20;

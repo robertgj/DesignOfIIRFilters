@@ -1,5 +1,5 @@
 % iir_sqp_slb_bandpass_R2_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -13,12 +13,12 @@ tic;
 
 maxiter=20000
 ftol=1e-3
-ctol=1e-4
+ctol=2e-4
 verbose=false
 
 % Bandpass filter specification (frequencies are normalised to sample rate)
-fapl=0.1,fapu=0.2,dBap=0.7,Wap=1
-fasl=0.05,fasu=0.25,dBas=34,Wasl=2,Wasu=2
+fapl=0.1,fapu=0.2,dBap=0.8,Wap=1
+fasl=0.05,fasu=0.25,dBas=33,Wasl=2,Wasu=2
 ftpl=0.1,ftpu=0.2,tp=16,tpr=0.08,Wtp=0.5
     
 % Strings

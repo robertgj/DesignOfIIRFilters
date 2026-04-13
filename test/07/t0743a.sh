@@ -66,15 +66,15 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min.ok"; fail; fi
 
 cat > test_A2k_min.ok << 'EOF'
-A2k_min = [     -506,      489,      -54,     -182, ... 
+A2k_min = [     -507,      489,      -54,     -182, ... 
                  160,      -70,       14,        1 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
 Floating point & 0.000688 & & \\
-12-bit 3-signed-digit(Lim)& 0.001081 & 45 & 29 \\
-12-bit 3-signed-digit(B-and-B) & 0.000960 & 46 & 30 \\
+12-bit 3-signed-digit(Lim)& 0.001069 & 45 & 29 \\
+12-bit 3-signed-digit(B-and-B) & 0.000961 & 46 & 30 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 

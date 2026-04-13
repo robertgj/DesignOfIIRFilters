@@ -12,7 +12,7 @@ schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelinedP.m \
 schurOneMlatticePipelineddAsqdw.m \
 tf2schurOneMlattice.m tf2schurOneMlatticePipelined.m schurOneMscale.m \
-H2Asq.m H2P.m H2T.m H2dAsqdw.m tf2Abcd.m print_polynomial.m \
+H2Asq.m H2P.m H2T.m H2dAsqdw.m tf2Abcd.m print_polynomial.m delayz.m \
 Abcd2H.oct Abcd2tf.oct schurOneMlattice2Abcd.oct schurdecomp.oct \
 schurexpand.oct"
 
@@ -50,30 +50,26 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_k1_coef.m << 'EOF'
-k1 = [  -0.8999837938,   0.8195585679,  -0.9716946445,   0.8482263571, ... 
-        -0.9118265820,   0.8457912075,  -0.6180400601,   0.4036905590, ... 
-        -0.0707006590,   0.0522330374 ]';
+k1 = [  -0.9073833932,   0.9058282212,  -0.8984820471,   0.8496113825, ... 
+        -0.6556082085,   0.3126325918,  -0.0197329247 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1_coef.m"; fail; fi
 
 cat > test_c1_coef.m << 'EOF'
-c1 = [  -0.2234903012,   0.2370491735,   1.8226674573,   0.2230127962, ... 
-         0.4541478181,   0.0548929922,  -0.0081407816,  -0.0492729014, ... 
-        -0.0722788942,  -0.0556796552,  -0.0297505864 ]';
+c1 = [   0.4733218433,   0.2810219838,   1.0075291178,   0.1037638146, ... 
+         0.0696348210,  -0.0334325076,  -0.0395727063,  -0.0326796331 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_c1_coef.m"; fail; fi
 
 cat > test_kk1_coef.m << 'EOF'
-kk1 = [  -0.9888854742,  -0.8971909861,  -0.9212305326,  -0.6813558123, ... 
-         -0.7316167458,  -0.5232645374,  -0.3193228679,  -0.0195288051, ... 
-          0.0305311926 ]';
+kk1 = [  -0.8765003127,  -0.8095119761,  -0.7535056287,  -0.5332391881, ... 
+         -0.2184706150,  -0.0045560288 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_kk1_coef.m"; fail; fi
 
 cat > test_ck1_coef.m << 'EOF'
-ck1 = [   0.1921691026,   0.0000000000,   0.1183579327,   0.0000000000, ... 
-          0.1783637346,   0.0000000000,   0.0087781547,   0.0000000000, ... 
-         -0.0037589588 ]';
+ck1 = [   0.2431112245,   0.0000000000,   0.1309104015,   0.0000000000, ... 
+         -0.0063383279,   0.0000000000 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_ck1_coef.m"; fail; fi
 

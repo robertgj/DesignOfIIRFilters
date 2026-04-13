@@ -63,12 +63,12 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test.cost.ok << 'EOF'
-Exact &3.55e-05&4.50e-04&3.50e-03&9.78e-05&3.00e-03&&\\
-Signed-Digit &7.05e-05&1.61e-03&3.83e-03&5.54e-04&1.18e-02&38&22\\
-Signed-Digit(Lim) &6.94e-05&9.72e-04&3.81e-03&6.06e-04&1.25e-02&39&23\\
-Branch-and-bound &4.44e-05&7.74e-04&3.70e-03&2.24e-04&4.93e-03&39&23\\
+Exact &3.55e-05&4.50e-04&3.51e-03&9.78e-05&3.00e-03&&\\
+Signed-Digit &5.14e-05&1.56e-03&3.95e-03&2.75e-04&6.08e-03&38&22\\
+Signed-Digit(Lim) &5.32e-05&1.18e-03&4.00e-03&3.86e-04&6.66e-03&39&23\\
+Branch-and-bound &4.69e-05&1.80e-03&5.10e-03&2.03e-04&6.56e-03&40&24\\
 SOCP-relaxation &4.52e-05&1.26e-03&4.26e-03&1.48e-04&4.18e-03&37&21\\
-POP-relaxation &6.72e-05&1.15e-03&4.44e-03&4.28e-04&8.02e-03&38&22\\
+POP-relaxation &5.93e-05&1.11e-03&4.68e-03&3.59e-04&6.12e-03&39&23\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
 

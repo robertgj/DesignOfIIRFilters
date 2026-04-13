@@ -31,7 +31,8 @@ difference=true
 dmax=inf;
 rho=0.999
 fasl=0.05
-fapl=0.1
+fapl=0.1 % fapl=0.09
+
 fapu=0.2
 fasu=0.25
 dBap=0.08
@@ -39,8 +40,8 @@ dBas=37
 Wap=1
 Watl=1e-3
 Watu=1e-3
-Wasl=400
-Wasu=400
+Wasl=500
+Wasu=500
 ftpl=0.11
 ftpu=0.19
 tp=16
@@ -51,6 +52,9 @@ fppu=0.19
 pp=3.5 % Initial phase offset in multiples of pi radians
 ppr=0.002 % Peak-to-peak phase ripple in multiples of pi radians
 Wpp=100
+
+%fapl=0.09
+
 
 %
 % Frequency vectors
@@ -173,7 +177,7 @@ T=schurNSPAlatticeT(wt,A1s20,A1s00,A1s02,A1s22,A2s20,A2s00,A2s02,A2s22, ...
 % Plot response
 subplot(311);
 ax=plotyy(wa*0.5/pi,10*log10(Asq),wa*0.5/pi,10*log10(Asq));
-axis(ax(1),[0 0.5 -0.1 0.1]);
+axis(ax(1),[0 0.5 -0.15 0.05]);
 axis(ax(2),[0 0.5 -60 -20]);
 ylabel("Amplitude(dB)");
 grid("on");

@@ -1,5 +1,5 @@
 % yalmip_kyp_check_iir_lowpass_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 test_common;
 
@@ -14,6 +14,7 @@ fhandle=fopen(strcat(strf,".results"),"w");
 %
 % Elliptic low-pass filter
 %
+sedumi_eps=2e-6;
 N=11;fap=0.15;dBap=0.02;fatl=0.1707;fas=0.1708;dBas=84;
 [n,d]=ellip(N,dBap,dBas,fap*2);
 
@@ -42,26 +43,35 @@ Pi_tu=diag([ 1, -Asq_pl]); % |H(transition_band)|^2 < Asq_pl
 Pi_tl=diag([-1,  Asq_s]);  % |H(transition_band)|^2 > Asq_s
 Pi_s =diag([ 1, -Asq_s]);  % |H(stop_band)|^2 < Asq_s
 
-filter_type={["direct"],["schurNS"],["schurOneM"],["schurOneMPA"], ...
+filter_type={["GlobalOpt"],["schurNS"],["schurOneM"],["schurOneMPA"], ...
              ["schurOneMPADP"]};
 for impl=1:length(filter_type),
-  if strcmp(char(filter_type(impl)),"direct")
+  if strcmp(char(filter_type(impl)),"GlobalOpt")
     [A,B,C,D]=tf2Abcd(n,d);
+    [K,W]=KW(A,B,C,D);
+    delta=1;
+    Topt=optKW(K,W,delta);
+    A=inv(Topt)*A*Topt;
+    B=inv(Topt)*B;
+    C=C*Topt;
+    sedumi_eps=1e-4;
     tol=1e-10;
     tolH=1e3*tol;
-    tolPD=1e6*tol;
+    tolPD=2e6*tol;
   elseif strcmp(char(filter_type(impl)),"schurNS")
     [s10,s11,s20,s00,s02,s22] = tf2schurNSlattice(n,d);
-    [A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22);
-    tol=1e-11;
-    tolH=1e2*tol;
-    tolPD=2e2*tol;
+    [A,B,C,D]=schurNSlattice2Abcd(s10,s11,s20,s00,s02,s22); 
+    sedumi_eps=1e-5;
+    tol=1e-9;
+    tolH=tol;
+    tolPD=1e2*tol;
   elseif strcmp(char(filter_type(impl)),"schurOneM")
     [k,epsilon,p,c,S] = tf2schurOneMlattice(n,d);
     [A,B,C,D]=schurOneMlattice2Abcd(k,epsilon,p,c);
-    tol=1e-11;
-    tolH=1e2*tol;
-    tolPD=2e2*tol;
+    sedumi_eps=1e-6;
+    tol=1e-9;
+    tolH=tol;
+    tolPD=10*tol;
   elseif strcmp(char(filter_type(impl)),"schurOneMPA")
     [da,db]=tf2pa(n,d);
     [ka,epsilona,pa,ca]=tf2schurOneMlattice(flipud(da(:)),da(:));
@@ -74,6 +84,7 @@ for impl=1:length(filter_type),
     B=[Ba;Bb];
     C=0.5*[Ca,Cb];
     D=0.5*(Da+Db);
+    sedumi_eps=1e-5;
     tol=1e-9;
     tolH=tol;
     tolPD=1e2*tol;
@@ -89,6 +100,7 @@ for impl=1:length(filter_type),
     B=[Ba;Bb];
     C=0.5*[Ca,Cb];
     D=0.5*(Da+Db);
+    sedumi_eps=1e-6;
     tol=1e-9;
     tolH=tol;
     tolPD=1e3*tol;
@@ -165,7 +177,7 @@ for impl=1:length(filter_type),
 
   % YALMIP settings
   Objective=[];
-  Options=sdpsettings("solver","sedumi");
+  Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
 
   % Solve for pass-band and stop-band constraints
   Constraints=[F_pu<=0,Q_pu>=0,F_pl<=0,Q_pl>=0,F_s<=0,Q_s>=0];
@@ -184,7 +196,7 @@ for impl=1:length(filter_type),
   % "The coefficient matrix is not full row rank, numerical problems may occur."
   
   % Upper edge of transition band
-  Constraints=[F_tu<=0,Q_tu>=0];
+  Constraints=[F_tu<=tolPD,Q_tu>=-tolPD];
   sol=optimize(Constraints,Objective,Options);
   if (sol.problem==0)
   elseif (sol.problem==4)
@@ -195,7 +207,7 @@ for impl=1:length(filter_type),
   endif
   
   % Lower edge of transition band
-  Constraints=[F_tl<=0,Q_tl>=0];
+  Constraints=[F_tl<=tolPD,Q_tl>=-tolPD];
   sol=optimize(Constraints,Objective,Options);
   if (sol.problem==0)
   elseif (sol.problem==4)
@@ -228,7 +240,7 @@ for impl=1:length(filter_type),
       endif
       reM=real(eM);
       if min(reM) < (-tol)
-        error("%s not positive definite (tol=-%g) !?!",str,tol);
+        error("%s not pos. definite(min(reM)=%g,tol=-%g) !",str,min(reM),tol);
       endif
     endif
   endfunction

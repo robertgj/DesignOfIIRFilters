@@ -24,7 +24,7 @@ maxiter=20000
 % Filter specifications (dBap=0.05,dBas=58 fails under QEMU)
 U=0,V=0,M=12,Q=6,R=2
 fap=0.1,dBap=0.06,Wap=1,Wat=0
-fas=0.15,dBas=53,Was=1
+fas=0.15,dBas=56,Was=5
 
 % Initial filter guess
 xi=[0.001, [1,1,1,1,1,1], (7:12)*pi/12, 0.8*[1,1,1], (1:3)*pi/4]';
@@ -75,7 +75,7 @@ A0=iirA(wa,x0,U,V,M,Q,R);
 plot(wa*0.5/pi,20*log10(abs(A0)));
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
-axis([0 0.5 -120 10]);
+axis([0 0.5 -100 10]);
 grid("on");
 strI=sprintf(["Initial low-pass IIR filter : ", ...
               "U=%d,V=%d,M=%d,Q=%d,R=%d,fap=%g,fas=%g"],U,V,M,Q,R,fap,fas);

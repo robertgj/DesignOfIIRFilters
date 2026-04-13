@@ -10,12 +10,13 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 maxiter=2000
-ftol=1e-6
-ctol=ftol
+ftol=1e-3
+ctol=ftol/1000
+H_tol=1e-9
 verbose=false
 
 % Low pass filter specification
-N=10 % Filter order
+N=7 % Filter order
 fap=0.1 % Pass band amplitude response edge
 dBap=0.5 % Pass band amplitude response ripple
 Wap=1 % Pass band amplitude response weight
@@ -68,10 +69,32 @@ Ddl=Dd-(dpr*ones(ndp,1)/2);
 Wd=Wdp*ones(ndp,1);
 
 % Initial coefficients
-[N0,D0]=butter(10,2*fap);
+[N0,D0]=butter(N,2*fap);
 
 % Lattice decomposition
 [k0,epsilon0,c0,kk0,ck0] = tf2schurOneMlatticePipelined(N0,D0);
+
+% Check response
+Esq0 = schurOneMlatticePipelinedEsq ...
+         (k0,epsilon0,c0,kk0,ck0,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+printf("Esq0=%g\n",Esq0);
+
+Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
+T0=schurOneMlatticePipelinedT(wt,k0,epsilon0,c0,kk0,ck0);
+P0=schurOneMlatticePipelinedP(wp,k0,epsilon0,c0,kk0,ck0);
+dAsqdw0=schurOneMlatticePipelineddAsqdw(wd,k0,epsilon0,c0,kk0,ck0);
+
+H0=freqz(N0,D0,wa);
+max_diff_Asq0=max(abs((abs(H0).^2)-Asq0));
+if max_diff_Asq0>H_tol
+  error("max(abs((abs(H0).^2)-Asq0))(%g)>H_tol",max_diff_Asq0);
+endif
+
+T_0=delayz(N0,D0,wt);
+max_diff_T0=max(abs(T_0-T0));
+if max_diff_T0>H_tol
+  error("max(abs((abs(T_0-T0))(%g)>H_tol",max_diff_T0);
+endif
 
 % Linear constraints
 dmax=inf;
@@ -82,10 +105,10 @@ Nkk=length(kk0);
 Nck=length(ck0);
 kc0=[k0(:);c0(:);kk0(:);ck0(:)];
 Nkc=length(kc0);
-kc_u=[rho*ones(size(k0(:))); ...
-      10*ones(size(c0(:))); ...
-      rho*ones(size(kk0(:))); ...
-      10*ones(size(ck0(:)))];
+kc_u=[rho*ones(Nk,1); ...
+      10*ones(Nc,1); ...
+      rho*ones(Nkk,1); ...
+      10*ones(Nck,1)];
 kc_l=-kc_u;
 kc_active=find([k0(:);c0(:);kk0(:);ck0(:)]);
 vS=[];
@@ -119,14 +142,19 @@ D1=D1(1:(N+1));
 % Check response
 H1=freqz(N1,D1,wa);
 max_diff_Asq=max(abs((abs(H1).^2)-Asq));
-if max_diff_Asq>5e-12
-  error("max(abs((abs(H1).^2)-Asq))(%g)>5e-12",max_diff_Asq);
+if max_diff_Asq>H_tol
+  error("max(abs((abs(H1).^2)-Asq))(%g)>H_tol",max_diff_Asq);
+endif
+T1=delayz(N1,D1,wt);
+max_diff_T=max(abs(T1-T));
+if max_diff_T>H_tol
+  error("max(abs((abs(T1-T))(%g)>H_tol",max_diff_T);
 endif
 % Check eigenvalues
 [A1c,B1c,C1c,dd1c]=tf2Abcd(N1,D1);
 diff_eigs_rows_A1=abs(sort(eigs(A1,rows(A1)))-sort(eigs(A1c,rows(A1c))));
-if max(diff_eigs_rows_A1) > 5e-13
-  error("max(diff_eigs_rows_A1)(%g)>5e-13",max(diff_eigs_rows_A1));
+if max(diff_eigs_rows_A1) > H_tol
+  error("max(diff_eigs_rows_A1)(%g)>H_tol",max(diff_eigs_rows_A1));
 endif
 
 % Plot response

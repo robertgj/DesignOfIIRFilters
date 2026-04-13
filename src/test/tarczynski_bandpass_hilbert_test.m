@@ -16,8 +16,8 @@ tic;
 N=16;
 tp=12;
 pp=1.5;
-fapl=0.1;fapu=0.2;fasl=0.05;fasu=0.25;
-Wasl=100;Watl=0.1;Wap=1;Watu=0.1;Wasu=100;
+fasl=0.05;fapl=0.09;fapu=0.21;fasu=0.25;
+Wasl=100;Watl=0.1;Wap=1;Watu=0.1;Wasu=200;
 fppl=fapl;fppu=fapu;Wpp=1;
 ftpl=fapl;ftpu=fapu;Wtp=1;
 

@@ -159,8 +159,8 @@ tol=1e-8
 % Initial filter for parallel_allpass_bandpass_test.m
 ma=mb=10
 tp=16
-fasl=0.05,ftpl=0.09,fapl=0.10,fapu=0.20,ftpu=0.21,fasu=0.25
-Wasl=20,Watl=0.01,Wap=1,Wtp=0.5,Watu=0.01,Wasu=10
+fasl=0.05,ftpl=0.10,fapl=0.10,fapu=0.20,ftpu=0.20,fasu=0.25
+Wasl=20,Watl=0.01,Wap=1,Wtp=0.1,Watu=0.01,Wasu=10
 
 % Frequency points
 n=1000;
@@ -252,7 +252,7 @@ subplot(212);
 plot(wplot*0.5/pi,T0);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([min(fapl,ftpl) max(fapu,ftpu) (tp+(0.1*[-1,1]))]);
+axis([min(fapl,ftpl) max(fapu,ftpu) (tp+[-1,1])]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_response_passband"),"-dpdflatex");

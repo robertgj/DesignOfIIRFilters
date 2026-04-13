@@ -42,14 +42,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_a1_coef.m << 'EOF'
-a1 = [  -0.6949656665,  -1.2758556915,   0.6784984923,  -1.1578595447, ... 
-         0.9076672356 ]';
+a1 = [  -0.7138899235,  -1.1693394779,   0.9159614114,  -1.3030523553, ... 
+         0.6991673947 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_a1_coef.m"; fail; fi
 
 cat > test_b1_coef.m << 'EOF'
-b1 = [  -1.2017642733,   0.8111469603,  -1.1485263029,   0.9728748591, ... 
-        -1.3547829769,   0.5434986238 ]';
+b1 = [  -1.2203796062,   0.8255829777,  -1.1547236631,   0.9756484951, ... 
+        -1.3895034575,   0.5686320818 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_b1_coef.m"; fail; fi
 

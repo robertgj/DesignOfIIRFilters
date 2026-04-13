@@ -44,9 +44,9 @@ rho=1-(1/(2^(nbits-1)));
 polyphase=false;
 difference=true;
 fap=0.2;fas=0.4;
-Arp=0.002;Ars=0.001;Wap=10;Wat=0.1;Was=1;
+Arp=0.002;Ars=0.001;Wap=10;Wat=0.1;Was=2;
 tp=((Ra*ma)+(Rb*mb))/2;tpr=0.01;Wtp=1;
-pp=0.5;ppr=0.0002;Wpp=0.5;
+pp=0.5;ppr=0.0002;Wpp=1;
 
 %
 % Frequency vectors

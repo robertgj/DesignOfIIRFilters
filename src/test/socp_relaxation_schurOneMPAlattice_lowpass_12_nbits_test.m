@@ -50,6 +50,8 @@ tp=(m1+m2)/2 % Pass band nominal group delay
 tpr=0.2 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
 
+ctol=tol/100
+
 % This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:
 % dBas=51;tpr=0.08;Wtp=1;
 

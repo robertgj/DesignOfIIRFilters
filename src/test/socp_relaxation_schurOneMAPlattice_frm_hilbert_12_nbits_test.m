@@ -4,20 +4,21 @@
 % with 12-bit 3-signed-digit coefficients and an allpass model filter
 % implemented as a Schur one-multiplier lattice.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
-delete("socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary");
-delete("socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary.tmp");
-diary socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary.tmp
+strf="socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
 socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Lim=true
 socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito=false
 
 tic;
-
 
 %
 % Initial filter from schurOneMAPlattice_frm_hilbert_socp_slb_test.m
@@ -102,7 +103,6 @@ dmax=inf;
 strt= ...
 sprintf("FRM Hilbert %%s %%s : Mmodel=%d,Dmodel=%d,fap=%g,fas=%g,tp=%d",...
         Mmodel,Dmodel,fap,fas,tp);
-strf="socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test";
 
 % Initialise coefficient vectors
 Nk=length(k0);
@@ -123,14 +123,18 @@ if socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Lim
                    wa,Asqd,ones(size(Wa)), ...
                    wt,Td,ones(size(Wt)), ...
                    wp,Pd,ones(size(Wp)));
+  strItoLim="Lim";
 elseif socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMAPlattice_frm_hilbert_allocsd_Ito ...
                   (nbits,ndigits,k0,epsilon0,p0,u0,v0,Mmodel,Dmodel, ...
                    wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
+  strItoLim="Ito";
 else
   ndigits_alloc=zeros(size(kuv0));
   ndigits_alloc(kuv0_active)=ndigits;
+  strItoLim="none";
 endif
+
 k_allocsd_digits=int16(ndigits_alloc(Rk));
 u_allocsd_digits=int16(ndigits_alloc(Ru));
 v_allocsd_digits=int16(ndigits_alloc(Rv));
@@ -334,8 +338,8 @@ printf("] (rad./pi) adjusted for delay\n");
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_kuv_min_cost.tab"),"wt");
 fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
-fprintf(fid,"%d-bit %d-signed-digit(Lim)& %8.6f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq0_sd,kuv0_digits,kuv0_adders);
+fprintf(fid,"%d-bit %d-signed-digit(%s)& %8.6f & %d & %d \\\\\n", ...
+        nbits,ndigits,strItoLim,Esq0_sd,kuv0_digits,kuv0_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kuv_digits,kuv_adders);
 fclose(fid);
@@ -354,14 +358,15 @@ Asq_kuv_min=schurOneMAPlattice_frm_hilbertAsq ...
 plot(wa*0.5/pi,10*log10(Asq_kuv0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_kuv0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kuv_min),"linestyle","-.");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 strt=sprintf(["FRM Hilbert filter (nbits=12) : ", ...
- "fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g"],fap,fas,dBap,Wap,tp,Wtp,Wpp);
+              "fap=%g,fas=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g,Wpp=%g"], ...
+             fap,fas,dBap,Wap,tp,Wtp,Wpp);
 title(strt);
 axis([0  0.5 -0.3 0.2]);
 grid("on");
@@ -378,7 +383,7 @@ P_kuv_min=schurOneMAPlattice_frm_hilbertP ...
 plot(wp*0.5/pi,P_kuv0/pi,"linestyle","-", ...
      wp*0.5/pi,P_kuv0_sd/pi,"linestyle","--", ...
      wp*0.5/pi,P_kuv_min/pi,"linestyle","-.");
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -404,7 +409,7 @@ ylabel("Delay(samples)");
 xlabel("Frequency");
 title(strt);
 axis([0 0.5 78 80]);
-legend("exact","s-d(Lim)","s-d(SOCP-relax)");
+legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -440,16 +445,14 @@ fprintf(fid,"Wpp=%g %% Phase pass band weight\n",Wpp);
 fclose(fid);
 
 % Save results
-save socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.mat ...
-     n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho ...
-     fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp ...
-     k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...
-     k0_sd epsilon0_sd p0_sd u0_sd v0_sd ...
-     k_min epsilon_min p_min u_min v_min
-       
+eval(sprintf(["save %s.mat %s_allocsd_Lim %s_allocsd_Ito ...\n", ...
+              "n tol ctol maxiter nbits ndigits ndigits_alloc dmax rho ...\n", ...
+              "fap fas dBap Wap ftp fts tp tpr Wtp fpp fps pp ppr Wpp ...\n", ...
+              "k0 epsilon0 p0 u0 v0 Mmodel Dmodel ...\n", ...
+              "k0_sd epsilon0_sd p0_sd u0_sd v0_sd ...\n", ...
+              "k_min epsilon_min p_min u_min v_min"],strf,strf,strf));
+
 % Done
 toc;
 diary off
-movefile ...
-  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary.tmp ...
-  socp_relaxation_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

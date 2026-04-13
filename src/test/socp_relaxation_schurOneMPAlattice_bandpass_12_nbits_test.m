@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 12-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -43,8 +43,8 @@ R2=(NA1+1):(NA1+NA2);
 
 % Band pass filter specification
 difference=true
-tol=1e-3
-ctol=1e-5
+ftol=1e-3
+ctol=ftol/20
 rho=127/128
 m1=length(A1k);
 m2=length(A2k);
@@ -54,17 +54,17 @@ fapu=0.2
 fasu=0.25
 dBap=2
 Wap=1
-Watl=0.01
-Watu=0.01
+Watl=0.001
+Watu=0.001
 dBas=40
-Wasl=1
-Wasu=2
+Wasl=10
+Wasu=10
 ftpl=0.1
 ftpu=0.2
 td=16
 tdr=0.4
 Wtp=1
-  
+
 %
 % Frequency vectors
 %
@@ -117,10 +117,16 @@ nbits=12
 nscale=2^(nbits-1);
 ndigits=3
 if socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim
-  ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
-                  (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
-                   difference,wa,Asqd,ones(size(Wa)),wt,Td,ones(size(Wt)), ...
-                   wp,Pd,ones(size(Wp)),wd,Dd,ones(size(Wd)));
+  if 1
+    ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
+      (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+       difference,wa,Asqd,ones(size(Wa)),wt,Td,ones(size(Wt)), ...
+       wp,Pd,ones(size(Wp)),wd,Dd,ones(size(Wd)));
+  else
+    ndigits_alloc=schurOneMPAlattice_allocsd_Lim ...
+      (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
+       difference,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+  endif
 elseif socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito
   ndigits_alloc=schurOneMPAlattice_allocsd_Ito ...
                   (nbits,ndigits,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p, ...
@@ -228,7 +234,7 @@ while ~isempty(kopt_active)
        kopt_bu,kopt_bl,kopt_active,dmax, ...
        wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
        wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
-       maxiter,tol,ctol,verbose);
+       maxiter,ftol,ctol,verbose);
   catch
     feasible=false;
     err=lasterror();
@@ -242,7 +248,7 @@ while ~isempty(kopt_active)
   % If this problem was not solved then give up
   if feasible==false
     printf("kopt*nscale=[ ");printf("%g ",kopt(:)'*nscale);printf(" ];\n");
-    error("SOCP problem infeasible! Wtp=%f\n",Wtp);
+    error("SOCP problem infeasible!\n");
     break
   endif
 
@@ -431,7 +437,7 @@ fprintf(fid,sprintf("%s_allocsd_Ito=%d\n",strf, ...
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n", ...
         ndigits);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n", ...
@@ -463,7 +469,7 @@ fclose(fid);
 eval(sprintf(["save %s.mat ", ...
   "socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim ", ...
   "socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito ", ...
-  "n m1 m2 difference tol ctol rho fapl fapu dBap Wap Watl Watu ", ...
+  "n m1 m2 difference ftol ctol rho fapl fapu dBap Wap Watl Watu ", ...
   "fasl fasu dBas Wasl Wasu ftpl ftpu td tdr Wtp ", ...
   "A1k A1epsilon A1p A2k A2epsilon A2p nbits ndigits ndigits_alloc ", ...
   "A1k_min A1epsilon_min A2k_min A2epsilon_min N_min D_min"],strf));

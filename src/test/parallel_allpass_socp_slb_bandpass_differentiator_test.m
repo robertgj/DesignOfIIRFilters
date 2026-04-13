@@ -12,8 +12,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=5000
-ftol=1e-4
-ctol=ftol/100
+ftol=1e-3
+ctol=ftol/200
 verbose=false
 
 % Initial coefficients
@@ -33,10 +33,10 @@ difference=true;
 if difference, mm=-1; else, mm=1; endif
 
 fasl=0.05,fapl=0.1,fapu=0.21,fasu=0.25
-Arsl=0.02;Arp=0.0012,Arsu=0.02
-Wasl=10,Watl=0.01,Wap=100,Watu=0.01,Wasu=200
+Arsl=0.02;Arp=0.002,Arsu=0.02
+Wasl=10,Watl=0.01,Wap=10,Watu=0.01,Wasu=20
 fppl=0.1,fppu=0.2,pp=0.5,ppr=0.0016,Wpp=1
-ftpl=0.1,ftpu=0.2,tp=ma-1,tpr=0.2,Wtp=0.5
+ftpl=0.1,ftpu=0.2,tp=ma-1,tpr=0.2,Wtp=0.2
 
 %
 % Frequency vectors
@@ -138,6 +138,12 @@ try
        maxiter,ftol,ctol,verbose);
 catch
   warning("Caught parallel_allpass_socp_mmse");
+  err=lasterror();
+  fprintf(stderr,"%s\n", err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called %s at line %d\n", ...
+            err.stack(e).name,err.stack(e).line);
+  endfor
 end_try_catch
 if ~feasible
   error("abm(MMSE) infeasible");
@@ -161,14 +167,14 @@ zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Pm Pd Pdl Pdu]+(wp*tp))/pi);
 ylabel("Phase(rad./$\\pi$)");
-axis([0 0.5 pp+(2*ppr*[-1 1])]);
+axis([0 0.5 pp+(ppr*[-1 1])]);
 grid("on");
 zticks([]);
 subplot(313);
 plot(wt*0.5/pi,[Tm Td Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp+(2*tpr*[-1,1])]);
+axis([0 0.5 tp+(tpr*[-1,1])]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_abm"),"-dpdflatex");
@@ -239,19 +245,23 @@ subplot(311);
 rasl=1:nasl;
 raplu=napl:napu;
 rasu=nasu:(n-1);
-ras=[rasl,rasu];
-[ax,ha,hs]= ...
-  plotyy(wa(raplu)*0.5/pi,[A1(raplu),Adu(raplu)]-Ad(raplu), ...
-         wa(ras)*0.5/pi,[A1(ras),Adu(ras)]-Ad(ras));
+raslu=[rasl,rasu];
+Apz=kron(1000*ones(length(A1),1),[-1,1,-1]);
+Apz(raplu,:)=[A1(raplu),Adu(raplu),Adl(raplu)]-Ad(raplu);
+Asz=kron(1000*ones(length(A1),1),[1,1,-1]);
+Asz(raslu,:)=[A1(raslu),Adu(raslu),Adl(raslu)];
+[ax,ha,hs]=plotyy(wa*0.5/pi,Apz,wa*0.5/pi,Asz);
+axis(ax(1),[0 0.5 Arp*[-1,1]]);
+axis(ax(2),[0 0.5 max(Arsl,Arsu)*[-1,1]]);
+grid("on");
 % Copy line colour
 hac=get(ha,"color");
-for c=1:2
-  set(hs(c),"color",hac{c});
-endfor
-axis(ax(1),[0 0.5 0.00015*[-1,1]]);
-axis(ax(2),[0 0.5 0 0.012]);
-ylabel("Amplitude error");
-grid("on");
+set(ax(1),"ycolor",hac{1});
+hsc=get(hs,"color");
+set(ax(2),"ycolor",hsc{1});
+set(hs(2),"color",hac{2});
+set(hs(3),"color",hac{3});
+ylabel("Amplitude error","color","black");
 strt=sprintf(["Parallel allpass : ", ...
               "ma=%d,mb=%d,Arsl=%4.2f,Arp=%6.4f,Arsu=%4.2f,ppr=%g,tp=%g,tpr=%g"],
              ma,mb,Arsl,Arp,Arsu,ppr,tp,tpr);
@@ -267,7 +277,7 @@ subplot(313);
 plot(wt*0.5/pi,[T1 Tdu Tdl]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 tp+(0.5*tpr*[-1,1])]);
+axis([0 0.5 tp+(0.1*[-1,1])]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_ab1error"),"-dpdflatex");
@@ -347,12 +357,16 @@ fprintf(fid,"Watu=%d %% Upper transition band amplitude response weight\n",Watu)
 fprintf(fid,"fasu=%g %% Upper stop band amplitude response edge\n",fasu);
 fprintf(fid,"Arsu=%f %% Upper stop band amplitude response ripple\n",Arsu);
 fprintf(fid,"Wasu=%d %% Upper stop band amplitude response weight\n",Wasu);
-fprintf(fid,"tp=%g %% Pass band nominal group delay\n",tp);
-fprintf(fid,"tpr=%g %% Pass band nominal group delay ripple\n",tpr);
-fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
+fprintf(fid,"fppl=%g %% Lower pass band phase response edge\n",fppl);
+fprintf(fid,"fppu=%g %% Upper pass band phase response edge\n",fppu);
 fprintf(fid,"pp=%g %% Pass band nominal phase\n",pp);
 fprintf(fid,"ppr=%g %% Pass band phase peak-to-peak-ripple\n",ppr);
 fprintf(fid,"Wpp=%d %% Pass band phase response weight\n",Wpp);
+fprintf(fid,"ftpl=%g %% Lower pass band group delay response edge\n",ftpl);
+fprintf(fid,"ftpu=%g %% Upper pass band group delay response edge\n",ftpu);
+fprintf(fid,"tp=%g %% Pass band nominal group delay\n",tp);
+fprintf(fid,"tpr=%g %% Pass band nominal group delay ripple\n",tpr);
+fprintf(fid,"Wtp=%d %% Pass band group delay response weight\n",Wtp);
 fclose(fid);
 
 % Save results
@@ -372,7 +386,9 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 eval(sprintf(["save %s.mat ftol ctol  polyphase difference rho n ", ...
               "ma mb Va Qa Ra Vb Qb Rb Da0 Db0 ab0 ", ...
               "fasl Arsl Wasl Watl fapl fapu Arp Wap Watu fasu Arsu Wasu ", ...
-              "tp tpr Wtp pp ppr Wpp ab1 Da1 Db1 Nab1 Dab1"], ...
+              "fppl fppu pp ppr Wpp ", ...
+              "ftpl ftpu tp tpr Wtp ", ...
+              "ab1 Da1 Db1 Nab1 Dab1"], ...
              strf));
 
 % Done 

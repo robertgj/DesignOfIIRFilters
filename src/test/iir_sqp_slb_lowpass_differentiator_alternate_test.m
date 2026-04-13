@@ -13,7 +13,7 @@ tic;
 
 maxiter=20000
 ftol=1e-3
-ctol=ftol/10
+ctol=ftol/20
 verbose=false
 
 % Polynomials (without 1-z^{-1}) from
@@ -39,8 +39,8 @@ dmax=0.05;
 % Low-pass differentiator filter specification
 fap=0.18;fas=0.3;
 Arp=0.004;Art=0.005;Ars=0.005;Wap=1;Wat=0.001;Was=1;
-fpp=fap;pp=0.5;ppr=0.0001;Wpp=0.2;
-ftp=fap;tp=nN-1;tpr=0.02;Wtp=1;
+fpp=fap;pp=0.5;ppr=0.00006;Wpp=5;
+ftp=fap;tp=nN-1;tpr=0.02;Wtp=2;
 
 % Frequency points
 n=1000;
@@ -237,7 +237,7 @@ grid("on");
 zticks([]);
 subplot(312);
 plot(wp*0.5/pi,([Pd1z,Pdl-Pconst,Pdu-Pconst]+(wp*tp)-(pp*pi))/pi);
-axis([0 0.5 6e-5*[-1,1]]);
+axis([0 0.5 4e-5*[-1,1]]);
 ylabel("Phase error(rad./$\\pi$)");
 grid("on");
 zticks([]);

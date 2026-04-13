@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_R2_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -12,14 +12,14 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 ftol=1e-5
-ctol=1e-7
+ctol=ftol/100
 maxiter=10000
 verbose=false
 
 % Lowpass filter specification
 norder=16,R=2
-fap=0.15,dBap=0.06,Wap=1,Wat=ftol
-fas=0.175,dBas=60,Wasi=1e3,Was=1e6
+fap=0.15,dBap=0.065,Wap=1,Wat=ftol
+fas=0.175,dBas=60.5,Was=1e3
 
 % Squared-magnitude constraints
 n=1000;
@@ -33,7 +33,7 @@ Wa=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 
 % Find initial filter
 Adi=[ones(nap,1); zeros(n-nap,1)];
-Wai=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Wasi*ones(n-nas+1,1)];
+Wai=[Wap*ones(nap,1);Wat*ones(nas-nap-1,1);Was*ones(n-nas+1,1)];
 NDi=[0.1;zeros(norder+(norder/2),1)];
 WISEJ([],norder,norder/2,R,wa,Adi,Wai);
 tol=1e-9;
@@ -174,7 +174,6 @@ fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
-fprintf(fid,"Wasi=%g %% Amplitude stop band weight (initial filter)\n",Wasi);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
 fclose(fid);
 
@@ -192,7 +191,7 @@ print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 eval(sprintf(["save %s.mat tol ftol ctol rho maxiter ", ...
-              "norder fap dBap Wap Wat fas dBas Wasi Was ", ...
+              "norder fap dBap Wap Wat fas dBas Was ", ...
               "N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"],strf));
 
 % Done

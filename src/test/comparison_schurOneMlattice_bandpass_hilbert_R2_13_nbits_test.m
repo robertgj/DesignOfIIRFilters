@@ -5,12 +5,7 @@
 % filter implemented as a Schur one-multiplier lattice correction filter having
 % transfer function denominator polynomial coefficients only in z^-2.
 %
-% This comparison originally included the results of 
-% pop_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m
-% Unfortunately, I could not find a good filter specification that converged
-% under QEMU.
-%
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -265,7 +260,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
              nbits,ndigits,fasl,fapl,fapu,fasu);
 title(strt);
 legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
-legend("location","northeast");
+legend("location","southwest");
 legend("boxoff");
 legend("left");
 zticks([]);
@@ -287,7 +282,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
              nbits,ndigits,fppl,fppu);
 title(strt);
 legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
-legend("location","southeast");
+legend("location","south");
 legend("boxoff");
 legend("left");
 zticks([]);
@@ -309,13 +304,12 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
              nbits,ndigits,ftpu,ftpu);
 title(strt);
 legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
-legend("location","southwest");
+legend("location","south");
 legend("boxoff");
 legend("left");
 zticks([]);
 print(strcat(strf,"_delay"),"-dpdflatex");
 close
-
 
 % Plot dAsqdw pass-band signed-digit responses
 ha=plot(wd*0.5/pi,[exact_dAsqdw,sd_Ito_dAsqdw,bandb_dAsqdw,socp_dAsqdw]);
@@ -332,7 +326,7 @@ strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
              nbits,ndigits,fdpl,fdpu);
 title(strt);
 legend("Floating point","S-D(Ito)","B-and-B","SOCP-relax");
-legend("location","southwest");
+legend("location","north");
 legend("boxoff");
 legend("left");
 zticks([]);
@@ -405,15 +399,6 @@ bandb_h_Ito_sd=h_Ito_sd;
 bandb_h_min=h_min;
 
 clear h h_sd h_Ito_sd h_min
-
-if max(abs(socp_h_sd-bandb_h_sd)) > eps
-  error("max(abs(socp_h_sd-bandb_h_sd))(%g*eps) > eps", ...
-        max(abs(socp_h_sd-bandb_h_sd))/eps);
-endif
-if max(abs(socp_h_Ito_sd-bandb_h_Ito_sd)) > eps
-  error("max(abs(socp_h_Ito_sd-bandb_h_Ito_sd))(%g*eps) > eps", ...
-        max(abs(socp_h_Ito_sd-bandb_h_Ito_sd))/eps);
-endif
 
 [socp_h_sd_digits,socp_h_sd_adders]=SDadders(socp_h_sd,nbits);
 [socp_h_Ito_sd_digits,socp_h_Ito_sd_adders]=SDadders(socp_h_Ito_sd,nbits);

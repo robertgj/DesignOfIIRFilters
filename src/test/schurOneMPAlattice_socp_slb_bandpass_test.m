@@ -11,8 +11,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-tol=1e-4
-ctol=5e-8
+ftol=1e-4
+ctol=ftol/2000
 maxiter=2000
 verbose=false
 
@@ -42,8 +42,8 @@ Wap=1
 Watl=0.1
 Watu=0.1
 dBas=53
-Wasl=1e4
-Wasu=1e4
+Wasl=1e3
+Wasu=1e3
 ftpl=0.09
 ftpu=0.21
 td=16
@@ -111,7 +111,7 @@ k_active=find(k0~=0);
                          difference,k_u,k_l,k_active,dmax, ...
                          wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt, ...
                          wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
-                         maxiter,tol,ctol,verbose);
+                         maxiter,ftol,ctol,verbose);
 if feasible == 0 
   error("A1k,A2k(pcls) infeasible");
 endif
@@ -211,7 +211,7 @@ fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
 fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
 fprintf(fid,"difference=%d %% Use difference of all-pass filters\n",difference);
-fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%f %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -257,7 +257,7 @@ print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
 eval(sprintf(["save %s.mat ...\n", ...
- "     n m1 m2 difference tol ctol rho  ...\n", ...
+ "     n m1 m2 difference ftol ctol rho  ...\n", ...
  "     fapl fapu dBap Wap Watl Watu ...\n", ...
  "     fasl fasu dBas Wasl Wasu ...\n", ...
  "     ftpl ftpu td tdr Wtp ...\n", ...

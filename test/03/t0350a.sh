@@ -55,7 +55,7 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test_8_nbits_cost.ok << 'EOF'
 Exact & 0.000661 & & \\
 8-bit 2-signed-digit& 0.008154 & 10 & 5 \\
-8-bit 2-signed-digit(b-and-b) & 0.000046 & 10 & 5 \\
+8-bit 2-signed-digit(B-and-B) & 0.000046 & 10 & 5 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_8_nbits_cost.ok"; fail; fi
 

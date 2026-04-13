@@ -54,18 +54,18 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_f_coef.ok << 'EOF'
-f = [  -0.0280871068,   0.0065333941,   0.2780868425,   0.4869336766, ... 
-        0.2780868425,   0.0065333941,  -0.0280871068 ]';
+f = [  -0.0290874801,   0.0045340150,   0.2790871895,   0.4909323765, ... 
+        0.2790871895,   0.0045340150,  -0.0290874801 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_f_coef.ok"; fail; fi
 
 cat > test_k0_coef.ok << 'EOF'
-k0 = [  -0.1784512812,   0.8243132570,  -0.1410010448,   0.6462785192 ]';
+k0 = [  -0.1868506377,   0.8122503070,  -0.1352616215,   0.6383818693 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k0_coef.ok"; fail; fi
 
 cat > test_k1_coef.ok << 'EOF'
-k1 = [  -0.1519187362,   0.5060944397 ]';
+k1 = [  -0.1583623018,   0.4753809080 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1_coef.ok"; fail; fi
 

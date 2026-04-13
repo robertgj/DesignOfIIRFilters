@@ -71,30 +71,30 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_cost.ok << 'EOF'
-Floating point &0.003385 & 0.16 &33.99 &0.001000 &0.100 &&\\
-Signed-Digit &0.009413 & 0.29 &31.39 &0.007299 &0.218 &88&57\\
-Signed-Digit(Ito)&0.004279 & 0.26 &30.77 &0.004048 &0.190 &81&50\\
-Branch-and-bound &0.004031 & 0.24 &33.60 &0.002041 &0.132 &89&58\\
-SOCP-relaxation &0.004437 & 0.26 &32.04 &0.002301 &0.144 &81&50\\
+Floating point &0.004918 & 0.40 &32.98 &0.001001 &0.160 &&\\
+Signed-Digit &0.006054 & 0.36 &32.55 &0.003693 &0.213 &87&57\\
+Signed-Digit(Ito)&0.005174 & 0.33 &30.58 &0.002729 &0.191 &79&49\\
+Branch-and-bound &0.006743 & 0.46 &32.44 &0.002091 &0.166 &86&56\\
+SOCP-relaxation &0.005259 & 0.26 &30.45 &0.003907 &0.216 &86&57\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi
 
 cat > test_h_min_cost.ok << 'EOF'
-Floating-point FIR &0.003232 & 1.00 &29.99 &0.000143 &0.012 &&\\
-Signed-digit FIR &0.003039 & 0.97 &29.02 &0.000923 &0.020 &81&50\\
-Signed-digit(Ito) FIR&0.003065 & 1.01 &28.79 &0.001101 &0.017 &76&45\\
-SOCP-relaxation FIR &0.003165 & 0.99 &28.19 &0.001429 &0.022 &76&45\\
-Branch-and-bound FIR &0.002993 & 1.00 &28.20 &0.001256 &0.021 &76&45\\
+Floating-point FIR &0.003243 & 1.00 &29.98 &0.000197 &0.014 &&\\
+Signed-digit FIR &0.003017 & 0.95 &29.16 &0.000679 &0.021 &76&46\\
+Signed-digit(Ito) FIR&0.003318 & 1.00 &29.26 &0.001207 &0.028 &74&44\\
+SOCP-relaxation FIR &0.003432 & 1.00 &29.02 &0.001437 &0.025 &73&43\\
+Branch-and-bound FIR &0.003086 & 1.00 &29.02 &0.000805 &0.013 &73&43\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_h_min_cost.ok"; fail; fi
 
 cat > test_Schur_FIR_cost.ok << 'EOF'
-Floating-point Schur &0.003385 & 0.16 &33.99 &0.001000 &0.100 &&\\
-Floating-point FIR &0.003232 & 1.00 &29.99 &0.000143 &0.012 &&\\
-SOCP-relax. Schur &0.004437 & 0.26 &32.04 &0.002301 &0.144 &81&50\\
-SOCP-relax. FIR&0.003165 & 0.99 &28.19 &0.001429 &0.022 &76&45\\
-B-and-B Schur&0.004031 & 0.24 &33.60 &0.002041 &0.132 &89&58\\
-B-and-B FIR&0.002993 & 1.00 &28.20 &0.001256 &0.021 &76&45\\
+Floating-point Schur &0.004918 & 0.40 &32.98 &0.001001 &0.160 &&\\
+Floating-point FIR &0.003243 & 1.00 &29.98 &0.000197 &0.014 &&\\
+SOCP-relax. Schur &0.005259 & 0.26 &30.45 &0.003907 &0.216 &86&57\\
+SOCP-relax. FIR&0.003432 & 1.00 &29.02 &0.001437 &0.025 &73&43\\
+B-and-B Schur&0.006743 & 0.46 &32.44 &0.002091 &0.166 &86&56\\
+B-and-B FIR&0.003086 & 1.00 &29.02 &0.000805 &0.013 &73&43\\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Schur_FIR_cost.ok"; fail; fi
 

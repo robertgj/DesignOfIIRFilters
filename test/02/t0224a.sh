@@ -45,14 +45,14 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test.ok << 'EOF'
+cat > test_d1.ok << 'EOF'
 Ud1=2,Vd1=0,Md1=14,Qd1=0,Rd1=1
-d1 = [   0.0713258700, ...
-         0.3883701404,   0.9990000000, ...
-         0.6666699201,   0.9990000000,   0.9990000000,   0.9990000000, ... 
+d1 = [   0.0390190982, ...
+        -0.7371458201,   0.9990000000, ...
+         0.6941119917,   0.9178462972,   0.9990000000,   0.9990000000, ... 
          0.9990000000,   0.9990000000,   0.9990000000, ...
-         0.9562933265,   0.2610979463,   1.6228755046,   1.9308171367, ... 
-         2.2669251143,   2.9641320273,   2.6137770611 ]';
+         0.8417595502,   3.1046745728,   2.3192020366,   0.2653623252, ... 
+         1.6430809796,   1.9625446201,   2.7333150120 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 
@@ -64,7 +64,7 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test.ok iir_sqp_slb_fir_17_bandpass_test_d1_coef.m
+diff -Bb test_d1.ok iir_sqp_slb_fir_17_bandpass_test_d1_coef.m
 if [ $? -ne 0 ]; then echo "Failed diff -Bb"; fail; fi
 
 

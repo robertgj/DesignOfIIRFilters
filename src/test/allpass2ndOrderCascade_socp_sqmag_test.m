@@ -11,10 +11,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-
 verbose=false
 tol=1e-8
-maxiter=2000
+maxiter=10000
 
 % Lowpass filter specification for parallel all-pass filters
 resp="sqmag"
@@ -24,7 +23,7 @@ td=(ma+mb)/2;
 fp=0.15
 Wp=1
 fs=0.17
-Ws=2000
+Ws=5000
   
 % Initial coefficients found by tarczynski_allpass2ndOrderCascade_test.m
 tarczynski_allpass2ndOrderCascade_test_ab0_coef;
@@ -129,7 +128,7 @@ close
 subplot(211);
 plot(wplot*0.5/pi,20*log10(abs(Hab1)));
 ylabel("Amplitude(dB)");
-axis([0 fp -0.1 0.1]);
+axis([0 fp -0.2 0.1]);
 grid("on");
 title(s);
 zticks([]);
@@ -156,8 +155,8 @@ clf
 subplot(211);
 ax=plotyy(wplot(1:npp)*0.5/pi,20*log10(abs(Hab1(1:npp))), ...
           wplot(nsp:end)*0.5/pi,20*log10(abs(Hab1(nsp:end))));
-axis(ax(1),[0 0.5 -0.1 0]);
-axis(ax(2),[0 0.5 -90 -80]);
+axis(ax(1),[0 0.5 -0.2 0]);
+axis(ax(2),[0 0.5 -100 -80]);
 ylabel("Amplitude(dB)");
 grid("on");
 title(s);

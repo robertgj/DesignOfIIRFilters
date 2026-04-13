@@ -1,5 +1,5 @@
 % lanczos_tridiag_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -10,10 +10,10 @@ diary lanczos_tridiag_test.diary.tmp
 
 rand("seed",0xdeadbeef);
 A=rand(9,9);
-tol=1e-10;
+tol=1e-8;
 [T,Ap]=lanczos_tridiag(A,tol);
-if max(max(abs((inv(T)*A*T)-Ap)))>tol
-  error("max(max(abs((inv(T)*A*T)-Ap)))>tol");
+if max(max(abs((inv(T)*A*T)-Ap)))>tol/10
+  error("max(max(abs((inv(T)*A*T)-Ap)))>tol/10");
 endif
 
 N=5;

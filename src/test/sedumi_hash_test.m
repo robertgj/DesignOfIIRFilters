@@ -1,5 +1,5 @@
 % sedumi_hash_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 % See: https://github.com/sqlp/sedumi/issues/15
 
 test_common;
@@ -15,7 +15,7 @@ sed_K = struct(sprintf("f"), {0}, sprintf("l"), {17}, sprintf("q"), {[2 2 2 2 2 
 pars = struct(sprintf("fid"), {0}, sprintf("maxiter"), {100});
 
 % Run sedumi 200 times, and hash the output:
-expected_hash="d50f2fb51d0c438fe218383a145f2534";
+expected_hash="70eb40b32d093b83a9c9cba1efc2ccaa";
 for k=1:200
   [x,y,info] = sedumi(sed_A,sed_b,sed_c,sed_K,pars);
   myhash=hash ("md5", sprintf("%16.10g ",x));

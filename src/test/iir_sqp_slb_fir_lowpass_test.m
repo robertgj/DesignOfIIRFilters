@@ -1,4 +1,4 @@
-  % iir_sqp_slb_fir_lowpass_test.m
+% iir_sqp_slb_fir_lowpass_test.m
 
 % Copyright (C) 2021-2026 Robert G. Jenssen
 
@@ -16,14 +16,14 @@ pkg load optim;
 
 maxiter=20000
 ftol=1e-3
-ctol=2e-5
+ctol=1e-5
 verbose=false
 
 % Filter specifications
 R=1;N=40;
 fap=0.1;dBap=0.3;Wap=1;Wat=0.001;
 ftp=0.1;td=10;tdr=0.1;Wtp=0.1;
-fas=0.25;dBas=65;Was=10;
+fas=0.25;dBas=66;Was=5;
 
 % Frequency vector
 n=1000;
@@ -233,7 +233,7 @@ axis([0 0.5 0 2*td]);
 zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(fap,ftp),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,max(fap,ftp),-0.4,0.2,d1,U,V,M,Q,R,strt);
 subplot(211)
 zticks([]);
 subplot(212)

@@ -23,7 +23,7 @@ tol=1e-10
 N=20
 R=1
 td=16
-fasl=0.05,fapl=0.10,fapu=0.20,fasu=0.25
+fasl=0.05,fapl=0.08,fapu=0.22,fasu=0.25
 Wasl=2,Watl=0.01,Wap=1,Watu=0.01,Wasu=1
 
 % Frequency points

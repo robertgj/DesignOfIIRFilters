@@ -1,5 +1,5 @@
 % deczky3a_sqp_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -12,14 +12,14 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 maxiter=4000
-ftol=1e-4
+ftol=2e-4
 ctol=ftol/10
 verbose=false
 
 % Deczky3a Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.3,Wap=1
-fas=0.3,dBas=40,Was=0.9
+fas=0.3,dBas=40,Was=0.5
 ftp=0.2,tp=9,tpr=0.04,Wtp=0.02
 
 % Initial coefficients
@@ -133,7 +133,7 @@ showResponse(d1,U,V,M,Q,R,strt);
 zticks([]);
 print(strcat(strf,"_pcls_d1"),"-dpdflatex");
 close
-showResponsePassBands(0,max(ftp,fap),-2*dBap,dBap,d1,U,V,M,Q,R,strt);
+showResponsePassBands(0,max(ftp,fap),-0.08,0.02,d1,U,V,M,Q,R,strt);
 zticks([]);
 print(strcat(strf,"_pcls_d1pass"),"-dpdflatex");
 close

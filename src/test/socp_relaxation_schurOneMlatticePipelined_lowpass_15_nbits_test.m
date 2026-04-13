@@ -19,23 +19,23 @@ tic;
 verbose=false
 maxiter=5000
 ftol=1e-3
-ctol=1e-6
+ctol=ftol/1000
 nbits=15
 nscale=2^(nbits-1);
 ndigits=4
+
+% Options
+socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Lim=false
+socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Ito=true
 
 %
 % Deczky3 lowpass filter specification
 %
 n=1000
-fap=0.15,dBap=0.11,Wap=1
-ftp=0.25,tp=9,tpr=0.04,Wtp=1
+fap=0.15,dBap=0.12,Wap=1
+ftp=0.25,tp=9,tpr=0.04,Wtp=5
 Wat=2*ftol
-fas=0.35,dBas=46,Was=100
-
-% Options
-socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Lim=true
-socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Ito=false
+fas=0.35,dBas=45,Was=100
 
 %
 % Initial filter
@@ -48,6 +48,14 @@ clear N2 D2;
 D0=[D0(:);zeros(length(N0)-length(D0),1)];
 % Convert to pipelined form
 [k0,epsilon0,c0,kk0,ck0] = tf2schurOneMlatticePipelined(N0,D0);
+% Sanity check
+[N0c,D0c]=schurOneMlatticePipelined2tf(k0,epsilon0,c0,kk0,ck0);
+if max(abs(N0c(:)-N0(:))) > eps
+  error("max(abs(N0c(:)-N0(:))) > eps");
+endif
+if max(abs(D0c(:)-D0(:))) > eps
+  error("max(abs(D0c(:)-D0(:))) > eps");
+endif
 kc0=[k0(:);c0(:);kk0(:);ck0(:)];
 Nk=length(k0);
 Nc=length(c0);
@@ -110,14 +118,14 @@ Wd=[];
 Asq0=schurOneMlatticePipelinedAsq(wa,k0,epsilon0,c0,kk0,ck0);
 
 % Find kc0 error
-Esq0=schurOneMlatticePipelinedEsq(k0,epsilon0,c0,kk0,ck0,wa,Asqd,Wa,wt,Td,Wt)
+Esq0=schurOneMlatticePipelinedEsq(k0,epsilon0,c0,kk0,ck0,wa,Asqd,Wa,wt,Td,Wt);
+printf("Esq0=%g\n",Esq0);
 
 % Constraints on the coefficients
 dmax=inf;
 rho=1-ftol;
 kc_u=[rho*ones(Nk,1);10*ones(Nc,1);rho*ones(Nkk,1);10*ones(Nck,1)];
 kc_l=-kc_u;
-kc_active=find(kc0);
 
 % Signed-digit coefficients with no allocation
 kc0_sd_no_alloc=flt2SD(kc0,nbits,ndigits);
@@ -147,6 +155,7 @@ Esq0_sd_no_alloc = schurOneMlatticePipelinedEsq ...
                      (k0_sd_no_alloc,epsilon0,c0_sd_no_alloc, ...
                       kk0_sd_no_alloc,ck0_sd_no_alloc, ...
                       wa,Asqd,Wa);
+printf("Esq0_sd_no_alloc=%g\n",Esq0_sd_no_alloc);
 
 %
 % Allocate signed-digits to the coefficients
@@ -156,6 +165,12 @@ if socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Lim
                     (nbits,ndigits,k0,epsilon0,c0,kk0,ck0, ...
                      wa,Asqd,Wa,[],[],[],[],[],[],[],[],[]);
   strItoLim="Lim";
+  
+  %
+  % !!!! Blatant hack !!!!
+  %
+  ndigits_alloc(17)=1;
+  
 elseif socp_relaxation_schurOneMlatticePipelined_lowpass_allocsd_Ito
   ndigits_alloc = schurOneMlatticePipelined_allocsd_Ito ...
                     (nbits,ndigits,k0,epsilon0,c0,kk0,ck0, ...
@@ -183,7 +198,6 @@ print_polynomial(ck_allocsd_digits,"ck_allocsd_digits","%1d");
 print_polynomial(ck_allocsd_digits,"ck_allocsd_digits", ...
                  strcat(strf,"_ck_allocsd_digits.m"),"%1d");
 
-
 % Find the signed-digit approximations to k0 and c0 with allocation
 [kc0_sd,kc0_sdu,kc0_sdl]=flt2SD(kc0,nbits,ndigits_alloc);
 k0_sd=kc0_sd(Rk);
@@ -203,10 +217,10 @@ print_polynomial(kk0_sd,"kk0_sd",strcat(strf,"_kk0_sd_coef.m"),nscale);
 print_polynomial(ck0_sd,"ck0_sd",nscale);
 print_polynomial(ck0_sd,"ck0_sd",strcat(strf,"_ck0_sd_coef.m"),nscale);
 
-% Initialise kc_active
+% Initialise kc0_active
 kc0_sdul=kc0_sdu-kc0_sdl;
-kc0_active=find(kc0_sdul~=0);
-n_active=length(kc0_active);
+kc0_active=find(kc0_sdul);
+
 % Check for consistent upper and lower bounds
 if any(kc0_sdl>kc0_sdu)
   error("found kc0_sdl>kc0_sdu");
@@ -227,12 +241,13 @@ if any(kc0_sdl(kc0_active)>kc0(kc0_active))
   error("found kc0_sdl>kc0");
 endif
 
+% Find the number of signed-digits and adders used by kc0_sd
+[kc0_sd_digits,kc0_sd_adders]=SDadders(kc0_sd(kc0_active),nbits);
+
 % Find kc0_sd error
 Esq0_sd=schurOneMlatticePipelinedEsq ...
           (k0_sd,epsilon0,c0_sd,kk0_sd,ck0_sd,wa,Asqd,Wa);
-
-% Find the number of signed-digits and adders used by kc0_sd
-[kc0_sd_digits,kc0_sd_adders]=SDadders(kc0_sd(kc0_active),nbits);
+printf("Esq0_sd=%g\n",Esq0_sd);
 
 % Initialise the vector of filter coefficients to be optimised
 kc=zeros(size(kc0));
@@ -240,6 +255,7 @@ kc(kc0_active)=kc0(kc0_active);
 kc_l=kc0_sdl;
 kc_u=kc0_sdu;
 kc_active=kc0_active;
+n_active=length(kc0_active);
 
 % Fix one coefficient at each iteration 
 while ~isempty(kc_active)
@@ -418,8 +434,8 @@ for c=1:4
   set(ha(c),"linestyle",hls{c});
   set(hs(c),"linestyle",hls{c});
 endfor
-axis(ax(1),[0 0.5 -0.15 0.05]);
-axis(ax(2),[0 0.5 -52 -44]);
+axis(ax(1),[0 0.5 -0.15 0.1]);
+axis(ax(2),[0 0.5 -52 -42]);
 strt=sprintf("Low-pass filter : nbits=%d,fap=%g,dBap=%g,fas=%g,dBas=%g", ...
              nbits,fap,dBap,fas,dBas);
 title(strt);

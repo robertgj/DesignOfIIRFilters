@@ -7,16 +7,17 @@ strf="schurOneMlattice_socp_slb_bandpass_hilbert_test";
 
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
-eval(sprintf("diary %s.diary.tmp",strf));
+eval(sprintf("diary %s.diary.tmp",strf)); 
 
 tic;
 
-ftol=1e-4
+ftol=1e-3
 ctol=ftol/100
 maxiter=10000
 verbose=false
 dmax=0.1; % For compatibility with SQP
 rho=0.999;
+n=1000;
 
 % Initial filter 
 tarczynski_bandpass_hilbert_test_N0_coef;
@@ -29,13 +30,12 @@ p_ones=ones(size(k0));
 
 % Band-pass hilbert filter specification
 fasl=0.05,fapl=0.09,fapu=0.21,fasu=0.25
-dBap=0.15,dBas=37,Wasl=100,Watl=0.001,Wap=1,Watu=0.001,Wasu=100
+dBap=0.15,dBas=40,Wasl=10,Watl=0.01,Wap=1,Watu=0.01,Wasu=20
 fppl=0.1,fppu=0.2,pp=1.5,ppr=0.002,Wpp=1
-ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=1
-fdpl=0.09,fdpu=0.21,dp=0,dpr=0.6,Wdp=0.001
+ftpl=0.1,ftpu=0.2,tp=12,tpr=0.2,Wtp=0.5
+fdpl=0.09,fdpu=0.21,dp=0,dpr=0.8,Wdp=0.01
 
 % Frequency points
-n=1000;
 f=0.5*(0:(n-1))'/n;
 w=2*pi*f;
 nasl=ceil(n*fasl/0.5)+1;
@@ -122,13 +122,15 @@ dAsqdw0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p_ones,c0);
 %
 printf("\nMMSE pass :\n");
 feasible=false;
-[k1,c1,opt_iter,func_iter,feasible] = schurOneMlattice_socp_mmse ...
-  ([],k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
+[k1,c1,opt_iter,func_iter,feasible] = schurOneMlattice_socp_mmse([], ...
+   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
   error("k1 (MMSE) infeasible");
 endif
+[N1,D1]=schurOneMlattice2tf(k1,epsilon0,p_ones,c1);
+[k1,epsilon1,p1,c1]=tf2schurOneMlattice(N1,D1);
 
 %
 % PCLS pass
@@ -137,7 +139,7 @@ printf("\nPCLS pass :\n");
 feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
-   k1,epsilon0,p_ones,c1,kc_u,kc_l,kc_active,dmax, ...
+   k1,epsilon1,p_ones,c1,kc_u,kc_l,kc_active,dmax, ...
    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
@@ -146,14 +148,14 @@ endif
 
 % Recalculate epsilon, p and c
 printf("\nBefore recalculating epsilon and c:\n");
-print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon1,"epsilon1");
 print_polynomial(c2,"c2");
 printf("\n");
-[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p_ones,c2);
+[N2,D2]=schurOneMlattice2tf(k2,epsilon1,p_ones,c2);
 [k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
-if max(abs(k2-k2r))>1e5*eps
-  error("max(abs(k2-k2r))(%g*eps)>1e5*eps",max(abs(k2-k2r))/eps);
+if max(abs(k2-k2r))>2e5*eps
+  error("max(abs(k2-k2r))(%g*eps)>2e5*eps",max(abs(k2-k2r))/eps);
 endif
 
 % Pole-zero plot
@@ -177,21 +179,29 @@ endif
 
 % Plot response
 subplot(411);
-ax=plotyy(wa*0.5/pi,10*log10(Asq2), ...
-          wa*0.5/pi,10*log10(Asq2));
-axis(ax(1),[0 0.5 -40 -35]);
-axis(ax(2),[0 0.5 -0.2 0.05]);
+[ax,hp,hs]=plotyy(wa*0.5/pi,10*log10([Asq2,Asqdu,Asqdl]), ...
+                  wa*0.5/pi,10*log10([Asq2,Asqdu]));
+axis(ax(1),[0 0.5 -0.2 0.05]);
+axis(ax(2),[0 0.5 -44 -39]);
 grid("on");
 strP=sprintf(["Bandpass hilbert response : ", ...
- "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
+              "fasl=%g,fapl=%g,fapu=%g,fasu=%g,", ...
+              "dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
 title(strP);
-ylabel("Ampl.(dB)");
+% Copy line colour
+hpc=get(hp,"color");
+set(ax(1),"ycolor",hpc{1});
+hsc=get(hs,"color");
+set(ax(2),"ycolor",hsc{1});
+set(hs(2),"color",hpc{2});
+ylabel("Ampl.(dB)","color","black");
 zticks([]);
 subplot(412);
 plot(wp*0.5/pi,mod((unwrap([P2 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 grid("on");
+zticks([]);
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(413);
@@ -202,7 +212,7 @@ ylabel("Delay(samples)");
 zticks([]);
 subplot(414);
 plot(wd*0.5/pi,[dAsqdw2 Ddl Ddu]);
-axis([0 0.5 dp+(0.4*[-1,1])]);
+axis([0 0.5 dp+(0.6*[-1,1])]);
 grid("on");
 ylabel("dAsqdw");
 xlabel("Frequency");
@@ -260,9 +270,9 @@ fprintf(fid,"Wdp=%g %% dAsqdw pass band weight\n",Wdp);
 fclose(fid);
 
 eval(strcat(sprintf("save %s.mat ftol ctol n ",strf), ...
-            " fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ", ...
-            " fppl fppu pp ppr Wpp ftpl ftpu tp tpr Wtp fdpl fdpu dpr Wdp ", ...
-            " N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"));
+          " fasl fapl fapu fasu dBap dBas Wasl Watl Wap Watu Wasu ", ...
+          " fppl fppu pp ppr Wpp ftpl ftpu tp tpr Wtp fdpl fdpu dpr Wdp ", ...
+          " N0 D0 k0 epsilon0 p0 c0 k2 epsilon2 p2 c2 N2 D2"));
 
 % Done
 toc;

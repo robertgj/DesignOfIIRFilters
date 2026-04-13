@@ -82,8 +82,8 @@ value(-t)=-2.4667
 YALMIP non-convex quadratic programming example
 
 For bmibnb : 
-value(x) = [ -0.2734  1.0000  1.0000 -1.0000 -1.0000 ]
-real(value(x'*Q*x)) = -80.9164
+value(x) = [ -0.2048  1.0000  1.0000 -1.0000 -1.0000 ]
+real(value(x'*Q*x)) = -80.9254
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

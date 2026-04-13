@@ -26,11 +26,11 @@ M=15;N=2*M;
 fap=0.10;fas=0.20;
 
 for d=[10,12,M],
-%for d=[10],
 
   yalmip("clear");
   
   if d==10, 
+    sedumi_eps=1e-12;
     Asq_max=1.02^2;
     Asq_pu=Asq_max;
     Asq_pl=0.93^2;
@@ -43,6 +43,7 @@ for d=[10,12,M],
     factorise_objective=true;
     use_dualise=true;
   elseif d==12
+    sedumi_eps=1e-8;
     Asq_max=1.05^2;
     Asq_pu=Asq_max;
     Asq_pl=0.90^2;
@@ -55,6 +56,7 @@ for d=[10,12,M],
     factorise_objective=false;
     use_dualise=false;
   else 
+    sedumi_eps=1e-8;
     Asq_max=1.02;
     Asq_pu=Asq_max;
     Asq_pl=0.99^2;
@@ -186,9 +188,9 @@ for d=[10,12,M],
     Objective=[];
   endif
   if use_dualise == true;
-    Options=sdpsettings("solver","sedumi","dualize",1);
+    Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps,"dualize",1);
   else
-    Options=sdpsettings("solver","sedumi");
+    Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
   endif
   Constraints=[ F_z<=0,   Q_z>=0, ...
                 F_max<=0, Q_max>=0, ...

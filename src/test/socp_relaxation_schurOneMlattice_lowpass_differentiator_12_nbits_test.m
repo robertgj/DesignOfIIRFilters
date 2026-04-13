@@ -25,7 +25,7 @@ nscale=2^(nbits-1);
 ndigits=3
 
 % Options
-socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=true
+socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Lim=false
 socp_relaxation_schurOneMlattice_lowpass_differentiator_allocsd_Ito=false
 
 %
@@ -43,19 +43,21 @@ p0_ones=ones(size(k0));
 % Lowpass differentiator filter specification
 %
 fap=0.3;fas=0.4;
-Arp=0.006;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=1;
-tp=length(k0)-1;tpr=0.1;Wtp=1;
-pp=1.5;ppr=0.003;Wpp=10;
+Arp=0.006;Art=0.02;Ars=0.02;Wap=1;Wat=0.0001;Was=2;
+tp=length(k0)-1;tpr=0.1;Wtp=0.5;
+pp=1.5;ppr=0.003;Wpp=5;
 cpr=0.1;cn=0;Wdp=0.1;
+
+Was=2,Wtp=0.5,Wpp=5
 
 %
 % Frequency vectors for the Schur one-mulitplier lattice correction filter
 %
 
-n=400;
+n=1000;
 w=(1:(n-1))'*pi/n;
 nap=ceil(fap*n/0.5);
-nas=floor(fas*n/0.5);
+nas=floor(fas*n/0.5); 
 
 % Amplitude
 wa=w;

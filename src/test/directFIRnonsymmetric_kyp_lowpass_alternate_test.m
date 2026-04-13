@@ -27,6 +27,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
+sedumi_eps=2e-8
+
 % Alternative filter specifications
 for altspec=1:9
   printf("\n\n altspec=%d\n\n",altspec);
@@ -144,7 +146,7 @@ for altspec=1:9
   
   % Solve with YALMIP
   Constraints=[F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
-  Options=sdpsettings("solver","sedumi");
+  Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
   if constrain_Esq_max
     Constraints=[Constraints,F_max<=0,Q_max>=0];
   endif
@@ -217,9 +219,9 @@ zticks([]);
   printf("max(abs(H(nas:end)))^2=%11.6g\n",max(abs(H(nas:end)))^2);
 
   % Save results
-  print_polynomial(h,sprintf("h%02d",altspec),"%13.10f");
+  print_polynomial(h,sprintf("h%02d",altspec),"%11.8f");
   print_polynomial(h,sprintf("h%02d",altspec), ...
-                   sprintf("%s_h%02d_coef.m",strf,altspec),"%13.10f");
+                   sprintf("%s_h%02d_coef.m",strf,altspec),"%11.8f");
 endfor
 
 % Done

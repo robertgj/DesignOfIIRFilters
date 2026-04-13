@@ -1,5 +1,5 @@
 % iir_socp_slb_lowpass_test.m
-% Copyright (C) 2018-2025 Robert G. Jenssen
+% Copyright (C) 2018-2026 Robert G. Jenssen
 
 test_common;
 
@@ -13,8 +13,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic
 
-tol=1e-4
-ctol=1e-6
+ftol=1e-4
+ctol=ftol/100
 maxiter=2000
 verbose=false
 dmax=0.02;
@@ -25,7 +25,7 @@ rho=127/128;
 %
 R=1,N=15
 fap=0.15,dBap=1,Wap=1,Wat=0.001
-fas=0.2,dBas=40,Was=10
+fas=0.2,dBas=40,Was=2
 ftp=0.15,tp=10,tpr=0.2,Wtp=0.1
 
 % Frequency vectors
@@ -134,7 +134,7 @@ try
      iir_slb(@iir_socp_mmse,x0,xu,xl,dmax,U,V,M,Q,R, ...
              wa,Ad,Adu,Adl,Wa,ws,Sd,Sdu,Sdl,Ws,...
              wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp, ...
-             maxiter,tol,ctol,verbose)
+             maxiter,ftol,ctol,verbose)
 catch
 end_try_catch;
 if ~feasible
@@ -181,7 +181,7 @@ fprintf(fid,"M=%d %% Number of complex zeros\n",M);
 fprintf(fid,"Q=%d %% Number of complex poles\n",Q);
 fprintf(fid,"R=%d %% Denominator polynomial decimation factor\n",R);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"tol=%g %% Tolerance on relative coefficient update size\n",tol);
+fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%g %% Constraint on pole radius\n",rho);
 fprintf(fid,"fap=%g %% Pass band amplitude response edge\n",fap);
@@ -203,7 +203,7 @@ print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 % Done
 toc;
-eval([sprintf("save %s.mat ",strf),"N U V M Q R tol ctol rho dmax ", ...
+eval([sprintf("save %s.mat ",strf),"N U V M Q R ftol ctol rho dmax ", ...
       "fap dBap Wap ftp tp tpr Wtp fas dBas Was Ni Di x0 d1 N1 D1"]);
 
 diary off

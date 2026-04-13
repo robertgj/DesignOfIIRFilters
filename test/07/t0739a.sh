@@ -73,7 +73,7 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Floating point & 0.042710 & & \\
+Floating point & 0.042711 & & \\
 12-bit 3-signed-digit(Lim)& 0.042936 & 42 & 27 \\
 12-bit 3-signed-digit(B-and-B) & 0.042837 & 42 & 27 \\
 EOF

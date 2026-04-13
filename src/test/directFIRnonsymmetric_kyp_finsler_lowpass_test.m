@@ -16,6 +16,7 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Low-pass filter specification
+sedumi_eps=1e-8
 d=10;M=15;N=2*M;fap=0.15;Esq_z=6.064e-3;fas=0.2;Esq_s=1e-4;
 AdB_est=konopacki(N,(fas-fap)*2*pi,d)
 
@@ -66,7 +67,7 @@ F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+UV_s+(UV_s');
 % Satisfy constraints on zero-phase pass-band error and stop-band error
 Objective=[];
 Constraints=[F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
-Options=sdpsettings("solver","sedumi");
+Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);

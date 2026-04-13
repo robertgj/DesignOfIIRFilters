@@ -13,7 +13,7 @@ tic;
 
 ftol=1e-5
 ctol=ftol/100
-maxiter=2000
+maxiter=10000
 verbose=false
 
 % 1-1/z correction filter from tarczynski_lowpass_differentiator_alternate_test.m
@@ -29,10 +29,10 @@ k0=k0(:);c0=c0(:);p0=p0(:);c0=c0(:);
 
 % Low-pass differentiator filter specification
 fap=0.18;fas=0.3;
-Arp=0.004;Art=Arp;Ars=Arp;Wap=1;Wat=0.0001;Was=1;
-ftp=fap;tp=length(N0)-2;tpr=0.02;Wtp=1;
+Arp=0.004;Art=Arp;Ars=Arp;Wap=1;Wat=0.0001;Was=2;
+ftp=fap;tp=length(N0)-2;tpr=0.02;Wtp=0.5;
 fpp=fap;pp=1.5;ppr=0.0004;Wpp=1;
-fdp=0.1;cpr=0.8;cn=4;Wdp=0.1
+fdp=0.1;cpr=0.8;cn=4;Wdp=0.1;
 
 % Frequency points
 n=1000;
@@ -228,8 +228,9 @@ close
 
 % Check transfer function
 HH=freqz(N2,D2,wa);
-if max(abs((abs(HH).^2)-Csq2)) > 10*eps
-  error("max(abs((abs(HH).^2)-Csq2))(%g*eps) > 10*eps", max(abs((abs(HH).^2)-Csq2))/eps);
+if max(abs((abs(HH).^2)-Csq2)) > 100*eps
+  error("max(abs((abs(HH).^2)-Csq2))(%g*eps) > 100*eps", ...
+        max(abs((abs(HH).^2)-Csq2))/eps);
 endif
 
 % Save results

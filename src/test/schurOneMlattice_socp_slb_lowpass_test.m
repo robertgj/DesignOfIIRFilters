@@ -1,5 +1,5 @@
 % schurOneMlattice_socp_slb_lowpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -17,11 +17,11 @@ maxiter=2000
 verbose=false
 
 % Deczky3 lowpass filter specification
-n=500
+n=1000
 fap=0.15,dBap=0.1,Wap=1
 ftp=0.25,tp=9,tpr=0.02,Wtp=1
 Wat=2*ftol
-fas=0.35,dBas=47,Was=100
+fas=0.35,dBas=46,Was=100
 
 % Initial filter similar to Deczky Example 3a
 U=1;V=2;M=8;Q=4;R=1;

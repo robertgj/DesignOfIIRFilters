@@ -4,7 +4,7 @@
 % filter composed of parallel Schur one-multiplier all-pass lattice
 % filters with 16-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -367,7 +367,7 @@ fid=fopen(strcat(strf,"_kmin_cost.tab"),"wt");
 fprintf(fid,"Initial & %7.2e & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit(Ito)& %7.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
-fprintf(fid,"%d-bit %d-signed-digit(SOCP b-and-b) & %7.2e & %d & %d \\\\\n", ...
+fprintf(fid,"%d-bit %d-signed-digit(SOCP B-and-B) & %7.2e & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
@@ -379,7 +379,7 @@ fclose(fid);
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("Initial","s-d(Ito)","s-d(SOCP B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -399,7 +399,7 @@ close
 plot(wa*0.5/pi,10*log10(Asq_k0),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k0_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_kmin),"linestyle","-.");
-legend("Initial","s-d(Ito)","s-d(SOCP b-and-b)");
+legend("Initial","s-d(Ito)","s-d(SOCP B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -420,7 +420,7 @@ ylabel("Amplitude(dB)");
 xlabel("Frequency");
 title(strt);
 axis([0, fas, -0.05, 0.01]);
-legend("Initial","s-d(Ito)","s-d(b-and-b)");
+legend("Initial","s-d(Ito)","s-d(B-and-B)");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -465,7 +465,7 @@ axis(ax(2),[0, 0.5, -100, -40]);
 ylabel(ax(1),"Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-legend("Initial","s-d(Ito)","s-d(b-and-b)");
+legend("Initial","s-d(Ito)","s-d(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");

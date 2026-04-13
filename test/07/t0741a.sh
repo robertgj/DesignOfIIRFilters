@@ -75,8 +75,8 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min.ok"; fail; fi
 
 cat > test_cost.ok << 'EOF'
-Exact & 6.7387e-02 & & \\
-12-bit 3-signed-digit(Lim)& 6.7357e-02 & 45 & 30 \\
+Exact & 6.7384e-02 & & \\
+12-bit 3-signed-digit(Lim)& 6.7329e-02 & 45 & 30 \\
 12-bit 3-signed-digit(SOCP-relax) & 6.7400e-02 & 44 & 29 \\
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_cost.ok"; fail; fi

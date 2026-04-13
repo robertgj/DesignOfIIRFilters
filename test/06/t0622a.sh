@@ -40,10 +40,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 Primary constraints (sl,pl,pu,su) sol.problem=0
 Dual constraints (sl,pl,pu,su) sol.problem=0
-norm(value(W_pl))=   3.5e-13,trace(value(W_pl)*Theta_pl)= -3.06e-13
-norm(value(W_pu))=  4.92e-13,trace(value(W_pu)*Theta_pu)= -5.36e-13
-norm(value(W_su))=        89,trace(value(W_su)*Theta_su)= -8.35e-11
-norm(value(W_sl))=       376,trace(value(W_sl)*Theta_sl)=  -8.4e-11
+norm(value(W_pl))=  3.47e-13,trace(value(W_pl)*Theta_pl)= -3.02e-13
+norm(value(W_pu))=  4.88e-13,trace(value(W_pu)*Theta_pu)= -5.31e-13
+norm(value(W_su))=        89,trace(value(W_su)*Theta_su)=    -9e-11
+norm(value(W_sl))=       376,trace(value(W_sl)*Theta_sl)= -9.05e-11
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

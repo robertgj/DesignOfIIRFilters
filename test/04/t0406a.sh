@@ -59,13 +59,6 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
-cat > test_12_nbits_cost.ok << 'EOF'
-Exact & 0.001693 & & \\
-12-bit 3-signed-digit& 0.004768 & 120 & 68 \\
-12-bit 3-signed-digit(SOCP-relax) & 0.001608 & 120 & 69 \\
-EOF
-if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
-
 cat > test_12_nbits_k_allocsd.ok << 'EOF'
 k_allocsd_digits = [  3,  3,  3,  3, ... 
                       3,  3,  3,  3, ... 
@@ -94,9 +87,9 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_v_allocsd.ok";fail;fi
 
 cat > test_12_nbits_k_min.ok << 'EOF'
-k_min = [      -35,     1184,       29,     -292, ... 
-               -19,      120,       13,      -52, ... 
-               -13,       21 ]'/2048;
+k_min = [      -37,     1184,       31,     -292, ... 
+               -22,      116,       13,      -54, ... 
+               -16,       12 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_k_min.ok"; fail; fi
 
@@ -111,22 +104,29 @@ if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_epsilon_min.ok"; \
 cat > test_12_nbits_u_min.ok << 'EOF'
 u_min = [     1184,      608,     -118,     -176, ... 
                104,       68,      -88,      -20, ... 
-                81,      -40,      -25,       16, ... 
+                81,      -39,      -25,       16, ... 
                 21,      -19,       -8,       15, ... 
-                 2,      -20,       18,        0, ... 
-                -2 ]'/2048;
+                 2,      -19,       17,        0, ... 
+                -3 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_u_min.ok"; fail; fi
 
 cat > test_12_nbits_v_min.ok << 'EOF'
-v_min = [    -1344,     -560,      270,       10, ... 
+v_min = [    -1344,     -560,      270,       11, ... 
               -134,       97,       10,      -73, ... 
-                56,        1,      -37,       28, ... 
-                 5,      -22,       16,        4, ... 
-               -16,       12,        1,       -6, ... 
-                 3 ]'/2048;
+                58,        3,      -34,       26, ... 
+                 5,      -23,       14,        5, ... 
+               -16,       11,        1,       -4, ... 
+                 1 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_v_min.ok"; fail; fi
+
+cat > test_12_nbits_cost.ok << 'EOF'
+Exact & 0.008140 & & \\
+12-bit 3-signed-digit& 0.022588 & 123 & 71 \\
+12-bit 3-signed-digit(SOCP-relax) & 0.002826 & 124 & 73 \\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_12_nbits_cost.ok"; fail; fi
 
 #
 # run and see if the results match
@@ -137,8 +137,6 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="socp_relaxation_schurOneMAPlattice_frm_12_nbits_test"
-diff -Bb test_12_nbits_cost.ok $nstr"_kuv_min_cost.tab"
-if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_cost.ok"; fail; fi
 
 diff -Bb test_12_nbits_k_allocsd.ok $nstr"_k_allocsd_digits.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_k_allocsd.ok"; fail; fi
@@ -161,6 +159,9 @@ if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_u_min.ok"; fail; fi
 
 diff -Bb test_12_nbits_v_min.ok $nstr"_v_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_v_min.ok"; fail; fi
+
+diff -Bb test_12_nbits_cost.ok $nstr"_kuv_min_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_12_nbits_cost.ok"; fail; fi
 
 #
 # this much worked

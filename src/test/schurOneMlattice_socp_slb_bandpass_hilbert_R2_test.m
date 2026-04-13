@@ -11,9 +11,9 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-ftol=1e-4
-ctol=ftol/100
-maxiter=2000
+ftol=1e-3
+ctol=ftol/200
+maxiter=5000
 verbose=false
 dmax=0.1; % For compatibility with SQP
 rho=0.999;
@@ -30,10 +30,10 @@ p_ones=ones(size(k0));
 
 % Band-pass hilbert filter specification
 fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
-dBap=0.16,dBas=34,Wasl=10,Watl=0.001,Wap=1,Watu=0.001,Wasu=10
+dBap=0.4,dBas=33,Wasl=1,Watl=0.01,Wap=1,Watu=0.01,Wasu=1
 fppl=0.1,fppu=0.2,pp=3.5,ppr=0.002,Wpp=1
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.2,Wtp=0.1
-fdpl=0.1,fdpu=0.2,dp=0,dpr=0.8,Wdp=0.001
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.32,Wtp=1
+fdpl=0.1,fdpu=0.2,dp=0,dpr=1,Wdp=0.01
 
 % Frequency points
 n=1000;
@@ -119,13 +119,28 @@ T0=schurOneMlatticeT(wt,k0,epsilon0,p_ones,c0);
 dAsqdw0=schurOneMlatticedAsqdw(wd,k0,epsilon0,p_ones,c0);
 
 %
+% MMSE pass
+%
+printf("\nMMSE pass :\n");
+feasible=false;
+[k1,c1,opt_iter,func_iter,feasible] = schurOneMlattice_socp_mmse([], ...
+   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
+   wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
+   maxiter,ftol,ctol,verbose);
+if feasible == 0
+  error("k1 (MMSE) infeasible");
+endif
+[N1,D1]=schurOneMlattice2tf(k1,epsilon0,p_ones,c1);
+[k1,epsilon1,p1,c1]=tf2schurOneMlattice(N1,D1);
+
+%
 % PCLS pass
 %
 printf("\nPCLS pass :\n");
 feasible=false;
 [k2,c2,slb_iter,opt_iter,func_iter,feasible] = schurOneMlattice_slb ...
   (@schurOneMlattice_socp_mmse, ...
-   k0,epsilon0,p_ones,c0,kc_u,kc_l,kc_active,dmax, ...
+   k1,epsilon1,p_ones,c1,kc_u,kc_l,kc_active,dmax, ...
    wa,Asqd,Asqdu,Asqdl,Wa,wt,Td,Tdu,Tdl,Wt,wp,Pd,Pdu,Pdl,Wp,wd,Dd,Ddu,Ddl,Wd, ...
    maxiter,ftol,ctol,verbose);
 if feasible == 0
@@ -134,10 +149,10 @@ endif
 
 % Recalculate epsilon, p and c
 printf("\nBefore recalculating epsilon and c:\n");
-print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon1,"epsilon1");
 print_polynomial(c2,"c2");
 printf("\n");
-[N2,D2]=schurOneMlattice2tf(k2,epsilon0,p_ones,c2);
+[N2,D2]=schurOneMlattice2tf(k2,epsilon1,p_ones,c2);
 [k2r,epsilon2,p2,c2]=tf2schurOneMlattice(N2,D2);
 k2r=k2r(:);epsilon2=epsilon2(:);p2=p2(:);c2=c2(:);
 if max(abs(k2-k2r))>10*eps
@@ -165,18 +180,24 @@ endif
 
 % Plot response
 subplot(411);
-ax=plotyy(wa*0.5/pi,10*log10(Asq1), ...
-          wa*0.5/pi,10*log10(Asq1));
-axis(ax(1),[0 0.5 -37 -32]);
-axis(ax(2),[0 0.5 -0.2 0.05]);
+[ax,hp,hs]=plotyy(wa*0.5/pi,10*log10([Asq1,Asqdu,Asqdl]),...
+                  wa*0.5/pi,10*log10([Asq1,Asqdu]));
+axis(ax(1),[0 0.5 ( dBap*[-2 1])]);
+axis(ax(2),[0 0.5 (-dBas+[-2 1])]);
 grid("on");
+% Copy line colour
+hpc=get(hp,"color");
+set(ax(1),"ycolor",hpc{1});
+hsc=get(hs,"color");
+set(ax(2),"ycolor",hsc{1});
+set(hs(2),"color",hpc{2});
+ylabel("Ampl.(dB)","color","black");
 strP=sprintf(["Bandpass hilbert response : ", ...
  "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
              fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
 title(strP);
-ylabel("Ampl.(dB)");
 zticks([]);
-subplot(212);
+subplot(412);
 plot(wp*0.5/pi,mod((unwrap([P1 Pdl Pdu])+(wp*tp))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 grid("on");
@@ -184,7 +205,7 @@ ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(413);
 plot(wt*0.5/pi,[T1 Tdl Tdu]);
-axis([0 0.5 tp+(tpr*[-1,1])]);
+axis([0 0.5 tp+(0.2*[-1,1])]);
 grid("on");
 ylabel("Delay(samples)");
 zticks([]);
