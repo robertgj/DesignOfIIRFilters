@@ -67,6 +67,13 @@ k2 = [   0.0000000000,   0.2120976320,   0.0000000000,  -0.0278339732, ...
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k2.ok"; fail; fi
 
+cat > test.epsilon2.ok << 'EOF'
+epsilon2 = [  0,  1,  0,  1, ... 
+              0, -1,  0,  1, ... 
+              0, -1 ]';
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon2.ok"; fail; fi
+
 cat > test.c2.ok << 'EOF'
 c2 = [  -0.0239725801,  -0.2178213840,  -0.2812155021,  -0.0333434200, ... 
          0.0688863824,  -0.0122188606,  -0.0222488433,   0.0133035192, ... 
@@ -86,6 +93,9 @@ nstr="schurOneMlattice_socp_slb_lowpass_differentiator_R2_test";
 
 diff -Bb test.k2.ok $nstr"_k2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.k2.ok"; fail; fi
+
+diff -Bb test.epsilon2.ok $nstr"_epsilon2_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.epsilon2.ok"; fail; fi
 
 diff -Bb test.c2.ok $nstr"_c2_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.c2.ok"; fail; fi
