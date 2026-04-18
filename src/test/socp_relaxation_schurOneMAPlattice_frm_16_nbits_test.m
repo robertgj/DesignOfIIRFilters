@@ -155,7 +155,7 @@ v0_sd=kuv0_sd(Rv);
 v0_sd=v0_sd(:);
 print_polynomial(k0_sd,"k0_sd",nscale);
 print_polynomial(k0_sd,"k0_sd",strcat(strf,"_k0_sd_coef.m"),nscale);
-print_polynomial(epsilon0_sd,"epsilon0_sd",nscale);
+print_polynomial(epsilon0_sd,"epsilon0_sd","%2d");
 print_polynomial(epsilon0_sd,"epsilon0_sd", ...
                  strcat(strf,"_epsilon0_sd_coef.m"),"%2d");
 print_polynomial(p0_sd,"p0_sd");
@@ -284,7 +284,7 @@ Esq_min=schurOneMAPlattice_frmEsq ...
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-print_polynomial(epsilon_min,"epsilon_min");
+print_polynomial(epsilon_min,"epsilon_min","%2d");
 print_polynomial(epsilon_min,"epsilon_min", ...
                  strcat(strf,"_epsilon_min_coef.m"),"%2d");
 print_polynomial(p_min,"p_min");

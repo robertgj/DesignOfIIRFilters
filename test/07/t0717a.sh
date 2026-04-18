@@ -70,8 +70,8 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.k0.ok"; fail; fi
 
 cat > test.epsilon0.ok << 'EOF'
-epsilon0 = [   1.0000000000,   1.0000000000,   1.0000000000,   1.0000000000, ... 
-               1.0000000000 ];
+epsilon0 = [  1,  1,  1,  1, ... 
+              1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.epsilon0.ok"; fail; fi
 

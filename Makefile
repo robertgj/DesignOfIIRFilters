@@ -265,4 +265,6 @@ jekyll: $(TARGETS:%=%.pdf) cleanjekyll
 .PHONY: all
 all: octfiles $(TARGETS:%=%.pdf)
 
-.DEFAULT_GOAL := $(word 1,$(TARGETS)).pdf
+# .DEFAULT_GOAL := $(word 1,$(TARGETS)).pdf
+.DEFAULT_GOAL := all
+

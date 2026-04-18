@@ -158,7 +158,7 @@ endif
 
 % Recalculate epsilon, p and c
 printf("\nBefore recalculating epsilon and c:\n");
-print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon0,"epsilon0","%2d");
 print_polynomial(c2,"c2");
 printf("\n");
 [N2,D2]=schurOneMlattice2tf(k2,epsilon1,p_ones,c2);
@@ -319,8 +319,8 @@ close
 % Save results
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
-print_polynomial(epsilon2,"epsilon2");
-print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"));
+print_polynomial(epsilon2,"epsilon2","%2d");
+print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
 print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));
 print_polynomial(c2,"c2");

@@ -149,7 +149,7 @@ endif
 
 % Recalculate epsilon, p and c
 printf("\nBefore recalculating epsilon and c:\n");
-print_polynomial(epsilon1,"epsilon1");
+print_polynomial(epsilon1,"epsilon1","%2d");
 print_polynomial(c2,"c2");
 printf("\n");
 [N2,D2]=schurOneMlattice2tf(k2,epsilon1,p_ones,c2);

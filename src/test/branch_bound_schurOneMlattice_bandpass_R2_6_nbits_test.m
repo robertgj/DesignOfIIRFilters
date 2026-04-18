@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 % Branch-and-bound search of Schur one-multiplier lattice bandpass filter
 % response with 6-bit signed-digit coefficients
@@ -228,7 +228,7 @@ endif
 printf("\nBest new solution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon0,"epsilon0","%2d");
 print_polynomial(p0,"p0");
 print_polynomial(c_min,"c_min",cnscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),cnscale);

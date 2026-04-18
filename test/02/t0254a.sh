@@ -61,8 +61,8 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_k1_coef.m"; fail; fi
 
 cat > test_epsilon1_coef.m << 'EOF'
-epsilon1 = [   0.5058213990,  -0.0784713968,   0.0091879026,   0.0081425563, ... 
-              -0.0098219303 ];
+epsilon1 = [  1,  1, -1, -1, ... 
+              1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_epsilon1_coef.m"; fail; fi
 

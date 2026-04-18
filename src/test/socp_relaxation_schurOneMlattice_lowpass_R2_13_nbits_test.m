@@ -265,7 +265,7 @@ while ~isempty(kc_active)
         kc(Rc)=ctmp;
         epsilon=int16(epsilontmp(:));
         printf("k_active=[], epsilon and c rescaled\n");
-        print_polynomial(epsilon,"epsilon");
+        print_polynomial(epsilon,"epsilon","%2d");
         print_polynomial(ctmp,"c");
       endif
     elseif ~isempty(c_active)
@@ -290,8 +290,9 @@ Esq_min=schurOneMlatticeEsq(k_min,epsilon_min,p_ones,c_min,wa,Asqd,Wa);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-print_polynomial(epsilon_min,"epsilon_min",1);
-print_polynomial(epsilon_min,"epsilon_min",strcat(strf,"_epsilon_min_coef.m"),1);
+print_polynomial(epsilon_min,"epsilon_min","%2d");
+print_polynomial(epsilon_min,"epsilon_min", ...
+                 strcat(strf,"_epsilon_min_coef.m"),"%2d");
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 % Find the number of signed-digits and adders used by kc_sd

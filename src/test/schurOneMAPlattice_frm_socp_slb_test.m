@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_socp_slb_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -162,7 +162,7 @@ print_polynomial(b,"b");
 print_polynomial(b,"b",strcat(strf,"_b_coef.m"));
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
-print_polynomial(epsilon1,"epsilon1");
+print_polynomial(epsilon1,"epsilon1","%2d");
 print_polynomial(epsilon1,"epsilon1",strcat(strf,"_epsilon1_coef.m"),"%2d");
 print_polynomial(p1,"p1");
 print_polynomial(p1,"p1",strcat(strf,"_p1_coef.m"));

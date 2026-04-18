@@ -1,5 +1,5 @@
 % johanssonOneMlattice_socp_slb_bandstop_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -159,12 +159,12 @@ print_polynomial(f,"f");
 print_polynomial(f,"f",strcat(strf,"_f_coef.m"));
 print_polynomial(k0,"k0");
 print_polynomial(k0,"k0",strcat(strf,"_k0_coef.m"));
-print_polynomial(epsilon0,"epsilon0");
-print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"));
+print_polynomial(epsilon0,"epsilon0","%2d");
+print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"),"%2d");
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
-print_polynomial(epsilon1,"epsilon1");
-print_polynomial(epsilon1,"epsilon1",strcat(strf,"_epsilon1_coef.m"));
+print_polynomial(epsilon1,"epsilon1","%2d");
+print_polynomial(epsilon1,"epsilon1",strcat(strf,"_epsilon1_coef.m"),"%2d");
 save johanssonOneMlattice_socp_slb_bandstop_test.mat fapl fasl fasu fapu ...
      delta_p Wap delta_s Was dmax rho tol ctol fM k0 epsilon0 k1 epsilon1
 

@@ -292,8 +292,8 @@ if max(abs((abs(HH).^2)-Csq2)) > 20*eps
 endif
 
 % Save results
-print_polynomial(epsilon0,"epsilon0");
-print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"));
+print_polynomial(epsilon0,"epsilon0","%2d");
+print_polynomial(epsilon0,"epsilon0",strcat(strf,"_epsilon0_coef.m"),"%2d");
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
 print_polynomial(c2,"c2");

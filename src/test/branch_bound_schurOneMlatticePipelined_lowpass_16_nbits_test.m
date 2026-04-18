@@ -1,5 +1,5 @@
 % branch_bound_schurOneMlatticePipelined_lowpass_16_nbits_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 % Branch-and-bound search of a pipelined Schur one-multiplier lattice 
 % low-pass filter response with 16-bit 4-signed-digit coefficients
@@ -215,7 +215,7 @@ Esq_min=schurOneMlatticePipelinedEsq ...
 printf("\nBest new solution:\n Esq_min=%g\n ng_min=%g\n",Esq_min,ng_min);
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-print_polynomial(epsilon0,"epsilon0");
+print_polynomial(epsilon0,"epsilon0","%2d");
 print_polynomial(p_min,"p_min");
 print_polynomial(p_min,"p_min",strcat(strf,"_p_min_coef.m"),nscale);
 print_polynomial(c_min,"c_min",nscale);

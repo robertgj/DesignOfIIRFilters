@@ -202,7 +202,7 @@ fclose(fid);
 
 print_polynomial(k3,"k3");
 print_polynomial(k3,"k3",strcat(strf,"_k3_coef.m"));
-print_polynomial(epsilon3,"epsilon3");
+print_polynomial(epsilon3,"epsilon3","%2d");
 print_polynomial(epsilon3,"epsilon3",strcat(strf,"_epsilon3_coef.m"),"%2d");
 print_polynomial(p3,"p3");
 print_polynomial(p3,"p3",strcat(strf,"_p3_coef.m"));

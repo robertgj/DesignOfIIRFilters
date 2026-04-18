@@ -1,5 +1,5 @@
 % schurOneMAPlattice_frm_halfband_socp_mmse_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -133,8 +133,8 @@ print_polynomial(r1,"r1");
 print_polynomial(r1,"r1",strcat(strf,"_r1_coef.m"));
 print_polynomial(k1,"k1");
 print_polynomial(k1,"k1",strcat(strf,"_k1_coef.m"));
-print_polynomial(epsilon1,"epsilon1");
-print_polynomial(k1,"epsilon1",strcat(strf,"_epsilon1_coef.m"));
+print_polynomial(epsilon1,"epsilon1","%2d");
+print_polynomial(epsilon1,"epsilon1",strcat(strf,"_epsilon1_coef.m"),"%2d");
 print_polynomial(u1,"u1");
 print_polynomial(u1,"u1",strcat(strf,"_u1_coef.m"));
 print_polynomial(v1,"v1");

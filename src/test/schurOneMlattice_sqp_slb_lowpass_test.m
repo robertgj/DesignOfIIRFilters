@@ -1,5 +1,5 @@
 % schurOneMlattice_sqp_slb_lowpass_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -180,7 +180,7 @@ fclose(fid);
 
 print_polynomial(k2,"k2");
 print_polynomial(k2,"k2",strcat(strf,"_k2_coef.m"));
-print_polynomial(epsilon2,"epsilon2");
+print_polynomial(epsilon2,"epsilon2","%2d");
 print_polynomial(epsilon2,"epsilon2",strcat(strf,"_epsilon2_coef.m"),"%2d");
 print_polynomial(p2,"p2");
 print_polynomial(p2,"p2",strcat(strf,"_p2_coef.m"));

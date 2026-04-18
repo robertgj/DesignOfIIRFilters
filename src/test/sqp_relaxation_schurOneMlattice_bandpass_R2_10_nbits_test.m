@@ -136,7 +136,7 @@ while ~isempty(kc_active)
         kc(Rc)=ctmp;
         epsilon=int16(epsilontmp(:));
         printf("k_active=[], epsilon and c rescaled\n");
-        print_polynomial(epsilon,"epsilon");
+        print_polynomial(epsilon,"epsilon","%2d");
         print_polynomial(ctmp,"c");
         if any(epsilon(:)-epsilon0(:))
           printf("epsilon changed after rescaling\n");
@@ -180,8 +180,9 @@ print_polynomial(c_allocsd_digits,"c_allocsd_digits", ...
 
 print_polynomial(k_min,"k_min",nscale);
 print_polynomial(k_min,"k_min",strcat(strf,"_k_min_coef.m"),nscale);
-print_polynomial(epsilon_min,"epsilon_min",1);
-print_polynomial(epsilon_min,"epsilon_min",strcat(strf,"_epsilon_min_coef.m"),1);
+print_polynomial(epsilon_min,"epsilon_min","%2d");
+print_polynomial(epsilon_min,"epsilon_min", ...
+                 strcat(strf,"_epsilon_min_coef.m"),"%2d");
 print_polynomial(c_min,"c_min",nscale);
 print_polynomial(c_min,"c_min",strcat(strf,"_c_min_coef.m"),nscale);
 
