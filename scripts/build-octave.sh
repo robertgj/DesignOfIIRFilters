@@ -136,7 +136,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.6.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.7.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -471,7 +471,7 @@ mkdir build-sundials-$SUNDIALS_VER
 pushd build-sundials-$SUNDIALS_VER
 CFLAGS=$OPTFLAGS CXXFLAGS=$OPTFLAGS FFLAGS=$OPTFLAGS \
 echo " c \n g \n q \n" | \
-    ccmake -DENABLE_KLU=ON \
+    ccmake -DSUNDIALS_ENABLE_KLU=ON \
            -DKLU_LIBRARY_DIR:PATH=$OCTAVE_LIB_DIR \
            -DKLU_INCLUDE_DIR:PATH=$OCTAVE_INCLUDE_DIR/suitesparse \
            -DCMAKE_INSTALL_LIBDIR=lib \
@@ -825,7 +825,7 @@ $OCTAVE_BIN_DIR/octave-cli $OCTAVE_SITE_M_DIR/SDPT3/install_sdpt3.m
 #
 # Install YALMIP
 #
-YALMIP_VER=${YALMIP_VER:-R20230622}
+YALMIP_VER=${YALMIP_VER:-R20250626_fix2}
 YALMIP_ARCHIVE=$YALMIP_VER".tar.gz"
 YALMIP_URL="https://github.com/yalmip/YALMIP/archive/refs/tags/"$YALMIP_ARCHIVE
 if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
@@ -834,8 +834,8 @@ if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
 fi
 tar -xf "YALMIP-"$YALMIP_ARCHIVE
 cat > YALMIP-$YALMIP_VER.patch << 'EOF'
---- YALMIP-R20230622.orig/extras/ismembcYALMIP.m	2023-06-22 21:57:52.000000000 +1000
-+++ YALMIP-R20230622/extras/ismembcYALMIP.m	2024-02-09 17:57:56.674186190 +1100
+--- YALMIP-R20250626_fix2/extras/ismembcYALMIP.m	2025-06-26 22:28:40.000000000 +1000
++++ YALMIP-R20250626_fix2.new/extras/ismembcYALMIP.m	2026-04-17 19:57:21.252246937 +1000
 @@ -1,14 +1,6 @@
  function members=ismembcYALMIP(a,b)
 -
@@ -850,6 +850,22 @@ cat > YALMIP-$YALMIP_VER.patch << 'EOF'
 -end
 +  members = ismember(a,b);
 +endfunction
+ 
+   
+   
+--- YALMIP-R20250626_fix2/solvers/definesolvers.m	2025-06-26 22:28:40.000000000 +1000
++++ YALMIP-R20250626_fix2.new/solvers/definesolvers.m	2026-04-17 20:00:21.959154279 +1000
+@@ -74,9 +74,7 @@
+ emptysolver.uncertain  = 0;
+ emptysolver.global = 0;
+ 
+-MATLAB_lexversion = version('-release');
+-MATLAB_lexversion = MATLAB_lexversion(1:5); %Prune possible hotfix?
+-MATLAB_lexversion = strrep(strrep(MATLAB_lexversion,'a','.1'),'b','.2');
++MATLAB_lexversion = "";
+ 
+ % **************************************
+ % Some standard solvers to simplify code
 EOF
 # Patch
 pushd YALMIP-$YALMIP_VER
