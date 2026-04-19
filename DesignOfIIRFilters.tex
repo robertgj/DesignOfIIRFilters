@@ -1,6 +1,6 @@
 \pdfminorversion=7 % Suppress warning messages with pdf files produced by dia
 \documentclass[a4paper,twoside,10pt,english]{report}
-%\usepackage{showframe} % Helps debug vbox and hbox warnings
+% \usepackage{showframe} % Helps debug vbox and hbox warnings
 \usepackage{geometry}
 \geometry{verbose,nomarginpar,tmargin=1.5cm,bmargin=1.5cm,lmargin=1.5cm,
 rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
@@ -55,7 +55,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
   \usepackage[hidelinks,colorlinks=false]{hyperref}
 \else
   \usepackage[unicode=true,pdfusetitle,bookmarks=true,backref=page,
-              bookmarksnumbered=false,bookmarksopen=false,breaklinks=false,
+              bookmarksnumbered=false,bookmarksopen=false,breaklinks=true,
               pdfborder={1 0 0},colorlinks=true]{hyperref}
   \usepackage[all]{hypcap} % Needed to help hyperlinks direct correctly
 \fi
@@ -111,6 +111,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathrange}{range}
 \DeclareMathOperator{\mathtrace}{trace}
 \DeclareMathOperator{\mathadj}{adj}
+\DeclareMathOperator{\mathadjugate}{adg}
 \DeclareMathOperator{\mathdiag}{diag}
 \DeclareMathOperator{\mathtpltz}{Toeplitz}
 \DeclareMathOperator{\mathcohull}{cohull}
@@ -128,8 +129,9 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 
 % Use numerals or letters for footnotes
 %\renewcommand{\thefootnote}{\arabic{footnote}}
-\renewcommand{\thefootnote}{\alph{footnote}}
-                                                  
+%\renewcommand{\thefootnote}{\alph{footnote}}
+\renewcommand{\thefootnote}{\roman{footnote}}
+  
 % For 4-digit page numbers in the table-of-contents (default is 1.55em)
 \makeatletter
 \renewcommand{\@pnumwidth}{2em}
@@ -139,6 +141,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \author{Robert G. Jenssen}
 
 \begin{document}
+
 \begin{titlepage}
 \maketitle
 \end{titlepage}
@@ -25821,9 +25824,9 @@ The following definitions of the determinant of a matrix are equivalent:
   $M_{kl}$, is the determinant of the $\left(n-1\right)\times\left(n-1\right)$
   matrix formed by deleting row $k$ and column $l$ of $A$. The \emph{cofactor}
   matrix of $A$ is $C=\left(\left(-1\right)^{k+l}M_{kl}\right)$. The
-  \emph{adjugate} matrix of $A$ is $\mathadj{A}=C^{\top}$. The adjugate matrix
-  is defined so that $A\mathadj{A}=\mathadj{A}A=\det{A}I_{n}$ and
-  $A^{-1}=\left[\det A\right]^{-1}\mathadj{A}$. If the entries of $A$ are
+  \emph{adjugate} matrix of $A$ is $\mathadjugate{A}=C^{\top}$. The adjugate
+  matrix is defined so that $A\mathadj{A}=\mathadjugate{A}A=\det{A}I_{n}$ and
+  $A^{-1}=\left[\det A\right]^{-1}\mathadjugate{A}$. If the entries of $A$ are
   $a_{kl}$ and the entries of $C$ are $c_{kl}=\left(-1\right)^{k+l}M_{kl}$, then
   the \emph{cofactor expansion alongthe $k$'th row} is
   $\det{A}=\sum_{l=1}^{n}a_{kl}C_{kl}$. The \emph{cofactor expansion along the
@@ -25839,7 +25842,8 @@ The \emph{matrix exponential} is given by the power series:
 is:
 \begin{align*}
   \frac{d}{dt}\det{A\left(t\right)}
-  &= \mathtrace\left(\mathadj{A\left(t\right)}\frac{d}{dt}A\left(t\right)\right)
+  &= \mathtrace\left(\mathadjugate{A\left(t\right)}
+    \frac{d}{dt}A\left(t\right)\right)
 \end{align*}
 The following corollory is obtained by substituting $A\left(t\right)=e^{tB}$:
 \begin{align*}
@@ -27611,12 +27615,12 @@ real and complex poles with radius $0$.
 
 For convenience in the following, rewrite Equation~\ref{eqn:Transfer-function}
 as: 
-\begin{align*}
+\begin{align}
 \label{eqn:Transfer-function-with-delay}
 H\left(z\right) = K\frac{z^{-J}}{z^{-RL}} 
 \frac{\sum_{j=0}^{J}n_{j}z^{J-j}}
 {\left[z^{RL}+\sum_{l=1}^{L}d_{l}z^{R\left(L-l\right)}\right]}
-\end{align*}
+\end{align}
 
 Suppose there is a zero at $v=re^{\imath\theta}$, then the magnitude response
 due to this zero is 
@@ -28702,13 +28706,24 @@ Since $H$ is positive definite and the Lagrangian is a strictly
 \emph{convex}\footnote{A function, $f\left(x\right)$, is convex if
   $f\left(\alpha{}x+\left(1-\alpha\right)y\right)\le{}\alpha{}f\left(x\right)+\left(1-\alpha\right)f\left(y\right),\;\forall\alpha\in\left[0,1\right]$} quadratic
 function, the minimum occurs at $\nabla{}q\left(\lambda\right)=0$:
-\begin{align*}
-  a+Hx-G^{\top}\lambda=0
-\end{align*}
+\begin{align}
+  a+Hx-G^{\top}\lambda &= 0 \label{eqn:SDP-dual-Lagrangian-minimum}
+\end{align}
 Substituting for $x$:
 \begin{align*}
   q\left(\lambda\right)&=-\frac{1}{2}\left(G^{\top}\lambda-a\right)^{\top}H^{-1}
                 \left(G^{\top}\lambda-a\right)+b^{\top}\lambda
+\end{align*}
+
+Alternatively, substituting Equation~\ref{eqn:SDP-dual-Lagrangian-minimum} with:
+\begin{align*}
+  \left(a-G^{\top}\lambda\right)^{\top}x=-x^{\top}Hx
+\end{align*}
+the dual of the quadratic programming problem is:
+\begin{align*}
+  \underset{\lambda,x}{\textbf{maximise}} \quad
+  & -\frac{1}{2}x^{\top}Hx+\lambda^{\top}b \\
+  \textbf{subject to} \quad & a+Hx-G^{\top}\lambda = 0 \; , \; \lambda\ge 0
 \end{align*}
 
 \emph{Bertsekas}~\cite[Proposition 3.4.2]{Bertsekas_NonlinearProgramming}
@@ -33365,7 +33380,6 @@ becomes~\cite[Equation
                      \quad& Q \succ 0
   \end{split}
 \end{align}
-
 \subsubsection{Dual formulation of the covariance estimation problem}
 The Lagrangian of the primal problem is
 \begin{align*}
@@ -40345,7 +40359,7 @@ The $M+1$ distinct coefficients of the sub-filter are:
 \end{figure}
 
 \chapter{\label{app:Kalman-Yakubovic-Popov-Lemma-IIR-Filter-Design}Application of the \emph{Kalman-Yakubovi\u{c}-Popov} lemma to digital filter design}
-\section{The continuous-time KYP lemma}
+\section{\label{sec:Continuous-time-KYP-lemma}The continuous-time KYP lemma}
 The \emph{Kalman-Yakubovi\u{c}-Popov} (KYP)
 lemma~\cite{Kalman_LyapunovFunctions} is a fundamental result from the theory
 of control systems. The continuous time KYP states that, for a state-variable
@@ -40779,17 +40793,55 @@ The second corollary shows how to express the Linear Matrix Inequality (LMI) of
 Theorem 2 in terms of real matrixes that represent the real and imaginary parts
 of $P$ and $Q$. 
 
+\section{\label{sec:Discrete_time_KYP_lemma}The discrete-time KYP lemma}
+\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
+proofs of the discrete- and continuous-time KYP lemmas by the properties of the
+dual problems. For the discrete-time KYP lemma
+Cheng~\cite[Theorem 1]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows:
+\begin{framed}
+  Let $A\in\mathbb{C}^{n\times{}n}$, $B\in\mathbb{C}^{n\times{}m}$ and
+  $\Theta\in\mathbb{H}^{n+m}$. Then the following two statements are equivalent.
+  \begin{enumerate}
+  \item There exists $P\in\mathbb{H}^{n}$ such that:
+    \begin{align}  
+      \label{eqn:ChengDiscreteTimeKYP}
+      \left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right]^{\mathconj}
+      \left[\begin{array}{cc}
+        P & \phantom{-}0 \\
+        0 & -P \end{array}\right]
+      \left[\begin{array}{cc}
+        A & B \\
+        I & 0 \end{array}\right] + \Theta \prec 0
+    \end{align}
+  \item For all $\omega\in\mathbb{R}$, $u\in\mathbb{C}^{n}$,
+    $v\in\mathbb{C}^{m}$:
+    \begin{align*}
+      \text{If }
+      \left[\begin{array}{c}
+        u \\
+        v\end{array}\right] \ne 0
+      \text{ and } \left(e^{\imath\omega}-A\right)u=Bv \text{, then }
+      \left[\begin{array}{cc}
+        u^{\mathconj} \; v^{\mathconj}\end{array}\right]
+      \Theta
+      \left[\begin{array}{c}
+        u \\
+        v\end{array} \right] < 0
+    \end{align*}
+ \end{enumerate}
+ If $\left(A,B\right)$ is controllable, then equivalence also holds with all
+ the occurrences of $\prec$ replaced by $\preceq$.
+\end{framed}
+
+
 \clearpage
-\section{\emph{Iwasaki} and \emph{Hara}'s generalised KYP lemma for
-discrete-time systems}
+\section{\emph{Iwasaki} and \emph{Hara}'s generalised discrete-time KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite{Iwasaki_KYPlemmaFrequencyInequalities}
 prove a generalised KYP lemma for discrete-time systems by first making a
 frequency transformation in the complex plane from the unit-circle to the
 imaginary axis and then applying the continuous-time KYP lemma.
-
-\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
-proofs of the discrete- and continuous-time KYP lemmas by the properties of the
-dual problems.
 
 \subsection{Frequency transformations in the complex plane}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section
@@ -40820,7 +40872,6 @@ implies $s^{\ast}+s=0$ or $s\in\imath\mathbb{R}$. Similarly,
 0 & -1 \end{array}\right]\right)=0
 \end{align*}
 implies $z^{\ast}z=1$ or $z=e^{\imath\phi}$.
-
 
 A frequency variable transformation
 $\mathcal{T}~:~\mathbb{C}\rightarrow\mathbb{C}$ is defined by
@@ -40927,7 +40978,6 @@ Then:
 &=\left(ad-bc\right)I-cs\left(dI+cA\right)+c\left(bI+aA\right)\\
 -cdsI+adI-c^{2}sA+acA&=adI-bcI-cdsI-c^{2}sA+bcI+acA
 \end{align*}
-
 \subsection{\label{sec:Generalised_discrete_time_KYP_theorem}A generalised discrete-time KYP lemma}
 \emph{Iwasaki} and \emph{Hara}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities} prove the following generalised KYP
 lemma for discrete-time state variable systems:
@@ -41920,8 +41970,8 @@ $P \approx -2\hat{P}$.
 \emph{Finsler}'s lemma in LMI form as:
 \begin{framed}
   \emph{Lemma}: Let $P=P^{\top}$ and matrix $A$ with orthogonal complement,
-  $A^{\bot}$, such that $A^{\bot}A=0$, then the
-  following statements are equivalent:
+  $A^{\bot}$, such that $A^{\bot}A=0$ or $A^{\bot}=\mathnull A$, then the following
+  statements are equivalent:
   \begin{enumerate}
     \item $A^{\bot}P\left(A^{\bot}\right)^{\top}\prec 0$
     \item There exists a matrix $X$ satisfying $P+AX+X^{\top}A^{\top}\prec 0$
@@ -42072,130 +42122,13 @@ B^{\mathconj}X^{\mathconj}&B^{\mathconj}Y^{\mathconj}&B^{\mathconj}Z^{\mathconj}
 \end{align*}
 
 The Octave script \emph{yalmip\_kyp\_finsler\_test.m} checks
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}.
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI-Finsler}. 
 
 The Octave script \emph{directFIRnonsymmetric\_kyp\_finsler\_lowpass\_test.m}
 repeats the filter design of
 Section~\ref{sec:Design-KYP-FIR-non-symmetric-low-pass} with the Finsler
 transformation of the generalised KYP lemma.
 
-\subsection{The dual of the KYP lemma}
-\emph{Wallin}, \emph{Vandeberghe} and others note that solution of the KYP lemma
-by Equation~\ref{eqn:KYPlemmaLMI_expanded} is an $\mathcal{O}\left(n^{6}\right)$
-complexity problem, that solving the \emph{dual} problem reduces this to
-$\mathcal{O}\left(n^{4}\right)$ and that exploiting the structure of the dual
-problem can reduce the complexity further to
-$\mathcal{O}\left(n^{3}\right)$~
-\cite{Balakrishnan_SDPDualityLinearTimeInvariantSystems,
-  VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma,
-  WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
-  WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic,
-  ChengYiping_ProofDiscreteTimeKYPusingSDPduality}.
-\subsubsection{The \emph{adjoint} of the discrete-time KYP linear mapping}
-\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
-proofs of the continuous-time and discrete-time KYP lemmas by duality.
-He begins by reviewing the definition of the \emph{adjoint} of the linear
-mapping of a hermitian matrix. The inner product defined on the Hilbert space of
-$n\times n$ Hermitian matrixes, $\mathbb{H}^{n}$, is\footnote{See
-  Section~\ref{app:Linear-algebra-trace-of-matrix}}:
-\begin{align*}
-  \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
-    \mathtrace\left(AB\right)
-\end{align*}
-Also:
-\begin{quotation}
-  ... given two Hilbert spaces $V$ and $W$ and a linear mapping
-  $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
-  denoted $\mathcal{A}^{adj}$, is a linear mapping from $W$ to $V$ such that
-  \begin{align*}
-    \forall x\in V, y\in W, \langle\mathcal{A}\left(x\right),y\rangle_{W} =
-    \langle x,\mathcal{A}^{adj}\left(y\right)\rangle_{V}
-  \end{align*}
-\end{quotation}
-
-The linear mapping associated with the discrete-time KYP lemma is
-$\mathcal{D}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
-\begin{align}
-  \mathcal{D}\left(P\right) &= \left[\begin{array}{cc}
-         A^{\mathconj}PA-P & A^{\mathconj}PB \\
-         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
-  \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
-\end{align}
-The adjoint mapping, $\mathcal{D}^{adj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$,
-is:
-\begin{align*}
-  \mathcal{D}^{adj}\left(Z\right)
-  &= AZ_{11}A^{\mathconj}-Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
-    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj}
-\end{align*}
-where
-\begin{align*}
-  Z&=\left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-             Z_{12}^{\mathconj} & Z_{22}\end{array}\right]
-\end{align*}
-This follows from the definition of the inner product:
-\begin{align*}
-  \langle\mathcal{D}\left(P\right),Z\rangle &=
-  \mathtrace\left(\mathcal{D}\left(P\right)Z\right)  \\
-  &= \mathtrace\left(\left[\begin{array}{cc}
-         A^{\mathconj}PA-P & A^{\mathconj}PB \\
-         B^{\mathconj}PA   & B^{\mathconj}PB\end{array}\right]
-    \left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-            Z_{12}^{\mathconj} & Z_{22}\end{array}\right]\right) \\
-  &= \mathtrace\left(\left[\begin{array}{cc}
-    A^{\mathconj}PAZ_{11}-PZ_{11} +A^{\mathconj}PBZ_{12}^{\mathconj} & \cdots \\
-    \cdots & B^{\mathconj}PAZ_{12}+B^{\mathconj}PBZ_{22}\end{array}\right]\right) \\
-  &= \mathtrace\left( PAZ_{11}A^{\mathconj}-PZ_{11} +PBZ_{12}^{\mathconj}A^{\mathconj}
-    +PAZ_{12}B^{\mathconj}+PBZ_{22}B^{\mathconj}\right) \\
-  &= \langle P,\mathcal{D}^{adj}\left(Z\right)\rangle 
-\end{align*}
-and the following properties of $\mathtrace$:
-\begin{align*}
-  \mathtrace\left(A+B\right) &=
-      \mathtrace\left(A\right) + \mathtrace\left(B\right) \\
-  \mathtrace\left(AB\right) &=
-      \mathtrace\left(A^{\top}B\right) = \mathtrace\left(AB^{\top}\right)
-        =\mathtrace\left(B^{\top}A\right) = \mathtrace\left(BA^{\top}\right) \\
-  \mathtrace\left(ABCD\right) &= \mathtrace\left(BCDA\right) =
-                                \mathtrace\left(CDAB\right) =
-                                \mathtrace\left(DABC\right) \\
-  \mathtrace\left(ABC\right) &= \mathtrace\left(\left(ABC\right)^{\top}\right)=
-                                \mathtrace\left(CBA\right) 
-\end{align*}
-
-\subsubsection{The dual of the discrete-time KYP lemma}
-\emph{Cheng}
-proves the following dual of the discrete-time KYP lemma with the linear
-mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
-\begin{framed}
-  \emph{Proposition 2}~\cite[Section
-  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
-  $Z\in\mathbb{H}^{n+m}$ such that:
-  \begin{align*}
-    Z = \left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-             Z_{12}^{\mathconj} & Z_{22}\end{array}\right] &\prec 0 \\
-    AZ_{11}A^{\mathconj} - Z_{11} + BZ_{12}^{\mathconj}A^{\mathconj}
-    + AZ_{12}B^{\mathconj} + BZ_{22}B^{\mathconj} &= 0\\
-    \mathtrace\left(\Theta Z\right) &\le 0
-  \end{align*}
-\end{framed}
-Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
-The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
-dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
-designed with the Octave \emph{remez} function. Unfortunately, in this script,
-SeDuMi fails for the KYP lemma linear mapping of
-Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
-succeeds. However, SeDuMi does solve the dual mapping and solves the
-primal problem when the YALMIP \emph{'dualize'} option is set.
-
-\subsubsection{The dual of the generalised discrete-time KYP lemma}
-\emph{Seungil} and
-\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
-the generalised discrete-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 \clearpage
 \section{Generalisation of the KYP lemma to the union of disjoint  frequency intervals}
 \emph{Pipeleers}, \emph{Iwasaki}
@@ -43702,7 +43635,7 @@ $\boldsymbol{x}=\boldsymbol{x}_{m}+\Delta_{\boldsymbol{x}}$:
 Assume that $\boldsymbol{x}_{0}$ is a known feasible initial point. Set
 $\Delta_{z}=\mathvec\left(\Delta_{\boldsymbol{x}},\Delta_{\varepsilon^{2}},
   \Delta_{X},\Delta_{Y},\Delta_{Z}\right)$ and, after the $m$'th
-iteration,  $z_{m}=\mathvec\left(\boldsymbol{x}_{m},\varepsilon_{m}^{2},P_{m},Q_{m},
+iteration,  $z_{m}=\mathvec\left(\boldsymbol{x}_{m},\varepsilon_{m}^{2},
   X_{m},Y_{m},Z_{m}\right)$.
 
 \subsubsection{Successive convex optimisation with the algorithm of \emph{Dinh et al.}~\cite[Algorithm 1]{Dinh_ConvexConcaveDecompositionLinearizationBMI}\label{sec:Successive-convex optimisation-Dinh}}
@@ -43730,7 +43663,7 @@ Applying the Schur complement to the first and second terms:
 \begin{align*}
   \left[\begin{array}{cc}
     \left[\begin{array}{ccc}
-      0 & 0 & 0 \\
+      L\left(P,Q\right) & 0 & 0 \\
       0 & -\varepsilon^{2}I & 0 \\
       0 &                 0 & I \end{array}\right] &
     \frac{1}{\sqrt{2}}\left(U^{\mathconj}+V\right)^{\mathconj}\\
@@ -44160,6 +44093,557 @@ amplitude of the filter design.
 \label{fig:schurOneM-kyp-Dinh-lowpass-R2-convergence-Asq}
 \end{figure}
 
+\clearpage
+\section{Structure-exploiting algorithms for solving  KYP lemma problems}
+\emph{Vandenberghe}, \emph{Balakrishnan}
+\emph{et al.}~\cite{VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma}
+note that the solution of the continuous-time KYP lemma of
+Equation~\ref{eqn:KYPlemmaLMI} with a general purpose solver for 
+semi-definite programming(SDP)\footnote{See the MIT OpenCourseWare article of
+  \emph{Freund}~\cite{Freund_IntroSDP} and lectures by
+  \emph{Bertsimas}~\cite[Lecture 23]{Bertsimas_IntroMathematicalProgramming} for
+  introductions to SDP programming.} optimisation problems has a cost per
+iteration that grows as $\mathcal{O}\left(n^{6}\right)$. They derive a special
+purpose primal-dual interior point KYP-SDP solver with a cost per iteration of
+$\mathcal{O}\left(n^{3}\right)$. \emph{Wallin}, \emph{Hansson} and
+\emph{Vandeberghe}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
+show that by exploiting the structure of the dual of the KYP lemma the
+cost per iteration with the general purpose SDP solver
+\emph{SeDuMi}~\cite{Sturm_SeDuMi_GitHub} is reduced to
+$\mathcal{O}\left(n^{4}\right)$\footnote{See~\cite{Balakrishnan_SDPDualityLinearTimeInvariantSystems,  WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic,  ChengYiping_ProofDiscreteTimeKYPusingSDPduality}.}.
+
+\subsection{The \emph{dual} of an SDP problem}
+\subsubsection{The \emph{adjoint} of a linear mapping}
+\emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows proofs
+of the continuous-time and discrete-time KYP lemmas by duality\footnote{I am
+  suspicious of \emph{Cheng}'s proofs as, in each case, $Z\approx{}0$ is a
+  numerical solution.}. He begins by reviewing the definition of the
+\emph{adjoint} of the linear mapping of a hermitian matrix. The inner product
+defined on the Hilbert space of $n\times n$ Hermitian matrixes,
+$\mathbb{H}^{n}$, is\footnote{See
+  Section~\ref{app:Linear-algebra-trace-of-matrix}}:
+\begin{align*}
+  \langle A,B\rangle = \mathtrace\left(A^{\mathconj}B\right) =
+    \mathtrace\left(AB\right)
+\end{align*}
+Also:
+\begin{quotation}
+  ... given two Hilbert spaces $V$ and $W$ and a linear mapping
+  $\mathcal{A}:V\rightarrow W$, the adjoint mapping of $\mathcal{A}$,
+  denoted $\mathcal{A}^{\mathadj}$\footnote{The adjoint of a mapping,
+    $\mathcal{A}$, is distinct from the \emph{adjugate} matrix
+    $A^{\mathadjugate}$ of a matrix $A$ used to define the determinant of $A$.
+    See Appendix~\ref{app:Linear-algebra-determinants}.}, is a linear mapping
+  from $W$ to $V$ such that:
+  \begin{align*}
+    \forall x\in V, y\in W, \langle\mathcal{A}\left(x\right),y\rangle_{W} =
+    \langle x,\mathcal{A}^{\mathadj}\left(y\right)\rangle_{V}
+  \end{align*}
+\end{quotation}
+\subsubsection{The dual of an SDP problem}
+A \emph{primal} SDP optimisation problem is:
+\begin{align}
+  \underset{X}{\textbf{minimise}} \quad & \langle C,X \rangle \nonumber \\
+  \textbf{subject to}\quad & \langle A_{k},X\rangle = b_{k} \; ,k=1,\hdots,m \\
+                                        & X \succeq 0
+\label{Eqn:Definition-primal-SDP-problem}
+\end{align}
+where $C\in\mathbb{S}^{n\times{}n}$, $A_{k}\in\mathbb{S}^{n\times{}n}$ and
+$b_{k}\in\mathbb{R}$.
+The corresponding \emph{dual} SDP optimisation problem is stated as (or can be
+derived as\footnote{See the lecture notes of \emph{Bertsimas}~\cite[Lecture 23,
+  Section 4]{Bertsimas_IntroMathematicalProgramming} or
+ \emph{El Ghaoui}~\cite{ElGhaoui_SDP_Duality}.}):
+\begin{align}
+  \underset{y}{\textbf{maximise}} \quad & \sum_{k=1}^{m}y_{k}b_{k} \nonumber\\
+  \textbf{subject to}\quad & \sum_{k=1}^{m}y_{k}A_{k} + S = C \\
+                          & S \succeq 0
+  \label{Eqn:Definition-dual-SDP-problem}
+\end{align}
+
+\paragraph{Weak duality} \emph{Bertsimas}~\cite[Lecture 23, Section 4.2 and
+4.3]{Bertsimas_IntroMathematicalProgramming} gives the following theorem for
+\emph{weak duality}:
+\begin{framed}
+  \emph{Theorem}: Given a feasible solution, $X$,
+  of the primary SDP problem and a feasible solution $\left(y,S\right)$ of the
+  dual SDP problem:
+  \begin{align*}
+    \langle C,X \rangle - \sum_{k=1}^{m}y_{k}b_{k} & = \langle S,X \rangle \ge 0
+  \end{align*}
+  If $\langle C,X \rangle - \sum_{k=1}^{m}y_{k}b_{k} = 0$, then $X$ and
+  $\left(y,S\right)$ are each optimal solutions of the primal and dual SDP
+  optimisation problems and $SX=0$.
+\end{framed}
+\paragraph{Strong duality and the ``duality gap''} \emph{Bertsimas}~\cite[Lecture 23,
+Section 4.4]{Bertsimas_IntroMathematicalProgramming} notes that the SDP primary
+and dual solutions ``might not attain their respective optima'' and that there
+``might be a duality gap, unless certain regularity conditions are met''.
+Also~\cite[Lecture 23, Section 5]{Bertsimas_IntroMathematicalProgramming}:
+``There may be a ﬁnite or inﬁnite duality gap. The primal and/or dual may
+or may not attain their optima. Both problems will attain their common
+optimal value if both programs have feasible solutions in the interior of
+the semideﬁnite cone.''.
+\emph{Bertsimas} gives the following theorem for \emph{strong duality}:
+\begin{framed}
+  \emph{Theorem}: If there exist feasible solutions $\hat{X}$ for the primary
+  problem and $\left(\hat{y},\hat{S}\right)$ for the dual problem such that
+  $\hat{X}\succ 0$ and $\hat{S}\succ 0$, then both the primary and dual
+  solutions attain their optimal values $\hat{z}_{P}$ and $\hat{z}_{D}$ and
+  $\hat{z}_{P}=\hat{z}_{D}$.
+\end{framed}
+
+\subsection{The dual of the continuous-time KYP lemma}
+This section follows the report of \emph{Wallin}, \emph{Hansson} and
+\emph{Vandenburghe}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}.
+\subsubsection{The primal SDP problem of the continuous-time KYP lemma}
+\emph{Wallin et
+  al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}
+consider the following SDP optimisation problem derived from the KYP lemma:
+\begin{align}
+  \underset{v,P}{\textbf{minimise}} \quad & c^{\top}v \nonumber \\
+  \textbf{subject to}\quad & \left[\begin{array}{cc}
+    PA+A^{\top}P & PB \\
+    B^{\top}P & 0 \end{array}\right] + M\left(v\right) \succeq 0
+    \label{eqn:Primal-continuous-time-SDP-constraint} \\
+    & M\left(v\right)=M_{0}+\sum_{l=1}^{p}v_{l}M_{l} \nonumber
+\end{align}
+where the matrix $A\in\mathbb{R}^{n\times{}n}$, $B\in\mathbb{R}^{n\times{}m}$,
+the matrix $M\left(v\right)\in\mathbb{S}^{\left(n+m\right)\times\left(n+m\right)}$,
+the column vectors $c,v\in\mathbb{R}^{p\times 1}$,
+and the matrix $P\in\mathbb{S}^{n\times n}$.
+
+\subsubsection{The adjoint of the continuous-time KYP mapping}
+The linear mapping,
+$\mathcal{F}:\mathbb{R}^{n\times n}\rightarrow\mathbb{R}^{\left(n+m\right)\times\left(n+m\right)}$,
+associated with the continuous-time KYP lemma of
+Equation~\ref{eqn:KYPlemmaLMI_expanded} is:
+\begin{align}
+  \mathcal{F}\left(P\right) &= \left[\begin{array}{cc}
+         A^{\top}P+PA & PB \\
+         B^{\top}P   & 0 \end{array}\right]
+  \label{eqn:Continuous-time-KYP-lemma-linear-mapping}
+\end{align}
+The adjoint mapping, $\mathcal{F}^{\mathadj}:\mathbb{R}^{\left(n+m\right)\times\left(n+m\right)}\rightarrow\mathbb{R}^{n\times n}$,
+is:
+\begin{align*}
+  \mathcal{F}^{\mathadj}\left(Z\right)
+  &= AZ_{11} + Z_{11}A^{\top} + BZ_{12}^{\top} + Z_{12}B^{\top}
+\end{align*}
+where
+\begin{align*}
+  Z&=\left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\top} & Z_{22}\end{array}\right]
+\end{align*}
+This follows from the definition of the inner product:
+\begin{align*}
+  \langle\mathcal{F}\left(P\right),Z\rangle &=
+  \mathtrace\left(\mathcal{F}\left(P\right)Z\right)  \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+         A^{\top}P+PA & PB \\
+         B^{\top}P    & 0 \end{array}\right]
+    \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+            Z_{12}^{\top} & Z_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+    A^{\top}PZ_{11} + PAZ_{11} + PBZ_{12}^{\top} & \cdots \\
+    \cdots & B^{\top}PZ_{12}\end{array}\right]\right) \\
+  &= \mathtrace\left( PZ_{11}A^{\top}+PAZ_{11} +PBZ_{12}^{\top}
+    +PZ_{12}B^{\top}\right) \\
+  &= \langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle 
+\end{align*}
+and the following properties of $\mathtrace$:
+\begin{align*}
+  \mathtrace\left(A+B\right) &=
+                         \mathtrace\left(A\right) + \mathtrace\left(B\right) \\
+  \mathtrace\left(AB\right) &= \mathtrace\left(A^{\top}B\right)
+                             = \mathtrace\left(AB^{\top}\right)
+                             = \mathtrace\left(B^{\top}A\right)
+                             = \mathtrace\left(BA^{\top}\right) \\
+  \mathtrace\left(ABCD\right) &= \mathtrace\left(BCDA\right) =
+                                \mathtrace\left(CDAB\right) =
+                                \mathtrace\left(DABC\right) \\
+  \mathtrace\left(ABC\right)&=\mathtrace\left(\left(ABC\right)^{\top}\right)
+                             = \mathtrace\left(CBA\right) 
+\end{align*}
+
+\subsubsection{The dual SDP problem of the continuous-time KYP lemma}
+The corresponding dual SDP optimisation problem derived from the KYP
+lemma~\cite[Equations 3, 4 and
+5]{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers} is:
+\begin{subequations}
+\begin{align}
+  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \nonumber \\
+  \textbf{subject to}\quad & AZ_{11}+Z_{11}A^{\top}+
+                             BZ_{12}^{\top}+Z_{12}B^{\top} = 0
+  \label{eqn:Cont-time-Dual-SDP-KYP-a} \\
+                          & \langle M_{l},Z \rangle =c_{l} \; , \; l=1,2,\hdots,p 
+  \label{eqn:Cont-time-Dual-SDP-KYP-b} \\
+                          & Z \succeq 0
+  \label{eqn:Cont-time-Dual-SDP-KYP-c}
+\end{align}
+\end{subequations}
+
+\subsubsection{Reducing the number of variables in the dual SDP problem}
+Following \emph{Wallin et
+ al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
+WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
+a basis for $Z$ is:
+\begin{align*}
+  Z &= \sum_{k=1}^{k_{max}}z_{k}F_{k} \\
+  F_{k} &=\begin{cases}
+    \left[\begin{array}{cc}
+      E_{k\left(11\right)} & E_{k\left(12\right)} \\
+      E_{k\left(12\right)}^{\top} & 0 \end{array}\right]
+    & k=1,\hdots,mn \\
+    \left[\begin{array}{cc}
+      0 & 0 \\
+      0 & E_{k\left(22\right)}\end{array}\right]
+    & k=mn+1,\hdots,k_{max}
+    \end{cases}
+\end{align*}
+where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and
+$\left\{E_{k\left(12\right)}\right\}$ is a basis for $n\times{}m$ matrixes and
+$\left\{E_{k\left(22\right)}\right\}$ is a basis for $m\times{}m$ matrixes. The
+symmetric $\left\{E_{k\left(11\right)}\right\}$ basis matrixes are found by the
+solution of Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-a}, which is a set of
+continuous-time \emph{Lyapunov}
+equations~\cite[Section 2.6]{Kailath_LinearSystems}:
+\begin{align*}
+  AE_{k\left(11\right)}+E_{k\left(11\right)}A^{\top}+
+  BE_{k\left(12\right)}^{\top}+E_{k\left(12\right)}B^{\top} &= 0
+\end{align*}
+If $m\ll n$, then expressing the $E_{k\left(11\right)}$ in terms of the
+$E_{k\left(12\right)}$ reduces the number of variables in the dual SDP problem from
+$\mathcal{O}\left(n^{2}\right)$ to $\mathcal{O}\left(n\right)$.
+\begin{comment}
+\end{comment}
+\subsubsection{Optimisation with linear constraints}
+% This is too long to be a footnote!
+\emph{Nocedal}
+  and \emph{Wright}~\cite[Section 15.3]{NocedalWright_NumericalOptimization}
+  consider the following optimisation problem with linear constraints:
+\begin{align*}
+  \textbf{minimise} \quad & f\left(x\right) \\
+  \textbf{subject to}\quad & Ax=b
+\end{align*}
+where $A\in\mathbb{R}^{m\times{}n}$, $m\le n$ and $A$ has full row rank. Choose
+matrixes $\Phi\in\mathbb{R}^{n\times{}m}$ and
+$\Psi\in\mathbb{R}^{n\times\left(n-m\right)}$
+so that $\left[\begin{array}{cc}
+  \Phi & \Psi\end{array}\right]\in\mathbb{R}^{n\times{}n}$ and $A\Psi=0$. In other
+words, the columns of $\Psi$ are a basis for the null space of $A$. If $A$ has
+full row rank then so does $A\left[\begin{array}{cc}
+  \Phi & \Psi\end{array}\right]=\left[\begin{array}{cc}
+    A\Phi & 0\end{array}\right]$. It follows that the $m\times{}m$ matrix
+$A\Phi$ is non-singular and that any solution of the linear constraints $Ax=b$
+can be expressed as:
+\begin{align*}
+  x &= \Phi x_{\Phi} + \Psi x_{\Psi}
+\end{align*}
+where $x_{\Phi}\in\mathbb{R}^{m\times{}1}$ and
+$x_{\Psi}\in\mathbb{R}^{\left(n-m\right)\times{}1}$. Now:
+\begin{align*}
+  Ax &= \left(A\Phi\right)x_{\Phi} = b
+\end{align*}
+so:
+\begin{align*}
+  x_{\Phi} &= \left(A\Phi\right)^{-1}b
+\end{align*}
+and, for any choice of $x_{\Psi}$:
+\begin{align*}
+  x &= \Phi\left(A\Phi\right)^{-1}b + \Psi x_{\Psi}
+\end{align*}
+The minimisation problem is now unconstrained:
+\begin{align*}
+  \underset{x_{\Psi}}{\textbf{minimise}} \quad &
+            f\left(\Phi\left(A\Phi\right)^{-1}b + \Psi x_{\Psi}\right) \\
+\end{align*}
+
+\emph{Noceda} and \emph{Wright} recommend computing $\Phi$ and $\Psi$ by a
+QR factorisation of
+$A^{\top}$~\cite[Equation 15.21]{NocedalWright_NumericalOptimization}:
+\begin{align*}
+  A^{\top}\Pi &= \left[\begin{array}{cc}
+    Q_{1} & Q_{2}\end{array}\right]\left[\begin{array}{c}
+      R \\
+      0 \end{array}\right]
+\end{align*}
+where $Q=\left[\begin{array}{cc}
+  Q_{1} & Q_{2}\end{array}\right]\in\mathbb{R}^{n\times{}n}$ is orthogonal.
+$R\in\mathbb{R}^{m\times{}m}$ is upper-triangular and non-singular. $\Pi$ is a
+permutation matrix. For an orthogonal matrix $Q^{-1}=Q^{\top}$. Similarly,
+for a permutation matrix $\Pi^{-1}=\Pi^{\top}$. Choosing $\Phi=Q_{1}$ and
+$\Psi=Q_{2}$, so that the columns of $\Phi$ and $\Psi$ form an orthonormal basis
+of $\mathbb{R}^{n\times{}n}$, we have $A\Phi=\Pi R^{\top}$ and $A\Psi=0$.
+Any solution of $Ax=b$ can be expressed:
+\begin{align*}
+  x &= Q_{1}\left(R^{-1}\right)^{\top}\Pi^{\top}b + Q_{2}x_{\Psi}
+\end{align*}
+
+\subsubsection{Further reducing the number of variables in the dual SDP problem}
+To further reduce the number of variables in the dual SDP problem, rewrite
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-b}:
+\begin{align}
+  Gz &= c \label{eqn:Cont-time-Dual-SDP-KYP-Gz-c}
+\end{align}
+where $z = \left[\begin{array}{ccc}
+  z_{1} & \hdots & z_{k_{max}}\end{array}\right]^{\top}$ and
+the components of $G\in\mathbb{R}^{p\times{}k_{max}}$ are:
+\begin{align*}
+  G_{lk} &= \langle M_{l},F_{k} \rangle \\
+         &= \sum_{r=1}^{n+m}\sum_{s=1}^{n+m}M_{l\left(r,s\right)}F_{k\left(r,s\right)}
+\end{align*}
+
+As shown above, \emph{Nocedal} and
+\emph{Wright}~\cite[Section 15.3]{NocedalWright_NumericalOptimization} describe
+the optimisation of an over-determined (rectangular) linear system by means
+of a ``well-conditioned'' QR factorisation:
+\begin{align*}
+  G^{\top}\Pi &= \left[\begin{array}{cc}
+                       Q_{1} & Q_{2} \end{array}\right]
+                     \left[\begin{array}{c}
+                       R \\
+                       0 \end{array}\right]
+\end{align*}
+where $\Pi$ is a $p\times{}p$ permutation matrix, $\left[\begin{array}{cc}
+  Q_{1} & Q_{2} \end{array}\right]$ is orthogonal and $R$ is a $p\times{}p$
+upper triangular matrix. The sub-matrixes $Q_{1}$ and $Q_{2}$ have orthonormal
+columns and are of dimension $k_{max}\times{}p$ and
+$k_{max}\times{}\left(k_{max}-p\right)$.
+
+\emph{Nocedal} and \emph{Wright} derive the solution:
+\begin{align*}
+  z &= Q_{1}\left(R^{-1}\right)^{\top}\Pi^{\top}c + Q_{2}\tilde{z}
+\end{align*}
+for a choice of column vector $\tilde{z}$ with dimension $k_{max}-p$. The
+dual variable can now be represented in a new basis with fewer variables:
+\begin{align*}
+  Z &= H_{0} + \sum_{k=0}^{k_{max}-p}\tilde{z}_{k}H_{k}
+\end{align*}
+where:
+\begin{align*}
+  \left[\begin{array}{ccc}
+    \mathvec H_{0} & \hdots & \mathvec H_{k_{max}-p}\end{array}\right] &=
+  \left[\begin{array}{ccc}
+    \mathvec F_{1} & \hdots & \mathvec F_{k_{max}-p}\end{array}\right]
+  \left[\begin{array}{cc}
+     Q_{1}\left(R^{-1}\right)^{\top}\Pi^{\top}c & Q_{2}\end{array}\right]
+\end{align*}
+
+The new basis matrixes are linear combinations of the old basis matrixes.
+The number of variables in the dual SDP problem is now reduced from
+$\frac{\left(m+n\right)\left(m+n+1\right)}{2}$ to $k_{max}-p$. Rewriting the
+dual SDP objective in the new basis:
+\begin{align*}
+  -\langle M_{0},H_{0}+\sum_{k=1}^{k_{max}-p}\tilde{z}_{k}H_{k} \rangle &= 
+  -d_{0}-d^{\top}\tilde{z}
+\end{align*}
+The dual SDP problem is reformulated as:
+\begin{align*}
+  \textbf{minimise} \quad & d^{\top}\tilde{z}\\
+  \textbf{subject to}\quad & Z=H_{0}+
+                             \sum_{k=1}^{k_{max}-p}\tilde{z}_{k}H_{k}\succeq 0 
+\end{align*}
+
+\subsubsection{Recovering the primal variables $P$ and $v$}
+The constraint of the primal SDP problem can be written as:
+\begin{align*}
+  V &= \mathcal{F}\left(P\right) + M_{0} + \mathcal{M}\left(v\right) \succeq 0
+\end{align*}
+The constraints of the dual SDP problem can be written as:
+\begin{align*}
+  \mathcal{F}^{\mathadj}\left(Z\right) = 0 \\
+  \mathcal{M}^{\mathadj}\left(Z\right) = c
+\end{align*}
+Furthermore, since $\mathcal{F}^{\mathadj}\left(F_{k}\right)=0$, for
+$k=1,\hdots,k_{max}$:
+\begin{align*}
+  \langle F_{k},\mathcal{F}\left(P\right) \rangle  &=
+  \langle \mathcal{F}^{\mathadj}\left(F_{k}\right),P \rangle = 0
+\end{align*}
+Thus:
+\begin{align*}
+  \langle F_{k},V-M_{0} \rangle
+  &= \langle F_{k},\mathcal{M}\left(v\right) \rangle \\
+  &= \langle \mathcal{M}^{\mathadj}\left(F_{k}\right),v \rangle
+\end{align*}
+
+This can be rewritten as:
+\begin{align*}
+  G^{\top}v &= g
+\end{align*}
+where $G$ is that of Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Gz-c}
+and $g_{k}=\langle F_{k},V-M_{0}\rangle$.
+\emph{L\"{o}fberg}~\cite{Lofberg2009,Lofberg_YALMIP_Auto_dualization}
+shows how YALMIP recovers the primal matrix variable $V$ from a primal-dual
+solver such as SeDuMi. \emph{Wallin et al}~\cite[Section 3]{WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
+assume that the ``optimal value of the duality gap is known to
+be zero''. Now, given $v$, we can compute P by solving the Lyapunov
+equation corresponding to the $\left(1,1\right)$ block of the primal SDP
+constraint shown in Equation~\ref{eqn:Primal-continuous-time-SDP-constraint}.
+\subsubsection{Examples}
+
+\paragraph{\emph{L\"{o}fberg}'s YALMIP example} \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_Auto_dualization} provides an example of
+solving a KYP lemma problem with YALMIP, as shown in the Octave script
+\emph{yalmip\_kyp\_lofberg\_primalize\_test.m}. He states that, by default,
+YALMIP solves the dual of the problem specified whether or not that initial
+problem is in the primal form of Equation~\ref{Eqn:Definition-primal-SDP-problem}
+or the dual form of Equation~\ref{Eqn:Definition-dual-SDP-problem}. If I
+understand \emph{L\"{o}fberg}, correctly, in YALMIP, the initial problem is
+referred to as primary, is recognised by YALMIP to be in either primal or dual
+form, and when the dual problem is requested the initial problem is transformed
+appropriately. In simplified form, the script does the following:
+\begin{small}
+\begin{verbatim}
+n=50;
+A = randn(n);A = A - max(real(eig(A)))*eye(n)*1.5; % Stable dynamics
+B = randn(n,1);
+C = randn(1,n);
+t = sdpvar(1,1);
+P = sdpvar(n,n);
+obj = t;
+F = [kyp(A,B,P,blkdiag(C'*C,-t)) <= 0]
+[Fp,objp] = primalize(F,-obj)
+options=sdpsettings("dualize","false","solver","sedumi");
+optimize(F,obj,options)
+optimize(Fp,objp,options)
+optimize(Fp,objp,sdpsettings(options,"removeequalities",true))
+\end{verbatim}
+\end{small}
+The \emph{dualize} option stops YALMIP solving the dual form of the initial
+problem. Figure~\ref{fig:yalmip-kyp-lofberg-primalize-test-yalmip-time} shows
+the YALMIP time required by \emph{L\"{o}fberg}'s KYP example for each solution
+by \emph{optimize}. Likewise,
+Figure~\ref{fig:yalmip-kyp-lofberg-primalize-test-solver-time} shows
+the solver time required for each solution by \emph{optimize}. As
+\emph{L\"{o}fberg} points out, removing the equality constraints from the
+\emph{primalize}'d version of the initial problem dramatically reduces the
+size of the solver matrixes and the solver execution time, at the expense of
+increased YALMIP processing time. In each case, the execution time is a
+quadratic on the log-log plot, rather that the linear
+$\mathcal{O}\left(n^{4}\right)$ relation suggested by \emph{Wallin et. al.}.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_lofberg_primalize_test_yalmip_time}}
+\caption{YALMIP time required by \emph{L\"{o}fberg}'s KYP example for the
+  initial problem, the \emph{primalize}'d problem and the \emph{primalize}'d
+  problem with equality constraints removed.}
+\label{fig:yalmip-kyp-lofberg-primalize-test-yalmip-time}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_lofberg_primalize_test_solver_time}}
+\caption{Solver time required by \emph{L\"{o}fberg}'s KYP example for the
+  initial problem, the \emph{primalize}'d problem and the \emph{primalize}'d
+  problem with equality constraints removed.}
+\label{fig:yalmip-kyp-lofberg-primalize-test-solver-time}
+\end{figure}
+
+\paragraph{The example of \emph{Wallin et al.}} As an example, \emph{Wallin et al.}~\cite[Section
+5]{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers},
+analyse the following continuous-time linear system:
+\begin{align}
+  \left[\begin{array}{c}
+    \dot{x} \\
+    y \end{array}\right] &=
+  \left[\begin{array}{cc}
+    A & B \\
+    C & 0 \end{array}\right]
+  \left[\begin{array}{c}
+    x \\
+    u \end{array}\right]
+  \label{eqn:WHV-continuous-time-linear-system}
+\end{align}
+where $A\in\mathbb{R}^{n\times{}n}$ is a \emph{Hurwitz}-stable matrix\footnote{The
+  eigenvalues of a Hurwitz-stable matrix all have negative real part} and
+$B\in\mathbb{R}^{n\times{}m}$ and $C\in\mathbb{R}^{m\times{}n}$. The upper bound on
+the $L_{2}$ gain:
+\begin{align*}
+  \sup_{\mathnorm{u}_{2}\ne 0} \frac{\mathnorm{y}_{2}}{\mathnorm{u}_{2}} \le \gamma
+\end{align*}
+if and only if, for some $P=P^{\top}\prec 0$:
+\begin{align*}
+  \left[\begin{array}{cc}
+    PA+A^{\top}P & PB \\
+    B^{\top}P & 0 \end{array}\right] +
+  \left[\begin{array}{cc}
+    -C^{\top}C & 0 \\
+    0 & \gamma^{2}I \end{array}\right]  \succeq 0
+\end{align*}
+\emph{Wallin et al.} compute $\gamma$ for systems with $20$ to $60$ states,
+$5$ inputs and $5$ outputs. They plot the solution time for the dual SDP
+problem with a reduced number of variables and demonstrate the
+$\mathcal{O}\left(n^{4}\right)$ dependence.
+
+\subsection{The dual of the discrete-time KYP lemma}
+\subsubsection{The adjoint of the discrete-time KYP mapping}
+The linear mapping associated with the discrete-time KYP lemma is
+$\mathcal{F}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
+\begin{align}
+  \mathcal{F}\left(P\right) &= \left[\begin{array}{cc}
+         A^{\top}PA-P & A^{\top}PB \\
+         B^{\top}PA   & B^{\top}PB\end{array}\right]
+  \label{eqn:Discrete-time-KYP-lemma-linear-mapping}
+\end{align}
+The adjoint mapping, $\mathcal{F}^{\mathadj}:\mathbb{H}^{n+m}\rightarrow\mathbb{H}^{n}$,
+is:
+\begin{align*}
+  \mathcal{F}^{\mathadj}\left(Z\right)
+  &= AZ_{11}A^{\top}-Z_{11} + BZ_{12}^{\top}A^{\top}
+    + AZ_{12}B^{\top} + BZ_{22}B^{\top}
+\end{align*}
+This follows from the definition of the inner product:
+\begin{align*}
+  \langle\mathcal{F}\left(P\right),Z\rangle &=
+  \mathtrace\left(\mathcal{F}\left(P\right)Z\right)  \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+         A^{\top}PA-P & A^{\top}PB \\
+         B^{\top}PA   & B^{\top}PB\end{array}\right]
+    \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+            Z_{12}^{\top} & Z_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left(\left[\begin{array}{cc}
+    A^{\top}PAZ_{11}-PZ_{11} +A^{\top}PBZ_{12}^{\top} & \cdots \\
+    \cdots & B^{\top}PAZ_{12}+B^{\top}PBZ_{22}\end{array}\right]\right) \\
+  &= \mathtrace\left( PAZ_{11}A^{\top}-PZ_{11} +PBZ_{12}^{\top}A^{\top}
+    +PAZ_{12}B^{\top}+PBZ_{22}B^{\top}\right) \\
+  &= \langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle 
+\end{align*}
+\subsubsection{The dual of the discrete-time KYP lemma}
+\emph{Cheng}~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}
+proves the following dual of the discrete-time KYP lemma with the linear
+mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
+\begin{framed}
+  \emph{Proposition 2}~\cite[Section
+  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
+  $Z\in\mathbb{H}^{n+m}$ such that:
+  \begin{align*}
+    Z = \left[\begin{array}{cc}
+             Z_{11} & Z_{12} \\
+             Z_{12}^{\top} & Z_{22}\end{array}\right] &\prec 0 \\
+    AZ_{11}A^{\top} - Z_{11} + BZ_{12}^{\top}A^{\top}
+    + AZ_{12}B^{\top} + BZ_{22}B^{\top} &= 0\\
+    \mathtrace\left(\Theta Z\right) &\le 0
+  \end{align*}
+\end{framed}
+Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
+The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
+dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
+designed with the Octave \emph{remez} function. Unfortunately, in this script,
+SeDuMi fails for the KYP lemma linear mapping of
+Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
+succeeds. However, SeDuMi does solve the dual mapping and solves the
+primal problem when the YALMIP \emph{'dualize'} option is set.
+
+\subsection{The dual of the generalised discrete-time KYP lemma}
+\emph{Seungil} and
+\emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
+the generalised discrete-time KYP lemma by the dual of the Lagrangian of
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
+
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}
@@ -44482,12 +44966,29 @@ warning: called from
     print at line 790 column 11
 \end{verbatim}
 \end{small}
+
+\texttt{gdb} commands for debugging:
+\begin{small}
+\begin{verbatim}
+set debuginfod enabled off
+dir /usr/local/src/octave/octave
+set args -p src src/test/dri3_test.m
+b ../octave/libinterp/corefcn/gl2ps-print.cc:131
+\end{verbatim}
+\end{small}
 Work-arounds:
 \begin{itemize}
 \item Downgrade \emph{mesa}:
 \begin{small}
 \begin{verbatim}
 dnf downgrade mesa*
+\end{verbatim}
+\end{small}
+At the time of writing, Fedora 43 downgrades from version \emph{mesa-*-25.3.6-2}
+to version \emph{mesa-*-25.2.4-2}. Continue to update other packages with:
+\begin{small}
+\begin{verbatim}
+sudo dnf update -x mesa*
 \end{verbatim}
 \end{small}
 \item Disable DRI3 in \emph{/etc/X11/xorg.conf.d/01-disable-dri3.conf}:
@@ -44516,6 +45017,7 @@ export LIBGL_DRI3_DISABLE=1
 \end{small}
 This alternative did not work for me.
 \end{itemize}
+
 \subsubsection*{Using the Octave external code interface}
 From the Octave \emph{info} documentation:
 \begin{quotation}Octave offers a versatile interface for including

@@ -40,7 +40,7 @@ _spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= \,D \,B \,B,Conflicts
-CHECK_STRINGS= warning erfull
+CHECK_STRINGS= erfull warning 
 
 # Command definitions
 OCTAVE=octave
@@ -142,7 +142,7 @@ $(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 		$(PDFGREP) "\[\?" $(1).pdf || true ; \
 	fi;
 	-@for warnstr in $(CHECK_STRINGS); do \
-		$(GREP) $$$$warnstr $(1).log ; done
+		$(GREP) $$$$warnstr $(1).log ; done ;
 	-@echo Build complete
 endef
 
@@ -182,13 +182,14 @@ $(foreach target, $(TARGETS), $(eval $(call target_template,$(target))))
 
 .PHONY: testvars
 testvars :	
-	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
-	@echo $(OCT_FILES:%=src/%.oct)
-	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
-	@echo $(OCTAVE_VER)
-	@echo $(TARGETS:%=%.pdf)
-	@echo $(DIA_FILES)
-	@echo $(TIKZ_FILES)
+	@echo $(test_FIGURES:%=%.pdf)
+#	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
+#	@echo $(OCT_FILES:%=src/%.oct)
+#	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
+#	@echo $(OCTAVE_VER)
+#	@echo $(TARGETS:%=%.pdf)
+#	@echo $(DIA_FILES)
+#	@echo $(TIKZ_FILES)
 
 .PHONY: octfiles
 octfiles: $(OCT_FILES:%=src/%.oct)

@@ -1,0 +1,20 @@
+yalmip_kyp_lofberg_primalize_test_FIGURES = \
+yalmip_kyp_lofberg_primalize_test_solver_time \
+yalmip_kyp_lofberg_primalize_test_yalmip_time \
+yalmip_kyp_lofberg_primalize_test_tic_time
+
+yalmip_kyp_lofberg_primalize_test_COEFS = \
+yalmip_kyp_lofberg_primalize_test_n_10_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_16_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_17_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_25_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_28_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_40_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_46_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_50_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_63_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_77_solution_time.tab \
+yalmip_kyp_lofberg_primalize_test_n_100_solution_time.tab
+
+yalmip_kyp_lofberg_primalize_test_FILES = \
+yalmip_kyp_lofberg_primalize_test.m test_common.m 
