@@ -833,45 +833,34 @@ if ! test -f "YALMIP-"$YALMIP_ARCHIVE ; then
     mv $YALMIP_ARCHIVE "YALMIP-"$YALMIP_ARCHIVE
 fi
 tar -xf "YALMIP-"$YALMIP_ARCHIVE
-cat > YALMIP-$YALMIP_VER.patch << 'EOF'
---- YALMIP-R20250626_fix2/extras/ismembcYALMIP.m	2025-06-26 22:28:40.000000000 +1000
-+++ YALMIP-R20250626_fix2.new/extras/ismembcYALMIP.m	2026-04-17 19:57:21.252246937 +1000
-@@ -1,14 +1,6 @@
- function members=ismembcYALMIP(a,b)
--
--% ismembc is fast, but does not exist in octave
--% however, try-catch is very slow in Octave,
--% Octave user: Just replace the whole code here
--% with "members = ismember(a,b);"
--try
--    members = ismembc(a,b);
--catch
--    members = ismember(a,b);
--end
-+  members = ismember(a,b);
-+endfunction
- 
-   
-   
---- YALMIP-R20250626_fix2/solvers/definesolvers.m	2025-06-26 22:28:40.000000000 +1000
-+++ YALMIP-R20250626_fix2.new/solvers/definesolvers.m	2026-04-17 20:00:21.959154279 +1000
-@@ -74,9 +74,7 @@
- emptysolver.uncertain  = 0;
- emptysolver.global = 0;
- 
--MATLAB_lexversion = version('-release');
--MATLAB_lexversion = MATLAB_lexversion(1:5); %Prune possible hotfix?
--MATLAB_lexversion = strrep(strrep(MATLAB_lexversion,'a','.1'),'b','.2');
-+MATLAB_lexversion = "";
- 
- % **************************************
- % Some standard solvers to simplify code
-EOF
 # Patch
+cat > YALMIP-$YALMIP_VER.patch.gz.uue << 'EOF'
+begin-base64 644 YALMIP-R20250626_fix2.patch.gz
+H4sICIWA42kAA1lBTE1JUC1SMjAyNTA2MjZfZml4Mi5wYXRjaACtVN9vmzAQ
+fvdfcYpUkQxMgRDyS9XSvW1qtWrby54qB46CRHBmO03y3/cMtGtXmvWhlsD2
++fN3x93Hcc7h9+XV9dcb/iMKokmQRMltXh6iczwYJTRNW6mMvwF7yoOERwlE
+0SKaLeLADx4HuCG9meu6/Wx+jfs+xoQHMQ9nlnFCjGM/nCfBbJyEYce4WgEP
+45k3p30zrVYMzuDTuwcDi/9ZVtURKBLIpQJTIChMsTYgsqw0paxB5mSqUGgE
+I0HL6h4V1GKDjJc53awzbdTQqcp6q+Sd41Vyj2rY4nwj7kYj5hKQQBZ7Ggh2
+/LXABTzBl4xjpfG5yz87kb3ts0M/+T2J7nH8hF8ywDqjdPH/SaLUG9ys0xbz
+kcroIX4ukOliPPbnYTKLo2j6QiBeGNPWSxp15Ls6bUpqyVDpixe0Q+GtR4wz
+fgadnWbIhTYerHcGMokaamkAD6U2UJIyUiPu0V4oKKOUOg+MOvJUmLSwd8ly
+BE3ZtuDvDdiz6HYJO41qAd92RKZwW4kUG/3tC1khpDJDKFA19PvSFDDooqba
+tPFRDW3IywHj5JZxW8J/MWkLYW1Q/ZhHHhIYldk9AXAJ8JhE+/tA+7yti1ZR
++jxD0iB2uw8RxgnmHmVMw3gymz9XxjS2nYPe00YauNmaY6d/+kBURlDNKAPB
+8uXhXSXXouoOGL++/HV1+eW2woP1b7V1Ad1q6PCubzg2t33IV7ZhuJiMlnB2
+o3Y1wlZqXa5JDIU09OGf+0noByf5DLvpFcJzhOM5fuiMPGdtV5ENx+1jGgyW
+bVN8bwOl9ik3SBGIOhMq6xqIbvpkudlWZX5shMweAK05HJZNBgAA
+====
+EOF
+uudecode YALMIP-$YALMIP_VER.patch.gz.uue
+gunzip YALMIP-$YALMIP_VER.patch.gz
 pushd YALMIP-$YALMIP_VER
 patch -p 1 < ../YALMIP-$YALMIP_VER".patch"
 popd
 rm -f "YALMIP-"$YALMIP_VER".patch"
+rm -f "YALMIP-"$YALMIP_VER".patch.gz"
+rm -f "YALMIP-"$YALMIP_VER".patch.gz.uue"
 mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
 if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi
 
