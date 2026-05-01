@@ -1,5 +1,66 @@
+--- fhist-1.21/Makefile.in	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/Makefile.in	2026-04-28 21:07:02.719348851 +1000
+@@ -474,6 +474,8 @@
+ 
+ common/sub/expr_gram.yacc.c common/sub/expr_gram.yacc.h: common/sub/expr_gram.y
+ 	$(YACC) -d common/sub/expr_gram.y
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
++	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
+ 	sed -e 's/[yY][yY]/sub_expr_gram_/g' -e '/<stdio.h>/d' -e \
+ 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+ 		common/sub/expr_gram.yacc.c
+@@ -481,6 +483,8 @@
+ 		's/Y_TAB_H/SUB_EXPR_GRAM_TAB_H/g' y.tab.h > \
+ 		common/sub/expr_gram.yacc.h
+ 	rm y.tab.c y.tab.h
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.c
++	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.h
+ 
+ common/sub/expr_gram.yacc.$(OBJEXT): common/sub/expr_gram.yacc.c \
+ 		common/ac/libintl.h common/ac/stdarg.h common/ac/stddef.h \
+--- fhist-1.21/common/arglex.c	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/arglex.c	2026-04-28 21:07:43.382391639 +1000
+@@ -208,7 +208,7 @@
+         {
+             char    *eqp;
+ 
+-            eqp = strchr(arg, '=');
++            eqp = strchr((char *)arg, '=');
+             if (eqp)
+             {
+                 pushback = eqp + 1;
+--- fhist-1.21/common/config.messy.h	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/config.messy.h	2026-04-28 21:07:02.718573277 +1000
+@@ -78,6 +78,9 @@
+ #ifndef _BSD_SOURCE
+ #define _BSD_SOURCE
+ #endif
++#ifndef _DEFAULT_SOURCE
++#define _DEFAULT_SOURCE
++#endif
+ #endif
+ 
+ #endif /* COMMON_CONFIG_MESSY_H */
+--- fhist-1.21/common/input.h	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/common/input.h	2026-04-28 21:07:02.718966377 +1000
+@@ -65,6 +65,7 @@
+ struct string_ty *input_one_line(input_ty *);
+ 
+ #ifdef __GNUC__
++#if 0
+ extern __inline long input_read(input_ty *fp, void *data, long len)
+         { if (len <= 0) return 0; if (fp->pushback_len > 0) {
+         fp->pushback_len--; *(char *)data = fp->pushback_buf[
+@@ -78,6 +79,7 @@
+         { return fp->vptr->length(fp); }
+ extern __inline long input_ftell(input_ty *fp)
+         { return fp->vptr->ftell(fp) - fp->pushback_len; }
++#endif
+ #else /* !__GNUC__ */
+ #ifndef DEBUG
+ #define input_name(fp) ((fp)->vptr->name(fp))
 --- fhist-1.21/common/output.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/output.h	2021-08-27 09:26:53.391344970 +1000
++++ fhist-1.21.new/common/output.h	2026-04-28 21:07:02.718297691 +1000
 @@ -72,7 +72,7 @@
  
  #ifndef DEBUG
@@ -18,20 +79,8 @@
  #else /* !__GNUC__ */
  
  #define output_filename(fp) ((fp)->vptr->filename(fp))
---- fhist-1.21/common/config.messy.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/config.messy.h	2021-08-27 09:26:53.392344961 +1000
-@@ -78,6 +78,9 @@
- #ifndef _BSD_SOURCE
- #define _BSD_SOURCE
- #endif
-+#ifndef _DEFAULT_SOURCE
-+#define _DEFAULT_SOURCE
-+#endif
- #endif
- 
- #endif /* COMMON_CONFIG_MESSY_H */
 --- fhist-1.21/common/sub/expr_gram.y	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/sub/expr_gram.y	2021-08-27 09:26:53.392344961 +1000
++++ fhist-1.21.new/common/sub/expr_gram.y	2026-04-28 21:07:02.718799721 +1000
 @@ -35,21 +35,21 @@
  
  %}
@@ -61,26 +110,8 @@
  
  %left PLUS MINUS
  %left MUL DIV
---- fhist-1.21/common/input.h	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/common/input.h	2021-08-27 09:26:53.393344951 +1000
-@@ -65,6 +65,7 @@
- struct string_ty *input_one_line(input_ty *);
- 
- #ifdef __GNUC__
-+#if 0
- extern __inline long input_read(input_ty *fp, void *data, long len)
-         { if (len <= 0) return 0; if (fp->pushback_len > 0) {
-         fp->pushback_len--; *(char *)data = fp->pushback_buf[
-@@ -78,6 +79,7 @@
-         { return fp->vptr->length(fp); }
- extern __inline long input_ftell(input_ty *fp)
-         { return fp->vptr->ftell(fp) - fp->pushback_len; }
-+#endif
- #else /* !__GNUC__ */
- #ifndef DEBUG
- #define input_name(fp) ((fp)->vptr->name(fp))
 --- fhist-1.21/fhist/breaks.c	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/fhist/breaks.c	2021-08-27 09:27:33.310960027 +1000
++++ fhist-1.21.new/fhist/breaks.c	2026-04-28 21:07:02.719153636 +1000
 @@ -27,11 +27,9 @@
  
  static int breakflag;           /* TRUE if breaks are disabled */
@@ -142,23 +173,14 @@
 +#endif /* HAVE_SIGPROCMASK */
      breakflag = 0;
  }
---- fhist-1.21/Makefile.in	2012-07-13 14:47:15.000000000 +1000
-+++ fhist-1.21.new/Makefile.in	2021-08-27 09:26:53.394344941 +1000
-@@ -474,6 +474,8 @@
- 
- common/sub/expr_gram.yacc.c common/sub/expr_gram.yacc.h: common/sub/expr_gram.y
- 	$(YACC) -d common/sub/expr_gram.y
-+	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.c
-+	sed -i -e 's/YYerror/yacc_error_tmp/g' y.tab.h
- 	sed -e 's/[yY][yY]/sub_expr_gram_/g' -e '/<stdio.h>/d' -e \
- 		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
- 		common/sub/expr_gram.yacc.c
-@@ -481,6 +483,8 @@
- 		's/Y_TAB_H/SUB_EXPR_GRAM_TAB_H/g' y.tab.h > \
- 		common/sub/expr_gram.yacc.h
- 	rm y.tab.c y.tab.h
-+	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.c
-+	sed -i -e 's/yacc_error_tmp/YYerror/g' common/sub/expr_gram.yacc.h
- 
- common/sub/expr_gram.yacc.$(OBJEXT): common/sub/expr_gram.yacc.c \
- 		common/ac/libintl.h common/ac/stdarg.h common/ac/stddef.h \
+--- fhist-1.21/fhist/main.c	2012-07-13 14:47:15.000000000 +1000
++++ fhist-1.21.new/fhist/main.c	2026-04-28 21:07:31.766481839 +1000
+@@ -565,7 +565,7 @@
+         return;
+     if (errno != ENOENT)
+         return;
+-    slash = strrchr(path, '/');
++    slash = strrchr((char *)path, '/');
+     if (slash && slash > path)
+     {
+         string_ty       *tmp;

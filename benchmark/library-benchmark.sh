@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test -z $CPU_TYPES ;      then echo CPU_TYPES not found;      exit -1; fi
-if test -z $BUILD_TYPES ;    then echo BUILD_TYPES not found;    exit -1; fi
+if test -z "$CPU_TYPES" ;    then echo CPU_TYPES not found;      exit -1; fi
+if test -z "$BUILD_TYPES" ;  then echo BUILD_TYPES not found;    exit -1; fi
 if test -z $CPU_TYPE ;       then echo CPU_TYPE not found;       exit -1; fi
 if test -z $BUILD ;          then echo BUILD not found;          exit -1; fi
 if test -z $LOCAL_PREFIX ;   then echo LOCAL_PREFIX not found;   exit -1; fi
@@ -199,6 +199,31 @@ $OCTAVE $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
 # Install YALMIP
 YALMIP_ARCHIVE=$YALMIP_VERSION".tar.gz"
 tar -xf $LOCAL_PREFIX/"YALMIP-"$YALMIP_ARCHIVE
+# Patch
+cat > YALMIP-$YALMIP_VERSION.patch.gz.uue << 'EOF'
+begin-base64 644 YALMIP-R20250626_fix2.patch.gz
+H4sICIWA42kAA1lBTE1JUC1SMjAyNTA2MjZfZml4Mi5wYXRjaACtVN9vmzAQ
+fvdfcYpUkQxMgRDyS9XSvW1qtWrby54qB46CRHBmO03y3/cMtGtXmvWhlsD2
++fN3x93Hcc7h9+XV9dcb/iMKokmQRMltXh6iczwYJTRNW6mMvwF7yoOERwlE
+0SKaLeLADx4HuCG9meu6/Wx+jfs+xoQHMQ9nlnFCjGM/nCfBbJyEYce4WgEP
+45k3p30zrVYMzuDTuwcDi/9ZVtURKBLIpQJTIChMsTYgsqw0paxB5mSqUGgE
+I0HL6h4V1GKDjJc53awzbdTQqcp6q+Sd41Vyj2rY4nwj7kYj5hKQQBZ7Ggh2
+/LXABTzBl4xjpfG5yz87kb3ts0M/+T2J7nH8hF8ywDqjdPH/SaLUG9ys0xbz
+kcroIX4ukOliPPbnYTKLo2j6QiBeGNPWSxp15Ls6bUpqyVDpixe0Q+GtR4wz
+fgadnWbIhTYerHcGMokaamkAD6U2UJIyUiPu0V4oKKOUOg+MOvJUmLSwd8ly
+BE3ZtuDvDdiz6HYJO41qAd92RKZwW4kUG/3tC1khpDJDKFA19PvSFDDooqba
+tPFRDW3IywHj5JZxW8J/MWkLYW1Q/ZhHHhIYldk9AXAJ8JhE+/tA+7yti1ZR
++jxD0iB2uw8RxgnmHmVMw3gymz9XxjS2nYPe00YauNmaY6d/+kBURlDNKAPB
+8uXhXSXXouoOGL++/HV1+eW2woP1b7V1Ad1q6PCubzg2t33IV7ZhuJiMlnB2
+o3Y1wlZqXa5JDIU09OGf+0noByf5DLvpFcJzhOM5fuiMPGdtV5ENx+1jGgyW
+bVN8bwOl9ik3SBGIOhMq6xqIbvpkudlWZX5shMweAK05HJZNBgAA
+====
+EOF
+uudecode YALMIP-$YALMIP_VERSION.patch.gz.uue
+gunzip YALMIP-$YALMIP_VERSION.patch.gz
+pushd YALMIP-$YALMIP_VERSION
+patch -p 1 < ../YALMIP-$YALMIP_VERSION".patch"
+popd
 rm -Rf $OCTAVE_SITE_M_DIR/YALMIP
 mv -f "YALMIP-"$YALMIP_VERSION $OCTAVE_SITE_M_DIR/YALMIP
 

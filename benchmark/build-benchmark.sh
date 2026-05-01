@@ -14,11 +14,11 @@ export BUILD=shared
 export LAPACK_VERSION=3.12.1
 export SUITESPARSE_VERSION=7.12.2
 export ARPACK_NG_VERSION=3.9.1
-export FFTW_VERSION=3.3.10
+export FFTW_VERSION=3.3.11
 export QRUPDATE_VERSION=1.1.2
 export OCTAVE_VERSION=11.1.0
 export SEDUMI_VERSION=1.3.8
-export YALMIP_VERSION=R20230622
+export YALMIP_VERSION=R20250626_fix2
 for file in lapack-$LAPACK_VERSION".tar.gz" \
             SuiteSparse-$SUITESPARSE_VERSION".tar.gz" \
             arpack-ng-$ARPACK_NG_VERSION".tar.gz" \

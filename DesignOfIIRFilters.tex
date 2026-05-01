@@ -44649,38 +44649,45 @@ Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 \addcontentsline{toc}{part}{Colophon}
 \pdfbookmark[0]{Requirements}{requirements}
 \setcounter{footnote}{0}
-\section*{Software requirements}
-I currently use the Fedora 43 distribution of Linux~\cite{Fedora_website} with:
+\section*{\label{sec:Software-requirements}Software requirements}
+I currently use the Fedora 44 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{6.19.10-200.fc43.x86\_64}
-\item \emph{gcc} version \emph{15.2.1 20260123 (Red Hat 15.2.1-7)}
+\item \texttt{uname -r} is \emph{6.19.14-300.fc44.x86\_64}
+\item \emph{gcc} version \emph{16.0.1 20260321 (Red Hat 16.0.1-0))}
 \item a local build of \emph{octave-11.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.10.2-2} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2023-80} and various packages are installed
-\item \emph{dia-0.97.3-30} is used for line drawings
+  \emph{qt6-qtbase-6.10.3-1} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2025-1} and various packages are installed
+\item \emph{dia-0.97.3-32} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-11.1.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
-wget readline-devel lzip sharutils maxima gcc gcc-c++
-gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf 
-bison flex openblas-devel patch texinfo texinfo-tex librsvg2 librsvg2-devel
-librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel freetype
-freetype-devel gnupg2 texlive-dvisvgm gl2ps gl2ps-devel hdf5 hdf5-devel
-qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel
-libcurl libcurl-devel gl2ps gl2ps-devel fontconfig-devel mesa-libGLU
-mesa-libGLU-devel qt qt6-qtbase qt6-qtbase-common qt6-qtbase-devel
-qt6-qtbase-gui qt6-qt5compat qt6-qt5compat-devel qt6-qttools
-qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympy
-java-21-openjdk-devel xerces-j2 util-linux util-linux-core util-linux-script
-qscintilla-qt6 qscintilla-qt6-devel eigen3-devel eigen3-doc boost-devel jekyll
+readline-devel lzip sharutils ccache gcc gcc-c++ \
+gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf \
+bison flex openblas-devel patch texinfo texinfo-tex librsvg2-devel \
+librsvg2-tools icoutils autoconf automake libtool pcre pcre-devel \
+freetype-devel texlive-dvisvgm gl2ps gl2ps-devel hdf5 hdf5-devel \
+qhull qhull-devel portaudio-devel libsndfile-devel \
+libcurl-devel gl2ps gl2ps-devel fontconfig-devel \
+mesa-libGLU-devel qt6-qtbase-devel \
+qt6-qt5compat qt6-qt5compat-devel qt6-qttools \
+qt6-qttools-common qt6-qttools-devel rapidjson-devel python3-sympy \
+xerces-j2 util-linux util-linux-core util-linux-script \
+qscintilla-qt6 qscintilla-qt6-devel eigen3-devel eigen3-doc boost-devel \
+texlive-standalone java-25-openjdk java-25-openjdk-devel emacs \
+\end{verbatim}
+\end{small}
+I remove the following packages in the base Fedora distribution:
+\begin{small}
+\begin{verbatim}
+xdg-desktop-portal xdg-desktop-portal-gtk
 \end{verbatim}
 \end{small}
 
@@ -44693,7 +44700,7 @@ sphinx sphinx-php python3-sphinx python3-sphinx-theme-alabaster
 python3-sphinx_rtd_theme python-sphinx_rtd_theme-doc
 python3-sphinxcontrib-devhelp python3-sphinxcontrib-htmlhelp
 python3-sphinxcontrib-jquery python3-sphinxcontrib-qthelp
-python3-sphinxcontrib-serializinghtml python3-breathe python3-breathe-doc
+python3-sphinxcontrib-serializinghtml python3-breathe python-breathe-doc
 \end{verbatim}
 \end{small}
 
@@ -44703,7 +44710,7 @@ installed. The \emph{maxima} package is required to run the \emph{.max} scripts.
 The following packages are required to build this document:
 \begin{small}
 \begin{verbatim}
-dnf install dia epstool texlive \
+dia epstool evince texlive \
 texlive-algorithmicx texlive-appendix texlive-boondox \
 texlive-calculator texlive-chngcntr texlive-dvipng texlive-dvisvgm \
 texlive-environ texlive-epstopdf texlive-esint texlive-esint-type1 \
@@ -44711,15 +44718,16 @@ texlive-fontaxes texlive-fouriernc texlive-fourier texlive-framed \
 texlive-gsftopk texlive-kpfonts texlive-latex-base-dev texlive-latex-bin-dev \
 texlive-latex-graphics-dev texlive-ly1 texlive-mathdesign \
 texlive-multirow texlive-nag texlive-needspace texlive-newpx \
-texlive-newtx texlive-pdfcrop texlive-powerdot \
+texlive-newtx texlive-pdfcrop texlive-powerdot texlive-enumitem \
 texlive-pst-blur texlive-pst-pdf texlive-pst-slpe texlive-rotfloat \
 texlive-scheme-basic texlive-threeparttable texlive-tocbibind \
 texlive-trimspaces texlive-type1cm texlive-upquote texlive-wrapfig \
-texlive-dvisvgm
+texlive-dvisvgm texlive-collection-fontsextra \
+texlive-collection-fontsrecommended texlive-fontsize
 \end{verbatim}
 \end{small}
   
-This project builds and runs on a Fedora 43 \emph{qemu-10.1.5-1.fc43} QEMU/KVM
+This project builds and runs on a Fedora \emph{qemu-10.2.2-1.fc44} QEMU/KVM
 emulation of the Intel \emph{i7-7700K} CPU in my PC.
 
 \pdfbookmark[0]{Makefile}{makefile}
@@ -44762,14 +44770,14 @@ script must be modified to use $8$ byte integer array indexes in \emph{blas},
 The local build of Octave links to locally built versions of the following
 libraries: 
 \emph{arpack-ng-3.9.1}~\cite{ARPACKNG_website},
-\emph{fftw-3.3.10}~\cite{FFTW_website},
+\emph{fftw-3.3.11}~\cite{FFTW_website},
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.12.1}~\cite{LAPACK_website}\footnote{The $16$-byte
   DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
   are compiled with the \texttt{-freal-8-real-16} flag.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
 \emph{SuiteSparse-7.12.2}~\cite{SUITESPARSE_website},
-\emph{sundials-7.6.0}~\cite{SUNDIALS_website} and
+\emph{sundials-7.7.0}~\cite{SUNDIALS_website} and
 \emph{GraphicsMagick-1.3.46}~\cite{GraphicsMagick_website}.
 
 Display the Octave internal build configuration with:
@@ -44941,83 +44949,6 @@ user	0m3.019s
 sys	0m4.644s
 \end{verbatim}
 \end{small}
-\paragraph{Printing to the \emph{pdflatex} device fails with DRI3}
-After a Fedora update printing to the \emph{pdflatex} device fails.
-This example code:
-\begin{small}
-\begin{verbatim}
-pkg load signal
-[N0,D0]=butter(6,0.1);
-[H,w]=freqz(N0,D0,100);
-subplot(211)
-plot(w*0.5/pi,abs(H))
-subplot(212)
-plot(w*0.5/pi,unwrap(arg(H))/pi)
-print("t","-dpdflatex");
-close
-\end{verbatim}
-\end{small}
-produces a warning message:
-\begin{small}
-\begin{verbatim}
-warning: gl2ps_renderer::draw_axes: empty feedback buffer and/or nothing else to print
-warning: called from
-    __opengl_print__ at line 209 column 7
-    print at line 790 column 11
-\end{verbatim}
-\end{small}
-
-\texttt{gdb} commands for debugging:
-\begin{small}
-\begin{verbatim}
-set debuginfod enabled off
-dir /usr/local/src/octave/octave
-set args -p src src/test/dri3_test.m
-b ../octave/libinterp/corefcn/gl2ps-print.cc:131
-\end{verbatim}
-\end{small}
-Work-arounds:
-\begin{itemize}
-\item Downgrade \emph{mesa}:
-\begin{small}
-\begin{verbatim}
-dnf downgrade mesa*
-\end{verbatim}
-\end{small}
-At the time of writing, Fedora 43 downgrades from version \emph{mesa-*-25.3.6-2}
-to version \emph{mesa-*-25.2.4-2}. Continue to update other packages with:
-\begin{small}
-\begin{verbatim}
-sudo dnf update -x mesa*
-\end{verbatim}
-\end{small}
-\item Disable DRI3 in \emph{/etc/X11/xorg.conf.d/01-disable-dri3.conf}:
-  \begin{small}
-\begin{verbatim}
-Section "Device"
-        Identifier  "Card0"
-        Driver      "amdgpu"
-        Option      "DRI" "2"
-        BusID       "PCI:1:0:0"
-EndSection
-Section "Device"
-        Identifier  "Card1"
-        Driver      "amdgpu"
-        Option      "DRI" "2"
-        BusID       "PCI:1:0:1"
-EndSection
-\end{verbatim}
-\end{small}
-\item The \emph{mesa} documentation~\cite{MESA_envvars} suggests
-setting this environment variable before running Octave:
-\begin{small}
-\begin{verbatim}
-export LIBGL_DRI3_DISABLE=1
-\end{verbatim}
-\end{small}
-This alternative did not work for me.
-\end{itemize}
-
 \subsubsection*{Using the Octave external code interface}
 From the Octave \emph{info} documentation:
 \begin{quotation}Octave offers a versatile interface for including
@@ -45205,11 +45136,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas     & 231.9 \\
-Shared reference lapack and blas            &  48.5 \\
-Shared reference lapack and blas, LTO       &  48.5 \\
-Shared reference lapack and blas, PGO       &  48.6 \\
-Shared reference lapack and blas, LTO, PGO  &  48.3 \\
+Debug, shared reference lapack and blas     & 509.1 \\
+Shared reference lapack and blas            &  48.1 \\
+Shared reference lapack and blas, LTO       &  47.9 \\
+Shared reference lapack and blas, PGO       &  49.5 \\
+Shared reference lapack and blas, LTO, PGO  &  48.2 \\
 \bottomrule
 \end{tabular}
 \egroup
@@ -45226,7 +45157,7 @@ benchmark script and a script that solves a KYP problem by calling YALMIP and
 SeDuMi. The \emph{linpack.m} script was modified to produce
 repeatable residuals. The alternative \emph{blas} and \emph{lapack} library
 versions used are local builds of \emph{blas-3.12.1} and \emph{lapack-3.12.1} and
-the Fedora 43 \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
+the Fedora \emph{lapack}, \emph{blas}, \emph{atlas}~\cite{ATLAS_website},
 \emph{gsl}~\cite{GNU_GSL} and \emph{openblas}~\cite{OpenBLAS_website}
 packages\footnote{The test script \emph{test/02/t0294a.sh} compares the output
   of \emph{DGESVD} for a problematic matrix and the \emph{libtatlas}, system
@@ -45244,10 +45175,10 @@ run.}:
 \begin{small}
 \begin{verbatim}
 atlas.x86_64            3.10.3-30.fc43
-blas.x86_64             3.12.0-10.fc43
-lapack.x86_64           3.12.0-10.fc43
-gsl.x86_64              2.8-2.fc43
-gsl-devel.x86_64        2.8-2.fc43
+blas.x86_64             3.12.0-11.fc44
+lapack.x86_64           3.12.0-10.fc44
+gsl.x86_64              2.8-3.fc44
+gsl-devel.x86_64        2.8-3.fc44
 openblas.x86_64         0.3.29-2.fc43
 openblas-threads.x86_64 0.3.29-2.fc43
 \end{verbatim}
@@ -45271,7 +45202,8 @@ export OPENBLAS_NUM_THREADS=2
 \end{small}
 
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
-execution time for $10$\footnote{Probably not enough!} runs of each test.
+execution time for $10$\footnote{Probably not enough!} runs of each test. If
+not stated, the CPU is \emph{nehalem}.
 The normalised residuals for the two ATLAS libraries varied between two values.
 The largest is shown.
 
@@ -45282,22 +45214,22 @@ The largest is shown.
 %\newcommand\arraystretch{2}
 \begin{tabular}{lrrrr} \toprule
 \multirow{3}{*}
-{\emph{blas} library}      &\multicolumn{2}{c}{linpack.m} &IIR benchmark script&KYP benchmark script\\
-\cmidrule{2-5}             & MFLOPS & Normalised  & Execution time & Execution time \\
-                           &        & residual    & (seconds)      & (seconds) \\
-  \midrule
-x86-64 libblas/liblapack   &  6501  & 21.3        &  48.4          &  56.0 \\
-Nehalem libblas/liblapack  &  6466  & 21.3        &  48.4          &  56.0 \\
-Haswell libblas/liblapack  &  9176  & 18.5        &  48.1          &  50.1 \\
-Skylake libblas/liblapack  &  8610  & 18.5        &  48.2          &  50.0 \\
-Fedora 43 libblas/liblapack&  6606  & 21.3        &  48.4          &  55.9 \\
-libgslcblas                &  6481  & 21.3        &  48.4          &  56.0 \\
-libsatlas                  & 13311  & 12.1        &  49.5          &  61.0 \\
-libtatlas                  & 20349  & 12.8        &  49.2          &  60.1 \\
-libopenblas                & 33239  &  9.9        &  47.7          &  49.5 \\
-libopenblasp (1 thread)    & 33237  &  9.9        &  47.6          &  50.0 \\
-libopenblasp (2 threads)   & 46581  & 12.1        &  47.9          &  50.1 \\
-libopenblasp (4 threads)   & 58078  & 10.8        &  47.9          &  50.0 \\
+{\emph{blas} library}&\multicolumn{2}{c}{linpack.m}&IIR benchmark script&KYP benchmark script\\
+\cmidrule{2-5}                  & MFLOPS & Normalised & Execution time & Execution time \\
+                                &        & residual   & (seconds)      & (seconds) \\
+\midrule
+x86-64 libblas/liblapack        &  6505  & 21.3       &  47.9          &  55.3 \\
+Nehalem libblas/liblapack       &  6503  & 21.3       &  47.9          &  55.3 \\
+Haswell libblas/liblapack       &  8455  & 18.5       &  47.7          &  49.6 \\
+Skylake libblas/liblapack       &  7916  & 18.5       &  47.8          &  49.7 \\
+Fedora libblas/liblapack        &  6611  & 21.3       &  47.8          &  55.2 \\
+Nehalem libgslcblas             &  6491  & 21.3       &  47.9          &  55.3 \\
+Nehalem libsatlas               & 13198  & 12.1       &  49.1          &  60.1 \\
+Nehalem libtatlas               & 20279  & 12.8       &  48.5          &  60.3 \\
+Nehalem libopenblas             & 33174  &  9.9       &  47.1          &  49.6 \\
+Nehalem libopenblasp (1 thread) & 33245  &  9.9       &  47.1          &  50.1 \\
+Nehalem libopenblasp (2 threads)& 46546  & 12.1       &  47.3          &  50.1 \\
+Nehalem libopenblasp (4 threads)& 58686  & 10.8       &  47.4          &  50.1 \\
 \bottomrule
 \end{tabular}
 \egroup{}
@@ -45560,7 +45492,6 @@ floating-point numbers SCS was $1$ to $2$ orders of magnitude slower than
 with \texttt{double} floating-point numbers.
 
 \subsubsection*{Problems with SCS}
-The GIT repository for the SCS Matlab interface has no release tags. 
 The documentation is confusing. In many cases SeDuMi and SDPT3 find a better
 solution. 
 
@@ -45695,7 +45626,7 @@ emulation. I use the QEMU \emph{Skylake-Client-v4} emulation of the Intel
   \emph{Kaby Lake} architecture, which is the ``toc'' after the \emph{Skylake}
   ``tic''.}. I build \texttt{octave} and the associated linear algebra libraries
 with the GCC option \texttt{-march=nehalem}. The QEMU \emph{Skylake-Client-v4}
-emulation successfully runs all the project \texttt{test} shell scripts.
+emulation builds this document and passes all the project \texttt{test} scripts.
 
 \subsubsection*{Create the VM}
 \emph{Buettner}~\cite{Buettner_ConfigureQEMU} describes configuration of a
@@ -45726,6 +45657,16 @@ export LIBVIRT_CONNECT_DEFAULT_URI=qemu:///system
 \end{small}
 Log out and log back in to effect these changes.
 
+\subsubsection*{Add a directory shared by the host with the VM}
+Under \emph{Add Hardware} add a source path on the host and a name for the
+target on the VM. Next, add the target to \emph{/etc/fstab}. For example,
+with the target name \emph{TARGET\_NAME} mapped to \emph{/mnt} on the VM:
+\begin{small}
+\begin{verbatim}
+TARGET_NAME /mnt virtiofs defaults 0 0
+\end{verbatim}
+\end{small}
+
 \subsubsection*{Rename the VM}
 To change the name of a VM:
 \begin{small}
@@ -45753,11 +45694,12 @@ PermitRootLogin yes
 
 I communicate with the VM through \texttt{ssh} and transfer files with
 \texttt{scp}. A vertical ellipsis indicates discarded output.
+Section~\ref{sec:Software-requirements} lists the Fedora packages required.
 
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
-Domain 'fedora43' started
+$ virsh start fedora
+Domain 'fedora' started
 
 $ virsh net-list
 Name      State    Autostart   Persistent
@@ -45773,26 +45715,7 @@ $ ssh root@192.168.122.100
 [root@localhost ~]# uname -rs
 Linux 5.19.10-200.fc36.x86_64
 [root@localhost ~] dnf install wget readline-devel lzip sharutils gcc gcc-c++ \
-gcc-gfortran gmp-devel mpfr-devel make cmake gnuplot-latex m4 gperf bison flex \
-openblas-devel patch texinfo texinfo-tex icoutils librsvg2-tools librsvg2 \
-dia epstool autoconf automake libtool pcre pcre-devel freetype freetype-devel \
-dia epstool texlive-algorithmicx texlive-appendix texlive-boondox \
-texlive-calculator texlive-chngcntr texlive-dvipng texlive-environ \
-texlive-epstopdf texlive-esint texlive-esint-type1 texlive-fontaxes \
-texlive-fouriernc texlive-fourier texlive-framed texlive-gsftopk \
-texlive-kpfonts texlive-latex-base-dev texlive-latex-bin-dev \
-texlive-latex-graphics-dev texlive-ly1 texlive-mathdesign texlive-multirow \
-texlive-nag texlive-needspace texlive-newpx texlive-newtx \
-texlive-pdfcrop texlive-powerdot texlive-pst-blur texlive-pst-pdf \
-texlive-pst-slpe texlive-rotfloat texlive-scheme-basic \
-texlive-threeparttable texlive-tocbibind texlive-trimspaces \
-texlive-type1cm texlive-upquote texlive-wrapfig texlive-dvisvgm \
-hdf5 hdf5-devel qt qscintilla-qt5 qscintilla-qt5-devel \
-qhull qhull-devel portaudio portaudio-devel libsndfile libsndfile-devel \
-GraphicsMagick-c++ GraphicsMagick-c++-devel libcurl libcurl-devel \
-gl2ps gl2ps-devel fontconfig-devel mesa-libGLU mesa-libGLU-devel \
-qt5-qttools qt5-qttools-common qt5-qttools-devel rapidjson-devel python3-sympy \
-maxima
+gcc-gfortran  ....
 .
 .
 [root@localhost ~]# wget https://github.com/robertgj/DesignOfIIRFilters/archive/master.zip
@@ -45836,7 +45759,7 @@ display. Otherwise it uses the \emph{gnuplot} graphics toolkit. Use
 The \emph{-Y} option to \texttt{ssh} enables trusted X11 forwarding.
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
+$ virsh start fedora
 $ ssh -Y root@192.168.122.100
 [root@localhost ~]# dnf install xorg-x11-xauth xorg-x11-xinit \
 xorg-x11-drv-qxl xorg-x11-xinit-session xrdb xmodmap 
@@ -45859,7 +45782,7 @@ ans =
 \subsubsection*{Copy a file to  the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
+$ virsh start fedora
 $ scp Makefile scp://root@192.168.122.100/root/Makefile
 \end{verbatim}
 \end{small}
@@ -45867,7 +45790,7 @@ $ scp Makefile scp://root@192.168.122.100/root/Makefile
 \subsubsection*{Copy this document from the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
+$ virsh start fedora
 $ scp root@192.168.122.100:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pdf \
   DesignOfIIRFilters.pdf
 \end{verbatim}
@@ -45877,7 +45800,7 @@ $ scp root@192.168.122.100:/root/DesignOfIIRFilters-master/DesignOfIIRFilters.pd
 \subsubsection*{Run the test scripts on the VM}
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
+$ virsh start fedora
 $ ssh -Y root@192.168.122.100
 [root@localhost ~]# cd DesignOfIIRFilters-master
 [root@localhost DesignOfIIRFilters-master]# make batchtest
@@ -45890,16 +45813,15 @@ $ ssh -Y root@192.168.122.100
 \subsubsection*{Export the VM to libvirt}
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
-$ virsh dumpxml fedora43 
+$ virsh dumpxml fedora
 \end{verbatim}
 \end{small}
 
 \subsubsection*{Remove an existing VM}
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown fedora43
-$ sudo virsh undefine fedora43
+$ sudo virsh shutdown fedora
+$ sudo virsh undefine fedora
 \end{verbatim}
 \end{small}
 
@@ -45908,7 +45830,7 @@ Shut down the VM and, on the host, run\footnote{First install the Fedora
 \emph{guestfs-tools} package.}:
 \begin{small}
 \begin{verbatim}
-$ sudo virsh shutdown fedora43
+$ sudo virsh shutdown fedora
 $ sudo virt-sparsify -v -x --in-place your-image-file
 \end{verbatim}
 \end{small}
@@ -45916,7 +45838,7 @@ $ sudo virt-sparsify -v -x --in-place your-image-file
 Alternatively, fill unused VM disc sectors with $0$:
 \begin{small}
 \begin{verbatim}
-$ virsh start fedora43
+$ virsh start fedora
 $ ssh -Y root@192.168.122.100
 [root@localhost ~]# cd /boot
 [root@localhost ~]# dd if=/dev/zero of=zerofile
