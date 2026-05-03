@@ -215,6 +215,10 @@ function [x1,E,socp_iter,feasible]= ...
     % !?!?! 
     if 1
       dtmp=casc2tf(xk((mnp1+1):(mnp1+mr)));
+      if max(abs(imag(dtmp))) > eps
+        error("max(abs(imag(dtmp))) > eps");
+      endif
+      dtmp=real(dtmp);
       xk((mnp1+1):(mnp1+mr))=tf2casc(dtmp);
     endif
     % Show SeDuMi results

@@ -2000,6 +2000,7 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="zolotarev_zahradnik_degree_test"
+
 diff -Bb test_fmax_135_Deltafp_015.ok $nstr"_fmax_135_Deltafp_015_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_fmax_135_Deltafp_015.ok"; fail; fi
 

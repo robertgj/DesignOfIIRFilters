@@ -19,7 +19,7 @@ verbose=false
 % Deczky3a Lowpass filter specification
 U=0,V=0,Q=6,M=10,R=1
 fap=0.15,dBap=0.3,Wap=1
-fas=0.3,dBas=40,Was=0.5
+fas=0.3,dBas=40,Was=1
 ftp=0.2,tp=9,tpr=0.04,Wtp=0.02
 
 % Initial coefficients

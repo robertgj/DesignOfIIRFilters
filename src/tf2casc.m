@@ -8,7 +8,7 @@ function [a,k]=tf2casc(p)
 % [1 + ai1*z^-1 + ai2*z^-2]. The second order section may result from
 % two real poles. Accuracy is limited by the roots() function.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -38,6 +38,9 @@ function [a,k]=tf2casc(p)
     a=[];
     k=p(1);
     return;
+  endif
+  if any(iscomplex(p))
+    error("Expected p real!");
   endif
   
   % Scale (allowing for zeros in low order coefficients of z^(-k))

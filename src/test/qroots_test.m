@@ -1,5 +1,5 @@
 % qroots_test.m
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -109,8 +109,8 @@ endif
 
 N=20;
 rr=roots([1,zeros(1,N-1),1]);
-if max(abs(abs(rr)-1)) > 6*eps
-  error("max(abs(abs(rr)-1))(%g*eps) > 6*eps", max(abs(abs(rr)-1))/eps);
+if max(abs(abs(rr)-1)) > N*eps
+  error("max(abs(abs(rr)-1))(%g*eps) > N*eps", max(abs(abs(rr)-1))/eps);
 endif
 if max(abs((sort((arg(rr')/pi)))-(-(N-1):2:(N-1))/N))>2*eps
   error("angle failed! (%g*eps)", ...

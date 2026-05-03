@@ -322,7 +322,12 @@ endwhile
 %
 x1.a=xk(1:(mnp1));
 x1.a=x1.a(:);
+
 x1.d=casc2tf(xk((mnp1+1):(mnp1+mr)));
 x1.d=x1.d(:);
+if max(abs(imag(x1.d))) > eps
+  error("max(abs(imag(x1.d))) > eps");
+endif
+x1.d=real(x1.d);
 
 endfunction

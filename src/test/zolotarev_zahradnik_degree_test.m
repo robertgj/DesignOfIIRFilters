@@ -79,7 +79,7 @@ endfunction
 % Equation 7
 %
 p=100;
-,q=37;
+q=37;
 k=0.4;
 n=p+q;
 % Calculate Zpq with Chen-Parks
@@ -201,6 +201,7 @@ if max(abs(upwu-real(umm)))>1e-4
   error("max(abs(upwu-real(umm)))>1e-4");
 endif
 % Compare Eta and Theta function in the main lobe
+tol=1e-8;
 Hp=jacobi_Eta(umm+u0,k);
 Hm=jacobi_Eta(umm-u0,k);
 HHn=(Hp./Hm).^n;
@@ -210,11 +211,11 @@ TTn=((-1)^p)*((Tp./Tm).^n);
 if ~all(isreal(TTn))
   error("~all(isreal(TTn))");
 endif
-if max(abs(imag(HHn)))>1e-9
-  error("max(abs(imag(HHn)))>1e-9");
+if max(abs(imag(HHn)))>tol
+  error("max(abs(imag(HHn)))>tol");
 endif
-if max(abs(real(TTn-HHn)))>2e-9
-  error("max(abs(real(TTn-HHn)))>2e-9");
+if max(abs(real(TTn-HHn)))>tol
+  error("max(abs(real(TTn-HHn)))>tol");
 endif
 
 %

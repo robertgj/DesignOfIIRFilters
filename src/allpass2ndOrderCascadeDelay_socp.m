@@ -188,6 +188,10 @@ while 1
   beta=ys(2);
   dak=ys(3:end);
   ak=dak+ak;
+  if max(abs(imag(ak))) > eps
+    error("max(abs(imag(ak))) > eps");
+  endif
+  ak=real(ak);
   socp_iter=socp_iter+info.iter;
   if verbose
     printf("epsilon=%g\n",epsilon);

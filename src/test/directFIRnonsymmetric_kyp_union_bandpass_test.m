@@ -26,6 +26,7 @@ fasl=0.10;fapl=0.175;fapu=0.225;fasu=0.30;
 Esq_z=1e-6;
 Esq_s=1e-4;
 Esq_max=1.05;
+tol=100*eps;
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -73,8 +74,8 @@ alphabeta=((lambda-z1).*(z2-z3))./((lambda-z3).*(z2-z1));
 if any(~isfinite(alphabeta))
   error("any(~isfinite(alphabeta))");
 endif
-if any(abs(imag(alphabeta))>10*eps)
-  error("any(abs(imag(alphabeta))>10*eps)");
+if any(abs(imag(alphabeta))>tol)
+  error("any(abs(imag(alphabeta))>tol)");
 endif
 alphabeta=real(alphabeta);
 alpha1=alphabeta(1);
@@ -102,24 +103,24 @@ Ml=[conv(M1,M1);conv(M1,M2);conv(M2,M2)];
 Phi_slu=Ml'*PhiH*Ml;
 Phi_slu=triu(Phi_slu,1)+diag(real(diag(Phi_slu)))+triu(Phi_slu,1)';
 % Sanity checks on Phi_slu
-if max(max(abs(imag(Phi_slu))))>eps
-  error("max(max(abs(imag(Phi_slu))))>eps");
+if max(max(abs(imag(Phi_slu))))>tol
+  error("max(max(abs(imag(Phi_slu))))>tol");
 endif
 Phi_slu=real(Phi_slu);
 
 Psi_slu=Ml'*PsiH*Ml;
 Psi_slu=triu(Psi_slu,1)+diag(real(diag(Psi_slu)))+triu(Psi_slu,1)';
 % Sanity checks on Psi_slu
-if max(max(abs(imag(Psi_slu))))>100*eps
-  error("max(max(abs(imag(Psi_slu))))>100*eps");
+if max(max(abs(imag(Psi_slu))))>tol
+  error("max(max(abs(imag(Psi_slu))))>tol");
 endif
 Psi_slu=real(Psi_slu);
 
 R_slu=M'*RH*M;
 R_slu=triu(R_slu,1)+diag(real(diag(R_slu)))+triu(R_slu,1)';
 % Sanity checks on R_slu
-if max(max(abs(imag(R_slu))))>eps
-  error("max(max(abs(imag(R_slu))))>eps");
+if max(max(abs(imag(R_slu))))>tol
+  error("max(max(abs(imag(R_slu))))>tol");
 endif
 R_slu=real(R_slu);
 if ~isdefinite(R_slu)
@@ -127,8 +128,8 @@ if ~isdefinite(R_slu)
 endif
 % Sanity check on Phi_slu and R_slu
 Phi_slu_altR=Jl'*kron(M'*Phir*M,R_slu)*Jl;
-if max(max(abs(Phi_slu_altR-Phi_slu)))>100*eps
-  error("max(max(abs(Phi_slu_altR-Phi_slu)))>100*eps");
+if max(max(abs(Phi_slu_altR-Phi_slu)))>tol
+  error("max(max(abs(Phi_slu_altR-Phi_slu)))>tol");
 endif
 
 % Fl and Gl

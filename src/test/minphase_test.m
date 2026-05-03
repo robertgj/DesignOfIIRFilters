@@ -1,5 +1,5 @@
 % minphase_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -80,7 +80,6 @@ nfpts=1024;
 nppts=(0:511);
 H=crossWelch(u,y,nfpts);
 Hc=crossWelch(u,yc,nfpts);
-subplot(111);
 plot(nppts/nfpts,20*log10(abs(H)),...
      nppts/nfpts,20*log10(abs(Hc)))
 xlabel("Frequency")
@@ -164,6 +163,7 @@ if max(abs(abs(Hbrz).^2+abs(Grzc).^2-1)) > 8e4*eps
 endif
 % Combined response with the complementary filter found by the cepstral method
 plot(w*0.5/pi, 10*log10(abs(Grzc).^2 + abs(Hbrz).^2));
+grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
 zticks([]);

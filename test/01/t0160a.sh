@@ -63,10 +63,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_a1_coef.m allpass2ndOrderCascadeDelay_socp_test_a1_coef.m
+nstr="allpass2ndOrderCascadeDelay_socp_test"
+
+diff -Bb test_a1_coef.m $nstr"_a1_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_a1_coef.m"; fail; fi
 
-diff -Bb test_a1sqm_coef.m allpass2ndOrderCascadeDelay_socp_test_a1sqm_coef.m
+diff -Bb test_a1sqm_coef.m $nstr"_a1sqm_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_a1sqm_coef.m"; fail; fi
 
 

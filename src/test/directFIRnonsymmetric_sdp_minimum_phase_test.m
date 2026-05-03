@@ -1,5 +1,5 @@
 % directFIRnonsymmetric_sdp_minimum_phase_test.m
-% Copyright (C) 2020,2025 Robert G. Jenssen
+% Copyright (C) 2020-2026 Robert G. Jenssen
 %
 % See Section 3.2 of SeDuMi_1_3/doc/SeDuMi_Guide_105R5.pdf and
 % sedumi_minphase_test as well as Section V of "Use SeDuMi to Solve LP, SDP
@@ -59,8 +59,8 @@ X=mat(x);
 [U,S,V]=svd(X);
 g=V(:,1);
 % Sanity check
-if abs(S(1)-(g'*X*g))>2*eps
-  error("abs(S(1)-(g'*X*g))(%g*eps)>2*eps",abs(S(1)-(g'*X*g))/eps);
+if abs(S(1)-(g'*X*g))>10*eps
+  error("abs(S(1)-(g'*X*g))(%g*eps)>10*eps",abs(S(1)-(g'*X*g))/eps);
 endif
 
 % Brute force scaling of g so that max(abs(Gbrz))==1

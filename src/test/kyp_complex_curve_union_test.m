@@ -1,5 +1,5 @@
 % kyp_complex_curve_union_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 %
 % See: Section 3 of "Generalizing the KYP Lemma to multiple frequency
 % intervals", G. Pipeleers, T. Iwasaki, S. Hara, SIAM J. Control. Optim.,
@@ -69,13 +69,13 @@ for m=1:2,
   Tt=[-a,b]';
 
   Psi=Tt'*PsiR*Tt;
-  if ~issymmetric(Psi)
-    error("~issymmetric(Psi)");
+  if ~issymmetric(Psi,eps)
+    error("~issymmetric(Psi,eps)");
   endif
 
   Phi=Tt'*PhiR*Tt;
-  if ~issymmetric(Phi,"skew")
-    error("~issymmetric(Phi,\"skew\")");
+  if ~issymmetric(Phi,"skew",eps)
+    error("~issymmetric(Phi,\"skew\",eps)");
   endif
 
   syms r11 r12 r13 r14 r22 r23 r24 r33 r34 r44

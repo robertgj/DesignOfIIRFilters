@@ -1,5 +1,5 @@
 % directFIRsymmetric_sdp_bandpass_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
+% Copyright (C) 2021-2026 Robert G. Jenssen
 %
 % See: "Efficient Large-Scale Filter/Filterbank Design via LMI
 % Characterization of Trigonometric Curves", H. D. Tuan, T. T. Son,
@@ -20,7 +20,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 %
 % Initialise
 %
-
+tic();
 show_dB=false;
 ignore_numerical_problems=false;
 
@@ -28,7 +28,7 @@ for M=[15,30,80],
   if M==15
     fasl=0.05;fapl=0.15;fapu=0.25;fasu=0.35;
     deltap=0.0002;deltas=0.005;
-    Wasl=1;Watl=1;Wap=4;Watu=1;Wasu=1;
+    Wasl=1;Watl=1;Wap=5;Watu=1;Wasu=1;
   elseif M==30
     fasl=0.10;fapl=0.15;fapu=0.25;fasu=0.30;
     deltap=0.001;deltas=10^(-50/20);
@@ -423,5 +423,6 @@ zticks([]);
 endfor
 
 % Done
+toc();
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

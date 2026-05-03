@@ -71,12 +71,12 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-name_str="directFIRnonsymmetric_sdp_minimum_phase_test"
+nstr="directFIRnonsymmetric_sdp_minimum_phase_test"
 
-diff -Bb test_h.ok $name_str"_h_coef.m"
+diff -Bb test_h.ok $nstr"_h_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_h.ok"; fail; fi
 
-diff -Bb test_g.ok $name_str"_g_coef.m"
+diff -Bb test_g.ok $nstr"_g_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_g.ok"; fail; fi
 
 #

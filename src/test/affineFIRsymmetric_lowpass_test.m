@@ -33,7 +33,8 @@ tol=1e-12;
 %M=9;fp=0.2;fs=0.25;kappap=1;kappas=0;etap=0;etas=0.05;
 %M=9;fp=0.2;fs=0.3;kappap=0;kappas=1;etap=0.05;etas=0;
 %M=25;fp=0.2;fs=0.25;kappap=1;kappas=2;etap=0;etas=0;
-M=27;fp=0.2;fs=0.25;kappap=1;kappas=0;etap=0;etas=0.001;
+%M=27;fp=0.2;fs=0.25;kappap=0;kappas=1;etap=0.002;etas=0;
+M=27;fp=0.2;fs=0.25;kappap=7;kappas=1;etap=0;etas=0;
 
 % Filter design
 feasible=false;
@@ -66,11 +67,11 @@ print(strcat(strf,"_response"),"-dpdflatex");
 close
 
 % Dual plot
-pnp=ceil((nplot+1)*fp/0.5)+1;
-pns=floor((nplot+1)*fs/0.5)+1;
+pnp=ceil(nplot*fp/0.5)+1;
+pns=floor(nplot*fs/0.5)+1;
 ax=plotyy(wa(1:pnp)*0.5/pi,A(1:pnp),wa(pns:end)*0.5/pi,A(pns:end));
-axis(ax(1),[0 0.5 0.99 1.01]);
-axis(ax(2),[0 0.5 -2*deltas 2*deltas]);
+axis(ax(1),[0 0.5 1+0.010*[-1 1]]);
+axis(ax(2),[0 0.5 0+0.001*[-1 1]]);
 title(strt);
 ylabel("Amplitude");
 xlabel("Frequency");

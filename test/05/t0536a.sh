@@ -40,10 +40,10 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_hM15.ok << 'EOF'
-hM15 = [  -0.0051579976,  -0.0009795962,  -0.0039580719,  -0.0125007096, ... 
-           0.0044611094,   0.0145602303,  -0.0018350437,   0.0275109709, ... 
-           0.0515054409,  -0.0173703437,  -0.0260249591,   0.0194463498, ... 
-          -0.1412890767,  -0.2459630618,   0.1201954411,   0.4313855272 ]';
+hM15 = [  -0.0051581465,  -0.0009796405,  -0.0039580543,  -0.0125006777, ... 
+           0.0044611704,   0.0145602908,  -0.0018349981,   0.0275110563, ... 
+           0.0515055596,  -0.0173703361,  -0.0260250630,   0.0194462245, ... 
+          -0.1412891428,  -0.2459630557,   0.1201955422,   0.4313855271 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_hM15.ok"; fail; fi
 
@@ -92,13 +92,15 @@ echo "Running $prog"
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
-diff -Bb test_hM15.ok directFIRsymmetric_sdp_bandpass_test_hM15_coef.m
+nstr="directFIRsymmetric_sdp_bandpass_test"
+
+diff -Bb test_hM15.ok $nstr"_hM15_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM15.ok"; fail; fi
 
-diff -Bb test_hM30.ok directFIRsymmetric_sdp_bandpass_test_hM30_coef.m
+diff -Bb test_hM30.ok $nstr"_hM30_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM30.ok"; fail; fi
 
-diff -Bb test_hM80.ok directFIRsymmetric_sdp_bandpass_test_hM80_coef.m
+diff -Bb test_hM80.ok $nstr"_hM80_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_hM80.ok"; fail; fi
 
 #

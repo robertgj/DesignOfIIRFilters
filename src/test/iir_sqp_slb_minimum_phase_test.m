@@ -23,7 +23,7 @@ dBap=0.04
 Wap=1
 fas=0.25
 dBas=50
-Was=10
+Was=20
 
 % Frequency vectors
 n=500;
