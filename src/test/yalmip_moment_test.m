@@ -17,32 +17,23 @@ fhandle=fopen("test.results","wt");
 %
 % YALMIP nonconvex quadratic programming moment example
 %
-fprintf(fhandle,"\nYALMIP nonconvex quadratic programming moment example\n");
+fprintf(fhandle,"YALMIP nonconvex quadratic programming moment example\n");
 yalmip("clear");
 N=5;
 Q=magic(N);
 x=sdpvar(N,1);
 Constraints=[-1<=x<=1];
 Objective=x'*Q*x;
-Options=sdpsettings("solver","moment","moment.order",3);
-try
-  sol=optimize(Constraints,Objective,Options);
-catch
-  err=lasterror();
-  for e=1:length(err.stack)
-    fprintf(stderr, ...
-            "Called %s at %s : %d\n", ...
-            err.stack(e).name,err.stack(e).file,err.stack(e).line);
-  endfor
-  error(err.message);
-end_try_catch
-
+sedumi_eps=1e-6;
+Options=sdpsettings("solver","moment","moment.order",3,"sedumi.eps",sedumi_eps);
+sol=optimize(Constraints,Objective,Options);
 % Analyze error flags
 if sol.problem ~= 0
   fprintf(stderr,"\nSomething went wrong with moment! : %s \n", sol.info); 
 endif
 
 % Extract and display value
+fprintf(fhandle,"sedumi_eps = %g\n",sedumi_eps);
 fprintf(fhandle,"value(sol.xoptimal{1}) = [ ");
 fprintf(fhandle,"%5.2f ",value(sol.xoptimal{1})');
 fprintf(fhandle,"]\n");
@@ -60,28 +51,33 @@ fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %5.2f\n", ..
 fprintf(fhandle,"\nYALMIP moment relaxation solvemoment example\n");
 yalmip("clear");
 sdpvar x1 x2 x3
-obj = -2*x1+x2-x3;
+Obj = -2*x1+x2-x3;
 F = [x1*(4*x1-4*x2+4*x3-20)+x2*(2*x2-2*x3+9)+x3*(2*x3-13)+24>=0; ...
      4-(x1+x2+x3)>=0; ...
      6-(3*x2+x3)>=0; ...
-     2>=x1>=0,x2>=0,3>=x3>=0]
-[sol,x,momentdata] = solvemoment(F,obj,[],4);
+     2>=x1>=0, ...
+     x2>=0, ...
+     3>=x3>=0];
+sedumi_eps=1e-7;
+Options=sdpsettings("sedumi.eps",sedumi_eps);
+[sol,x,momentdata]=solvemoment(F,Obj,Options,4);
 if sol.problem ~= 0
   fprintf(stderr,"\nSomething went wrong with solvemoment! : %s \n", sol.info); 
 endif
-expected=cell(1,2);
-expected{1}=[ 0.5000  0.0000  3.0000 ]';
-expected{2}=[ 2.0000  0.0000  0.0000 ]';
+sol
+fprintf(fhandle,"sedumi_eps = %g\n",sedumi_eps);
 for k=1:length(x)
+  value(x{k})
   assign([x1;x2;x3],x{k});
-  fprintf(fhandle,"For k=%d : \n",k);
-  fprintf(fhandle,"obj = %5.2f\n",value(obj));
-  % This test fails 1 or 2 times out of 50 !?!?!
+  check(F)
+  % To avoid -0.00 and 0.00 confusion!
   tol=1e-3;
-  if norm(expected{k}-value(x{k}))>tol
-    fprintf(stderr,"norm(expected{%d}(%g)-value(x{%d})(%g))(%g)>(%g)", ...
-            k,expected{k},k,value(x{k}),norm(expected{k}-value(x{k})),tol);
-  endif
+  if abs(value(x1)) < tol, vx1=0; else vx1=value(x1); endif;
+  if abs(value(x2)) < tol, vx2=0; else vx2=value(x2); endif;
+  if abs(value(x3)) < tol, vx3=0; else vx3=value(x3); endif;
+  fprintf(fhandle, ...
+          "x1=%5.2f,x2=%5.2f,x3=%5.2f,Obj=%5.2f (expected Obj=-4)\n", ...
+          vx1,vx2,vx3,value(Obj));
 endfor
 
 % Done
