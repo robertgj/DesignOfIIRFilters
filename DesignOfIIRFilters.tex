@@ -44774,7 +44774,8 @@ libraries:
 \emph{glpk-5.0}~\cite{GNU_GLPK},
 \emph{lapack-3.12.1}~\cite{LAPACK_website}\footnote{The $16$-byte
   DOUBLE LAPACK static libraries, \emph{libqblas.a} and \emph{libqlapack.a},
-  are compiled with the \texttt{-freal-8-real-16} flag.},
+  are compiled with the \texttt{-freal-8-real-16} flag by modifying
+  \emph{INSTALL/make.inc.gfortran-quad make.inc} from the LAPACK distribution.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
 \emph{SuiteSparse-7.12.2}~\cite{SUITESPARSE_website},
 \emph{sundials-7.7.0}~\cite{SUNDIALS_website} and
@@ -45481,19 +45482,44 @@ is software for solving semidefinite-quadratic-linear programming problems.
 There are two varieties of SCS, a \emph{direct} LMI solver and an
 \emph{indirect} conjugate-gradient solver\footnote{YALMIP supports the
 \emph{"scs"}, \emph{"scs-direct"} and \emph{"scs-indirect"} SCS solver names.}.
-
 \subsubsection*{Compiling SCS with \texttt{\_\_float128} floating-point numbers}
+The Octave script \emph{yalmip\_solver\_kyp\_test.m} demonstrates that the
+\emph{double} version of SCS is much less accurate than SeDuMi and SDPT3.
 The \emph{build-octave.sh} script installs SCS with patches to enable
 compilation with \texttt{\_\_float128} floating-point numbers by setting
 \texttt{dfloat=true} in \emph{make\_scs.m}, compiling \emph{scs\_qprintf.c},
-and linking with the \emph{libquadmath.so}, \emph{libqblas.a} and
-\emph{libqlapack.a} libraries. I found that with \texttt{\_\_float128}
-floating-point numbers SCS was $1$ to $2$ orders of magnitude slower than
-with \texttt{double} floating-point numbers.
+and linking with the \emph{libquadmath.so}, \emph{libqlapack.a} and
+\emph{libqblas.a} libraries.
+
+The \texttt{double} standalone SCS solvers are compiled by:
+\begin{enumerate}
+\item applying the patch to the scs directory
+\item copying \emph{scs\_qprintf.c} to \emph{scs/src}
+\item running
+\begin{small}
+\begin{verbatim}
+  make -B CTRLC=0 NO_READ_WRITE=0 USE_LAPACK=1 USE_SPECTRAL_CONES=1 USE_QFLOAT=0 test
+\end{verbatim}
+\end{small}
+\end{enumerate}
+To build standalone SCS solvers with \emph{\_\_float128} floating-point
+numbers run:
+\begin{small}
+\begin{verbatim}
+QFLOAT_LDFLAGS="-L/usr/local/octave-11.1.0/lib -lqlapack -lqblas -lquadmath -lgfortran" \
+make -B CTRLC=0 NO_READ_WRITE=1 USE_LAPACK=1 USE_SPECTRAL_CONES=1 USE_QFLOAT=1 test
+\end{verbatim}
+\end{small}
+The SCS file examples read with the \emph{\_test\_prob\_from\_data} function
+assume \emph{double} values. The \emph{sizeof(file int)} is sometimes $8$ and
+sometimes $4$.
 
 \subsubsection*{Problems with SCS}
 The documentation is confusing. In many cases SeDuMi and SDPT3 find a better
-solution. 
+solution. I have not pursued the use of the \emph{\_\_float128} version of SCS
+as, at first glance, it seems to be much slower than the \emph{double} version.
+The SCS \emph{scs\_matlab\_direct} and \emph{scs\_dense} solvers call MATLAB C
+functions.
 
 \pdfbookmark[1]{PIQP}{PIQP}
 \subsection*{PIQP}

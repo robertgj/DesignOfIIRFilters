@@ -1,7 +1,7 @@
 % test_common.m
 % Copyright (C) 2017-2026 Robert G. Jenssen
 
-% Normally these would be in .octaverc or ~/.octaverc
+% Normally these would be in ~/.octaverc or .octaverc or startup.m
 
 clear all
 

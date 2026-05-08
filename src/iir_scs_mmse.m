@@ -324,9 +324,10 @@ while 1
   try
     data=struct("A",sparse(Ak),"b",bk,"c",ck);
     settings=struct("max_iters",1e4,"eps_abs",1e-9,"eps_rel",1e-9,"verbose",0);
-    [delta, y, s, scs_info] = scs_direct(data, cones, settings);
+    [delta, y, s, scs_info] = scs(data, cones, settings);
     if scs_info.status_val < 0
-      error("SCS failed : %s (%d)\n",scs_info.status,scs_info.status_val);
+      error("SCS failed : %s %s (%d)\n",
+            scs_info.lin_sys_solver, scs_info.status, scs_info.status_val);
     endif
     scs_iter=scs_iter+1;
   catch

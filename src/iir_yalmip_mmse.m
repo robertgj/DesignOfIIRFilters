@@ -269,7 +269,7 @@ while 1
     Objective=epsilon+eta;
     sol=optimize(Constraints,Objective,solver_options);
     if sol.problem
-      error("YALMIP solver %s failed : %s",solver_options.solver,sol.info);
+      error("YALMIP solver %s failed : %s", solver_options.solver, sol.info);
     endif
     yalmip_iter=yalmip_iter+1;
   catch

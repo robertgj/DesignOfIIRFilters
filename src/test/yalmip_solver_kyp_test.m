@@ -11,6 +11,8 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
+use_isdefinite = false;
+
 % Low-pass filter specification
 N=30;d=10;fap=0.1;Wap=1;Wat=0.0001;fas=0.2;Was=1;
 
@@ -31,6 +33,7 @@ c_s=2*cos(2*pi*fas);
 e_c=e^(j*pi*(fap+fas));
 c_h=2*cos(pi*(fas-fap));
 
+
 for solver_type=1:4
 
   switch(solver_type)
@@ -38,19 +41,23 @@ for solver_type=1:4
     case 1 
       solver_str="sedumi";
       Options=sdpsettings("solver",solver_str,"dualize",true);
+      tol = 1e-12;
     case 2
       solver_str="sdpt3";
       Options=sdpsettings("solver",solver_str,"dualize",true);
+      tol = 1e-12;
     case 3
       solver_str="scs-direct";
       Options=sdpsettings("solver",solver_str,"dualize",true, ...
                           "scs.max_iters",10000,  ...
-                          "scs.eps_abs",1e-9,"scs.eps_rel",1e-9);
+                          "scs.eps_abs",1e-12,"scs.eps_rel",1e-12);
+      tol = 1e-6;
     case 4
       solver_str="scs-indirect";
       Options=sdpsettings("solver",solver_str, ...
                           "scs.max_iters",10000,  ...
-                          "scs.eps_abs",1e-9,"scs.eps_rel",1e-9);
+                          "scs.eps_abs",1e-12,"scs.eps_rel",1e-12);
+      tol = 1e-4;
     otherwise
       error("Unknown solver type");
   endswitch
@@ -61,7 +68,7 @@ for solver_type=1:4
   % Design filter with KYP. In the pass-band the filter designed has
   % response constraint |H(w)-e^(-j*w*d)|^2<Esq_z.
   %
-  printf("\nUsing YALMIP and %s with a generalised KYP constraint\n", ...
+  printf("\nUsing YALMIP solver %s with a generalised KYP constraint\n", ...
         solver_str);
   use_kron=true;
   Esq_z=1e-4;
@@ -87,24 +94,44 @@ for solver_type=1:4
   Constraints=[F_z<=0;Q_z>=0,F_s<=0,Q_s>=0];
   sol=optimize(Constraints,[],Options);
   if sol.problem
-    warning("YALMIP failed : %s",sol.info);
+    warning("YALMIP solver %s failed : %s", Options.solver, sol.info);
     continue;
   endif
   h_kyp=value(fliplr([C,D]));
   % Sanity checks
   check(Constraints)
-  if ~isdefinite(value(Q_z))
-    warning("Q_z not positive semi-definite");
+  if use_isdefinite
+    if ~isdefinite(value(Q_z),tol)
+      warning("Q_z not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_z),tol)
+      warning("F_z not negative semi-definite");
+    endif
+    if ~isdefinite(value(Q_s),tol)
+      warning("Q_s not positive semi-definite");
+    endif
+    if ~isdefinite(-value(F_s),tol)
+      warning("F_s not negative semi-definite");
+    endif
+  else
+    min_eigs_Q_z=min(eigs(value(Q_z),rows(Q_z)));
+    if min_eigs_Q_z < -tol
+      error("Q_z not positive semi-definite (%g)", min_eigs_Q_z);
+    endif
+    max_eigs_F_z=max(eigs(value(F_z),rows(F_z)));
+    if max_eigs_F_z > tol
+      error("F_z not negative semi-definite (%g)", max_eigs_F_z);
+    endif
+    min_eigs_Q_s=min(eigs(value(Q_s),rows(Q_s)));
+    if min_eigs_Q_s < -tol
+      error("Q_s not positive semi-definite (%g)", min_eigs_Q_s);
+    endif
+    max_eigs_F_s=max(eigs(value(F_s),rows(F_s)));
+    if max_eigs_F_s > tol
+      error("F_s not negative semi-definite (%g)", max_eigs_F_s);
+    endif
   endif
-  if ~isdefinite(-value(F_z))
-    warning("F_z not negative semi-definite");
-  endif
-  if ~isdefinite(value(Q_s))
-    warning("Q_s not positive semi-definite");
-  endif
-  if ~isdefinite(-value(F_s))
-    warning("F_s not negative semi-definite");
-  endif
+  
   % Plot h_kyp response
   h=value(fliplr([C,D]));
   [H,w]=freqz(h,1,nplot);

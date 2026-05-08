@@ -42,8 +42,12 @@ params.eps = 1e-3;
 params.scale = 1;
 params.cg_rate = 1.5;
 
-[dir_x_scs,dir_y_scs,dir_s_scs,dir_info] = scs_direct(data, K, params);
-[indir_x_scs,indir_y_scs,indir_s_scs,indir_info] = scs_indirect(data, K, params);
+[dir_x_scs,dir_y_scs,dir_s_scs,dir_info] = scs(data, K, params);
+dir_info
+
+params.use_indirect = 1;
+[indir_x_scs,indir_y_scs,indir_s_scs,indir_info] = scs(data, K, params);
+indir_info
 
 % Save 
 print_polynomial(dir_info.pobj,"dir_info.pobj","%10.7f");

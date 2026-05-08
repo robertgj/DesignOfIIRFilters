@@ -104,7 +104,7 @@ cones.q=12;
 % Call SCS
 data=struct("A",sparse(A),"b",b,"c",[zeros(10,1);1]);
 settings = struct("max_iters",1e4,"eps_abs",1e-9,"eps_rel",1e-9);
-[x,y,s,info_scs]=scs_direct(data,cones,settings);
+[x,y,s,info_scs]=scs(data,cones,settings);
 disp("x'="),disp(value(x'))
 fprintf(fhandle,"QP: x'=[");fprintf(fhandle," %f",x'); fprintf(fhandle,"];\n");
 % SCS returns x(1:10)=0.2 and v=x(11)=0.4, s(1)=0, r=s(2)=1, s(3:12)=0.2,
@@ -150,7 +150,7 @@ Ak=[Ak; [-1,0,0,0];[0,-1,0,0]];bk=[bk;-1;-1];
 data=struct("A",sparse(Ak),"b",bk,"c",ck);
 cones=struct("z",0,"l",2,"q",[3,3]);
 settings=struct("max_iters",1e4,"eps_abs",1e-9,"eps_rel",1e-9);
-[x,y,s,info_scs]=scs_direct(data,cones,settings);
+[x,y,s,info_scs]=scs(data,cones,settings);
 disp("x'="),disp(value(x'))
 fprintf(fhandle,"SOCP: x'=[");fprintf(fhandle," %f",x'); fprintf(fhandle,"];\n");
 % SCS results agree with YALMIP
@@ -200,7 +200,7 @@ A2=[0,-1, 0,       0;
 data=struct("A",sparse([A1;A2]),"b",[b1;b2],"c",[1;0;0;0]);
 cones=struct("z",0,"l",0,"q",0,"s",[2,2])
 settings = struct("max_iters",1e4,"eps_abs",1e-9,"eps_rel",1e-9);
-[x,y,s,info_scs]=scs_direct(data,cones,settings);
+[x,y,s,info_scs]=scs(data,cones,settings);
 disp("x'="),disp(value(x'))
 fprintf(fhandle,"SDP: x'=[");fprintf(fhandle," %f",x');fprintf(fhandle," ];\n");
 % SCS results agree with YALMIP with scs_direct:
@@ -217,9 +217,8 @@ fprintf(fhandle,"SDP: x'=[");fprintf(fhandle," %f",x');fprintf(fhandle," ];\n");
 %
 
 Options_sedumi=sdpsettings("solver","sedumi", ...
-                           "scs.max_iters",1e4, ...
-                           "scs.eps_abs",1e-9, ...
-                           "scs.eps_rel",1e-9, ...
+                           "sedumi.maxiter",1e4, ...
+                           "sedumi.eps",1e-9, ...
                            "savesolveroutput",1);
 
 %
