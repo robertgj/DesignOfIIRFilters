@@ -745,10 +745,6 @@ if ! test -f $SEDUMI_ARCHIVE ; then
     mv "v"$SEDUMI_VER".tar.gz" $SEDUMI_ARCHIVE
 fi
 tar -xf $SEDUMI_ARCHIVE
-rm -f sedumi-$SEDUMI_VER/.github
-rm -f sedumi-$SEDUMI_VER/.gitignore
-rm -f sedumi-$SEDUMI_VER/vec.m
-rm -f sedumi-$SEDUMI_VER/*.mex*
 rm -Rf $OCTAVE_SITE_M_DIR/SeDuMi
 cat > sedumi-$SEDUMI_VER.patch.gz.uue << 'EOF'
 begin-base64 644 sedumi-1.3.8.patch.gz
@@ -810,13 +806,18 @@ xu7tx42PjYQl3mw5ao0HA14kjyC5T7sHLPsYwNKOwStpFWmM8svUs2MXK1YP
 xy7JofSX6uezeyDZP5FWRJq2M6ZOLYn/D5yFC0MQPgAA
 ====
 EOF
-uudecode "sedumi-"$SEDUMI_VER".patch.gz.uue"
-gunzip "sedumi-"$SEDUMI_VER".patch.gz"
+uudecode sedumi-$SEDUMI_VER.patch.gz.uue
+gunzip sedumi-$SEDUMI_VER.patch.gz
 pushd sedumi-$SEDUMI_VER
-patch -p 1 < ../sedumi-$SEDUMI_VER".patch"
+patch -p 1 < ../sedumi-$SEDUMI_VER.patch
 popd
-rm -Rf sedumi-"$SEDUMI_VER".patch.gz.uue \
-sedumi-"$SEDUMI_VER".patch.gz sedumi-"$SEDUMI_VER".patch
+rm -Rf sedumi-$SEDUMI_VER.patch.gz.uue
+rm -Rf sedumi-$SEDUMI_VER.patch.gz
+rm -Rf sedumi-$SEDUMI_VER.patch
+rm -Rf sedumi-$SEDUMI_VER/vec.m
+rm -Rf sedumi-$SEDUMI_VER/*.mex*
+rm -Rf sedumi-$SEDUMI_VER/.github
+rm -Rf sedumi-$SEDUMI_VER/.gitignore
 mv -f sedumi-$SEDUMI_VER $OCTAVE_SITE_M_DIR/SeDuMi
 if test $? -ne 0;then rm -Rf sedumi-$SEDUMI_VER; exit -1; fi
 $OCTAVE_BIN_DIR/octave --no-gui $OCTAVE_SITE_M_DIR/SeDuMi/install_sedumi.m
@@ -833,9 +834,9 @@ if ! test -f sdpt3-$SDPT3_VER.tar.gz ; then
 fi
 rm -Rf sdpt3-$SDPT3_VER $OCTAVE_SITE_M_DIR/SDPT3
 tar -xf $SDPT3_ARCHIVE 
-rm -f sdpt3-$SDPT3_VER/.github
-rm -f sdpt3-$SDPT3_VER/.gitignore
-rm -f sdpt3-$SDPT3_VER/Solver/Mexfun/*.mex*
+rm -Rf sdpt3-$SDPT3_VER/.github
+rm -Rf sdpt3-$SDPT3_VER/.gitignore
+rm -Rf sdpt3-$SDPT3_VER/Solver/Mexfun/*.mex*
 rm -Rf sdpt3-$SDPT3_VER/Solver/Mexfun/o_win
 mv -f sdpt3-$SDPT3_VER $OCTAVE_SITE_M_DIR/SDPT3
 if test $? -ne 0;then rm -Rf sdpt3-$SDPT3_VER; exit -1; fi
@@ -880,6 +881,7 @@ popd
 rm -f "YALMIP-"$YALMIP_VER".patch"
 rm -f "YALMIP-"$YALMIP_VER".patch.gz"
 rm -f "YALMIP-"$YALMIP_VER".patch.gz.uue"
+rm -f "YALMIP-"$YALMIP_VER/.gitignore
 mv -f "YALMIP-"$YALMIP_VER $OCTAVE_SITE_M_DIR/YALMIP
 if test $? -ne 0;then rm -Rf "YALMIP-"$YALMIP_VER; exit -1; fi
 
@@ -1525,6 +1527,7 @@ rm -Rf $OCTAVE_SITE_M_DIR/SCS
 mkdir -p $OCTAVE_SITE_M_DIR/SCS
 pushd "scs-matlab-"$SCS_MATLAB_VER
 $OCTAVE_BIN_DIR/octave-cli --eval "make_scs"
+rm -Rf matlab/scs_dense.mex
 cp -Rf LICENSE README.md scs_*.mex matlab $OCTAVE_SITE_M_DIR/SCS
 popd
 
