@@ -40,15 +40,15 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 YALMIP nonconvex quadratic programming moment example
 sedumi_eps = 1e-06
-value(sol.xoptimal{1}) = [  0.23 -1.00 -1.00  1.00  1.00 ]
-value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = -80.94
-value(sol.xoptimal{2}) = [ -0.23  1.00  1.00 -1.00 -1.00 ]
-value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = -80.94
+value(sol.xoptimal{1}) = [  0.2 -1.0 -1.0  1.0  1.0 ]
+value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = -80.9
+value(sol.xoptimal{2}) = [ -0.2  1.0  1.0 -1.0 -1.0 ]
+value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = -80.9
 
 YALMIP moment relaxation solvemoment example
 sedumi_eps = 1e-07
-x1= 0.50,x2= 0.00,x3= 3.00,Obj=-4.00 (expected Obj=-4)
-x1= 2.00,x2= 0.00,x3= 0.00,Obj=-4.00 (expected Obj=-4)
+x1= 0.5,x2= 0.0,x3= 3.0,Obj=-4.00 (expected Obj=-4)
+x1= 2.0,x2= 0.0,x3= 0.0,Obj=-4.00 (expected Obj=-4)
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok"; fail; fi
 

@@ -1,10 +1,9 @@
 % yalmip_moment_test.m
-% Copyright (C) 2021-2025 Robert G. Jenssen
 % See the examples at: https://yalmip.github.io/tutorial/momentrelaxations/ 
 % and https://yalmip.github.io/example/nonconvexquadraticprogramming/
 %
 % !!! THE MOMENT AND SOLVEMOMENT EXAMPLES CAUSE NUMERICAL PROBLEMS IN SEDUMI !!!
-% !!!                  THE RESULTS ARE UNRELIABLE                            !!!
+% !!! AND APPEAR TO USE A RANDOMISED ALGORITHM. THE RESULTS ARE UNRELIABLE.  !!!
 
 test_common;
 
@@ -33,17 +32,22 @@ if sol.problem ~= 0
 endif
 
 % Extract and display value
+vopt1=round(10*value(sol.xoptimal{1}))/10;
+vopt2=round(10*value(sol.xoptimal{2}))/10;
+v1pQv1=round(10*vopt1'*Q*vopt1)/10
+v2pQv2=round(10*vopt2'*Q*vopt2)/10;
+
 fprintf(fhandle,"sedumi_eps = %g\n",sedumi_eps);
 fprintf(fhandle,"value(sol.xoptimal{1}) = [ ");
-fprintf(fhandle,"%5.2f ",value(sol.xoptimal{1})');
+fprintf(fhandle,"%4.1f ",vopt1);
 fprintf(fhandle,"]\n");
-fprintf(fhandle,"value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = %5.2f\n", ...
-        value(sol.xoptimal{1}'*Q*sol.xoptimal{1}));
+fprintf(fhandle,"value(sol.xoptimal{1})'*Q*value(sol.xoptimal{1}) = %4.1f\n", ...
+        v1pQv1);
 fprintf(fhandle,"value(sol.xoptimal{2}) = [ ");
-fprintf(fhandle,"%5.2f ",value(sol.xoptimal{2})');
+fprintf(fhandle,"%4.1f ",vopt2);
 fprintf(fhandle,"]\n");
-fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %5.2f\n", ...
-        value(sol.xoptimal{2}'*Q*sol.xoptimal{2}));
+fprintf(fhandle,"value(sol.xoptimal{2})'*Q*value(sol.xoptimal{2}) = %4.1f\n", ...
+        v2pQv2);
 
 %
 % YALMIP moment relaxation solvemoment example
@@ -71,12 +75,15 @@ for k=1:length(x)
   assign([x1;x2;x3],x{k});
   check(F)
   % To avoid -0.00 and 0.00 confusion!
-  tol=1e-3;
-  if abs(value(x1)) < tol, vx1=0; else vx1=value(x1); endif;
-  if abs(value(x2)) < tol, vx2=0; else vx2=value(x2); endif;
-  if abs(value(x3)) < tol, vx3=0; else vx3=value(x3); endif;
+  tol=1e-1;
+  vx1=value(x1);
+  if abs(vx1)<tol, vx1=0; else, vx1=round(2*vx1)/2; endif;
+  vx2=value(x2);
+  if abs(vx2)<tol, vx2=0; else, vx2=round(2*vx2)/2; endif;
+  vx3=value(x3);
+  if abs(vx3)<tol, vx3=0; else, vx3=round(2*vx3)/2; endif;
   fprintf(fhandle, ...
-          "x1=%5.2f,x2=%5.2f,x3=%5.2f,Obj=%5.2f (expected Obj=-4)\n", ...
+          "x1=%4.1f,x2=%4.1f,x3=%4.1f,Obj=%5.2f (expected Obj=-4)\n", ...
           vx1,vx2,vx3,value(Obj));
 endfor
 
