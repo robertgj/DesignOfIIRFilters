@@ -5284,7 +5284,7 @@ description of a Schur FIR lattice filter.
 The Octave script \emph{schurFIRlattice2Abcd\_symbolic\_test.m} creates a symbolic
 state variable description of the Schur FIR lattice filter.
 
-\subsection{\label{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
+\subsection{\label{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
 $x_{n}^{\prime}$ corresponding to the input to state $x_{n}$ of
@@ -5552,7 +5552,8 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \label{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}
 \end{algorithm}
 
-As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+As in
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications. For an even order filter:
 
@@ -5745,7 +5746,8 @@ $\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
 \label{alg:Construction-state-variable-pipelined-One-Multiplier-lattice-all-pass}
 \end{algorithm}
 
-As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+As in
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications. For an even order filter:
 
@@ -5942,7 +5944,8 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \label{alg:Construction-state-variable-doubly-pipelined-One-Multiplier-lattice}
 \end{algorithm}
 
-As in Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+As in
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications:
 
@@ -6320,7 +6323,7 @@ characteristics''. \emph{Kimura} and
 the pipelined or, so-called, \emph{symmetric} lattice shown in 
 Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}
 has improved roundoff noise performance compared to the lattice of
-Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
 
 Lattice filter roundoff noise can be calculated by the $K$ and $W$
 matrices derived from the state variable description of the filter.
@@ -12362,7 +12365,7 @@ a zero at $z=-1$.
   differentiator filter after PCLS SOCP optimisation.}
 \label{fig:Parallel-allpass-lowpass-differentiator-filter-PCLS-correction}
 \end{figure}
-
+\clearpage
 \paragraph{Design of an alternate IIR low-pass differentiator filter as the difference of two all-pass filters} 
 The Octave script \newline
 \emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_alternate\_test.m}
@@ -14397,13 +14400,24 @@ the pass-band response of the filter.
 \clearpage
 \subsubsection{\label{sec:Design-parallel-doubly-pipelined-Schur-one-multiplier-Schur-lattice-low-pass-SOCP}Design of a parallel all-pass  doubly-pipelined one-multiplier IIR Schur lattice low-pass filter using SOCP}
 The state variable description of an all-pass doubly-pipelined
-one-multiplier Schur lattice filter is described in
-Section~\ref{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}.
-The Octave script
+one-multiplier Schur lattice filter is shown in
+Section~\ref{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}. The doubly-pipelined filter implementation is, by its nature,
+aliased around the half-band frequency and requires an additional anti-aliasing
+filter. The Octave script
 \emph{schurOneMPAlatticeDoublyPipelinedAntiAliased\_socp\_slb\_lowpass\_test.m}
-implements the design of a low-pass IIR filter composed of the sum
-of parallel all-pass doubly-pipelined one-multiplier Schur lattice filters
-in series with a parallel anti-aliasing filter using SOCP and PCLS optimisation. 
+implements the design of a low-pass IIR with SOCP and PCLS optimisation. The
+filter composed of the sum of parallel all-pass doubly-pipelined one-multiplier
+Schur lattice filters in series with a parallel all-pass anti-aliasing filter.
+The parallel all-pass doubly pipelined filter is implemented with the Schur
+lattice filter shown in
+Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}
+The parallel all-pass anti-aliasing filter is implemented with the Schur lattice
+filters shown in
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
+In both cases, as the implementation uses all-pass one-multiplier Schur lattice
+filters, the choice of the $\epsilon$ scaling coefficients does not change the
+filter transfer function.
+
 The specification of the filter is:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_spec.m}
@@ -14411,19 +14425,23 @@ The specification of the filter is:
 The initial parallel doubly-pipelined all-pass filters are designed by the
 \emph{WISE\_PA} function with the \emph{WISE} method described in
 Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}. The
-initial anti-aliasing filter is a Butterworth half-band low-pass filter.
+initial anti-aliasing filter is a Butterworth low-pass filter.
+If the anti-aliasing filter is a Butterworth parallel all-pass half-band filter
+then the implementation of that filter can be pipelined in the same manner as the
+parallel all-pass doubly-pipelined Schur lattice filters.
+
 The SOCP PCLS optimised doubly-pipelined all-pass lattice coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A1k2_coef.m}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A2k2_coef.m}
 \end{small}
-and the anti-aliasing filter all-pass lattice coefficients are:
+and the anti-aliasing filter parallel all-pass lattice coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa1k2_coef.m}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa2k2_coef.m}
 \end{small}
 
-The corresponding doubly-pipelined all-pass lattice denominator polynomial
+The parallel doubly-pipelined all-pass lattice denominator polynomial
 coefficients are:
 \begin{small}
 \verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DA1k2_coef.m}
@@ -14444,16 +14462,21 @@ are:
 \end{small}
 
 Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-initial}
-shows the amplitude and pass-band phase and delay response of the initial
-parallel all-pass, doubly-pipelined, anti-aliased filter.
+shows the amplitude and pass-band phase and delay response of the initial, WISE
+optimised, parallel all-pass, doubly-pipelined, anti-aliased filter.
 Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-PCLS}
 shows the amplitude and pass-band phase and delay response of the PCLS SOCP
 optimised parallel all-pass, doubly-pipelined, anti-aliased filter. In both
 figures the phase is adjusted for the nominal delay. The
 \emph{schurOneMAPlatticeDoublyPipelined2Abcd.m} function adds an output delay
 of $z^{-2}$ in order to place all coefficients in the transition matrix, $A$.
-The effect of this extra delay is not shown in
-Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-PCLS}.
+The effect of this extra delay is not shown.
+Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-antialiasing-PCLS}
+shows the SOCP PCLS optimised amplitude and group-delay responses of the
+anti-aliasing part of the filter.
+Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-doublypipelined-PCLS} shows the SOCP PCLS optimised amplitude and group-delay responses of the
+doubly-pipelined part of the filter.
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_initial_response}}
@@ -14463,6 +14486,7 @@ Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-PCLS}.
   effect of the extra output delay of the implementation is not shown.}
 \label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-initial}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_pcls_response}}
@@ -14473,6 +14497,40 @@ Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-PCLS}.
   delay of the implementation is not shown.}
 \label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-low-pass-PCLS}
 \end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_pcls_antialias_response}}
+\caption{Amplitude and pass-band group-delay responses of the Schur one-multiplier parallel
+  all-pass lattice anti-aliasing filter after SOCP PCLS optimisation.}
+\label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-antialiasing-PCLS}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_pcls_doublypipelined_response}}
+\caption{Amplitude and pass-band group-delay responses of the Schur one-multiplier parallel
+  all-pass lattice doubly-pipelined filter after SOCP PCLS optimisation.}
+\label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-doublypipelined-PCLS}
+\end{figure}
+
+For comparison,
+Figure~\ref{fig:Schur-doubly-pipelined-one-m-parallel-allpass-remez-comparison}
+shows the amplitude response of  a symmetric FIR filter designed with the
+\emph{remez} function and having a similar frequency response and stop-band
+attenuation. The transfer function polynomial coefficients are:
+\begin{small}
+\verbatiminput{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_b_coef.m}
+\end{small}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_remez_response}}
+\caption{Amplitude response of a symmetric FIR filter designed with the
+  \emph{remez} function and having the same number of distinct coefficients.}
+\label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-remez-comparison}
+\end{figure}
+
 \clearpage
 \subsection{Design of normalised-scaled IIR Schur lattice filters with SQP optimisation}
 \subsubsection{Design of an approximately normalised-scaled IIR Schur lattice low-pass filter using SQP}
@@ -24868,7 +24926,7 @@ $-\imath\frac{\omega}{2}$, for which the transfer function denominator
 polynomial has terms only in $z^{-2}$.
 Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} describes the
 derivation of the Schur tapped one-multiplier lattice.
-Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
 describes the state-variable description of the Schur tapped one-multiplier
 lattice filter.
 Section~\ref{sec:Pipelining-OneM-Schur-lattice-filter} describes
@@ -25141,7 +25199,7 @@ lattice band-pass Hilbert filter for which the transfer function denominator
 polynomial has terms only in $z^{-2}$.
 Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} describes the
 derivation of the Schur tapped one-multiplier lattice.
-Section~\ref{State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
+Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
 describes the state-variable description of the Schur tapped one-multiplier
 lattice filter.
 Section~\ref{sec:Pipelining-OneM-Schur-lattice-filter} describes

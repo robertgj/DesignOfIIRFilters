@@ -29,21 +29,23 @@ dmax=inf; % For compatibility with SQP
 
 % Parallel all-pass filter order
 ma=6;mb=7;
-
-% Anti-aliasing filter order
-maa=7;
-
-% Low-pass filter specification (dBap=0.08,tpr=0.15,dpr=0.3 takes 20min!)
-fap=0.1;dBap=0.1;Wap=1;Wat=0.01;
-fas=0.175;dBas=60;Was=100;Was_wise=0.1;
-fpp=fap;pp=0;ppr=0.002;Wpp=1;
-ftp=fap;tp=15;tpr=0.2;Wtp=0.1;
-fdp=fap;dpr=2;Wdp=0.1;
 difference=false;
+% Low-pass filter specification 
+fap=0.15;dBap=0.08;Wap=1;Wat=0.01;
+fas=0.175;dBas=65;Was=100;Was_wise=0.1;
+fpp=0.1;pp=0;ppr=0.0008;Wpp=1;
+ftp=0.1;tp=15;tpr=0.1;Wtp=1;
+fdp=0.1;dpr=0.2;Wdp=0.01;
+
+% Anti-aliasing filter
+maa=7;
+faap=0.25;
+[Naa,Daa]=butter(maa,faap*2);
 
 % Frequency points
 n=1000;
 w=pi*(0:(n-1))'/n;
+nhb=ceil(n/2)+1;
 nap=ceil(fap*n/0.5)+1;
 nas=floor(fas*n/0.5)+1;
 ntp=ceil(ftp*n/0.5)+1;
@@ -91,8 +93,7 @@ printf("Adu(nachk)=[");printf("%g ",Adu(nachk));printf(" ]\n");
 printf("Adl(nachk)=[");printf("%g ",Adl(nachk));printf(" ]\n");
 printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 
-% Fixed odd-order half-band anti-aliasing filter
-[Naa,Daa]=butter(maa,0.25*2);
+% Anti-aliasing filter
 [Aaa1,Aaa2]=tf2pa(Naa,Daa);
 [Aaa1k0,Aaa1kepsilon0,Aaa1kp0,~]=tf2schurOneMlattice(flipud(Aaa1(:)),Aaa1(:));
 [Aaa2k0,Aaa2kepsilon0,Aaa2kp0,~]=tf2schurOneMlattice(flipud(Aaa2(:)),Aaa2(:));
@@ -174,7 +175,7 @@ zticks([]);
 print(strcat(strf,"_sanity_check_response"),"-dpdflatex");
 close
 
-% Unconstrained minimisation with (1-z^(-1)) removed
+% Unconstrained minimisation
 tol=1e-8;
 R=2;
 polyphase=false;
@@ -241,13 +242,13 @@ ylabel("Amplitude(dB)");
 zticks([]);
 subplot(312)
 plot(wp*0.5/pi,(P0+(wp*tp))/pi)
-axis([0 0.5 pp+0.004*[-1,1]])
+axis([0 0.5 pp+0.002*[-1,1]])
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(313)
 plot(wt*0.5/pi,T0)
-axis([0 0.5,tp+0.2*[-1,1]])
+axis([0 0.5,tp+0.1*[-1,1]])
 grid("on")
 ylabel("Delay(samples)");
 xlabel("Frequency");
@@ -330,45 +331,109 @@ if feasible == 0
   error("PCLS infeasible");
 endif
 
-% Calculate PCLS response
+% Calculate doubly pipelined filter PCLS response
+Adpsq2=schurOneMPAlatticeDoublyPipelinedAsq(w,A1k2,A2k2);
+Adp2=sqrt(Adpsq2);
+Tdp2=schurOneMPAlatticeDoublyPipelinedT(w,A1k2,A2k2);
+
+% Calculate anti-aliasing filter PCLS response
+Aaasq2=schurOneMPAlatticeAsq ...
+         (w,Aaa1k2,Aaa1kones,Aaa1kones,Aaa2k2,Aaa2kones,Aaa2kones);
+Aaa2=sqrt(Aaasq2);
+Taa2=schurOneMPAlatticeT ...
+       (w,Aaa1k2,Aaa1kones,Aaa1kones,Aaa2k2,Aaa2kones,Aaa2kones);
+
+% Calculate overall PCLS response
 Asq2=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
        (wa,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 A2=sqrt(Asq2);
-P2=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
-     (wp,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 T2=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
      (wt,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
+P2=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
+     (wp,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 dAsqdw2=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
-          (wd,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
+     (wd,A1k2,A2k2,difference,Aaa1k2,Aaa2k2);
 
-% Plot PCLS response
-subplot(311)
-[ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi,   20*log10([A2,Adl,Adu])(1:nap,:), ...
-                  wa(nap:end)*0.5/pi, 20*log10([A2,Adl,Adu])(nap:end,:));
+% Plot anti-aliasing PCLS amplitude response
+subplot(211)
+ax=plotyy(w(1:nas)*0.5/pi,   20*log10(Aaa2(1:nas,:)), ...
+          w(nas:end)*0.5/pi, 20*log10(Aaa2(nas:end,:)));
+axis(ax(1),[0 0.5 -1e-5 1e-5]);
+axis(ax(2),[0 0.5 -70 -62]);
+grid("on")
+tstr=sprintf(["Lowpass anti-aliasing PCLS response : ", ...
+              "fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g"], ...
+             fap,dBap,tp,fas,dBas);
+title(tstr);
+ylabel("Amplitude(dB)");
+zticks([]);
+subplot(212)
+plot(w*0.5/pi,Taa2)
+axis([0 0.5 0 4])
+grid("on")
+ylabel("Delay(samples)");
+xlabel("Frequency");
+zticks([]);
+print(strcat(strf,"_pcls_antialias_response"),"-dpdflatex");
+close
+
+% Plot doubly-pipelined PCLS response
+subplot(211)
+ax=plotyy(w(1:nas)*0.5/pi,   20*log10(Adp2)(1:nas,:), ...
+          w(nas:end)*0.5/pi, 20*log10(Adp2)(nas:end,:));
+axis(ax(1),[0 0.25 -0.15 0.05]);
+axis(ax(2),[0 0.25 -70 -62]);
+grid("on")
+tstr=sprintf(["Lowpass doubly-pipelined PCLS response : ", ...
+              "fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g"], ...
+             fap,dBap,tp,fas,dBas);
+title(tstr);
+ylabel("Amplitude(dB)");
+zticks([]);
+subplot(212)
+plot(w*0.5/pi,Tdp2)
+axis([0 0.25 0 20])
+grid("on")
+ylabel("Delay(samples)");
+xlabel("Frequency");
+zticks([]);
+print(strcat(strf,"_pcls_doublypipelined_response"),"-dpdflatex");
+close
+
+% Plot overall PCLS response
+subplot(411)
+[ax,ha,hs]=plotyy(wa(1:nas)*0.5/pi,   20*log10([A2,Adl,Adu])(1:nas,:), ...
+                  wa(nas:end)*0.5/pi, 20*log10([A2,Adl,Adu])(nas:end,:));
 % Copy line colour
 hac=get(ha,"color");
 for c=1:3
   set(hs(c),"color",hac{c});
 endfor
 axis(ax(1),[0 0.5 -0.15 0.05]);
-axis(ax(2),[0 0.5 -70 -50]);
+axis(ax(2),[0 0.5 -70 -62]);
 grid("on")
 tstr=sprintf("Lowpass PCLS response : fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g", ...
              fap,dBap,tp,fas,dBas);
 title(tstr);
 ylabel("Amplitude(dB)");
 zticks([]);
-subplot(312)
+subplot(412)
 plot(wp*0.5/pi,([(P2+Pz2),Pd,Pdu,Pdl]+(wp*tp))/pi)
-axis([0 0.5 pp+ppr*[-1,1]])
+axis([0 0.5 pp+0.001*[-1,1]])
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
-subplot(313)
+subplot(413)
 plot(wt*0.5/pi,[(T2-Tz2),Td,Tdu,Tdl])
 axis([0 0.5,tp+tpr*[-1,1]])
 grid("on")
 ylabel("Delay(samples)");
+zticks([]);
+subplot(414)
+ax=plot(wd*0.5/pi, [dAsqdw2,Ddl,Ddu]);
+axis([0 0.5 -0.2 0.2]);
+grid("on")
+ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$");
 xlabel("Frequency");
 zticks([]);
 print(strcat(strf,"_pcls_response"),"-dpdflatex");
@@ -386,16 +451,34 @@ Daa2=conv(DAaa1k2,DAaa2k2);
 N2=conv((conv(fliplr(DA1k2),DA2k2)+conv(fliplr(DA2k2),DA1k2))/2,Naa2);
 D2=conv(conv(DA1k2,DA2k2),Daa2);
 % Sanity check
+tol=1000*eps;
 H2c=freqz(N2,D2,wa);
-if max(abs(Asq2-(abs(H2c).^2))) > 100*eps
-  error("max(abs(Asq2-(abs(H2c).^2)))(%g*eps) > 100*eps", ...
-        max(abs(Asq2-(abs(H2c).^2)))/eps);
+if max(abs(Asq2-(abs(H2c).^2))) > tol
+  error("max(abs(Asq2-(abs(H2c).^2)))(%g*eps) > tol(%g*eps)", ...
+        max(abs(Asq2-(abs(H2c).^2)))/eps,tol/eps);
 endif
 T2c=delayz(N2,D2,wt);
-if max(abs(T2-T2c)) > 1000*eps
-  error("max(abs(T2-T2c))(%g*eps) > 1000*eps", ...
-        max(abs(T2-T2c))/eps);
+if max(abs(T2-T2c)) > tol
+  error("max(abs(T2-T2c))(%g*eps) > tol(%g*eps)", ...
+        max(abs(T2-T2c))/eps,tol/eps);
 endif
+
+% Compare with remez
+M=length(find(abs([A1k2;A2k2;Aaa1k2;Aaa2k2]) > tol));
+N=(2*M)-2;
+b=remez(N-1,2*[0 ftp fas 0.5],[1 1 0 0],[1 100]);
+B=freqz(b,1,wa);
+ax=plotyy(wa(1:nas)*0.5/pi,   20*log10(abs(B))(1:nas,:), ...
+          wa(nas:end)*0.5/pi, 20*log10(abs(B))(nas:end,:));
+axis(ax(1),[0 0.5 -1 1]);
+axis(ax(2),[0 0.5 -68 -60]);
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+grid("on");
+title(sprintf("b=remez(%d,2*[0 %.3f %.3f 0.5],[1 1 0 0],[1 100]);",N,ftp,fas));
+zticks([]);
+print(strcat(strf,"_remez_response"),"-dpdflatex");
+close
 
 % Save results
 print_polynomial(A1k2,"A1k2");
@@ -423,39 +506,43 @@ print_polynomial(N2,"N2",strcat(strf,"_N2_coef.m"));
 print_polynomial(D2,"D2");
 print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 
+print_polynomial(b,"b");
+print_polynomial(b,"b",strcat(strf,"_b_coef.m"));
+
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
+fprintf(fid,"n=%d %% Frequency points across the band\n",n);
+fprintf(fid,"maa=%d %% Order of anti-aliasing filter\n",maa); 
+fprintf(fid,"faap=%g %% Initial anti-aliasing amplitude pass band edge\n",faap);
 fprintf(fid,"ma=%d %% Order of all-pass filter 1\n",ma); 
 fprintf(fid,"mb=%d %% Order of all-pass filter 2\n",mb); 
-fprintf(fid,"maa=%d %% Order of anti-aliasing filter\n",maa); 
-fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"fap=%g %% Amplitude pass band upper edge\n",fap);
+fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple(dB)\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"Wat=%g %% Amplitude transition band weight\n",Wat);
-fprintf(fid,"fas=%g %% Amplitude stop band lower edge\n",fas);
+fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple(dB)\n",dBas);
 fprintf(fid,"Was_wise=%g %% Initial amplitude stop band weight\n",Was_wise);
 fprintf(fid,"Was=%g %% Amplitude stop band weight\n",Was);
-fprintf(fid,"fpp=%g %% Pass band phase upper edge\n",fpp);
+fprintf(fid,"fpp=%g %% Pass band phase edge\n",fpp);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
 fprintf(fid,"ppr=%g %% Pass band phase peak-to-peak ripple(rad./pi)\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase weight\n",Wpp);
-fprintf(fid,"ftp=%g %% Pass band group delay upper edge\n",ftp);
+fprintf(fid,"ftp=%g %% Pass band group delay edge\n",ftp);
 fprintf(fid,"tp=%g %% Pass band group delay(samples)\n",tp);
 fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
-fprintf(fid,"fdp=%g %% Pass band dAsqdw upper edge\n",fpp);
+fprintf(fid,"fdp=%g %% Pass band dAsqdw edge\n",fpp);
 fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wpp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol ma mb maa n ", ...
-              "fap dBap Wap fas dBas Was_wise Was ", ...
+eval(sprintf(["save %s.mat ftol ctol rho n ", ...
+              "maa faap ma mb fap dBap Wap fas dBas Was_wise Was ", ...
               "fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr Wdp ", ...
               "ab0 Da0 Db0 A1k0 A2k0 Aaa1k0 Aaa2k0 A1k2 A2k2 Aaa1k2 Aaa2k2 ", ...
               "DA1k2 DA2k2 Naa2 Daa2 N2 D2"], ...
