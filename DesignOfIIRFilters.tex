@@ -5284,7 +5284,7 @@ description of a Schur FIR lattice filter.
 The Octave script \emph{schurFIRlattice2Abcd\_symbolic\_test.m} creates a symbolic
 state variable description of the Schur FIR lattice filter.
 
-\subsection{\label{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
+\subsection{\label{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
 $x_{n}^{\prime}$ corresponding to the input to state $x_{n}$ of
@@ -5455,6 +5455,183 @@ filter $Cap$ and $Dap$ output matrixes).
 The Octave script \emph{schurSchurOneMlattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter.
 
+The following is an alternative factored state variable description of the
+one-multiplier Schur lattice filter:
+\begin{align*}
+  \left[\begin{array}{c}
+    \hat{y}_{0}\\
+    y_{0}\\
+    x_{2}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
+  \end{array}\right] & = \left[\begin{array}{cccccc}
+    1 & 0 & \cdots & & \cdots & 0 \\
+    c_{0} & 0 & \cdots & & \cdots & 0\\
+    0 & 1 & & & & \vdots\\
+    \vdots & & \ddots\\
+    & & & \ddots & & \vdots\\
+    0 & & & & 1 & 0\\
+    0 & \cdots & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{c}
+    x_{1}\\
+    x_{2}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
+\end{array}\right]
+\end{align*}
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    \hat{y}_{1}\\
+    y_{1}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u \end{array}\right] & = \left[\begin{array}{ccccccc}
+    -k_{1} & 0 & \left(1+k_{1}\epsilon_{1}\right) & 0 &\cdots & & 0 \\
+    \left(1-k_{1}\epsilon_{1}\right) & 0 & k_{1} & 0 & & & \vdots \\
+    0 & 1 & c_{1} & 0 & & & \vdots \\
+    0 & 0 & 0 & 1 & & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0\\
+    0 & \cdots & & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{c}
+    \hat{y}_{0}\\
+    y_{0}\\
+    x_{2}\\
+    \vdots\\
+    x_{N}\\
+    u \end{array}\right]
+\end{align*}
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{2}^{\prime}\\
+    \hat{y}_{2}\\
+    y_{2}\\
+    \vdots\\
+    x_{N} \\
+    u \\
+    x_{1}^{\prime} \end{array}\right] & = \left[\begin{array}{cccccc}
+      -k_{2} & 0 & \left(1+k_{2}\epsilon_{2}\right) & & \cdots & 0\\
+      \left(1-k_{2}\epsilon_{2}\right) & 0 & k_{2} & & & \\
+      0 & 1 & c_{2} & & & \\
+      \vdots& & & \ddots & & \vdots\\
+            & & & & 1 & 0 \\
+      0 & \cdots & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{ccccccc}
+    0 & 1 & 0 & 0 & \cdots & & 0\\
+    0 & 0 & 1 & 0 & & & \cdots \\
+    0 & 0 & 0 & 1 & & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0 \\
+    0 & & & & & 0 & 1 \\
+    1 & 0 & & & \cdots & 0 & 0
+  \end{array}\right]\left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    \hat{y}_{1}\\
+    y_{1} \\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u \end{array}\right]
+\end{align*}
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{3}^{\prime}\\
+    \hat{y}_{3}\\
+    y_{3}\\
+    \vdots\\
+    x_{N}\\
+    u \\
+    x_{1}^{\prime} \\
+    x_{2}^{\prime}
+  \end{array}\right] & = \left[\begin{array}{cccccc}
+     -k_{3} & 0 & \left(1+k_{3}\epsilon_{3}\right) & & \cdots & 0 \\
+     \left(1-k_{3}\epsilon_{3}\right) & 0 & k_{3} & & & \vdots\\
+     0 & 1 & c_{3} & & & \\
+     \vdots & & & \ddots & & \vdots \\
+       & & &        & 1 & 0 \\
+     0 & \cdots & & \cdots & 0 & 1 \\
+  \end{array}\right]\left[\begin{array}{ccccccc}
+    0 & 1 & 0 & 0 & \cdots & & 0\\
+    0 & 0 & 1 & 0 & & & \\
+    0 & 0 & 0 & 1 & & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0 \\
+    0 & & & & & 0 & 1 \\
+    1 & 0 & \cdots & & \cdots & 0 & 0
+  \end{array}\right]\left[\begin{array}{c}
+    x_{2}^{\prime}\\
+    \hat{y}_{2}\\
+    y_{2} \\
+    x_{4} \\
+    \vdots\\
+    x_{N}\\
+    u \\
+    x_{1}^{\prime} \end{array}\right]
+\end{align*}
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{N}^{\prime}\\
+    \hat{y}\\
+    y\\
+    x_{1}^{\prime}\\
+    x_{2}^{\prime}\\
+    \vdots\\
+    x_{N-1}^{\prime} \end{array}\right] & = \left[\begin{array}{cccccc}
+     -k_{N} & 0 & \left(1+k_{N}\epsilon_{N}\right) & & & 0 \\
+     \left(1-k_{N}\epsilon_{N}\right) & 0 & k_{N} & & & \vdots \\
+     0 & 1 & c_{N} & & & \\
+     \vdots & & & \ddots & & \vdots\\
+      & & & & 1 & 0 \\
+    0 & \cdots & & \cdots & 0 & 1 \\
+    \end{array}\right]\left[\begin{array}{ccccccc}
+    0 & 1 & 0 & 0 & \cdots & & 0\\
+    0 & 0 & 1 & 0 & & & \\
+    0 & 0 & 0 & 1 & & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0 \\
+    0 & & & & & 0 & 1 \\
+    1 & 0 & \cdots & & \cdots & 0 & 0
+  \end{array}\right]\left[\begin{array}{c}
+    x_{N-1}^{\prime} \\
+    \hat{y}_{N-1} \\
+    y_{N-1} \\
+    u \\
+    x_{1}^{\prime} \\
+    x_{2}^{\prime} \\
+    \vdots \\
+    x_{N-2}^{\prime} \end{array}\right]
+\end{align*}
+\begin{align*}
+  \left[\begin{array}{c}
+    x_{1}^{\prime} \\
+    x_{2}^{\prime} \\
+    \vdots \\
+    x_{N-1}^{\prime} \\
+    x_{N}^{\prime} \\
+    \hat{y} \\
+    y \end{array}\right] & = \left[\begin{array}{ccccccc}
+    0 & 0 & 0 & 1 & 0 & \cdots & 0 \\
+    0 & 0 & 0 & 0 & 1 &        & 0 \\ 
+    \vdots & & & & & \ddots & \vdots\\
+    0 &   &   & & & & 1 \\
+    1 & 0 & 0 & & & & 0 \\
+    0 & 1 & 0 & & & & 0 \\
+    0 & 0 & 1 & \cdots &  & \cdots & 0 \end{array}\right] \left[\begin{array}{c}
+    x_{N}^{\prime} \\
+    \hat{y} \\
+    y \\
+    x_{1}^{\prime} \\
+    x_{2}^{\prime} \\
+    \vdots \\
+    x_{N-1}^{\prime}\end{array}\right]
+\end{align*}
+
 \subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a pipelined one-multiplier Schur lattice filter}
 Figure~\ref{subfig:example-lattice-filter} shows a representation $3$rd order
 lattice filter and Figure~\ref{subfig:example-lattice-filter-after-pipelining}
@@ -5553,7 +5730,7 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \end{algorithm}
 
 As in
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications. For an even order filter:
 
@@ -5747,7 +5924,7 @@ $\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
 \end{algorithm}
 
 As in
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications. For an even order filter:
 
@@ -5945,7 +6122,7 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \end{algorithm}
 
 As in
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter},
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications:
 
@@ -6323,7 +6500,7 @@ characteristics''. \emph{Kimura} and
 the pipelined or, so-called, \emph{symmetric} lattice shown in 
 Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}
 has improved roundoff noise performance compared to the lattice of
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}.
 
 Lattice filter roundoff noise can be calculated by the $K$ and $W$
 matrices derived from the state variable description of the filter.
@@ -14413,7 +14590,7 @@ lattice filter shown in
 Section~\ref{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}
 The parallel all-pass anti-aliasing filter is implemented with the Schur lattice
 filters shown in
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}.
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}.
 In both cases, as the implementation uses all-pass one-multiplier Schur lattice
 filters, the choice of the $\epsilon$ scaling coefficients does not change the
 filter transfer function.
@@ -24926,7 +25103,7 @@ $-\imath\frac{\omega}{2}$, for which the transfer function denominator
 polynomial has terms only in $z^{-2}$.
 Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} describes the
 derivation of the Schur tapped one-multiplier lattice.
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}
 describes the state-variable description of the Schur tapped one-multiplier
 lattice filter.
 Section~\ref{sec:Pipelining-OneM-Schur-lattice-filter} describes
@@ -25199,7 +25376,7 @@ lattice band-pass Hilbert filter for which the transfer function denominator
 polynomial has terms only in $z^{-2}$.
 Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} describes the
 derivation of the Schur tapped one-multiplier lattice.
-Section~\ref{sec:State-Variable-Description-One-Multiplier-IIR-Lattice-Filter}
+Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}
 describes the state-variable description of the Schur tapped one-multiplier
 lattice filter.
 Section~\ref{sec:Pipelining-OneM-Schur-lattice-filter} describes
