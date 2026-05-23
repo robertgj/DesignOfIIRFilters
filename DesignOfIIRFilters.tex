@@ -1700,12 +1700,12 @@ u
 
 \subsubsection{Factoring cascaded state variable filters}
 As an example, Figure~\ref{fig:Cascaded-SVFG} shows two state variable filters
-connected in cascade.
+connected in series.
 
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{svfgcascade}
-\caption{Signal flow graph of two cascaded state variable filters.}
+\caption{Signal flow graph of two state variable filters connected in series.}
 \label{fig:Cascaded-SVFG}
 \end{figure}
 
@@ -1793,8 +1793,8 @@ u
 \end{array}\right] 
 \end{align*}
 
-The factored state variable equations are:
-\begin{align*}
+The factored state variable equations of the series combination are:
+\begin{align}
 \left[\begin{array}{c}
 x^{\prime}_{1}\\
 x^{\prime}_{2}\\
@@ -1815,7 +1815,7 @@ A_{1} & 0 & B_{1}\\
 x_{1}\\
 x_{2}\\
 u
-\end{array}\right]\\
+\end{array}\right] \nonumber \\
 &= 
 \left[\begin{array}{ccc}
 A_{1}     & 0     & B_{1}\\
@@ -1826,8 +1826,8 @@ D_{2}C_{1} & C_{2} & D_{2}D_{1}\\
 x_{1}\\
 x_{2}\\
 u
-\end{array}\right]
-\end{align*}
+\end{array}\right] \label{eqn:factored-state-variable-series}
+\end{align}
 
 \subsubsection{Factoring a feedback connection of state variable filters}
 \emph{Roberts} and \emph{Mullis}~\cite[Problem 8.9]
@@ -2817,7 +2817,7 @@ r_{yy}\left(0\right) &= E\left\{y^{2}\left(k\right)\right\}\\
 &= \sum_{l=0}^{\infty}h^{2}\left(l\right)\\
 &= \frac{1}{2\pi}\int_{-\pi}^{\pi}\left|H\left(e^{\imath\theta}\right)^{2}
 \right|d\theta\\
-&= D^{2}+CKC^{\top}
+&= DD^{\top}+CKC^{\top}
 \end{align*}
 \subsection{Scaling State Variable Filters To Avoid Overflow\label{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}}
 Round off noise is the dominant component of output error
@@ -2955,11 +2955,12 @@ after accumulation (ie: a double length accumulator is used).
 
 In a similar fashion to the covariance matrix, $K$, of the state vector, the 
 energy in the sequence $g_{i}$ can be characterised by the matrix, $W$:
-\begin{align*}
+\begin{align}
   W &= E\left\{g_{i}\left(k\right)g_{i}\left(k\right)^{\top}\right\}\\
-  &= \sum^{\infty}_{k=0}\left(CA^{k}\right)^{\top}\left(CA^{k}\right)\\
-  &=A^{\top}WA+C^{\top}C
-\end{align*}
+    &= \sum^{\infty}_{k=0}\left(CA^{k}\right)^{\top}\left(CA^{k}\right)\\
+    &=A^{\top}WA+C^{\top}C
+\label{eqn:state-variable-per-node-output-energy}  
+\end{align}
 
 This is also a discrete \emph{Lyapunov} equation and can be solved in the
 same manner as the equation for the state covariance matrix, $K$. The matrixes
@@ -3189,20 +3190,60 @@ as the poles of the filter cluster together. The ratio of cut-off
 frequency, $f_{c}$, to sample rate, $f_{S}$,
 is a useful measure of this clustering. For small values the finite
 register effects determine the realisation chosen.
-\section{Factored state variable filters and wide sense stationary inputs}
+\section{Round-off noise of factored state variable filters}
 The estimate of round-off noise shown in 
 Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}
 only applies to the state variables and does not include the round-off noise due 
-to arithmetic operations at other nodes in the filter. The \emph{factored} 
-state variable description can be used to find the variance of any variable 
-in the realisation. Let 
+to arithmetic operations at other nodes in the filter. \emph{Roberts} and
+\emph{Mullis}~\cite[Pages 322 and 391]{RobertsMullis_DigitalSignalProcessing}
+show that the factored state-variable description (FSVD)can be used to find the
+variance of any variable  in the realisation. \emph{Roberts} and \emph{Mullis}
+show that from first principles the total round-off noise variance is:
+\begin{align*}
+  \sigma_{total}^{2} = \frac{\delta^{2}q^{2}}{12}
+  \left\{\sum_{m=1}^{M}K_{mm}W_{mm}+
+  \sum_{n=1}^{N}\mathnorm{\boldsymbol{f}_{n}}^{2}
+  \mathnorm{\boldsymbol{g}_{n}}^{2}\right\}
+\end{align*}
+where $M$ is the total number of state variables, $N$ is the total number
+of non-state nodes, $\boldsymbol{f}_{n}$ is the unit-pulse response from the
+input to non-state node $n$ and $\boldsymbol{g}_{n}$ is the unit-pulse response
+from that node to the output. An alternative method calculates the round-off
+noise of the non-state nodes from the factored state-variable description.
+\subsubsection{Calculation of the variance of the state variables in the FSVD}
+The factored state-variable description is:
+\begin{align*}
+\left[\begin{array}{cc}
+A & B\\
+C & D
+\end{array}\right] = F_{L}F_{L-1}\ldots F_{1}
+\end{align*}
+Section~\ref{sec:coordinate-transformations} shows that the filter state scaling
+is:
+\begin{align*}
+  \left[\begin{array}{cc}
+    A^{\prime} & B^{\prime} \\
+    C^{\prime} & D^{\prime}
+  \end{array}\right] &= \left[\begin{array}{cc}
+    T & 0 \\
+    0 & 1
+  \end{array}\right]^{-1}F_{L}F_{L-1}\ldots F_{1}\left[\begin{array}{cc}
+    T & 0 \\
+    0 & 1
+  \end{array}\right]
+\end{align*}
+Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow} shows the
+diagonal similarity transformation, $T$, that reduces the possibility of state
+overflow.
+
+Let:
 \begin{align*}
 q_{0}\left(k\right) = \left[\begin{array}{c}
 x\left(k\right)\\
 u\left(k\right)
 \end{array}\right]
 \end{align*}
-then the covariance matrix for $q_{0}\left(k\right)$ is 
+then the covariance matrix for $q_{0}\left(k\right)$ is:
 \begin{align*}
 E\left\{q_{0}\left(k\right)q_{0}^{\top}\left(k\right)\right\} &= 
 \left[\begin{array}{cc}
@@ -3213,28 +3254,27 @@ E\left\{u\left(k\right)x^{\top}\left(k\right)\right\} & E\left\{u^{2}\left(k\rig
 K & 0\\
 0 & 1
 \end{array}\right]\\
- & \triangleq{} \tilde{K_{0}}
+ & \triangleq{} K_{0}
 \end{align*}
-The factored state variable equations lead to
+where:
+\begin{align*}
+  K &= AKA^{\top}+BB^{\top}
+\end{align*}
+The factored state variable equations lead to:
 \begin{align*}
 q_{l+1}^{\left(k\right)} = F_{l+1}q_{l}^{\left(k\right)},\,0\leq l\leq L-1
 \end{align*}
-leading to
+and:
+\begin{align}
+K_{l+1} &= E\left\{q_{l+1}^{\left(k\right)}
+\left(q_{l+1}^{\left(k\right)}\right)^{\top}\right\}\\
+                &= F_{l+1}K_{l}F_{l+1}^{\top}
+\label{eqn:Factored-state-variable-state-variance}
+\end{align}
+The overall state covariance matrix is:
 \begin{align*}
-\tilde{K}_{l+1} &= E\left\{q_{l+1}^{\left(k\right)}\left(k+1\right)
-\left(q_{l+1}^{\left(k\right)}\left(k+1\right)\right)^{\top}\right\}\\
- &= F_{l+1}\tilde{K_{l}}F_{l+1}^{\top}
-\end{align*}
-Since the corresponding state variable description is
-\begin{align*}
-\left[\begin{array}{cc}
-A & B\\
-C & D
-\end{array}\right] = F_{L}F_{L-1}\ldots F_{1}
-\end{align*}
-we have
-\begin{align*}
-\tilde{K}_{L} &= E\left\{q_{L}\left(k\right)q_{L}^{\top}\left(k\right)\right\}\\
+  K_{L} &= E\left\{q_{L}^{\left(k\right)}
+          \left(q_{L}^{\left(k\right)}\right)^{\top}\right\}\\
  &= E\left\{ \left[\begin{array}{c}
 x\left(k+1\right)\\
 y\left(k\right)
@@ -3243,19 +3283,65 @@ x^{\top}\left(k+1\right) & y\left(k\right)\end{array}\right]\right\} \\
  &= \left[\begin{array}{cc}
 A & B\\
 C & D
-\end{array}\right]\tilde{K_{0}}\left[\begin{array}{cc}
-A^{\top} & B^{\top}\\
-C^{\top} & D^{\top}
+\end{array}\right]K_{0}\left[\begin{array}{cc}
+A^{\top} & C^{\top}\\
+B^{\top} & D^{\top}
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
 AKA^{\top}+BB^{\top} & AKC^{\top}+BD^{\top}\\
-CKA^{\top}+DB^{\top} & CKC^{\top}+D^{2}
+CKA^{\top}+DB^{\top} & CKC^{\top}+DD^{\top}
 \end{array}\right]\\
  &= \left[\begin{array}{cc}
 K & AKC^{\top}+BD^{\top}\\
 CKA^{\top}+DB^{\top} & r_{yy}\left(0\right)
 \end{array}\right]
 \end{align*}
+\subsubsection{Calculation of the variance of the node output functions in the FSVD}
+Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}
+shows that the energy in the unit-pulse responses from each node to the output
+is characterised by
+Equation~\ref{eqn:state-variable-per-node-output-energy}~\cite[Equation
+9.7.12]{RobertsMullis_DigitalSignalProcessing}.
+Similarly to Equation~\ref{eqn:Factored-state-variable-state-variance}, the
+$W_{l}$ are:
+\begin{align*}
+  W_{l} &=  F_{l}^{\top}W_{l+1}F_{l}
+\end{align*}
+initialised by:
+\begin{align*}
+  W_{L+1} &= \left[\begin{array}{cc}
+W & 0\\
+0 & 1
+  \end{array}\right] \\
+\end{align*}
+and:
+\begin{align*}
+  W &= A^{\top}WA+C^{\top}C
+\end{align*}
+\subsubsection{Calculation of the output round-off noise of the FSVD}
+Finally, \emph{Roberts} and
+\emph{Mullis}~\cite[Equation 9.10.11]{RobertsMullis_DigitalSignalProcessing}
+show the the output round-off noise of a factored state-variable description as:
+\begin{align}
+    \sigma_{total}^{2} &= \frac{\delta^{2}q^{2}}{12}
+                         \sum_{l=1}^{L}\sum_{m=1}^{M_{l}}\gamma_{m,l}K_{mm,l}W_{mm,l}
+  \label{eqn:output-round-off-noise-FSVD}
+\end{align}
+where $\gamma_{m,l}=0$ if the $m$-th row of $F_{l}$ contains only $0$ and $1$;
+otherwise $\gamma_{m,l}=1$ (assuming that double-length accumulators are used
+at the non-state nodes).
+
+\subsubsection{Simulation of the output round-off noise of the FSVD}
+The Octave script \emph{state\_variable\_serial\_noise\_gain\_test.m} attempts
+to verify Equation~\ref{eqn:output-round-off-noise-FSVD} by simulating the
+series combination of two scaled state-variable filters and the overall series
+state variable combination of Equation~\ref{eqn:factored-state-variable-series}.
+I found that, by choosing $\gamma=1$ for the state transition matrix rows of
+Equation~\ref{eqn:factored-state-variable-series} and scaling with $\delta=2$,
+the noise power estimated with Equation~\ref{eqn:output-round-off-noise-FSVD}
+closely matches both the estimated and measured noise power of the overall
+combined state variable filter with state scaling.
+
 \section{\label{sec:Frequency-transformations-and-round-off-noise}Frequency transformations and round-off noise}
 Section~\ref{sec:Frequency-Transformations-of-State-Variable-Filters} describes
 frequency transformations of state-variable filters. If the prototype filter,
@@ -3406,7 +3492,7 @@ W^{\prime\prime} & =  R\left(-\theta\right)W^{\prime}\left(\theta\right)\\
 T & =  \frac{\delta}{2}\left[\begin{array}{cc}
 \sqrt{1+\mu} & -\sqrt{1+\mu}\\
 \sqrt{1+\frac{1}{\mu}} & \sqrt{1+\frac{1}{\mu}}
-\end{array}\right]\\
+\end{array}\right]
 \end{align*}
  so that
 \begin{align*}
@@ -5130,6 +5216,7 @@ of the normalised-scaled lattice implementation of $H\left(z\right)$.
 \label{fig:Butterworth-3rd-order}
 \end{figure}
 \clearpage
+\begin{raggedbottom}
 \section{State Variable Descriptions for Schur Lattice Filters}
 \subsection{State variable description of the Schur FIR lattice filter}
 Figure~\ref{fig:FIR-filter-structure} shows the Schur FIR lattice structure. 
@@ -5160,7 +5247,6 @@ As shown in Section~\ref{Sec:Construction-factored-state-variable-description},
 the state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output and the next
 state inputs:
-
 \begin{align*}
 \left[\begin{array}{c}
 y_{0}\\
@@ -5283,42 +5369,52 @@ The Octave function \emph{schurFIRlattice2Abcd} returns the state variable
 description of a Schur FIR lattice filter.
 The Octave script \emph{schurFIRlattice2Abcd\_symbolic\_test.m} creates a symbolic
 state variable description of the Schur FIR lattice filter.
-
+\clearpage
 \subsection{\label{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter}State variable description of the one-multiplier IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-One-Multiplier-Lattice},
 Figure~\ref{fig:One-multiplier-lattice-structure} is redrawn with
 $x_{n}^{\prime}$ corresponding to the input to state $x_{n}$ of
 the $n$-th section, $y_{n}$ being the output of the $n$-th section
 and $\hat{y}_{n}$ the all-pass output of the $n$-th section.
-
+Construction of the state variable description is summarised in
+Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_SV_derivation}
 \caption{State variable description of the Schur one-multiplier lattice filter.}
 \label{fig:State-variable-description-One-Multiplier-Lattice}
 \end{figure}
-
-Construction of the state variable description is summarised in
-Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
-
 \begin{algorithm}
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
-$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$ and
+$\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$,
+$\left\{t_{1},t_{2},\hdots,t_{N}\right\}$ and
 $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
 \begin{algorithmic}
-\State $\hat{y}_{0} = x_{1}$
+\State $\hat{y}_{0} = t_{1}x_{1}$
 \For{$n=1,\hdots,N-1$}
-  \State $x_{n}^{\prime}=-k_{n}\hat{y}_{n-1}+\left(1+k_{n}\epsilon_{n}\right)x_{n+1}$
-  \State $\hat{y}_{n}= \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}x_{n+1}$
+\State $t_{n}x_{n}^{\prime}=-k_{n}\hat{y}_{n-1}+
+        \left(1+k_{n}\epsilon_{n}\right)t_{n+1}x_{n+1}$
+\State $\hat{y}_{n}=
+        \left(1-k_{n}\epsilon_{n}\right)\hat{y}_{n-1}+k_{n}t_{n+1}x_{n+1}$
 \EndFor
-\State $x_{N} = -k_{N}\hat{y}_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
+\State $t_{N}x_{N} = -k_{N}\hat{y}_{N-1}+\left(1+k_{N}\epsilon_{N}\right)u$
 \State $\hat{y} = \left(1-k_{N}\epsilon_{N}\right)\hat{y}_{N-1}+k_{N}u$
-\State $y  = c_{0}x_{1}+c_{1}x_{2}+\cdots+c_{N-1}x_{N}+c_{N}u$
+\State $y  = c_{0}t_{1}x_{1}+c_{1}t_{2}x_{2}+\cdots+c_{N-1}t_{N}x_{N}+c_{N}u$
 \end{algorithmic}
 \caption{Construction of a state variable description of the Schur
   one-multiplier lattice filter.}
 \label{alg:Construction-state-variable-One-Multiplier-lattice}
 \end{algorithm}
+Here $\left\{t_{1},\hdots,t_{N}\right\}$ corresponds to the diagonal matrix
+state scaling similarity transformation shown in
+Sections~\ref{sec:coordinate-transformations}
+and~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}. For example,
+in a fixed-point implementation, the scaled $n$'th state variable input value,
+$t_{n}x_{n}^{\prime}$, will be truncated, inverse-scaled by $t_{n}^{-1}$ and then
+stored as $x_{n}$.
+Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice} shows
+the tapped lattice and all-pass filter outputs. Both outputs can be calculated
+by multiply-and-accumulate into double length registers.
 
 The state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output
@@ -5329,132 +5425,145 @@ $\det\left[\begin{array}{cc}
 1-k_{l}\epsilon_{l} & k_{l}\end{array}\right]=-1$ and $\det{} PQ=\det{}P\det{}Q$,
 then, by inspection, $\det{}A_{1\hdots{}l,1\hdots{}l}=-1^lk_{l}$.}:
 \begin{align*}
-\left[\begin{array}{c}
-\hat{y}_{0}\\
-x_{2}\\
-x_{3}\\
-\vdots\\
-x_{N}\\
-u
-\end{array}\right] & = \left[\begin{array}{cccccc}
-1 & 0 & \cdots &  & \cdots & 0\\
-0 & 1 &  &  &  & \vdots\\
-\vdots &  & \ddots\\
- &  &  & \ddots &  & \vdots\\
-0 &  &  &  & 1 & 0\\
-0 & \cdots &  & \cdots & 0 & 1
-\end{array}\right]\left[\begin{array}{c}
-x_{1}\\
-x_{2}\\
-x_{3}\\
-\vdots\\
-x_{N}\\
-u
+  \left[\begin{array}{c}
+    \hat{y}_{0}\\
+    y_{0}\\
+    x_{2}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
+  \end{array}\right] & = \left[\begin{array}{cccccc}
+    1 & 0 & \cdots & & \cdots & 0 \\
+    c_{0} & 0 & \cdots & & \cdots & 0\\
+    0 & 1 & & & & \vdots\\
+    \vdots & & \ddots\\
+    & & & \ddots & & \vdots\\
+    0 & & & & 1 & 0\\
+    0 & \cdots & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{c}
+    x_{1}\\
+    x_{2}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
 \end{array}\right]
 \end{align*}
 \begin{align*}
-\left[\begin{array}{c}
-x_{1}^{\prime}\\
-\hat{y}_{1}\\
-x_{3}\\
-\vdots\\
-x_{N}\\
-u
-\end{array}\right] & = \left[\begin{array}{cccccc}
--k_{1} & \left(1+k_{1}\epsilon_{1}\right) & 0 & \cdots & \cdots & 0\\
-\left(1-k_{1}\epsilon_{1}\right) & k_{1} & 0 &  &  & \vdots\\
-0 & 0 & 1\\
-\vdots &  &  & \ddots &  & \vdots\\
-0 &  &  &  & 1 & 0\\
-0 & \cdots &  & \cdots & 0 & 1
-\end{array}\right]\left[\begin{array}{c}
-\hat{y}_{0}\\
-x_{2}\\
-x_{3}\\
-\vdots\\
-x_{N}\\
-u
+  \left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    \hat{y}_{1}\\
+    y_{1}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
+  \end{array}\right] & = \left[\begin{array}{ccccccc}
+    -k_{1} & 0 &\left(1+k_{1}\epsilon_{1}\right) & \cdots & &\cdots & 0 \\
+    \left(1-k_{1}\epsilon_{1}\right) & 0 & k_{1} & & & & \vdots \\
+    0 & 1 & c_{1} & & & & \vdots\\
+    0 & 0 & 0 & 1 & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0\\
+    0 & \cdots & & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{c}
+    \hat{y}_{0}\\
+    y_{0}\\
+    x_{2}\\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
 \end{array}\right]
 \end{align*}
 \begin{align*}
-\left[\begin{array}{c}
-x_{1}^{\prime}\\
-x_{2}^{\prime}\\
-\hat{y}_{2}\\
-\vdots\\
-x_{N}\\     
-u
-\end{array}\right] & = \left[\begin{array}{cccccc}
-1 & 0 & 0 & 0 & \cdots & 0\\
-0 & -k_{2} & \left(1+k_{2}\epsilon_{2}\right) & 0 &  & \vdots\\
-0 & \left(1-k_{2}\epsilon_{2}\right) & k_{2} & 0\\
-\vdots &  &  & \ddots &  & \vdots\\
-0 &  &  &  & 1 & 0\\
-0 & \cdots &  & \cdots & 0 & 1
-\end{array}\right]\left[\begin{array}{c}
-x_{1}^{\prime}\\
-\hat{y}_{1}\\
-x_{3}\\
-\vdots\\
-x_{N}\\
-u
+  \left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    x_{2}^{\prime}\\
+    \hat{y}_{2}\\
+    y_{2}\\
+    \vdots\\
+    x_{N}\\
+    u
+  \end{array}\right] & = \left[\begin{array}{ccccccc}
+    1 & 0 & 0 & 0 & & \cdots & 0\\
+    0 & -k_{2} & 0 & \left(1+k_{2}\epsilon_{2}\right) & & & \vdots\\
+    0 & \left(1-k_{2}\epsilon_{2}\right) & 0 & k_{2} & & & \\
+    0 & 0 & 1 & c_{2} & & & \\
+    \vdots & & & & \ddots & & \vdots\\
+    0 & & & & & 1 & 0\\
+    0 & \cdots & & & \cdots & 0 & 1
+  \end{array}\right]\left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    \hat{y}_{1}\\
+    y_{1} \\
+    x_{3}\\
+    \vdots\\
+    x_{N}\\
+    u
 \end{array}\right]
 \end{align*}
-\begin{align*}
-\left[\begin{array}{c}
-x_{1}^{\prime}\\
-x_{2}^{\prime}\\
-\vdots\\
-x_{N-1}^{\prime}\\
-\hat{y}_{N-1}\\
-u
-\end{array}\right] & = \left[\begin{array}{cccccc}
-1 & 0 & \cdots &  & \cdots & 0\\
-0 & 1 &  &  &  & \vdots\\
-\vdots &  & \ddots &  &  & \vdots\\
-0 &  &  & -k_{N-1} & \left(1+k_{N-1}\epsilon_{N-1}\right) & 0\\
-0 &  &  & \left(1-k_{N-1}\epsilon_{N-1}\right) & k_{N-1} & 0\\
-0 & \cdots & \cdots & 0 & 0 & 1
+\begin{align*} \left[\begin{array}{c}
+  x_{1}^{\prime}\\
+  x_{2}^{\prime}\\
+  \vdots\\
+  x_{N-1}^{\prime}\\
+  \hat{y}_{N-1}\\
+  y_{N-1}\\
+  u
+\end{array}\right] & = \left[\begin{array}{ccccccc}
+  1 & 0 & \cdots & & & \cdots & 0\\
+  0 & 1 & & & & & \vdots\\
+  \vdots & & \ddots & & & & \vdots\\
+  0 & & & -k_{N-1} & 0 & \left(1+k_{N-1}\epsilon_{N-1}\right) & 0 \\
+  0 & & & \left(1-k_{N-1}\epsilon_{N-1}\right) & 0 & k_{N-1} & 0 \\
+  0 & & & 0 & 1 & c_{N-1} & 0 \\
+  0 & \cdots & & 0 & 0 & 0 & 1
 \end{array}\right]\left[\begin{array}{c}
-x_{1}^{\prime}\\
-\vdots\\
-x_{N-2}^{\prime}\\
-\hat{y}_{N-2}\\
-x_{N}\\
-u
+  x_{1}^{\prime}\\
+  \vdots\\
+  x_{N-2}^{\prime}\\
+  \hat{y}_{N-2}\\
+  y_{N-2}\\
+  x_{N}\\
+  u
 \end{array}\right]
 \end{align*}
-\begin{align*}
-\left[\begin{array}{c}
-x_{1}^{\prime}\\
-x_{2}^{\prime}\\
-x_{3}^{\prime}\\
-\vdots\\
-x_{N}^{\prime}\\
-\hat{y}
-\end{array}\right] & = \left[\begin{array}{cccccc}
-1 & 0 & \cdots &  & \cdots & 0\\
-0 & 1 &  &  &  & \vdots\\
-\vdots &  & \ddots & & & \vdots\\
-0 &  &  & 1 & 0 & 0\\
-0 &  &  &  0 & -k_{N} & \left(1+k_{N}\epsilon_{N}\right)\\
-0 & \cdots &  & 0 & \left(1-k_{N}\epsilon_{N}\right) & k_{N}
-\end{array}\right]\left[\begin{array}{c}
-x_{1}^{\prime}\\
-x_{2}^{\prime}\\
-\vdots\\
-x_{N-1}^{\prime}\\
-\hat{y}_{N-1}\\
-u
-\end{array}\right]
-\end{align*}
-
+\begin{align}
+  \label{eqn:factored-Shur-OneM-lattice}
+  \left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    x_{2}^{\prime}\\
+    \vdots\\
+    x_{N-1}^{\prime}\\
+    x_{N}^{\prime}\\
+    \hat{y}\\
+    y
+  \end{array}\right] & = \left[\begin{array}{ccccccc}
+    1 & 0 & \cdots & & & \cdots & 0 \\
+    0 & 1 & & & & & \vdots\\
+    \vdots & & \ddots & & & & \vdots\\
+    0 & & & 1 & 0 & 0 & 0 \\
+    0 & & & 0 & -k_{N} & 0 & \left(1+k_{N}\epsilon_{N}\right) \\
+    0 & & & 0 & \left(1-k_{N}\epsilon_{N}\right) & 0 & k_{N} \\
+    0 & \cdots & & 0 & 0 & 1 & c_{N}
+  \end{array}\right]\left[\begin{array}{c}
+    x_{1}^{\prime}\\
+    x_{2}^{\prime}\\
+    \vdots\\
+    x_{N-1}^{\prime}\\
+    \hat{y}_{N-1}\\
+    y_{N-1}\\
+    u\end{array}\right]
+\end{align}
 The Octave function \emph{schurOneMlattice2Abcd} returns the state variable
 description of a one multiplier lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
-The Octave script \emph{schurSchurOneMlattice2Abcd\_symbolic\_test.m} creates a
+The Octave script \emph{schurOneMlattice2Abcd\_symbolic\_test.m} creates a
 symbolic state variable description of the Schur one multiplier lattice filter.
 
+/-/-/-/-/-/-/-/-/-/ BEGIN CONFLICT  [O5458 A5458 B5566] /-/-/-/-/-/-/-/-/-/-/
 The following is an alternative factored state variable description of the
 one-multiplier Schur lattice filter:
 \begin{align*}
@@ -5632,6 +5741,9 @@ one-multiplier Schur lattice filter:
     x_{N-1}^{\prime}\end{array}\right]
 \end{align*}
 
+/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+\clearpage
+/-/-/-/-/-/-/-/-/-/-/-/-/  END CONFLICT   /-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 \subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a pipelined one-multiplier Schur lattice filter}
 Figure~\ref{subfig:example-lattice-filter} shows a representation $3$rd order
 lattice filter and Figure~\ref{subfig:example-lattice-filter-after-pipelining}
@@ -5650,6 +5762,12 @@ $\epsilon$ sign assignment method of
 Algorithm~\ref{alg:One-multiplier-sign-assignment} is not applicable.
 Instead, use the state variable covariance matrix to scale each state, as shown
 in Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
+Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice}
+shows a second order segment of the pipelined Schur one-multiplier lattice
+filter in Figure~\ref{subfig:example-lattice-filter-after-pipelining}. 
+Construction of a state variable description of the pipelined Schur
+one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}.
 
 \begin{figure}
 \begin{subfigure}{\textwidth}
@@ -5668,10 +5786,6 @@ in Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
 \caption{Example of pipelining a 3rd order lattice filter.}
 \end{figure}
 
-Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice}
-shows a second order segment of the pipelined Schur one-multiplier lattice
-filter in Figure~\ref{subfig:example-lattice-filter-after-pipelining}. 
-
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplierPipelined}
@@ -5679,10 +5793,6 @@ filter in Figure~\ref{subfig:example-lattice-filter-after-pipelining}.
   filter.}
 \label{fig:State-variable-description-pipelined-One-Multiplier-Lattice}
 \end{figure}
-
-Construction of a state variable description of the pipelined Schur
-one-multiplier lattice filter is summarised in
-Algorithm~\ref{alg:Construction-state-variable-pipelined-One-Multiplier-lattice}.
 
 \begin{algorithm}
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
@@ -5762,7 +5872,6 @@ x_{3\frac{N}{2}}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -5799,7 +5908,6 @@ x_{3\frac{N}{2}}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -5862,11 +5970,10 @@ u
 The Octave function \emph{schurOneMlatticePipelined2Abcd} returns the state
 variable description of a pipelined Schur one-multiplier lattice filter
 (including the all-pass filter $Aap$, $Bap$, $Cap$ and $Dap$ output matrixes).
-
 The Octave script \emph{schurOneMlatticePipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a retimed Schur one-multiplier
 lattice filter. 
-
+\clearpage
 \subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-all-pass-filter}State variable description of a pipelined one-multiplier Schur lattice all pass filter}
 Figure~\ref{fig:State-variable-description-pipelined-One-Multiplier-Lattice-All-Pass}
 shows a second order all pass segment of the pipelined Schur one-multiplier
@@ -5927,7 +6034,6 @@ As in
 Section~\ref{sec:State-Variable-Description-One-Multiplier-Schur-Lattice-Filter},
 the state variable description can be expressed as a series of matrix
 multiplications. For an even order filter:
-
 \begin{align*}
 \left[\begin{array}{c}
 \hat{y}_{0}\\
@@ -5952,7 +6058,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6017,7 +6122,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-\centerline{$\vdots$}
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6068,7 +6172,7 @@ x_{N}\\
 u  
 \end{array}\right]
 \end{align*}
-
+\clearpage
 \subsection{\label{sec:State-variable-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a doubly-pipelined one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}
 shows a first order segment of a doubly-pipelined Schur one-multiplier lattice
@@ -6155,7 +6259,6 @@ x_{3N+2}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6196,7 +6299,6 @@ x_{3N+2}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\   
@@ -6230,7 +6332,6 @@ x_{3N+1}\\
 x_{3N+2}\\
 u\end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6260,7 +6361,7 @@ variable description of a doubly-pipelined Schur one-multiplier lattice filter
 The Octave script \emph{schurOneMlatticeDoublyPipelined2Abcd\_symbolic\_test.m}
 creates a symbolic state variable description of a doubly-pipelined Schur
 one-multiplier lattice filter.
-
+\clearpage
 \subsection{\label{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}State variable description of an all-pass doubly-pipelined one-multiplier Schur lattice filter}
 Figure~\ref{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice} shows only the all-pass part of a first order segment of the
 doubly-pipelined Schur one-multiplier lattice filter of
@@ -6272,14 +6373,6 @@ Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Latti
 \caption{First order segment of an all-pass doubly pipelined Schur one-multiplier lattice filter.}
 \label{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice}
 \end{figure}
-
-As for the pipelined Schur one-multiplier lattice filter described in
-Section~\ref{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter},
-the $\epsilon$ sign assignment of
-Algorithm~\ref{alg:One-multiplier-sign-assignment} does not apply to this
-filter structure. Instead, scale the filter with the state variable covariance
-matrix, as shown in
-Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}.
 
 Construction of a state variable description of the all-pass doubly-pipelined
 Schur one-multiplier lattice filter is summarised in
@@ -6303,7 +6396,7 @@ $\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
   doubly-pipelined Schur one-multiplier lattice filter.}
 \label{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}
 \end{algorithm}
-
+\clearpage
 \subsection{\label{State-Variable-Description-Scaled-Normalised-IIR-Lattice-Filter}State variable description of the scaled-normalised IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
 Figure~\ref{fig:Normalised-scaled-lattice} is redrawn with $x_{n}^{\prime}$
@@ -6369,7 +6462,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6397,7 +6489,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6424,7 +6515,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6451,7 +6541,6 @@ x_{N}\\
 u
 \end{array}\right]
 \end{align*}
-
 \begin{align*}
 \left[\begin{array}{c}
 x_{1}^{\prime}\\
@@ -6481,6 +6570,7 @@ u
 The Octave function \emph{schurNSlattice2Abcd} returns the state variable
 description of a normalised-scaled lattice filter (including the all-pass
 filter $Cap$ and $Dap$ output matrixes).
+\end{raggedbottom}
 \clearpage
 \section{Roundoff Noise Calculation in Schur Lattice Filters}
 In this section I rely on the state-variable analysis of round-off noise
@@ -7058,10 +7148,8 @@ When filter type \emph{``schur''} is selected the round-off noise gains
 for floating-point filter coefficients calculated with the Octave function
 \emph{schurOneMlatticeRetimedNoiseGain} match those found with
 \emph{schurOneMlatticeNoiseGain}.
-
 When filter type \emph{``ABCD''} is selected the Butterworth filter noise
 gain is $ngABCD=0.75000$ and the all-pass noise gain is $ngABCDap=3.0000$.
-
 With floating-point coefficients, the globally optimised state-variable
 implementation has a noise gain of $ngopt=0.47049$ for the Butterworth filter
 and $ngoptap=3.0000$ for the all-pass filter.
@@ -7119,7 +7207,6 @@ calculation of the round-off noise of the pipelined one-multiplier lattice
 filter from the state variable description, as shown in
 Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}.
 
-\clearpage
 \section{\label{sec:Examples-pipelining-Schur-lattice-filters}Examples of pipelining Schur lattice filters}
 \subsection{\label{sec:Pipelining-NS-Schur-lattice-filter}Pipelining a
 4th order Schur normalised-scaled lattice filter}
@@ -14678,8 +14765,9 @@ doubly-pipelined part of the filter.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_pcls_antialias_response}}
-\caption{Amplitude and pass-band group-delay responses of the Schur one-multiplier parallel
-  all-pass lattice anti-aliasing filter after SOCP PCLS optimisation.}
+\caption{Amplitude and pass-band group-delay responses of the Schur
+  one-multiplier parallel all-pass lattice anti-aliasing filter after SOCP PCLS
+  optimisation.}
 \label{fig:Schur-doubly-pipelined-one-m-parallel-allpass-antialiasing-PCLS}
 \end{figure}
 
@@ -26857,7 +26945,7 @@ f(x) & \approx \frac{1}{2}\left(b_{0} - b_{2}\right)
 \end{align*}
 
 
-The Octave script \emph{clenshaw\_gaussian\_test.m} calculates the Chebychev
+The Octave script \emph{clenshaw\_gaussian\_test.m} calculates the Chebyshev
 polynomial expansion coefficients of an approximation to the Gaussian 
 function, $e^{-2x^2}$. The exact approximation coefficients are:
 \begin{small}
@@ -26880,14 +26968,14 @@ the Clenshaw recurrence calculated with a
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{clenshaw_gaussian_test_approx}}
-\caption{Chebychev polynomial approximation to a Gaussian.}
+\caption{Chebyshev polynomial approximation to a Gaussian.}
 \label{fig:Chebyshev-Gaussian-approximation-error}
 \end{figure}
 
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{clenshaw_gaussian_test_approx_fixed_point}}
-\caption{Chebychev polynomial approximation to a Gaussian with fixed-point
+\caption{Chebyshev polynomial approximation to a Gaussian with fixed-point
   coefficients and arithmetic.}
 \label{fig:Chebyshev-Gaussian-approximation-error-fixed-point}
 \end{figure}
@@ -40085,7 +40173,7 @@ This can be re-written as:
                               &=\sum^{N}_{n=0}a_{n}v^{n}
 \end{align*}
 where $v=\frac{1}{2}\left(Z+Z^{-1}\right)$ and $T_{n}\left(v\right)$ are the
-Chebychev polynomials of the first kind, defined by
+Chebyshev polynomials of the first kind, defined by
 $T\left(\cos\theta\right)=\cos{}n\theta$. In the following, 
 $\tilde{H}_{0}\left(v\right)$ is also called the \emph{prototype} filter. 
 
@@ -40121,7 +40209,7 @@ first is~\cite[Figure 1a and Equation
 \end{align}
 
 An alternative implementation is derived from the recursion relation for
-Chebychev polynomials of the first kind:
+Chebyshev polynomials of the first kind:
 \begin{align*}
   T_{0}\left(x\right)&=1\\
   T_{1}\left(x\right)&=x\\

@@ -1,10 +1,10 @@
-function [T,Kopt,Wopt]=optKW(K,W,d)
-% [T,Kopt,Wopt]=optKW(K,W,d)
-% optKW finds the transformation, T, that optimises
+function [Topt,Kopt,Wopt]=optKW(K,W,d)
+% [Topt,Kopt,Wopt]=optKW(K,W,d)
+% optKW finds the transformation, Topt, that optimises
 % the K and W matrices for minimum roundoff noise with
 % scaling d.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,9 +24,9 @@ function [T,Kopt,Wopt]=optKW(K,W,d)
 % TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-% Check the input arguments
-if nargin ~= 3 
-  error("Expected three input arguments");
+% Check the number of arguments
+if (nargin ~= 3) || (nargout > 3)
+  print_usage("[Topt,Kopt,Wopt]=optKW(K,W,d)");
 end 
 
 % Do an SVD decomposition of W
@@ -85,10 +85,10 @@ T=T1*U2*sqrt(sqrt(D2))*U3;
 % Scale the covariance matrix using d
 K3=inv(T)*K*inv(T)';
 S=d*diag(sqrt(diag(K3)));
-T=T*S;
+Topt=T*S;
 
 % Find the optimised Kopt, Wopt
-Kopt=inv(T)*K*inv(T)';
-Wopt=T'*W*T;
+Kopt=inv(Topt)*K*inv(Topt)';
+Wopt=Topt'*W*Topt;
 
 endfunction

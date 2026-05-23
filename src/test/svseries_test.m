@@ -1,11 +1,13 @@
 % svseries_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
-delete("svseries_test.diary");
-delete("svseries_test.diary.tmp");
-diary svseries_test.diary.tmp
+strf="svseries_test";
+
+delete(strcat(strf,".diary"));
+delete(strcat(strf,".diary.tmp"));
+eval(sprintf("diary %s.diary.tmp",strf));
 
 tol=50*eps;
 fc=[0.1,0.15];
@@ -63,4 +65,4 @@ endif
 
 % Done
 diary off
-movefile svseries_test.diary.tmp svseries_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

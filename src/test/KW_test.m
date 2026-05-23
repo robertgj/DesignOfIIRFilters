@@ -27,63 +27,85 @@ d = [ 1.00000    0         -1.42123    0 ...
 % N=6;fc=0.05;dbap=0.1;dbas=40;[n,d]=ellip(N,dbap,dbas,2*fc);
 
 [A,B,C,D]=tf2Abcd(n,d);
-[K,W]=KW(A,B,C,D);
-K(find(abs(K)<100*eps))=0
-[Kdlyap,Wdlyap]=KW(A,B,C,D,"dlyap");
-Kdlyap(find(abs(Kdlyap)<100*eps))=0
-if max(max(abs(K-Kdlyap))) > eps
-  error("max(max(abs(K-Kdlyap))) > eps");
-endif
-if max(max(abs(W-Wdlyap))) > eps
-  error("max(max(abs(W-Wdlyap))) > eps");
-endif
 
-[Klev,Wlev]=KW(A,B,C,D,"levinson");
-if max(max(abs(K-Klev)))/max(max(abs(K))) > 100*eps
-  error("max(max(abs(K-Klev)))/max(max(abs(K))) > 100*eps");
-endif
-if max(max(abs(W-Wlev)))/max(max(abs(W))) > 100*eps
-  error("max(max(abs(W-Wlev)))/max(max(abs(W))) > 100*eps");
-endif
+% Test sanity checking
+try
+  [K,W]=KW();
+catch
+  fprintf(stderr,"Caught [K,W]=KW();\n");
+end_try_catch
+try
+  [K,W]=KW(1);
+catch
+  fprintf(stderr,"Caught [K,W]=KW(1);\n");
+end_try_catch
+try
+  [K,W]=KW(A,B,C);
+catch
+  fprintf(stderr,"Caught [K,W]=KW(A,B,C);\n");
+end_try_catch
+try
+  [K,W]=KW(A,B,C,D,A,B);
+catch
+  fprintf(stderr,"Caught [K,W]=KW(A,B,C,D,A,B);\n");
+end_try_catch
 
-[Krec,Wrec]=KW(A,B,C,D,"recursive");
-if max(max(abs(K-Krec)))/max(max(abs(K))) > 100*eps
-  error("max(max(abs(K-Krec)))/max(max(abs(K))) > 100*eps");
-endif
-if max(max(abs(W-Wrec)))/max(max(abs(W))) > 100*eps
-  error("max(max(abs(W-Wrec)))/max(max(abs(W))) > 100*eps");
-endif
+for m=1:2,
+  
+  [A,B,C,D]=tf2Abcd(n,d);
 
-% From Roberts and Mullis Section 9.15
-A = [ ...
-  0.0000e+00  1.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00;
- -8.8563e-01  1.8819e+00  8.0340e-05  3.6960e-03  2.9600e-08  3.6700e-06;
-  0.0000e+00  0.0000e+00  0.0000e+00  1.0000e+00  0.0000e+00  0.0000e+00;
-  0.0000e+00  0.0000e+00 -9.1498e-01  1.9112e+00  3.1340e-05  3.8850e-03;
-  0.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00  1.0000e+00;
-  0.0000e+00  0.0000e+00  0.0000e+00  0.0000e+00 -9.6802e-01  1.9641e+00];
-B = [ 0 9.2610e-07 0 9.8100e-04 0 1]';
-C = [ 1.0665e-04 3.6200e-03 7.4900e-08 3.4500e-06 2.7600e-11 3.4200e-09 ];
-D = 8.6360e-10;
+  if m==1
+    printf("Testing KW(A,B,C,D)\n");
+    [K,W]=KW(A,B,C,D);
+    [Kdlyap,Wdlyap]=KW(A,B,C,D,"dlyap");
+    [Klev,Wlev]=KW(A,B,C,D,"levinson");
+    [Krec,Wrec]=KW(A,B,C,D,"recursive");
+  else
+    printf("Testing KW([A,B;C,D])\n");
+    [K,W]=KW([A,B;C,D]);
+    [Kdlyap,Wdlyap]=KW([A,B;C,D],"dlyap");
+    [Klev,Wlev]=KW([A,B;C,D],"levinson");
+    [Krec,Wrec]=KW([A,B;C,D],"recursive");
+  endif
+  
+  K(find(abs(K)<100*eps))=0;
+  Kdlyap(find(abs(Kdlyap)<100*eps))=0;
+  if max(max(abs(K-Kdlyap))) > eps
+    error("max(max(abs(K-Kdlyap))) > eps");
+  endif
+  if max(max(abs(W-Wdlyap))) > eps
+    error("max(max(abs(W-Wdlyap))) > eps");
+  endif
 
-[K,W]=KW(A,B,C,D,"dlyap")
-if max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps
-  error("max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps");
-endif
-if max(max(abs((A'*W*A)+(C'*C)-W))) > eps
-  error("max(max(abs((A'*W*A)+(C'*C)-W))) > eps");
-endif
+  if max(max(abs(K-Klev)))/max(max(abs(K))) > 100*eps
+    error("max(max(abs(K-Klev)))/max(max(abs(K))) > 100*eps");
+  endif
+  if max(max(abs(W-Wlev)))/max(max(abs(W))) > 100*eps
+    error("max(max(abs(W-Wlev)))/max(max(abs(W))) > 100*eps");
+  endif
 
-% First order filter
-[n,d]=butter(1,0.1*2)
-[A,B,C,D]=tf2Abcd(n,d)
-[K,W]=KW(A,B,C,D,"dlyap")
-if max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps
-  error("max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps");
-endif
-if max(max(abs((A'*W*A)+(C'*C)-W))) > eps
-  error("max(max(abs((A'*W*A)+(C'*C)-W))) > eps");
-endif
+  if max(max(abs(K-Krec)))/max(max(abs(K))) > 100*eps
+    error("max(max(abs(K-Krec)))/max(max(abs(K))) > 100*eps");
+  endif
+  if max(max(abs(W-Wrec)))/max(max(abs(W))) > 100*eps
+    error("max(max(abs(W-Wrec)))/max(max(abs(W))) > 100*eps");
+  endif
+
+  % First order filter
+  [n,d]=butter(1,0.1*2);
+  [A,B,C,D]=tf2Abcd(n,d);
+  if m==1
+    [K,W]=KW(A,B,C,D,"dlyap");
+  else
+    [K,W]=KW([A,B;C,D],"dlyap");
+  endif
+  if max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps
+    error("max(max(abs((A*K*A')+(B*B')-K))) > 1e4*eps");
+  endif
+  if max(max(abs((A'*W*A)+(C'*C)-W))) > eps
+    error("max(max(abs((A'*W*A)+(C'*C)-W))) > eps");
+  endif
+endfor
 
 diary off
 movefile KW_test.diary.tmp KW_test.diary;
