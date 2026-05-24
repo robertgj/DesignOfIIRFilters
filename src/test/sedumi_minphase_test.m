@@ -25,7 +25,8 @@ endfor
 K.s=n;
 
 % Run SeDuMi
-[x,y,info] = sedumi(At,b,c,K);
+pars.eps=1e-7;
+[x,y,info] = sedumi(At,b,c,K,pars);
 if info.numerr==2
   error("info.numerr==2");
 endif
