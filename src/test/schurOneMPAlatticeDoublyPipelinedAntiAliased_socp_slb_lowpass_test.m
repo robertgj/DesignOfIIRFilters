@@ -19,7 +19,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 tic;
 
 ftol=1e-3
-ctol=1e-7
+ctol=1e-8
 maxiter=20000
 verbose=false
 
@@ -31,11 +31,16 @@ dmax=inf; % For compatibility with SQP
 ma=6;mb=7;
 difference=false;
 % Low-pass filter specification 
-fap=0.15;dBap=0.08;Wap=1;Wat=0.01;
-fas=0.175;dBas=65;Was=100;Was_wise=0.1;
-fpp=0.1;pp=0;ppr=0.0008;Wpp=1;
-ftp=0.1;tp=15;tpr=0.1;Wtp=1;
-fdp=0.1;dpr=0.2;Wdp=0.01;
+fap=0.15;dBap=0.06;Wap=1;Wat=0.01;
+fas=0.175;dBas=71;Was=200;Was_wise=0.1;
+fpp=0.1;pp=0;ppr=0.001;Wpp=1;
+ftp=0.1;tp=15;tpr=0.2;Wtp=1;
+fdp=0.1;dpr=0.3;Wdp=0.01;
+
+% Previously:
+if 0
+  ctol=1e-7;dBap=0.08;dBas=65;Was=100;ppr=0.0008;tpr=0.1;dpr=0.2;
+endif
 
 % Anti-aliasing filter
 maa=7;
@@ -358,8 +363,8 @@ dAsqdw2=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 subplot(211)
 ax=plotyy(w(1:nas)*0.5/pi,   20*log10(Aaa2(1:nas,:)), ...
           w(nas:end)*0.5/pi, 20*log10(Aaa2(nas:end,:)));
-axis(ax(1),[0 0.5 -1e-5 1e-5]);
-axis(ax(2),[0 0.5 -70 -62]);
+axis(ax(1),[0 0.5 -1e-6 1e-6]);
+axis(ax(2),[0 0.5 -74 -66]);
 grid("on")
 tstr=sprintf(["Lowpass anti-aliasing PCLS response : ", ...
               "fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g"], ...
@@ -382,7 +387,7 @@ subplot(211)
 ax=plotyy(w(1:nas)*0.5/pi,   20*log10(Adp2)(1:nas,:), ...
           w(nas:end)*0.5/pi, 20*log10(Adp2)(nas:end,:));
 axis(ax(1),[0 0.25 -0.15 0.05]);
-axis(ax(2),[0 0.25 -70 -62]);
+axis(ax(2),[0 0.25 -74 -66]);
 grid("on")
 tstr=sprintf(["Lowpass doubly-pipelined PCLS response : ", ...
               "fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g"], ...
@@ -410,7 +415,7 @@ for c=1:3
   set(hs(c),"color",hac{c});
 endfor
 axis(ax(1),[0 0.5 -0.15 0.05]);
-axis(ax(2),[0 0.5 -70 -62]);
+axis(ax(2),[0 0.5 -74 -66]);
 grid("on")
 tstr=sprintf("Lowpass PCLS response : fap=%g,dBap=%g,tp=%g,fas=%g,dBas=%g", ...
              fap,dBap,tp,fas,dBas);
@@ -418,20 +423,20 @@ title(tstr);
 ylabel("Amplitude(dB)");
 zticks([]);
 subplot(412)
-plot(wp*0.5/pi,([(P2+Pz2),Pd,Pdu,Pdl]+(wp*tp))/pi)
+plot(wp*0.5/pi,([(P2+Pz2),Pdu,Pdl]+(wp*tp))/pi)
 axis([0 0.5 pp+0.001*[-1,1]])
 grid("on")
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(413)
-plot(wt*0.5/pi,[(T2-Tz2),Td,Tdu,Tdl])
-axis([0 0.5,tp+tpr*[-1,1]])
+plot(wt*0.5/pi,[(T2-Tz2),Tdu,Tdl])
+axis([0 0.5,tp+0.2*[-1,1]])
 grid("on")
 ylabel("Delay(samples)");
 zticks([]);
 subplot(414)
 ax=plot(wd*0.5/pi, [dAsqdw2,Ddl,Ddu]);
-axis([0 0.5 -0.2 0.2]);
+axis([0 0.5 0.2*[-1,1]]);
 grid("on")
 ylabel("$\\frac{d\\lvert A\\rvert^{2}}{dw}$");
 xlabel("Frequency");

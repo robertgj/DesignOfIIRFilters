@@ -72,24 +72,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k2_coef.m << 'EOF'
-A1k2 = [  -0.2780053182,   0.4132664068,  -0.4032429856,   0.2606062289, ... 
-          -0.0933755741,  -0.0057376896 ]';
+A1k2 = [  -0.2846558284,   0.4410616104,  -0.4416023676,   0.3738918230, ... 
+          -0.1943793036,   0.0395726747 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k2_coef.m"; fail; fi
 
 cat > test_A2k2_coef.m << 'EOF'
-A2k2 = [   0.2036394903,   0.7355420263,  -0.5612083738,   0.3716500267, ... 
-          -0.2157344402,   0.0927351250,  -0.0048440538 ]';
+A2k2 = [   0.2256852415,   0.7856014855,  -0.5685188941,   0.3963557750, ... 
+          -0.3369127093,   0.1989457889,  -0.0453177441 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k2_coef.m"; fail; fi
 
 cat > test_Aaa1k2_coef.m << 'EOF'
-Aaa1k2 = [   0.0000000000,   0.7423123619,   0.0000000000,   0.0534640894 ]';
+Aaa1k2 = [   0.0000000000,   0.7643214759,   0.0000000000,   0.0642897077 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k2_coef.m"; fail; fi
 
 cat > test_Aaa2k2_coef.m << 'EOF'
-Aaa2k2 = [   0.0000000000,   0.3067705864,   0.0000000000 ]';
+Aaa2k2 = [   0.0000000000,   0.3347962560,   0.0000000000 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k2_coef.m"; fail; fi
 
