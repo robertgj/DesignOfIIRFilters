@@ -5378,12 +5378,14 @@ the $n$-th section, $y_{n}$ being the output of the $n$-th section
 and $\hat{y}_{n}$ the all-pass output of the $n$-th section.
 Construction of the state variable description is summarised in
 Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice}.
+
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{schur_OneMultiplier_SV_derivation}
 \caption{State variable description of the Schur one-multiplier lattice filter.}
 \label{fig:State-variable-description-One-Multiplier-Lattice}
 \end{figure}
+
 \begin{algorithm}
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$,
 $\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$,
@@ -5405,16 +5407,17 @@ $\left\{c_{0},c_{1},\hdots,c_{N}\right\}$:
   one-multiplier lattice filter.}
 \label{alg:Construction-state-variable-One-Multiplier-lattice}
 \end{algorithm}
-Here $\left\{t_{1},\hdots,t_{N}\right\}$ corresponds to the diagonal matrix
-state scaling similarity transformation shown in
+
+Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice} shows
+the tapped lattice and all-pass filter outputs. Both outputs can be calculated
+by multiply-and-accumulate into double length registers. Here
+$\left\{t_{1},\hdots,t_{N}\right\}$ corresponds to the diagonal matrix state
+scaling similarity transformation shown in
 Sections~\ref{sec:coordinate-transformations}
 and~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow}. For example,
 in a fixed-point implementation, the scaled $n$'th state variable input value,
 $t_{n}x_{n}^{\prime}$, will be truncated, inverse-scaled by $t_{n}^{-1}$ and then
 stored as $x_{n}$.
-Algorithm~\ref{alg:Construction-state-variable-One-Multiplier-lattice} shows
-the tapped lattice and all-pass filter outputs. Both outputs can be calculated
-by multiply-and-accumulate into double length registers.
 
 The state variable description can be expressed as a series of matrix
 multiplications linking the input and state outputs to the output
@@ -5741,7 +5744,6 @@ one-multiplier Schur lattice filter:
 \end{align*}
 See the Octave scripts \emph{schurOneMlattice2Falternate\_test.m} and
 \emph{schurOneMlattice2Falternate\_symbolic\_test.m}.
-
 \clearpage
 \subsection{\label{sec:State-variable-pipelined-One-multiplier-Schur-lattice-filter}State variable description of a pipelined one-multiplier Schur lattice filter}
 Figure~\ref{subfig:example-lattice-filter} shows a representation $3$rd order
