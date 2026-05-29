@@ -197,8 +197,9 @@ rowsG=length(vS.au)+length(vS.al) + ...
       length(vS.tu)+length(vS.tl) + ...
       length(vS.pu)+length(vS.pl);
 G0=zeros(rowsG,length(x0));
-h_l=-inf*ones(rowsG,1);
-h_u= inf*ones(rowsG,1);
+BigNum=1e6;
+h_l=-BigNum*ones(rowsG,1);
+h_u= BigNum*ones(rowsG,1);
 A0=[];
 b0=[];
 x0_lb=xl;
@@ -226,10 +227,10 @@ while 1
   % Minimise (x-xk)'*hessEk*(x-xk)/2 + gradEk*(x-xk)
   ck=gradEk;
   Pk=hessEk;
-  if ~isdefinite(Pk)
-    warning("~isdefinite(Pk)");
-  endif
-  
+ 
+  % We may have different numbers of upper and lower constraints but
+  % piqp assumes that there are the same number of h_u and h_l constraints.
+
   % Subject to:
   Gk=[]; hk=[];
   % Pass-band amplitude upper bound, gradA*(x-xk) <= ctol+Adu-A
@@ -293,10 +294,22 @@ while 1
   % Decision variable global constraints
   delta_lb=max(xl-xk,-dmax);
   delta_ub=min(xu-xk, dmax);
-
+  
   % Update solver
-  solver.update("P",Pk,"c",ck,"G",Gk,"h_u",hk,"x_l",delta_lb,"x_u",delta_ub);
-
+  try
+    solver.update("P",Pk,"c",ck,"G",Gk, ...
+                  "h_l",-BigNum*ones(size(hk)),"h_u",hk,...
+                  "x_l",delta_lb,"x_u",delta_ub);
+  catch
+    err=lasterror();
+    for e=1:length(err.stack)
+      fprintf(stderr, ...
+              "Called %s at %s : %d\n", ...
+              err.stack(e).name,err.stack(e).file,err.stack(e).line);
+    endfor
+    error(err.message);
+  end_try_catch
+  
   %
   % Call PIQP
   %

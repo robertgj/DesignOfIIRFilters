@@ -21,12 +21,14 @@ c = [-1; -4];
 A = [1 -2];
 b = 1;
 G = [1 -1; 2, 0];
-h = [0.2; -1];
-x_lb = [-1; -Inf];
-x_ub = [1; Inf];
+h_l= [-Inf; -Inf];
+h_u = [0.2; -1];
+x_l = [-1; -Inf];
+x_u = [1; Inf];
 solver = piqp('dense');
 %solver.update_settings('verbose', true, 'compute_timings', true);
-solver.setup(P, c, A, b, G, h, x_lb, x_ub);
+solver.setup(P, c, A, b, G, h_l, h_u, x_l, x_u);
+solver.update_settings('verbose', true, 'compute_timings', true);
 result = solver.solve();
 tol=1e-10;
 if any(abs(result.x-[-0.6;-0.8])>tol)
@@ -38,13 +40,13 @@ endif
 if any(abs(b-(A*result.x))>tol)
   error("Equality failed!");
 endif
-if any(h-(G*result.x)<-tol)
+if any(h_u-(G*result.x)<-tol)
   error("Inequality failed!");
 endif
-if any(result.x-x_lb<-tol)
+if any(result.x-x_l<-tol)
   error("Lower bound failed!");
 endif
-if any(x_ub-result.x<-tol)
+if any(x_u-result.x<-tol)
   error("Upper bound failed!");
 endif
 

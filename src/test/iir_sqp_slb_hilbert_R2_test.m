@@ -38,16 +38,15 @@ nprng=1:2:(n-1);
 w=pi*([nnrng(:);nprng(:)])/n;
 non2=floor(n/2);
 
-
 % Hilbert filter specification
 Ar=0.01;At=Ar;Wap=1;Wat=0.1;
 td=(U+M)/2;
 ftt=0.08; % Delay transition band at zero
 ntt=floor(ftt*n);
-tdr=0.2;Wtp=0.005;Wtt=0;
+tpr=0.2;Wtp=0.005;Wtt=0;
 fpt=0.06; % Phase transition band at zero
 npt=floor(fpt*n); 
-pp=5;ppr=0.03;Wpp=0.05;Wpt=0;
+pp=5;ppr=0.014;Wpp=0.2;Wpt=0;
 
 % Coefficient constraints
 dmax=0.05;
@@ -74,12 +73,12 @@ Ws=[];
 % Group delay constraints
 wt=w;
 Td=td*ones(n,1);
-Tdu=[(td+(tdr/2))*ones(non2-ntt,1); ...
+Tdu=[(td+(tpr/2))*ones(non2-ntt,1); ...
      10*td*ones(2*ntt,1); ...
-     (td+(tdr/2))*ones(non2-ntt,1)];
-Tdl=[(td-(tdr/2))*ones(non2-ntt,1);...
+     (td+(tpr/2))*ones(non2-ntt,1)];
+Tdl=[(td-(tpr/2))*ones(non2-ntt,1);...
      zeros(2*ntt,1); ...
-     (td-(tdr/2))*ones(non2-ntt,1)];
+     (td-(tpr/2))*ones(non2-ntt,1)];
 Wt=[Wtp*ones(non2-ntt,1);Wtt*ones(2*ntt,1);Wtp*ones(non2-ntt,1)];
 
 % Phase constraints
@@ -93,8 +92,8 @@ Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,td=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
              Wap,ftt,td,Wtp,fpt,Wpp);
 strP=sprintf(["Hilbert filter %%s:", ...
- "Ar=%g,Wap=%g,td=%g,ftt=%g,tdr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
-             Ar,Wap,td,ftt,tdr,Wtp,fpt,ppr,Wpp);
+ "Ar=%g,Wap=%g,td=%g,ftt=%g,tpr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
+             Ar,Wap,td,ftt,tpr,Wtp,fpt,ppr,Wpp);
 
 % Show initial response and constraints
 A0=iirA(w,x0,U,V,M,Q,R);
@@ -183,7 +182,7 @@ subplot(313);
 plot(w*0.5/pi,[Tx1 Tdl Tdu]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([-0.5 0.5 td-tdr td+tdr]);
+axis([-0.5 0.5 td-tpr td+tpr]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_mmse_response"),"-dpdflatex");
@@ -236,14 +235,14 @@ for k=1:3
   set(h2(k),"color",h311c{k});
 endfor
 % End of hack
-axis(ax(1),[-0.5 0.5  0.5+(0.02*[-1 1])]);
-axis(ax(2),[-0.5 0.5 -0.5+(0.02*[-1 1])]); 
+axis(ax(1),[-0.5 0.5  0.5+(0.01*[-1 1])]);
+axis(ax(2),[-0.5 0.5 -0.5+(0.01*[-1 1])]); 
 ylabel("Phase(rad./$\\pi$)");
 grid("on");
 zticks([]);
 subplot(313);
 plot(w*0.5/pi,[Td1 Tdl Tdu]);
-axis([-0.5 0.5 td-tdr td+tdr]);
+axis([-0.5 0.5 td-tpr td+tpr]);
 ylabel("Delay(samples)");
 xlabel("Frequency");
 grid("on");
@@ -271,7 +270,7 @@ fprintf(fid,"Wpp=%g %% Phase response weight\n",Wpp);
 fprintf(fid,"Wpt=%g %% Phase response transition weight\n",Wpt);
 fprintf(fid,"ftt=%g %% Group delay response transition edge\n",ftt);
 fprintf(fid,"td=%d %% Nominal filter group delay(samples)\n",td);
-fprintf(fid,"tdr=%g %% Group delay peak-to-peak ripple(samples)\n",tdr);
+fprintf(fid,"tpr=%g %% Group delay peak-to-peak ripple(samples)\n",tpr);
 fprintf(fid,"Wtp=%g %% Group delay weight\n",Wtp);
 fprintf(fid,"Wtt=%g %% Group delay transition weight\n",Wtt);
 fprintf(fid,"U=%d %% Number of real zeros\n",U);
@@ -292,7 +291,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf(["save %s.mat U V M Q R x0 x1 d1 ftol ctol ", ...
- "n w Ad Ar td ftt tdr Pd fpt pp ppr"],strf));
+ "n w Ad Ar td ftt tpr Pd fpt pp ppr"],strf));
 
 % Done
 toc

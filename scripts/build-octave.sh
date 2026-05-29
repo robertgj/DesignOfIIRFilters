@@ -154,7 +154,7 @@ if ! test -f $SUNDIALS_ARCHIVE; then
   wget -c $SUNDIALS_URL
 fi
 
-GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.46}
+GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.47}
 GRAPHICSMAGICK_ARCHIVE=GraphicsMagick-$GRAPHICSMAGICK_VER".tar.xz"
 GRAPHICSMAGICK_URL=https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/$GRAPHICSMAGICK_VER/GraphicsMagick-$GRAPHICSMAGICK_VER.tar.xz
 if ! test -f $GRAPHICSMAGICK_ARCHIVE; then
@@ -193,7 +193,7 @@ if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.2.2}
+DATATYPES_VER=${DATATYPES_VER:-1.2.3}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
@@ -221,12 +221,11 @@ if ! test -f $PARALLEL_ARCHIVE; then
   wget -c $PARALLEL_URL 
 fi
 
-PIQP_VER=${PIQP_VER:-0.6.0}
-PIQP_ARCHIVE=piqp-$PIQP_VER.tar.gz
-PIQP_URL=https://github.com/PREDICT-EPFL/piqp/releases/download/v$PIQP_VER/piqp-octave.tar.gz
+PIQP_VER=${PIQP_VER:-0.6.3}
+PIQP_ARCHIVE=piqp-octave-v$PIQP_VER.tar.gz
+PIQP_URL=https://github.com/PREDICT-EPFL/piqp/releases/download/v$PIQP_VER/$PIQP_ARCHIVE
 if ! test -f $PIQP_ARCHIVE; then
     wget -c $PIQP_URL
-    mv piqp-octave.tar.gz $PIQP_ARCHIVE
 fi
 
 SIGNAL_VER=${SIGNAL_VER:-1.4.7}
@@ -236,7 +235,7 @@ if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.8.2}
+STATISTICS_VER=${STATISTICS_VER:-1.8.3}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then

@@ -34,21 +34,21 @@ R=2;
 % positive frequencies resulting in a reduced rank constraint matrix.
 % Avoid this problem by staggering the frequencies.
 %
-n=400;
+n=1000;
 nnrng=-(n-2):2:0;
 nprng=1:2:(n-1);
 w=pi*([nnrng(:);nprng(:)])/n;
 non2=floor(n/2);
 
 % Hilbert filter specification
-dBar=0.2;dBat=0.2;Wap=1;Wat=0.1;
+Ar=0.01;At=Ar;Wap=1;Wat=0.1;
 tp=(U+M)/2;
 ftt=0.08; % Delay transition band at zero
 ntt=floor(ftt*n);
 tpr=0.2;Wtp=0.005;Wtt=0;
 fpt=0.06; % Phase transition band at zero
 npt=floor(fpt*n); 
-pp=5;ppr=0.016;Wpp=1;Wpt=0;
+pp=5;ppr=0.02;Wpp=0.2;Wpt=0;
 
 % Coefficient constraints
 dmax=0.02;
@@ -57,8 +57,6 @@ dmax=0.02;
 % Amplitude constraints
 wa=w;
 Ad=ones(n,1);
-Ar=1-(10^(-dBar/20));
-At=1-(10^(-dBat/20));
 Adu=[(1+(Ar/2))*ones(non2-npt,1); ...
      (1+(At/2))*ones(2*npt,1); ...
      (1+(Ar/2))*ones(non2-npt,1)];
@@ -96,8 +94,8 @@ Wp=[Wpp*ones(non2-npt,1);Wpt*ones(2*npt,1);Wpp*ones(non2-npt,1)];
 strM=sprintf("Hilbert filter %%s:Wap=%g,ftt=%g,tp=%g,Wtp=%g,fpt=%g,Wpp=%g", ...
              Wap,ftt,tp,Wtp,fpt,Wpp);
 strP=sprintf(["Hilbert filter %%s:", ...
- "R=2,dBar=%g,Wap=%g,tp=%g,ftt=%g,tpr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
-             dBar,Wap,tp,ftt,tpr,Wtp,fpt,ppr,Wpp);
+ "R=2,Ar=%g,Wap=%g,tp=%g,ftt=%g,tpr=%g,Wtp=%g,fpt=%g,ppr=%g,Wpp=%g"], ...
+             Ar,Wap,tp,ftt,tpr,Wtp,fpt,ppr,Wpp);
 
 % Show initial response and constraints
 A0=iirA(w,x0,U,V,M,Q,R);
@@ -259,7 +257,8 @@ fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
 fprintf(fid,"ftol=%g %% Tolerance on relative coefficient update size\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
-fprintf(fid,"dBar=%g %% Amplitude response peak-to-peak ripple\n",dBar);
+fprintf(fid,"Ar=%g %% Amplitude response peak-to-peak ripple\n",Ar);
+fprintf(fid,"At=%g %% Transition amplitude response peak-to-peak ripple\n",At);
 fprintf(fid,"Wap=%d %% Amplitude response weight\n",Wap);
 fprintf(fid,"fpt=%g %% Phase response transition edge\n",fpt);
 fprintf(fid,"pr=%g %% Phase response nominal phase(rad./pi)\n",pp);
@@ -287,7 +286,7 @@ print_polynomial(D1,"D1");
 print_polynomial(D1,"D1",strcat(strf,"_D1_coef.m"));
 
 eval(sprintf(["save %s.mat U V M Q R x0 x1 d1 ftol ctol ", ...
- "n w Ad dBar tp ftt tpr Pd fpt pp ppr"],strf));
+ "n w Ar At tp ftt tpr Pd fpt pp ppr"],strf));
 
 % Done
 toc
