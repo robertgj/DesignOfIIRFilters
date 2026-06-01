@@ -1,0 +1,48 @@
+schurOneMlatticeFilter_test_FIGURES=\
+schurOneMlatticeFilter_test_Nk_1_response \
+schurOneMlatticeFilter_test_Nk_2_response \
+schurOneMlatticeFilter_test_Nk_3_response \
+schurOneMlatticeFilter_test_Nk_4_response \
+schurOneMlatticeFilter_test_Nk_5_response \
+schurOneMlatticeFilter_test_Nk_6_response \
+schurOneMlatticeFilter_test_Nk_7_response \
+schurOneMlatticeFilter_test_Nk_8_response \
+schurOneMlatticeFilter_test_Nk_9_response
+
+schurOneMlatticeFilter_test_COEFS = \
+schurOneMlatticeFilter_test_Nk_1_pow2p.m \
+schurOneMlatticeFilter_test_Nk_1_pow2palt.m \
+schuronemlatticefilter_test_Nk_1_results.tab \
+schurOneMlatticeFilter_test_Nk_2_pow2p.m \
+schurOneMlatticeFilter_test_Nk_2_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_2_results.tab \
+schurOneMlatticeFilter_test_Nk_3_pow2p.m \
+schurOneMlatticeFilter_test_Nk_3_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_3_results.tab \
+schurOneMlatticeFilter_test_Nk_4_pow2p.m \
+schurOneMlatticeFilter_test_Nk_4_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_4_results.tab \
+schurOneMlatticeFilter_test_Nk_5_pow2p.m \
+schurOneMlatticeFilter_test_Nk_5_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_5_results.tab \
+schurOneMlatticeFilter_test_Nk_6_pow2p.m \
+schurOneMlatticeFilter_test_Nk_6_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_6_results.tab \
+schurOneMlatticeFilter_test_Nk_7_pow2p.m \
+schurOneMlatticeFilter_test_Nk_7_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_7_results.tab \
+schurOneMlatticeFilter_test_Nk_8_pow2p.m \
+schurOneMlatticeFilter_test_Nk_8_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_8_results.tab \
+schurOneMlatticeFilter_test_Nk_9_pow2p.m \
+schurOneMlatticeFilter_test_Nk_9_pow2palt.m \
+schurOneMlatticeFilter_test_Nk_9_results.tab
+
+schurOneMlatticeFilter_test_FILES = \
+schurOneMlatticeFilter_test.m test_common.m \
+tf2schurOneMlattice.m schurOneMscale.m \
+schurOneMlatticeNoiseGain.m schurOneMlatticeRetimedNoiseGain.m \
+KW.m p2n60.m svf.m crossWelch.m tf2Abcd.m print_polynomial.m \
+schurOneMlatticeFilter.oct schurOneMlattice2Abcd.oct \
+schurexpand.oct schurdecomp.oct \
+reprand.oct qroots.oct complex_zhong_inverse.oct

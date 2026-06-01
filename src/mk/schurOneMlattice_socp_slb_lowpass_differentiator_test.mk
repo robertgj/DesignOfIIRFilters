@@ -33,11 +33,11 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-schurOneMlatticeFilter.m \
 local_max.m tf2pa.m x2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 print_polynomial.m print_pole_zero.m p2n60.m crossWelch.m \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct qroots.oct Abcd2tf.oct
+schurOneMlatticeFilter.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+schurdecomp.oct schurexpand.oct qroots.oct Abcd2tf.oct \
+complex_zhong_inverse.oct
 
 schurOneMlattice_socp_slb_lowpass_differentiator_test.diary : \
 tarczynski_lowpass_differentiator_test.diary

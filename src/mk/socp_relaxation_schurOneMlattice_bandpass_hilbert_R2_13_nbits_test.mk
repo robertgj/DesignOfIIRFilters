@@ -18,6 +18,7 @@ socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_c_min_coef.m 
 socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_cost.tab
 
 socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_FILES = \
+socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.m \
 test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
@@ -34,10 +35,11 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMscale.m schurOneMlattice2tf.m \
-schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
+tf2schurOneMlattice.m local_max.m print_polynomial.m \
 x2nextra.m H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m SDadders.m \
-schurdecomp.oct schurexpand.oct schurOneMlattice2H.oct Abcd2tf.oct \
-schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct complex_zhong_inverse.oct
+schurOneMlatticeFilter.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct \
+schurdecomp.oct schurexpand.oct Abcd2tf.oct bin2SPT.oct bin2SD.oct \
+complex_zhong_inverse.oct
 
 socp_relaxation_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test.diary : \
 schurOneMlattice_socp_slb_bandpass_hilbert_R2_test.diary

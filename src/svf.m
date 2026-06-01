@@ -1,14 +1,15 @@
-function [y,xx]=svf(a,b,c,d,u,rounding,efb)
-% [y,xx]=svf(a,b,c,d,u,rounding,efb)
+function [y,xx]=svf(a,b,c,d,u,rounding,bits)
+% [y,xx]=svf(a,b,c,d,u,rounding,bits)
 % svf filters the input u using the state variable equations 
 % represented by a,b,c,d. rounding determines the rounding used,
 % "round" for rounding to nearest, "fix" for rounding to zero,
-% "floor" for rounding to -inf and "lperrfb" for low-pass
-% error feedback with efb bits. The row numbers of y and u correspond
-% to sample number. The rows of u are inputs at each sample and the
-% rows of y are the outputs at each sample.
+% "floor" for rounding to -inf, "lperrfb" for low-pass error
+% feedback with bits bits and "bit" for scaling each state. The
+% row numbers of y and u correspond to sample number. The rows
+% of u are inputs at each sample and the rows of y are the
+% outputs at each sample.
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -33,7 +34,7 @@ if nargin<5 || nargin>7 || nargout>2
   print_usage(["y=svf(a,b,c,d,u) \n", ...
  "[y,xx]=svf(a,b,c,d,u) \n", ...
  "[y,xx]=svf(a,b,c,d,u,rounding) \n", ...
- "[y,xx]=svf(a,b,c,d,u,rounding,efb)"]);
+ "[y,xx]=svf(a,b,c,d,u,rounding,bits)"]);
 endif
 if rows(a)~=columns(a)
   error("rows(a)~=columns(a)");
@@ -71,9 +72,18 @@ elseif rounding == "fix"
 elseif rounding == "lpe" 
   % Low-pass error feedback
   if nargin ~= 7
-    print_usage("[y,xx]=svf(a,b,c,d,u,rounding,efb)");
+    print_usage("[y,xx]=svf(a,b,c,d,u,rounding,bits)");
+  endif
+  if ~isscalar(bits)
+    error("~isscalar(bits) for lperror scaling");
   endif
   rtype=4;
+elseif rounding == "bit" 
+  % Bit scaling
+  if nargin ~= 7
+    print_usage("[y,xx]=svf(a,b,c,d,u,rounding,bits)");
+  endif
+  rtype=5;
 else
   rtype=0;
 end
@@ -93,6 +103,9 @@ for k=1:nsamples
   uk=u(k,:)';    
   if rtype==4
     yk=c*round(xk)+d*uk;
+  elseif rtype==5
+    xk=xk./(2.^(bits));
+    yk=c*xk+d*uk;
   else
     yk=c*xk+d*uk;
   endif
@@ -105,7 +118,9 @@ for k=1:nsamples
   elseif rtype == 3
     xk=fix(xk);
   elseif rtype == 4
-    xk=round(xk*(2^efb))/(2^efb);
+    xk=round(xk*(2^bits))/(2^bits);
+  elseif rtype == 5
+    xk=round(xk.*(2.^bits));
   end
   % Save
   y(k,:)=yk';
@@ -120,6 +135,8 @@ elseif rtype == 2
 elseif rtype == 3
   y=fix(y);
 elseif rtype == 4
+  y=round(y);
+elseif rtype == 5
   y=round(y);
 end
 

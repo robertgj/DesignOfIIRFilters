@@ -49,10 +49,9 @@ schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 schurOneMlatticeRetimedNoiseGain.m \
-schurOneMlatticeFilter.m \
 schurOneMscale.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m tf2pa.m local_max.m \
-complex_zhong_inverse.oct spectralfactor.oct qroots.oct Abcd2H.oct \
-schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct \
-schurOneMAPlattice2H.oct schurOneMlattice2H.oct Abcd2tf.oct
+phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m tf2pa.m qroots.oct local_max.m \
+schurOneMlatticeFilter.oct schurOneMAPlattice2H.oct schurOneMlattice2H.oct \
+schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+spectralfactor.oct Abcd2H.oct Abcd2tf.oct complex_zhong_inverse.oct 

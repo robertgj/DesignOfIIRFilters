@@ -14,10 +14,12 @@ socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test_c_min_coef.m \
 socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test_kc_min_cost.tab
 
 socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test_FILES = \
-socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test.m test_common.m \
+socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test.m \
+test_common.m \
 schurOneMlatticeAsq.m \
 schurOneMlatticeT.m \
 schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
 schurOneMlattice_slb.m \
 schurOneMlattice_slb_constraints_are_empty.m \
@@ -31,11 +33,11 @@ tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMlattice_allocsd_Ito.m \
-local_max.m tf2pa.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
-schurOneMlatticeFilter.m flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
-bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
-qroots.oct
+local_max.m tf2pa.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+qroots.oct schurOneMlatticeFilter.oct bin2SD.oct bin2SPT.oct schurdecomp.oct \
+schurexpand.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct \
+complex_zhong_inverse.oct
 
 socp_relaxation_schurOneMlattice_hilbert_R2_10_nbits_test.diary : \
 schurOneMlattice_socp_slb_hilbert_R2_test.diary

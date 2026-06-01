@@ -18,6 +18,7 @@ ellip20OneMPAMB_test_FILES = \
 ellip20OneMPAMB_test.m test_common.m print_polynomial.m \
 phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m tf2schurOneMlattice.m flt2SD.m \
 schurOneMscale.m x2nextra.m schurOneMlatticeRetimedNoiseGain.m p2n60.m \
-schurOneMlatticeFilter.m crossWelch.m KW.m schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct spectralfactor.oct qroots.oct Abcd2H.oct bin2SD.oct \
-schurOneMlattice2Abcd.oct schurOneMlattice2H.oct
+crossWelch.m KW.m \
+schurOneMlatticeFilter.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+schurdecomp.oct schurexpand.oct spectralfactor.oct qroots.oct Abcd2H.oct \
+bin2SD.oct complex_zhong_inverse.oct 

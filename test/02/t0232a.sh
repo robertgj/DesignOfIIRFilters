@@ -22,11 +22,11 @@ schurOneMscale.m \
 schurOneMlattice2tf.m \
 schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
-schurOneMlatticeFilter.m \
 tf2schurOneMlattice.m \
 local_max.m x2tf.m tf2pa.m print_polynomial.m x2nextra.m sqp_bfgs.m \
 armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
 SDadders.m Abcd2ng.m KW.m delayz.m \
+schurOneMlatticeFilter.oct \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
 qroots.oct Abcd2tf.oct"

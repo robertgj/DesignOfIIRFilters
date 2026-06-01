@@ -3,11 +3,11 @@
 prog=butt3OneMSV_test.m
 
 depends="test/butt3OneMSV_test.m test_common.m \
-schurexpand.oct schurdecomp.oct bin2SD.oct x2nextra.m flt2SD.m \
 schurOneMscale.m tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m \
-schurOneMlattice2Abcd.oct schurOneMlatticeRetimedNoiseGain.m \
-schurOneMlatticeFilter.m KW.m optKW.m svf.m crossWelch.m \
-p2n60.m qroots.oct"
+schurOneMlatticeRetimedNoiseGain.m KW.m optKW.m svf.m crossWelch.m \
+x2nextra.m flt2SD.m p2n60.m \
+schurOneMlatticeFilter.oct schurOneMlattice2Abcd.oct \
+schurexpand.oct schurdecomp.oct bin2SD.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

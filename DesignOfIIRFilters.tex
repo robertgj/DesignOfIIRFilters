@@ -113,6 +113,7 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathadj}{adj}
 \DeclareMathOperator{\mathadjugate}{adg}
 \DeclareMathOperator{\mathdiag}{diag}
+\DeclareMathOperator{\mathfix}{fix}
 \DeclareMathOperator{\mathtpltz}{Toeplitz}
 \DeclareMathOperator{\mathcohull}{cohull}
 \DeclareMathOperator{\mathcone}{cone}
@@ -124,6 +125,8 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
 \DeclareMathOperator{\mathvec}{vec}
 \DeclareMathOperator{\mathconj}{\ast} % {\textsf{\tiny{H}}}
 \DeclareMathOperator{\mathreverse}{\textsf{\tiny{F}}}
+%\DeclareMathOperator{\mathround}{round}
+\newcommand\mathround[1]{\ensuremath{\left[#1\right]}}
 
 \allowdisplaybreaks{} % For page breaks in long \begin{align} equations
 
@@ -2894,10 +2897,14 @@ where:
 \begin{align*}
 t_{i}=\delta\sqrt{K_{ii}} \; , \; i=1\;,\;2\;,\;\;\cdots\;\;,\; n
 \end{align*}
-A geometric interpretation of scaling is as follows: For unit
+
+\emph{Mullis} and
+\emph{Roberts}~\cite[Section 9.8]{RobertsMullis_DigitalSignalProcessing} show
+that a geometric interpretation of scaling is as follows: For unit
 variance stationary Gaussian inputs the set of values of the state
 variables $\left\{ x\;:\; x^{\top}K^{-1}x\le\;1\;\right\}$ represents
-the \emph{``one standard deviation error ellipsoid''} in the filter state
+the \emph{``one standard deviation error ellipsoid''} in the filter state.
+
 \section{Estimation of output round-off noise in state variable filters\label{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}}
 The z-domain state variable equations with round off noise
 inputs can be represented by the following signal flow graph shown in
@@ -2978,14 +2985,15 @@ state can be written:
   \sigma^{2}_{i} &= \sigma^{2}_{e}W_{ii} \quad i=1,\;\cdots\;,n
 \end{align*}
 
-After the filter is scaled, the total output error due to
+After the filter is scaled, the total output error noise power due to
 round off noise in the calculation of the state vector is:
-\begin{align*}
-  \sigma_{total}^{2}=\sigma_{e}^{2}\delta^{2}\sum^{n}_{i=1}W_{ii}K_{ii}
-\end{align*}
+\begin{align}
+  \label{eqn:output-noise-due-to-state-roundoff-noise}
+  \sigma_{total}^{2}=\sigma_{e}^{2}\delta^{2}\sum^{n}_{i=1}K_{ii}W_{ii}
+\end{align}
 
 $W_{ii}$ and $K_{ii}$ are those for the unscaled filter.
-The sum $\sum^{n}_{i=1}W_{ii}K_{ii}$ is known as the \emph{``noise gain''} of 
+The sum $\sum^{n}_{i=1}K_{ii}W_{ii}$ is known as the \emph{``noise gain''} of 
 the filter realisation. It is invariant under a diagonal (or scaling)
 coordinate transformation. Under a general coordinate transform, $T$:
 \begin{align*}
@@ -2994,17 +3002,30 @@ coordinate transformation. Under a general coordinate transform, $T$:
 \end{align*}
 
 The other sources of output noise variance are those due to the
-input quantisation and the round off in calculating the output. Neither
-term depends on the filter realisation. Output roundoff contributes
+input quantisation and the round-off in calculating the output. Neither
+term depends on the filter realisation. Output roundoff noise contributes
 the amount:
 \begin{align*}
-\sigma_{other}^{2}&=\sigma_{e}^{2} {\sum^{m}_{{j=1}}}\|g_{j}\|_{2}^{2}
+\sigma_{other}^{2}&=\sigma_{e}^{2} \sum^{m}_{{j=1}}\|g_{j}\|_{2}^{2}
 \end{align*}
 
 to the output noise. $m$ is the number of non-state variable summation nodes,
 $g_{j}$ is the unit pulse response from node $j$ to the output and the 
 quantisation step size at the output and at each node is assumed to be the 
-same ie: the word lengths used are the same for each state. 
+same ie: the word lengths used are the same for each state.
+
+For a single output scaled filter, the output round-off noise power is:
+\begin{align*}
+  \sigma_{output}^{2}&=
+       \left\{1+\delta^{2}\sum_{i=1}^{n}K_{ii}W_{ii}\right\}\sigma_{e}^{2}
+\end{align*}
+
+The Octave m-file examples shown in this project have the state values scaled so
+that $\Delta=2^{B-1}$, $q=1$ and, for a single output, the output round-off
+noise power is:
+\begin{align*}
+  \sigma_{output}^{2}&=\left\{1+\delta^{2}\text{noise-gain}\right\}/12
+\end{align*}
 
 The following result can be used to calculate the $l_{2}$-norm of a transfer 
 function, $H\left(z\right)$, with unit pulse response $h\left(k\right)$ and state
@@ -3039,19 +3060,17 @@ responses of each of the state variables. Figure~\ref{fig:gkstep-test-noise}
 shows the simulated filtered state variable quantisation noise at the 
 output of the filter superimposed on the summed state-output-to-filter-output
 step response to a step of $\frac{q}{2}$ at each state variable.
-
-\begin{figure}[!ht]
+The rounding-toward-minus-infinity rounding error is not signal dependent.
+On the other hand, with the 2's-complement rounding-toward-zero rounding,
+the offset follows the sign of the input signal. The additional signal
+dependent quantisation noise introduced by rounding-toward-zero can
+significantly degrade filter noise performance.
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{gkstep_test_noise}}
 \caption{Summed state-to-output step response superimposed on the output quantisation noise of a 3rd order Butterworth filter due to rounding-to-minus-infinity at each state.}
 \label{fig:gkstep-test-noise}
 \end{figure}
-
-The rounding-toward-minus-infinity rounding error is not signal dependent.
-On the other hand, with the 2's-complement rounding-toward-zero rounding,
- the offset follows the sign of the input signal. The additional signal
-dependent quantisation noise introduced by rounding-toward-zero can
-significantly degrade filter noise performance.
 
 \section{\label{sec:Minimisation-of-round-off-noise}Minimisation of round-off noise in the calculation of the state vector}
 Minimising the noise gain minimises the round off noise. \emph{Mullis} and
@@ -3059,8 +3078,7 @@ Minimising the noise gain minimises the round off noise. \emph{Mullis} and
 ,~\cite{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
 prove Algorithm~\ref{alg:Minimisation-of-the-noise-gain} for equal word-length 
 filters.
-
-\begin{algorithm}[!ht]
+\begin{algorithm}
 If $K$ and $W$ are two n-by-n real symmetric positive definite matrices
 then:
 \begin{align*}
@@ -3075,13 +3093,11 @@ and $K_{ii}W_{ii}=K_{jj}W_{jj}$ for all $i$ and $j$.
 \caption{Minimisation of the noise gain.}
 \label{alg:Minimisation-of-the-noise-gain}
 \end{algorithm}
-
 Algorithm~\ref{alg:Optimisation-of-the-noise-gain} finds a coordinate 
 transformation, $T$, that optimises the round-off noise of fixed point, 
 equal wordlength state-variable filters given the $K$ and $W$ matrices. 
 Algorithm~\ref{alg:Optimisation-of-the-noise-gain} is implemented in the
 Octave function \emph{optKW.m}.
-
 \begin{algorithm}[!ht]
 \begin{enumerate}
 \item Diagonalise $K$ and $W$:\\
@@ -3114,20 +3130,14 @@ with their average. In two dimensions:
 \left[\begin{array}{cc}
 x^{\prime} & y^{\prime}\\
 y^{\prime} & z^{\prime}
-\end{array}\right]
-=
-\left[\begin{array}{cc}
+\end{array}\right] = \left[\begin{array}{cc}
 \phantom{-}\cos \theta & \sin \theta\\
--\sin \theta & \cos\theta
-\end{array}\right]
-\left[\begin{array}{cc}
+-\sin \theta & \cos\theta \end{array}\right]\left[\begin{array}{cc}
 x & y\\
 y & z
-\end{array}\right]
-\left[\begin{array}{cc}
+\end{array}\right]\left[\begin{array}{cc}
 \cos \theta & -\sin \theta\\
-\sin \theta & \phantom{-}\cos\theta
-\end{array}\right]
+\sin \theta & \phantom{-}\cos\theta\end{array}\right]
 \end{align*}
 Expand the matrix product and set $x^{\prime}=z^{\prime}$ so that
 \begin{align*}
@@ -3145,15 +3155,17 @@ T&=U_{1}D_{1}^{-\frac{1}{2}}U_{2}D_{2}^{\frac{1}{4}}U_{3}
 \caption{Optimisation of the noise gain.}
 \label{alg:Optimisation-of-the-noise-gain}
 \end{algorithm}
-
-The globally optimised state variable filter has
-$\mathcal{O}\left(n^{2}\right)$ coefficients. An alternative structure such as a
-lattice filter or a cascade of lower-order filters has fewer coefficients,
-$\mathcal{O}\left(n\right)$, but will have a larger than optimal noise gain. The
-noise gain for a non-optimal filter may be improved by distributing bits
-unevenly between the states. \emph{Mullis} and \emph{Roberts}~\cite[Section
-IV]{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters} 
-show that if the state wordlengths are $B_{i}$ with:
+\clearpage
+\section{\label{sec:Round-off-variable-state-vector-bit-lengths}Round-off noise minimisation with variable state vector bit-lengths}
+The globally optimised state variable filter has $\mathcal{O}\left(n^{2}\right)$
+coefficients. An alternative structure such as lattice filter or a cascade of
+lower-order filters has fewer coefficients, $\mathcal{O}\left(n\right)$, but
+will have a larger than optimal noise gain. The noise gain for a non-optimal
+filter may be improved by distributing bits unevenly between the states.
+\emph{Mullis} and \emph{Roberts}~\cite[Section
+IV]{MullisRoberts_SynthesisMinimumRoundoffNoiseDigitalFilters}
+and~\cite[Section 9.9]{RobertsMullis_DigitalSignalProcessing} show that if the
+state wordlengths are $B_{i}$ with the constraint:
 \begin{align*}
 \sum^{n}_{i=1}B_{i} &= nB
 \end{align*}
@@ -3161,21 +3173,49 @@ and the quantisation step size for each state is:
 \begin{align*}
   q &= 2^{-B_{i}+1}
 \end{align*}
-then the choice of $B_{i}$ is optimised by setting:
+then, in Equation~\ref{eqn:output-noise-due-to-state-roundoff-noise}:
 \begin{align*}
-  \frac{K_{ii}W_{ii}}{2^{2B_{i}}} &= c
+  \sigma_{total}^{2} &= \frac{\delta^{2}}{3}
+  \sum^{n}_{i=1}\frac{K_{ii}W_{ii}}{2^{2B_{i}}}
 \end{align*}
-where $c$ is a constant. Each $B_{i}$ is given by:
+
+\emph{Roberts} and \emph{Mullis} make use of the \emph{arithmetic-geometric mean}
+inequality:
+\begin{align*}
+\frac{1}{n}\sum^{n}_{i=1}r_{i} &\ge \left[\prod_{i=1}^{n}r_{i}\right]^{\frac{1}{n}}
+\end{align*}
+with equality if-and-only-if $r_{1}=\hdots=r_{n}$.
+Now~\cite[Equation 9.9.10]{RobertsMullis_DigitalSignalProcessing}:
+\begin{align}
+  \label{eqn:Arithmetic-geometric-mean-state-noise-variance}
+  \frac{1}{n}\sum^{n}_{i=1}\frac{K_{ii}W_{ii}}{2^{2B_{i}}} &\ge
+       \left[\prod_{i=1}^{n}\frac{K_{ii}W_{ii}}{2^{2B_{i}}}\right]^{\frac{1}{n}}
+\end{align}
+The choice of $B_{i}$ is optimised by setting:
+\begin{align*}
+  \frac{K_{ii}W_{ii}}{2^{2B_{i}}} &= c,\;\;i=1,\hdots,n
+\end{align*}
+where $c$ is a constant. Substituting into
+Equation~\ref{eqn:Arithmetic-geometric-mean-state-noise-variance}:
+\begin{align*}
+\log_{2}K_{ii}W_{ii} -2B_{i} &= \frac{1}{n}\sum_{j=1}^{n}\log_{2}K_{jj}W_{jj} -2B
+\end{align*}
+After simplifying, each $B_{i}$ is given by:
 \begin{align}
   \label{eqn:Optimal-roundoff-noise-bit-distribution}
   B_{i} &= B + \frac{1}{2}\log_{2}K_{ii}W_{ii} -
   \frac{1}{2n}\sum_{j=1}^{n}\log_{2}K_{jj}W_{jj}
 \end{align}
-The optimal output noise is then:
+The optimal output noise due to state rounding is:
 \begin{align*}
   \sigma_{total}^{2} &=
   \left[ \frac{n}{3}\left(\frac{\delta}{2^{B}}\right)^{2}\right]
-  \left[ \prod^{n}_{i=1}W_{ii}K_{ii}\right]^{\frac{1}{n}}
+  \left[ \prod^{n}_{i=1}K_{ii}W_{ii}\right]^{\frac{1}{n}}
+\end{align*}
+Recall that if the output signal bit-width is $B_{output}$, then the quantisation
+step is:
+\begin{align*}
+  q_{output} &= 2^{-B_{output}+1}
 \end{align*}
 
 \section{Coefficient sensitivity}
@@ -3190,6 +3230,7 @@ as the poles of the filter cluster together. The ratio of cut-off
 frequency, $f_{c}$, to sample rate, $f_{S}$,
 is a useful measure of this clustering. For small values the finite
 register effects determine the realisation chosen.
+
 \section{Round-off noise of factored state variable filters}
 The estimate of round-off noise shown in 
 Section~\ref{sec:Estimation-of-output-round-off-noise-in-state-variable-filters}
@@ -6999,7 +7040,8 @@ power at each lattice node of the unscaled one multiplier lattice.
 Recall that this follows from the definition of the inner product
 of Schur polynomials and Parseval's equality:
 \begin{align*}
-\| g_{i}\| _{2}^{2} & = \frac{1}{2\pi \imath}\oint G\left(z\right)G_{i}\left(z^{-1}\right)\frac{dz}{z}
+  \| g_{i}\| _{2}^{2} & = \frac{1}{2\pi \imath}\oint
+                        G\left(z\right)G_{i}\left(z^{-1}\right)\frac{dz}{z}
 \end{align*}
 where $G_{i}\left(z\right)$ is the $z$-transform of $g_{i}$, the
 unit-impulse response from internal node $i$ to the output. Similarly,
@@ -7027,33 +7069,33 @@ The Octave script \emph{butt3OneM\_test.m}
 implements a 3rd order Butterworth filter with the single-multiplier
 lattice structure. Annotated results of the script follow. 
 
-The multiplier and sign coefficients are
+The multiplier and sign coefficients are:
 \begin{small}
 \begin{verbatim}
 k = -0.97432   0.92923  -0.53208
 epsilon = -1  -1  -1
 \end{verbatim}
 \end{small}
-The scaling factors for each section are
+The scaling factors for each section are:
 \begin{small}
 \begin{verbatim}
 p =   3.03862   0.34657   1.80947
 \end{verbatim}
 \end{small}
 The numerator polynomial expands in the orthonormal Schur basis, 
-$\Phi_{i}\left(z\right)$, found above, as
+$\Phi_{i}\left(z\right)$, found above, as:
 \begin{small}
 \begin{verbatim}
 c =  0.1005013   0.2986163   0.0101661   0.0028982
 \end{verbatim}
 \end{small}
-The scaled Butterworth filter noise gain with floating-point coefficients is
+The scaled Butterworth filter noise gain with floating-point coefficients is:
 \begin{small}
 \begin{verbatim}
 ng = 0.98228
 \end{verbatim}
 \end{small}
-and the scaled all-pass noise gain is
+and the scaled all-pass noise gain is:
 \begin{small}
 \begin{verbatim}
 ngap =  5.0000
@@ -7063,11 +7105,12 @@ Using the $10$-bit random test signal above, the estimated and measured
 round-off noise variance at the Butterworth output is
 \begin{small}
 \begin{verbatim}
-est_varyd =  0.16519
+est_varyd =  0.1652
 varyd =  0.1654
 \end{verbatim}
 \end{small}
-and at the all-pass output the estimated and measured round-off noise variance is
+and at the all-pass output the estimated and measured round-off noise variance
+is:
 \begin{small}
 \begin{verbatim}
 est_varyapd = 0.50000
@@ -7075,7 +7118,7 @@ varyapd = 0.4913
 \end{verbatim}
 \end{small}
 For the scaled filter, the signal at each internal unit delay storage
-element has standard deviation 
+element has standard deviation:
 \begin{small}
 \begin{verbatim}
 stdxf =   131.21   129.39   127.96
@@ -7087,7 +7130,7 @@ for the normalised-scaled lattice filter.
 The one-multiplier lattice round-off noise variance can also be determined
 from the state variable representation if the signal flow graph is slowed
 and retimed. Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} shows
-an example of slowing and retiming a $3$-order Butterworh filter.
+an example of slowing and retiming a $3$rd-order Butterworth filter.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3OneM_SV_retimed}
@@ -7108,9 +7151,9 @@ gains are unchanged\footnote{Retiming is equivalent to a change of variables
 The state-variable equations for this single-multiplier lattice example
 after slowing and re-timing are calculated in the Octave function 
 \emph{schurOneMlatticeRetimedNoiseGain}. The Octave function 
-\emph{schurOneMlatticeFilter} calculates the upper, Butterworth output, edge of 
+\emph{schurOneMlatticeFilter} calculates the upper output of 
 Figure~\ref{fig:One-multiplier-lattice-structure} in a single operation,
-ie: with a single large accumulator, and the lower, all-pass output, edge
+that is with a single large accumulator, and the lower, all-pass output, edge
 with separate truncated accumulations.
 
 On the other hand, the Octave function \emph{svf} implements a general
@@ -7120,87 +7163,122 @@ accumulator for both the outputs. The round-off noise estimation in
 calculating noise gain is much more flexible than the transposed filter 
 method. In addition, as noted in 
 Section~\ref{sec:Round-off-normalised-scaled-lattice}, the Schur basis is not 
-truncated at the same time as the lattice coefficients but is still used to calculate the noise gain after truncation. Consequently, it is 
-simpler to use the state-variable description to calculate the round-off noise
-of the one multiplier lattice with truncated coefficients. 
+truncated at the same time as the lattice coefficients but is still used to
+calculate the noise gain after truncation. Consequently, it is simpler to use
+the state-variable description to calculate the round-off noise of the one
+multiplier lattice. 
 
 The \emph{schurOneMlatticeRetimedNoiseGain} function can calculate round-off 
-noise gain for three different one multiplier lattice filter implementations by 
-selecting the states included through the \emph{filterStr} argument:
+noise gain for two one multiplier lattice filter implementations by selecting
+the states included through the \emph{filterStr} argument:
 \begin{itemize}
-\item For ``\textbf{schur}'' \emph{schurOneMlatticeFilter} calculates the 
-  Butterworth  output (the upper row of
-  Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}) in a single
-wide accumulator and ignores the states on the top edge 
-\item For ``\textbf{ABCD}'' \emph{svf} calculates both the Butterworth output 
-and the all-pass output in wide accumulators and ignores the states on both
-the top and bottom edges
+\item For ``\textbf{Schur}'' \emph{schurOneMlatticeRetimedNoiseGain} assumes
+  the Butterworth output (the upper row of
+  Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult}) is calculated in
+  a single wide accumulator and ignores the states on the top edge 
+\item For ``\textbf{ABCD}'' \emph{schurOneMlatticeRetimedNoiseGain} assumes
+  both the Butterworth output and the all-pass output are calculated in wide
+  accumulators and ignores the states on both the top and bottom edges
 \end{itemize}
 In both these cases, states $x_{1}$ and $x_{2}$ in
-Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} do not contribute to the
-round-off noise. (In the case of $x_{2}$, $c_{0}$ is included in the 
+Figure~\ref{fig:Slowed-and-retimed-3rdButt-Single-Mult} do not contribute to
+the round-off noise. (In the case of $x_{2}$, $c_{0}$ is included in the 
 calculation of state $x_{5}$).
 
-The Octave script \emph{butt3OneMSV\_test.m} implements this state-variable 
-description and calculates the round-off noise. The results of the script are 
-shown in the following. 
+The Octave script \emph{schurOneMlatticeFilter\_test.m} compares simulations of
+a low-pass elliptic filter implemented as a one-multipler Schur lattice,
+a state-variable implementation of the Schur lattice and a direct-form
+state-variable implementation scaled as shown in
+Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow} with
+$\delta=1$. The script calculates the noise-gain of the implementation and
+compares this estimated output noise variance with that found by simulating
+the one-multiplier Schur lattice and Schur lattice and
+direct-form state-variable implementations with a uniformly distributed noise
+input signal. The noise gain that is calculated with the
+\emph{schurOneMlatticeRetimedNoiseGain} function with filter type
+\emph{``Schur''} matches that calculated by \emph{schurOneMlatticeNoiseGain}.
+State scaling by powers-of-2 is implemented by rounding-to-nearest:
+$\log_{2}p_{2}=\mathround{\log_{2}p}$\footnote{$\mathfix$ does
+    rounding-to-zero. For $B$-bit signed-twos-complement state variables,
+    round $p$ down to the next smaller power-of-two by:
+\begin{align*}
+  \log_{2}p_{2} &= \mathfix\left[\log_{2}p+\left(B-1\right)\right]
+                  -\left(B-1\right)
+\end{align*}}
 
-When filter type \emph{``schur''} is selected the round-off noise gains 
-for floating-point filter coefficients calculated with the Octave function
-\emph{schurOneMlatticeRetimedNoiseGain} match those found with
-\emph{schurOneMlatticeNoiseGain}.
-When filter type \emph{``ABCD''} is selected the Butterworth filter noise
-gain is $ngABCD=0.75000$ and the all-pass noise gain is $ngABCDap=3.0000$.
-With floating-point coefficients, the globally optimised state-variable
-implementation has a noise gain of $ngopt=0.47049$ for the Butterworth filter
-and $ngoptap=3.0000$ for the all-pass filter.
+Table~\ref{tab:comparison-schurOneMlattice-Nk-3-noise} compares the calculated
+noise gain, output noise variance, and maximum standard deviation of the state
+variables for the following implementations of a low-pass elliptic filter
+with floating point coefficients, $10$-bit rounding-to-nearest
+signed-twos-complement integer output and state values, filter order $N_{k}=3$,
+and pass-band cut-off frequency $f_{ap}=0.2$ (with the sampling frequency
+corresponding to $1$):
+\begin{enumerate}
+\item the one-multiplier Schur lattice elliptic filter and all-pass filters
+\item the one-multiplier Schur lattice elliptic filter and all-pass filters
+  with state scaling by powers-of-two
+\item a state-variable implementation of the elliptic filter and all-pass
+  filters
+\item a scaled state-variable implementation of the direct-form elliptic
+  filter
+\end{enumerate}
 
-After truncating the $k$ and $c$ coefficients to $10$ bit 3-signed-digits the
-Butterworth and all-pass noise gains were $ngf=1.1019$ and $ngfap=5.0000$
-respectively. Note that the state scaling factors, $p$, are not truncated. 
-With $10$ bit 2 signed-digit coefficients (as used for the normalised-scaled 
-lattice in
-Section~\ref{sec:Calc-normalised-scaled-round-off-noise-retimed-state-variable})
-the passband response of the filter was unacceptable.
+Figure~\ref{fig:elliptic-Schur-lattice-Nk-3-response} shows the
+amplitude responses of the filter found by cross-correlation of the input and
+the elliptic and all-pass filter outputs when the filter low-pass and all-pass
+outputs are calculated in function \emph{schurOneMlatticeFilter} with floating
+point coefficients and with output and state rounding to $10$-bit
+signed-twos-complement integers.
 
-With rounding-to-nearest arithmetic truncation in the accumulator, the 
-estimated and measured round-off noise variance of the one multiplier Schur
-lattice filter with 10-bit 3-signed-digit truncated coefficients are, for 
-the Butterworth filter:
-\begin{small}
-\begin{verbatim}
-est_varyd =  0.1752
-varyd =  0.1740
-\end{verbatim}
-\end{small}
-and for the allpass filter:
-\begin{small}
-\begin{verbatim}
-est_varyapd =  0.5000
-varyapd =  0.4931
-\end{verbatim}
-\end{small}
-The standard deviations of the internal states of the filter are
-\begin{small}
-\begin{verbatim}
-stdxf = 137.07   129.01   127.79
-\end{verbatim}
-\end{small}
-
-Figure~\ref{fig:Butt3OneMSV-Resp-Schur-lattice} shows the amplitude responses of
-the filter found by cross-correlation of the input and Butterworth and all-pass
-filter outputs when the filter is calculated as a Schur scaled one multiplier
-lattice with 10-bit 3-signed-digit truncated coefficients in the Octave 
-function \emph{schurOneMlatticeFilter}.
+\input{schurOneMlatticeFilter_test_Nk_3_results.tab}
 
 \begin{figure}
 \centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{butt3OneMSV_test_response_schur_lattice}}
-\caption{Amplitude responses of the slowed and retimed one multiplier lattice
-  3rd order Butterworth filter implemented in Schur lattice form with 10-bit
-  3-signed-digit truncated coefficients.}
-\label{fig:Butt3OneMSV-Resp-Schur-lattice}
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlatticeFilter_test_Nk_3_response}}
+\caption{Amplitude responses of a 3rd order low-pass elliptic filter
+  implemented as a Schur lattice, SVD Schur lattice and scaled direct form SVD,
+  each with output and state rounding to 10-bit signed-twos-complement
+  integers.}
+\label{fig:elliptic-Schur-lattice-Nk-3-response}
 \end{figure}
+
+\subsubsection{Calculation of the one multiplier lattice filter round-off noise with variable state bit-lengths}
+The Octave script \emph{state\_variable\_unequal\_state\_length\_test.m}
+compares the output round-off noise of Schur one-multiplier lattice and
+direct-form state variable implementations with variable state vector
+bit-lengths, as described in
+Section~\ref{sec:Round-off-variable-state-vector-bit-lengths}, and referred to
+as \emph{NBi-scaled} in the following.
+Table~\ref{tab:comparison-state-variable-NN-3-NBi-noise} compares the
+calculated noise gain, output noise variance, and maximum standard deviation of
+the state variables for the following implementations of a $3$-rd order
+low-pass elliptic filter with floating point coefficients, $10$-bit
+rounding-to-nearest signed-twos-complement integer output and state values
+and pass-band cut-off frequency $f_{ap}=0.2$ (with the sampling frequency
+corresponding to $1$):
+\begin{enumerate}
+\item scaled state-variable direct-form
+\item NBi-scaled state-variable direct-form 
+\item scaled state-variable Schur one-multiplier lattice
+\item NBi-scaled state-variable Schur one-multiplier lattice
+\item $p_{2}$-scaled state-variable Schur one-multiplier lattice
+\end{enumerate}
+For both the direct-form and Schur one-multiplier lattice implementations,
+the rounded NBi-scaled state-variable bit-lengths are:
+\begin{small}
+\verbatiminput{state_variable_unequal_state_length_test_NN_3_roundNBids.m}
+\end{small}
+For the power-of-two $p_{2}$-scaled Schur one-multiplier lattice
+implementations, the rounded $p_{2}$-scaling is:
+\begin{small}
+\verbatiminput{state_variable_unequal_state_length_test_NN_3_pow2p.m}
+\end{small}
+The output noise variance estimate is most accurate for the exactly scaled
+Schur lattice. Both the NBi-scaling and $p_{2}$-scaling are rounded to the
+nearest bit and consequently the corresponding noise variance estimate is
+less accurate.
+
+\input{state_variable_unequal_state_length_test_NN_3_results.tab}
 
 \subsection{Round-off noise of the pipelined one multiplier lattice filter}
 The Octave script \emph{schurOneMlatticePipelinedFilter\_test.m} demonstrates
@@ -44977,7 +45055,7 @@ Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 I currently use the Fedora 44 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
 \item \texttt{uname -r} is \emph{7.0.10-201.fc44.x86\_64}
-\item \emph{gcc} version \emph{16.1.1 202605151 (Red Hat 16.1.1-2))}
+\item \emph{gcc} version \emph{16.1.1 20260515 (Red Hat 16.1.1-2))}
 \item a local build of \emph{octave-11.1.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that

@@ -23,11 +23,11 @@ schurOneMlattice_slb_update_constraints.m \
 schurOneMlattice_allocsd_Ito.m \
 schurOneMlattice_allocsd_Lim.m \
 schurOneMscale.m schurOneMlattice2tf.m \
-schurOneMlatticeFilter.m tf2schurOneMlattice.m local_max.m print_polynomial.m \
+tf2schurOneMlattice.m local_max.m print_polynomial.m \
 x2nextra.m H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m SDadders.m \
-qroots.oct \
-schurdecomp.oct schurexpand.oct schurOneMlattice2H.oct Abcd2tf.oct \
-schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct complex_zhong_inverse.oct"
+schurOneMlatticeFilter.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+schurdecomp.oct schurexpand.oct Abcd2tf.oct qroots.oct bin2SPT.oct bin2SD.oct \
+complex_zhong_inverse.oct"
 
 tmp=/tmp/$$
 here=`pwd`

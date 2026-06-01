@@ -49,9 +49,9 @@ schurOneMlattice_socp_slb_lowpass_plot.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-schurOneMlatticeFilter.m \
 local_max.m tf2pa.m x2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 print_polynomial.m WISEJ.m flt2SD.m p2n60.m crossWelch.m x2nextra.m KW.m \
 dlyap_levinson.m dlyap_recursive.m Abcd2ng.m \
-qroots.oct schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct bin2SD.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct Abcd2H.oct
+schurOneMlatticeFilter.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct \
+schurdecomp.oct schurexpand.oct bin2SD.oct qroots.oct Abcd2tf.oct Abcd2H.oct \
+complex_zhong_inverse.oct
