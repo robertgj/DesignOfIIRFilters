@@ -1,0 +1,75 @@
+#!/bin/sh
+
+prog=schurOneMPAlatticeDoublyPipelinedAntiAliased2Abcd_symbolic_test.m
+depends="test/schurOneMPAlatticeDoublyPipelinedAntiAliased2Abcd_symbolic_test.m \
+test_common.m schurOneMAPlatticeDoublyPipelined2Abcd.m schurOneMAPlattice2Abcd.m \
+tf2schurOneMlattice.m tf2Abcd.m schurOneMscale.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A1k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_A2k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa1k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_Aaa2k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DA1k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DA2k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DAaa1k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_DAaa2k2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_D2_coef.m \
+../schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_lowpass_test_N2_coef.m \
+schurOneMlattice2Abcd.oct Abcd2tf.oct schurdecomp.oct schurexpand.oct"
+
+tmp=/tmp/$$
+here=`pwd`
+if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
+
+fail()
+{
+        echo FAILED ${0#$here"/"} $prog 1>&2
+        cd $here
+        rm -rf $tmp
+        exit 1
+}
+
+pass()
+{
+        echo PASSED ${0#$here"/"} $prog
+        cd $here
+        rm -rf $tmp
+        exit 0
+}
+
+trap "fail" 1 2 3 15
+
+mkdir $tmp
+if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
+for file in $depends;do \
+  cp -R src/$file $tmp; \
+  if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
+done
+cd $tmp
+if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
+
+#
+# the output should look like this
+#
+cat > test.ok << 'EOF'
+EOF
+if [ $? -ne 0 ]; then
+    echo "Failed output cat test.ok"; fail;
+fi
+
+#
+# run and see if the results match. 
+#
+echo "Running $prog"
+
+octave --no-gui -q $prog >test.out 2>&1
+if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
+
+cat test.out | grep -vE Elapsed | grep -vE Python\ communication > test.out.grep
+
+diff -Bb test.ok test.out.grep
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test.ok"; fail; fi
+
+#
+# this much worked
+#
+pass
