@@ -10,7 +10,6 @@ function [A,B,C,D,dAdx,dBdx,dCdx,dDdx]=schurOneMPAlatticePipelined2Abcd ...
 % If not, then the actual individual filter responses may not be all-pass.
 %
 % Inputs:
-%   w - column vector of angular frequencies
 %   A1k,A1epsilon,A1kk - filter 1 one-multiplier allpass section coefficients
 %   A2k,A1epsilon,A2kk - filter 2 one-multiplier allpass section coefficients
 %   difference - return the response for the difference of the all-pass filters
