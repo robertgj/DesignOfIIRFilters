@@ -34,6 +34,14 @@ endif
 % Extract and display value
 vopt1=round(10*value(sol.xoptimal{1}))/10;
 vopt2=round(10*value(sol.xoptimal{2}))/10;
+
+% This happens occasionally!?!
+if vopt1(1) < vopt2(1)
+  tmp=vopt1;
+  vopt1=vopt2;
+  vopt2=tmp;
+endif
+
 v1pQv1=round(10*vopt1'*Q*vopt1)/10
 v2pQv2=round(10*vopt2'*Q*vopt2)/10;
 

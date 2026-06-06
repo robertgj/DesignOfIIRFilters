@@ -22,7 +22,7 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
 %   diagHessdAsqdw - diagonal of the Hessian of dAsqdw with respect to k
 %   hessdAsqdw - Hessian of dAsqdw with respect to k
 
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -47,9 +47,9 @@ function [dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw] = ...
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
     print_usage(["[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
- "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n", ...
+ " schurOneMPAlatticedAsqdw(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)\n", ...
  "[dAsqdw,graddAsqdw,diagHessdAsqdw,hessdAsqdw]= ...\n", ...
- "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
+ " schurOneMPAlatticedAsqdw(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
   endif
   if nargin == 7
     difference=false;

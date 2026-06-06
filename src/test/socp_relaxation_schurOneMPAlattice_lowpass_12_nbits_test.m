@@ -21,7 +21,7 @@ socp_relaxation_schurOneMPAlattice_lowpass_12_nbits_test_allocsd_Ito=false
 tic;
 
 tol=1e-4
-ctol=5e-7
+ctol=1e-6
 maxiter=2000
 verbose=false
 
@@ -36,8 +36,8 @@ schurOneMPAlattice_socp_slb_lowpass_test_A2p_coef;
 % Low pass filter specification
 n=1000
 difference=false % Sum all-pass filters
-m1=11 % Allpass model filter 1 denominator order
-m2=12 % Allpass model filter 2 denominator order
+m1=length(A1k) % Allpass filter 1 denominator order
+m2=length(A2k) % Allpass filter 2 denominator order
 fap=0.125 % Pass band amplitude response edge
 dBap=0.2 % Pass band amplitude response ripple
 Wap=1 % Pass band amplitude response weight
@@ -49,8 +49,6 @@ ftp=0.175 % Pass band group delay response edge
 tp=(m1+m2)/2 % Pass band nominal group delay
 tpr=0.2 % Pass band group delay response ripple
 Wtp=2 % Pass band group delay response weight
-
-ctol=tol/100
 
 % This works with Wa, Wt and Wp passed to schurOneMPAlattice_allocsd_Lim:
 % dBas=51;tpr=0.08;Wtp=1;
@@ -124,7 +122,7 @@ printf("%2d ",A2k_allocsd_digits);printf("]';\n");
 print_polynomial(A2k_allocsd_digits,"A2k_allocsd_digits", ...
                  strcat(strf,"_A2k_allocsd_digits.m"),"%2d");
 
-% Find the signed-digit approximations to k0,u0 and v0
+% Find the signed-digit approximations to k
 [k_sd,k_sdu,k_sdl]=flt2SD(k,nbits,ndigits_alloc);
 A1k_sd=k_sd(R1);
 A2k_sd=k_sd(R2);
@@ -432,8 +430,8 @@ fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits)
 fprintf(fid,"tol=%g %% Tolerance on coefficient update vector\n",tol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"m1=%d %% Allpass model filter 1 denominator order\n",m1);
-fprintf(fid,"m2=%d %% Allpass model filter 2 denominator order\n",m2);
+fprintf(fid,"m1=%d %% Allpass filter 1 denominator order\n",m1);
+fprintf(fid,"m2=%d %% Allpass filter 2 denominator order\n",m2);
 fprintf(fid,"rho=%f %% Constraint on allpass coefficients\n",rho);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"dBap=%d %% Amplitude pass band peak-to-peak ripple\n",dBap);

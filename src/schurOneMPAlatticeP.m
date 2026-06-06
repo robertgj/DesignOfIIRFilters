@@ -1,9 +1,9 @@
 function [P,gradP,diagHessP,hessP]=...
          schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 % [P,gradP,diagHessP,hessP] = ...
-%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
+%   schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p)
 % [P,gradP,diagHessP,hessP] = ...
-%   schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
+%   schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)
 %
 % Calculate the phase response and gradients of the parallel
 % combination of two Schur one-multiplier all-pass lattice filters.
@@ -22,7 +22,7 @@ function [P,gradP,diagHessP,hessP]=...
 %   diagHessP - diagonal of the Hessian of P with respect to k
 %   hessP - Hessian of P with respect to k
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -47,9 +47,9 @@ function [P,gradP,diagHessP,hessP]=...
   %
   if ((nargin ~= 7) && (nargin ~= 8)) || (nargout > 4) 
     print_usage(["[P,gradP,diagHessP,hessP] = ...\n", ...
- "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n", ...
+ "  schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p) \n", ...
  "[P,gradP,diagHessP,hessP] = ...\n", ...
- "      schurOneMPAlattice(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
+ "  schurOneMPAlatticeP(w,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference)"]);
   endif
   if nargin == 7
     difference = false;

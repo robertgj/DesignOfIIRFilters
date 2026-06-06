@@ -21545,9 +21545,8 @@ coefficients] {Comparison of the cost and number of 12-bit shift-and-add
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-pipelined-lowpass}SOCP-relaxation search for the signed-digit coefficients of a pipelined one-multiplier lattice low-pass IIR filter}
 The Octave script 
 \emph{socp\_relaxation\_schurOneMlatticePipelined\_lowpass\_15\_nbits\_test.m}
-performs successive \\
-SOCP relaxations to optimise the response of an implementation of the low-pass
-filter shown in
+performs successive SOCP relaxations to optimise the response of an
+implementation of the low-pass filter shown in
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-lowpass-SOCP} as a
 pipelined Schur one-multiplier lattice filter with $15$-bit signed-digit
 coefficients. The filter specification is:  
@@ -21633,6 +21632,116 @@ lowpass filter SOCP-relaxation example with 15-bit coefficients]
   by allocating an average of 4-signed-digits to each coefficient using the
   heuristic of \emph{Ito et al.} and performing SOCP-relaxation search.}
 \label{tab:socp-relax-pipelined-schurOneMlattice-lowpass-15-nbits-cost-summary}
+\end{table}
+\clearpage
+\section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-doubly-pipelined-antialiased-lowpass}SOCP-relaxation search for the  coefficients of a doubly-pipelined parallel all-pass one-multiplier Schur lattice low-pass filter}
+The Octave script 
+\emph{socp\_relaxation\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_lowpass\_12\_nbits\_test.m}
+performs successive SOCP relaxations to optimise the response of a low-pass
+filter implemented as the series combination of a doubly-pipelined parallel
+all-pass one-multiplier Schur lattice filter and a parallel all-pass
+one-multiplier Schur lattice anti-aliasing filter based on the filter designed in
+Section~\ref{sec:Design-parallel-doubly-pipelined-Schur-one-multiplier-Schur-lattice-low-pass-SOCP}. 
+The filter specification is:  
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_spec.m}
+\end{small} 
+The filter coefficients are truncated to $12$ bits allocated with an average
+of $4$ signed-digits by the heuristic of \emph{Ito et al.} as shown in
+Section~\ref{sec:Ito-allocation-signed-digits}. At each coefficient relaxation
+step the script finds the upper and lower signed-digit approximations to the
+current set of active coefficients and selects the coefficient with the largest
+difference in those approximations. The corresponding bounds are set in the
+bounds for that coefficient passed to the Octave function
+\emph{schurOneMPAlatticeDoublyPipelinedAntiAliased\_socp\_mmse}.
+
+\begin{comment}
+The numbers of signed-digits allocated to each coefficient by the heuristic of
+\emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A2k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa1k_allocsd_digits.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa2k_allocsd_digits.m}
+\end{small}
+\end{comment}
+The signed-digit filter coefficients of the pipelined Schur one-multiplier
+lattice filter with an average of $4$ signed-digits allocated by the algorithm
+of \emph{Ito et al.} are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A1k_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A2k_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa1k_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa2k_sd_coef.m}
+\end{small}
+The signed-digit filter coefficients of the pipelined Schur one-multiplier
+lattice filter found by the SOCP-relaxation search are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A2k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa2k_min_coef.m}
+\end{small}
+
+Figure~\ref{fig:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-amplitude}
+compares the pass-band and stop-band amplitude responses of a low-pass
+doubly-pipelined anti-aliased one-multiplier Schur lattice filter with
+floating-point coefficients, 12-bit signed-digit coefficients allocated with
+the algorithm of \emph{Ito et al.} and 12-bit signed-digit coefficients
+allocated with the algorithm of \emph{Ito et al.} and found by SOCP-relaxation
+search. 
+Similarly,
+Figure~\ref{fig:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-phase-delay},
+compares the pass-band phase error and delay responses of the low-pass
+doubly-pipelined anti-aliased one-multiplier Schur lattice filter. 
+
+Table~\ref{tab:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-cost}
+compares the cost, the number of signed-digits and the number of $12$-bit
+shift-and-add operations required to implement the coefficient multiplications
+found by the signed-digit allocation heuristic of \emph{Ito et al.} and by
+SOCP-relaxation search.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_kmin_amplitude}}
+\caption{Comparison of the pass-band and stop-band amplitude responses of a
+  doubly-pipelined anti-aliased one-multiplier Schur lattice lowpass filter with
+  12-bit integer coefficients found by allocating an average of 4-signed-digits
+  to each coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP-relaxation search.} 
+\label{fig:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-amplitude}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_kmin_phase_delay}}
+\caption{Comparison of the pass-band phase response errors and pass-band delay
+  responses of a doubly-pipelined anti-aliased one-multiplier Schur lattice
+  lowpass filter with 12-bit integer coefficients found by allocating an average
+  of 4-signed-digits to each coefficient using the heuristic of
+  \emph{Ito et al.} and performing SOCP-relaxation search.} 
+\label{fig:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-phase-delay}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{llcc}  \\ \toprule
+& Cost&Signed-digits&Shift-and-adds\\ \midrule
+\input{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Summary of cost results for the doubly-pipelined anti-aliased Schur
+one-multiplier lattice lowpass filter SOCP-relaxation example with 12-bit
+coefficients]
+{Comparison of the cost and number of 12-bit shift-and-add operations required 
+  to implement the coefficient multiplications for a low-pass doubly-pipelined
+  pipelined anti-aliased one-multiplier Schur lattice filter with 12-bit integer
+  coefficients found by allocating an average of 4-signed-digits to each
+  coefficient using the heuristic of \emph{Ito et al.} and performing
+  SOCP-relaxation search.}
+\label{tab:socp-relax-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-cost}
 \end{table}
 \clearpage
 \section{\label{sec:SOCP-relaxation-search-signed-digit-coefficients-hilbert-R2}SOCP-relaxation search for the signed-digit coefficients of a lattice Hilbert R=2 IIR filter}

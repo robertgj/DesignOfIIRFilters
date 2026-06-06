@@ -71,7 +71,7 @@ echo "Running $prog"
 
 nstr="state_variable_serial_noise_gain_test"
 
-octave --no-gui -q $prog #>test.out 2>&1
+octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 for k in {1..5};do
