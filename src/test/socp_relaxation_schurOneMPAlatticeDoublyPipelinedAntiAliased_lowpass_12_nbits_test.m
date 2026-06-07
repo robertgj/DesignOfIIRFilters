@@ -297,11 +297,11 @@ while ~isempty(kopt_active)
 endwhile
 
 % Show results
-kmin=kopt;
-A1k_min=kmin(RA1k);
-A2k_min=kmin(RA2k);
-Aaa1k_min=kmin(RAaa1k);
-Aaa2k_min=kmin(RAaa2k);
+k_min=kopt;
+A1k_min=k_min(RA1k);
+A2k_min=k_min(RA2k);
+Aaa1k_min=k_min(RAaa1k);
+Aaa2k_min=k_min(RAaa2k);
 
 Esq_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
        (A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min, ...
@@ -318,14 +318,14 @@ print_polynomial(Aaa2k_min,"Aaa2k_min",nscale);
 print_polynomial(Aaa2k_min,"Aaa2k_min",strcat(strf,"_Aaa2k_min_coef.m"),nscale);
 
 % Find the number of signed-digits and adders used
-[kopt_digits,kopt_adders]=SDadders(kmin(k_active),nbits);
+[kopt_digits,kopt_adders]=SDadders(k_min(k_active),nbits);
 printf("%d signed-digits used\n",kopt_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n", ...
        kopt_adders,nbits);
-fid=fopen(strcat(strf,"_kmin_digits.tab"),"wt");
+fid=fopen(strcat(strf,"_k_min_digits.tab"),"wt");
 fprintf(fid,"$%d$",kopt_digits);
 fclose(fid);
-fid=fopen(strcat(strf,"_kmin_adders.tab"),"wt");
+fid=fopen(strcat(strf,"_k_min_adders.tab"),"wt");
 fprintf(fid,"$%d$",kopt_adders);
 fclose(fid);
 
@@ -333,16 +333,16 @@ fclose(fid);
 Asq0=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
          (wa,A1k0,A2k0,difference,Aaa1k0,Aaa2k0);
 Asq_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
-         (wa,k_sd(RA1k),k_sd(RA2k),difference,k_sd(RAaa1k),k_sd(RAaa2k));
+         (wa,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
 Asq_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
-            (wa,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
+          (wa,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
 Aaasq0=schurOneMPAlatticeAsq ...
          (wa,Aaa1k0,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
           Aaa2k0,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
 Aaasq_sd=schurOneMPAlatticeAsq ...
-           (wa,k_sd(RAaa1k),ones(size(RAaa1k)),ones(size(RAaa1k)), ...
-            k_sd(RAaa2k),ones(size(RAaa2k)),ones(size(RAaa2k)),false);
+           (wa,Aaa1k_sd,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
+            Aaa2k_sd,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
 Aaasq_min=schurOneMPAlatticeAsq ...
             (wa,Aaa1k_min,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
              Aaa2k_min,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
@@ -350,24 +350,23 @@ Aaasq_min=schurOneMPAlatticeAsq ...
 P0=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
          (wp,A1k0,A2k0,difference,Aaa1k0,Aaa2k0);
 P_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
-         (wp,k_sd(RA1k),k_sd(RA2k),difference,k_sd(RAaa1k),k_sd(RAaa2k));
+         (wp,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
 P_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
           (wp,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
 T0=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
          (wt,A1k0,A2k0,difference,Aaa1k0,Aaa2k0);
 T_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
-         (wt,k_sd(RA1k),k_sd(RA2k),difference,k_sd(RAaa1k),k_sd(RAaa2k));
+         (wt,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
 T_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
          (wt,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
 dAsqdw0=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
           (wd,A1k0,A2k0,difference,Aaa1k0,Aaa2k0);
 dAsqdw_sd=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
-         (wd,k_sd(RA1k),k_sd(RA2k),difference,k_sd(RAaa1k),k_sd(RAaa2k));
+         (wd,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
 dAsqdw_min=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
           (wd,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
-
 
 % Amplitude, phase, delay and dAsqdw at local peaks
 vAl=local_max(Asqdl-Asq_min);
@@ -375,8 +374,8 @@ vAu=local_max(Asq_min-Asqdu);
 wAsqS=unique([wa(vAl);wa(vAu);wa([1,nap,nas,end])]);
 AsqS=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
        (wAsqS,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
-printf("kmin:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kmin:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
+printf("k_min:fAsqS=[ ");printf("%f ",wAsqS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:AsqS=[ ");printf("%f ",10*log10(AsqS'));printf(" ] (dB)\n");
 
 vPl=local_max(Pdl-P_min);
 vPu=local_max(P_min-Pdu);
@@ -386,24 +385,24 @@ PS=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
      (wPS,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 PS=mod(PS/pi,2);
 PdnPS=mod(Pd(nPS)/pi,2);
-printf("kmin:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kmin:PS-Pd=[ ");printf("%f ",(PS-PdnPS)');printf("] (rad.)\n");
+printf("k_min:fPS=[ ");printf("%f ",wPS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:PS-Pd=[ ");printf("%f ",(PS-PdnPS)');printf("] (rad.)\n");
                         
 vTl=local_max(Tdl-T_min);
 vTu=local_max(T_min-Tdu);
 wTS=sort(unique([wt(vTl);wt(vTu);wt([1,end])]));
 TS=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
      (wTS,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
-printf("kmin:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kmin:TS=[ ");printf("%f ",TS');printf("] (Samples)\n");
+printf("k_min:fTS=[ ");printf("%f ",wTS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:TS=[ ");printf("%f ",TS');printf("] (Samples)\n");
                         
 vDl=local_max(Ddl-dAsqdw_min);
 vDu=local_max(dAsqdw_min-Ddu);
 wDS=sort(unique([wd(vDl);wd(vDu);wd([1,end])]));
 DS=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
      (wDS,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
-printf("kmin:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
-printf("kmin:DS=[ ");printf("%f ",DS');printf("] (Samples)\n");
+printf("k_min:fDS=[ ");printf("%f ",wDS'*0.5/pi);printf(" ] (fs==1)\n");
+printf("k_min:DS=[ ");printf("%f ",DS');printf("] (Samples)\n");
                         
 % Make a LaTeX table for cost
 fid=fopen(strcat(strf,"_cost.tab"),"wt");
@@ -435,7 +434,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 zticks([]);
-print(strcat(strf,"_kmin_pass_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_amplitude"),"-dpdflatex");
 close
 
 % Plot stop-band amplitude
@@ -454,7 +453,7 @@ title(strt);
 axis([0 0.5 -80 -30]);
 grid("on");
 zticks([]);
-print(strcat(strf,"_kmin_stop_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_stop_amplitude"),"-dpdflatex");
 close
 
 % Plot anti-aliasing filter amplitude
@@ -474,7 +473,7 @@ strt=sprintf(["Parallel OneM all-pass lattice anti-aliasing filter :", ...
               " (nbits=%d) fap=%g,fas=,dBas=%g"],nbits,fap,fas,dBas);
 title(strt);
 zticks([]);
-print(strcat(strf,"_kmin_antialiasing"),"-dpdflatex");
+print(strcat(strf,"_k_min_antialiasing"),"-dpdflatex");
 close
 
 % Plot pass-band delay
@@ -494,7 +493,7 @@ strt=sprintf(["Parallel OneM all-pass lattice low-pass filter :", ...
               " (nbits=%d) ftp=%g,tp=%g,Wtp=%g"],nbits,ftp,tp,Wtp);
 title(strt);
 zticks([]);
-print(strcat(strf,"_kmin_pass_delay"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_delay"),"-dpdflatex");
 close
 
 % Plot pass-band phase error
@@ -514,7 +513,7 @@ strt=sprintf(["Parallel OneM all-pass lattice low-pass filter :", ...
               " (nbits=%d) fpp=%g,ppr=%g,Wpp=%g"],nbits,fpp,ppr,Wpp);
 title(strt);
 zticks([]);
-print(strcat(strf,"_kmin_pass_phase"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_phase"),"-dpdflatex");
 close
 
 % Plot pass-band dAsqdw
@@ -534,7 +533,7 @@ strt=sprintf(["Parallel OneM all-pass lattice low-pass filter :", ...
               " (nbits=%d) fdp=%g,dpr=%g,Wdp=%g"],nbits,fdp,dpr,Wdp);
 title(strt);
 zticks([]);
-print(strcat(strf,"_kmin_pass_dAsqdw"),"-dpdflatex");
+print(strcat(strf,"_k_min_pass_dAsqdw"),"-dpdflatex");
 close
 
 % Plot amplitude
@@ -567,7 +566,7 @@ legend("boxoff");
 legend("left");
 grid("on");
 zticks([]);
-print(strcat(strf,"_kmin_amplitude"),"-dpdflatex");
+print(strcat(strf,"_k_min_amplitude"),"-dpdflatex");
 close
 
 % Plot pass-band phase error and delay
@@ -597,7 +596,7 @@ xlabel("Frequency");
 axis([0 0.5 (tp+Tz2)+[-0.1 0.15]]);
 grid("on");
 zticks([]);
-print(strcat(strf,"_kmin_phase_delay"),"-dpdflatex");
+print(strcat(strf,"_k_min_phase_delay"),"-dpdflatex");
 close
 
 % Filter specification
