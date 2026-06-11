@@ -160,11 +160,7 @@ DEFUN_DLD(Abcd2H, args, nargout,
         {
           zIminusA(m,m)+=expjw;
         }
-      octave_value_list argval(1),retval(1);
-      argval(0)=zIminusA;
-      retval=octave::feval("inv",argval,1);
-      ComplexMatrix R=retval(0).complex_matrix_value();
-      
+      ComplexMatrix R=zIminusA.inverse();
       // Find H
       ComplexRowVector CR(C*R);
       Complex CRB(CR*B);
