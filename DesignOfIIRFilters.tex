@@ -2384,7 +2384,7 @@ F\left(1\right)=-1\\
 an algorithm for calculating the parameters of the frequency transformation
 $F\left(z\right)$. This algorithm is implemented by the
 Octave~\cite{Eaton_Octave} function \emph{phi2p}.
-\section{Frequency Transformation of the Transfer Function}
+\section{\label{sec:Frequency-transformation-transfer-function}Frequency Transformation of the Transfer Function}
 See \emph{Roberts} and
 \emph{Mullis}~\cite[Problem 6.26]{RobertsMullis_DigitalSignalProcessing}.
 Given a low-pass prototype:
@@ -12606,6 +12606,88 @@ The phase response shown is adjusted for the nominal delay.
 \label{fig:Parallel-allpass-bandpass-Hilbert-filter-PCLS-SOCP-pass-band-response}
 \end{figure}
 
+\paragraph{Design of an IIR band-pass Hilbert filter as the difference of two all-pass R=2 filters} 
+The Octave script \newline
+\emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_R2\_test.m}
+uses the SeDuMi SOCP solver to design a band-pass Hilbert filter consisting of
+the difference of two all-pass filters with $R=2$. The script calls the Octave
+function \emph{parallel\_allpass\_slb} to perform the PCLS design of the filter
+in terms of the all-pass filter pole locations with constraints on the filter
+group-delay and phase. The filter specification is:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_spec.m}
+\end{small}
+The initial filter was designed by the Octave script
+\emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_R2\_test.m} using the
+\emph{WISE} method described in
+Section~\ref{Tarczynski-unconstrained-minimisation-with-barrier}.
+Both scripts optimise an R=2 parallel all-pass filter in series with
+a fixed $11$-th order Butterworth half-band anti-aliasing filter. When the
+anti-aliasing filter is implemented as parallel all-pass filters, the
+denominator polynomials are:
+\begin{small}
+\verbatiminput{tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Aaa1_coef.m}
+\verbatiminput{tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Aaa2_coef.m}
+\end{small}
+The initial filter for
+\emph{tarczynski\_parallel\_allpass\_bandpass\_hilbert\_R2\_test.m} is designed
+as follows:
+\begin{enumerate}
+\item design a $5$-th order Butterworth half-band filter
+\item find the corresponding parallel all-pass filters as shown by
+  \emph{Vaidyanathan et
+    al.}~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters}
+\item transform each all-pass filter to band pass with frequency scaling factor
+  $R$, as shown in Section~\ref{sec:Frequency-transformation-transfer-function}
+\end{enumerate}
+The denominator polynomials of the all-pass filters in the final band-pass
+filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Da1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef.m}
+\end{small}
+The final filter response is shown in
+Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-response}
+and
+Figure~\ref{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-pass}.
+The phase response shown is adjusted for the nominal delay.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_ab1}}
+\caption{Band-pass Hilbert filter implemented as the difference of two R=2
+  all-pass filters in series with a Butterworth half-band anti-aliasing
+  filter, response after PCLS SOCP optimisation. The phase response
+  shown is adjusted for the nominal delay.} 
+\label{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-response}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_ab1pass}}
+\caption{Band-pass Hilbert filter implemented as the difference of two R=2
+  all-pass filters in series with a Butterworth half-band anti-aliasing
+  filter, pass-band response after PCLS SOCP optimisation. The
+  phase response shown is adjusted for the nominal delay.}
+\label{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-pass}
+\end{figure}
+\begin{comment}
+Figures~\ref{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-a1pz}
+and~\ref{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-b1pz} show
+the pole-zero plots of the two all-pass filters.
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_a1pz}}
+\caption{Pole-zero plot of the a1 all-pass filter of a band-pass Hilbert filter
+  implemented as the difference of two R=2 all-pass filters.} 
+\label{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-a1pz}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_b1pz}}
+\caption{Pole-zero plot of the b1 all-pass filter of a band-pass Hilbert filter
+  implemented as the difference of two R=2 all-pass filters.} 
+\label{fig:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP-b1pz}
+\end{figure}
+\end{comment}
 \paragraph{Design of an IIR low-pass differentiator filter as the difference of two all-pass filters} 
 The Octave script \newline
 \emph{parallel\_allpass\_socp\_slb\_lowpass\_differentiator\_test.m}

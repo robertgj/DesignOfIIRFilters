@@ -1,0 +1,14 @@
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_FIGURES = \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_response
+
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_COEFS = \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Aaa1_coef.m \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Aaa2_coef.m \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Da0_coef.m \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Db0_coef.m \
+
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test_FILES = \
+tarczynski_parallel_allpass_bandpass_hilbert_R2_test.m \
+test_common.m WISEJ_PA.m delayz.m print_polynomial.m print_pole_zero.m \
+phi2p.m tf2pa.m tfp2g.m \
+qroots.oct spectralfactor.oct
