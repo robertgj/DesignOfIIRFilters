@@ -231,8 +231,8 @@ T0=T0c+Taa(1:ntp);
 
 % Plot initial response
 subplot(311)
-[ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi, 20*log10(A0(1:nap,:)), ...
-                  wa(nap:end)*0.5/pi, 20*log10(A0(nap:end,:)));
+[ax,ha,hs]=plotyy(wa(1:nap)*0.5/pi, 20*log10(A0(1:nap)), ...
+                  wa(nap:end)*0.5/pi, 20*log10(A0(nap:end)));
 % Copy line colour
 hac=get(ha,"color");
 set(hs,"color",hac);
@@ -543,7 +543,7 @@ fprintf(fid,"tpr=%g %% Pass band group delay peak-to-peak ripple\n",tpr);
 fprintf(fid,"Wtp=%g %% Pass band group delay weight\n",Wtp);
 fprintf(fid,"fdp=%g %% Pass band dAsqdw edge\n",fpp);
 fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
-fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wpp);
+fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
 fclose(fid);
 
 eval(sprintf(["save %s.mat ftol ctol rho n ", ...
