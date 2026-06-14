@@ -43,6 +43,7 @@ print_polynomial(Aaa1,"Aaa2");
 %
 % Band-pass filter specification for parallel all-pass filters
 %
+% fapu=0.21,dBap=0.1 works but not with socp_relaxation_schurOneMPADoubly...
 polyphase=false
 difference=true
 fasl=0.05
@@ -50,7 +51,8 @@ fapl=0.1
 fapu=0.2
 fasu=0.25
 dBap=0.5
-dBas=40
+dBasu=40
+dBasl=40
 Wap=1
 Watl=1e-3
 Watu=1e-3
@@ -72,7 +74,6 @@ Wpp=10
 %
 n=1000;
 w=(0:((n/2)-1))'*pi/(n);
-
 % Anti-aliasing filter response
 Haa=freqz(Naa,Daa,w);
 Aaa=abs(Haa);
@@ -88,9 +89,9 @@ nasu=floor(n*fasu/0.5)+1;
 Asqd=[zeros(napl-1,1); ...
       ones(napu-napl+1,1)./Aaa(napl:napu); ...
       zeros(length(wa)-napu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
+Asqdu=[(10^(-dBasl/10))*ones(nasl,1); ...
        ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(length(wa)-nasu+1,1)];
+       (10^(-dBasu/10))*ones(length(wa)-nasu+1,1)];
 Asqdl=[zeros(napl-1,1); ...
        (10^(-dBap/10))*ones(napu-napl+1,1); ...
        zeros(length(wa)-napu,1)];
@@ -176,6 +177,12 @@ try
                                wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
+  err=lasterror();
+  fprintf(stderr,"%s\n", err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called %s at line %d\n", ...
+            err.stack(e).name,err.stack(e).line);
+  endfor
   warning("Caught parallel_allpass_socp_mmse");
 end_try_catch
 if ~feasible
@@ -194,6 +201,12 @@ try
                          wp,Pd,Pdu,Pdl,Wp,maxiter,ftol,ctol,verbose);
 catch
   feasible=false;
+  err=lasterror();
+  fprintf(stderr,"%s\n", err.message);
+  for e=1:length(err.stack)
+    fprintf(stderr,"Called %s at line %d\n", ...
+            err.stack(e).name,err.stack(e).line);
+  endfor
   warning("Caught parallel_allpass_slb");
 end_try_catch
 if ~feasible
@@ -228,8 +241,8 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf(["Parallel allpass bandpass Hilbert R=2: ", ...
-              "ma=%d,mb=%d,dBap=%g,dBas=%g,tp=%d"], ...
-             ma,mb,dBap,dBas,tp);
+              "ma=%d,mb=%d,dBap=%g,dBasl=%g,dBasu=%gtp=%d"], ...
+             ma,mb,dBap,dBasl,dBasu,tp);
 title(strt);
 zticks([]);
 subplot(312);
@@ -308,7 +321,8 @@ fprintf(fid,"Watl=%g %% Lower transition band amplitude response weight\n",Watl)
 fprintf(fid,"Watu=%g %% Upper transition band amplitude response weight\n",Watu);
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Stop band amplitude response upper edge\n",fasu);
-fprintf(fid,"dBas=%g %% Stop band amplitude response ripple(dB)\n",dBas);
+fprintf(fid,"dBasl=%g %% Lower stop band amplitude response ripple(dB)\n",dBasl);
+fprintf(fid,"dBasu=%g %% Upper stop band amplitude response ripple(dB)\n",dBasu);
 fprintf(fid,"Wasl=%g %% Lower stop band amplitude response weight\n",Wasl);
 fprintf(fid,"Wasu=%g %% Upper stop band amplitude response weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band group-delay response lower edge\n",ftpl);
@@ -339,7 +353,8 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 
 eval(sprintf(["save %s.mat Naa Daa Da0 ma a0 Qa Va Ra Db0 mb b0 Qb Vb Rb ", ...
               " ftol ctol polyphase difference rho n ", ...
-              " fapl fapu dBap Wap Watl Watu fasl fasu dBas Wasl Wasu ", ...
+              " fapl fapu dBap Wap Watl Watu ", ...
+              " fasl fasu dBasl dBasu Wasl Wasu ", ...
               " ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp ", ...
               " ab1 Da1 Db1 Nab1 Dab1"],strf));
 

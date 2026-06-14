@@ -34,12 +34,15 @@ DIA_FILES:=$(notdir $(basename $(wildcard fig/dia/*.dia)))
 # TEX tikz figure files
 TIKZ_FILES:=$(notdir $(basename $(wildcard fig/tikz/*.tex)))
 
+# jekyll files
+JEKYLL_FILES:=_site .sass-cache .jekyll-cache .jekyll-metadata
+
 # clean suffixes
 CLEAN_SUFFIXES= \~ .eps .diary .tmp .oct .mex .o .ok _coef.m _digits.m \
 _spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
-CLEAN_AEGIS_SUFFIXES= \,D \,B \,B,Conflicts
+CLEAN_AEGIS_SUFFIXES= ,D ,B ,B,Conflicts
 CHECK_STRINGS= erfull warning 
 
 # Command definitions
@@ -181,8 +184,9 @@ $(foreach target, $(TARGETS), $(eval $(call target_template,$(target))))
 #
 
 .PHONY: testvars
-testvars :	
-	@echo $(test_FIGURES:%=%.pdf)
+testvars :
+#	@echo $(CLEAN_SUFFIXES:%="*"%)
+#	@echo $(test_FIGURES:%=%.pdf)
 #	@echo "OCTAVE_SCRIPTS=" $(OCTAVE_SCRIPTS)
 #	@echo $(OCT_FILES:%=src/%.oct)
 #	@echo "deczky3_socp_test_FILES=" ${deczky3_socp_test_FILES}
@@ -239,24 +243,24 @@ help:
 	@echo \
 "Targets: all octfiles clean cleantex cleanall backup batchtest gitignore"
 
+# Use make foreach to avoid problems with bash argument list length
 .PHONY: gitignore
 gitignore:
-	-rm -f .gitignore gitignore.tmp
-	echo $(CLEAN_SUFFIXES:%="*"%) > .gitignore
-	echo $(CLEAN_TEX_SUFFIXES:%="*"%) >> .gitignore
-	echo $(CLEAN_AEGIS_SUFFIXES:%="*"%) >> .gitignore
-	echo octave-workspace open_useful_docs.sh $(TARGETS:%=%.pdf) >> .gitignore
-	echo _site .sass-cache .jekyll-cache .jekyll-metadata >> .gitignore
-	sed -i -e "s/\ /\n/g" .gitignore
-	echo $(test_FIGURES:%=%.tex) > gitignore.tmp
-	echo $(test_FIGURES:%=%.pdf) >> gitignore.tmp
-	echo $(test_FIGURES:%=%-inc.pdf) >> gitignore.tmp
-	echo $(test_COEFS) >> gitignore.tmp
-	echo $(EXTRA_DIARY_FILES) >> gitignore.tmp
-	echo $(DIA_FILES:%=%.pdf) >> gitignore.tmp
-	echo $(TIKZ_FILES:%=%.pdf) >> gitignore.tmp
+	$(file  >.gitignore, octave-workspace)
+	$(foreach f,$(CLEAN_SUFFIXES:%=*%),$(file  >>.gitignore,$f))
+	$(foreach f,$(CLEAN_TEX_SUFFIXES:%=*%),$(file  >>.gitignore,$f))
+	$(foreach f,$(CLEAN_AEGIS_SUFFIXES:%=*%),$(file  >>.gitignore,$f))
+	$(foreach f,$(TARGETS:%=%.pdf),$(file  >>.gitignore,$f))
+	$(foreach f,$(JEKYLL_FILES),$(file >>.gitignore,$f))
+	$(file >gitignore.tmp,$(EXTRA_DIARY_FILES))
 	sed -i -e "s/\ /\n/g" gitignore.tmp
-	sort gitignore.tmp  >> .gitignore
+	$(foreach f,$(test_FIGURES:%=%.tex),$(file >>gitignore.tmp,$f))
+	$(foreach f,$(test_FIGURES:%=%.pdf),$(file >>gitignore.tmp,$f))
+	$(foreach f,$(test_FIGURES:%=%-inc.pdf),$(file >>gitignore.tmp,$f))
+	$(foreach f,$(test_COEFS),$(file >>gitignore.tmp,$f))
+	$(foreach f,$(DIA_FILES:%=%.pdf),$(file >>gitignore.tmp,$f))
+	$(foreach f,$(TIKZ_FILES:%=%.pdf),$(file >>gitignore.tmp,$f))
+	sort gitignore.tmp >> .gitignore
 	rm gitignore.tmp
 
 .PHONY: jekyll
