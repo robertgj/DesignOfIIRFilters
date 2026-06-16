@@ -15,13 +15,47 @@ test_common;
 
 pkg load optim;
 
-strf="schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_slb_bandpass_hilbert_test";
+strf=["schurOneMPAlatticeDoublyPipelinedAntiAliased", ...
+      "_socp_slb_bandpass_hilbert_test"];
 
 delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
+
+%
+% Options
+%
+tol=1e-10;
+ftol=1e-3
+ctol=1e-4
+maxiter=4000
+verbose=false
+do_profiling=false
+use_best_filter_found=true
+if use_best_filter_found
+  warning(["Reporting the best filter found so far. \n", ...
+           "Set \"use_best_filter_found=false\" to re-run."]);
+endif
+
+%
+% Band-pass Hilbert filter specification
+%
+R=2;
+difference=true;
+Ni=5; % Initial low-pass filter order
+fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,fasuu=0.3
+dBap=0.4,dBasl=40,dBasu=20,dBasuu=40
+Wasl=100,Watl=0.01,Wap=1,Watu=0.01,Wasu=0.01
+fppl=0.1,fppu=0.2,pp=3.5,ppr=0.006,Wpp=10
+ftpl=0.1,ftpu=0.2,tp=16,tpr=0.4,Wtp=10
+fdpl=0.1,fdpu=0.2,dp=0,dpr=10,Wdp=0.01
+% Group delay response of z^-2
+Tz2=2;
+% Half-band Butterworth anti-aliasing filter
+maa=11;
+faap=0.25;
 
 %
 % Initial filters from tarczynski_parallel_allpass_bandpass_hilbert_R2_test.m
@@ -37,9 +71,7 @@ NA1k=length(A1k0);
 NA2k=length(A2k0);
 
 % Half-band Butterworth anti-aliasing filter
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Naa_coef;Naa=Naa(:)';
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Daa_coef;Daa=Daa(:)';
-% Convert the anti-aliasing filter to parallel Schur lattice filters
+[Naa,Daa]=butter(maa,faap*2);
 [Aaa1_0,Aaa2_0]=tf2pa(Naa,Daa);
 [Aaa1k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
 [Aaa2k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
@@ -50,36 +82,6 @@ Aaa1kones=ones(size(Aaa1k0));
 Aaa2kones=ones(size(Aaa2k0));
 NAaa1k=length(Aaa1k0);
 NAaa2k=length(Aaa2k0);
-
-%
-% Options
-%
-tol=1e-12;
-ftol=1e-3
-ctol=1e-4
-maxiter=20000
-verbose=false
-do_profiling=false
-use_best_filter_found=true
-if use_best_filter_found
-  warning(["Reporting the best filter found so far. \n", ...
-           "Set \"use_best_filter_found=false\" to re-run."]);
-endif
-
-%
-% Band-pass Hilbert filter specification
-%
-R=2;
-difference=true;
-Ni=5; % Initial low-pass filter order
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
-dBap=1,dBas=30,Wasl=100,Watl=0.01,Wap=1,Watu=0.01,Wasu=200
-fppl=0.1,fppu=0.2,pp=3.5,ppr=0.004,Wpp=10
-ftpl=0.1,ftpu=0.2,tp=16,tpr=0.8,Wtp=10
-fdpl=0.1,fdpu=0.2,dp=0,dpr=10,Wdp=0.01
-% Anti-aliasing filter
-maa=length(Naa)-1;
-faap=0.25;
 
 % Reflection coefficient constraint
 rho=127/128;
@@ -95,21 +97,23 @@ napl=floor(n*fapl/0.5)+1;
 naap=floor(n*faap/0.5)+1;
 napu=ceil(n*fapu/0.5)+1;
 nasu=floor(n*fasu/0.5)+1;
+nasuu=floor(n*fasuu/0.5)+1;
 wa=w;
 Asqd=[zeros(napl-1,1); ...
       ones(napu-napl+1,1); ...
-      zeros(n-napu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
+      zeros(length(wa)-napu,1)];
+Asqdu=[(10^(-dBasl/10))*ones(nasl,1); ...
        ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(n-nasu+1,1)];
+       (10^(-dBasu/10))*ones(nasuu-nasu,1); ...
+       (10^(-dBasuu/10))*ones(length(wa)-nasuu+1,1)];
 Asqdl=[zeros(napl-1,1); ...
        (10^(-dBap/10))*ones(napu-napl+1,1); ...
-       zeros(n-napu,1)];
+       zeros(length(wa)-napu,1)];
 Wa=[Wasl*ones(nasl,1); ...
     Watl*ones(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
     Watu*ones(nasu-napu-1,1); ...
-    Wasu*ones(n-nasu+1,1)];
+    Wasu*ones(length(wa)-nasu+1,1)];
 
 % Phase response of combined filters
 nppl=floor(n*fppl/0.5)+1;
@@ -120,7 +124,7 @@ Pdu=Pd+(ppr*pi/2);
 Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 % Phase response of z^-2
-Pz2=-(wp*2);
+Pz2=-(wp*Tz2);
 
 % Pass-band group delay response of combined filters
 ntpl=floor(n*ftpl/0.5)+1;
@@ -130,12 +134,10 @@ Td=tp*ones(ntpu-ntpl+1,1);
 Tdu=(tp+(tpr/2))*ones(ntpu-ntpl+1,1);
 Tdl=(tp-(tpr/2))*ones(ntpu-ntpl+1,1);
 Wt=Wtp*ones(size(wt));
-% Group delay response of z^-2
-Tz2=2;
 
 % dAsqdw response of combined filters
-ndpl=floor(n*fdpl/0.5)+1;
-ndpu=ceil(n*fdpu/0.5)+1;
+ndpl=floor(n*fdpl/0.5);
+ndpu=ceil(n*fdpu/0.5);
 wd=w(ndpl:ndpu);
 dp=0;
 Dd=dp*ones(size(wd));
@@ -174,19 +176,18 @@ printf("Wt(ntchk)=[");printf("%g ",Wt(ntchk));printf(" ]\n");
 %
 k_u=rho*ones(NA1k+NA2k+NAaa1k+NAaa2k,1);
 k_l=-k_u;
-k_active=find(abs([A1k0,A2k0,Aaa1k0,Aaa2k0]) > 10*eps);
 
 %
 % Optimisation
 %
 if use_best_filter_found == true
-  A1k2 = [   0.5001837323,   0.4387631901,   0.0212528269,   0.0344017007 ]';
-  A2k2 = [   0.7702443348,   0.2369431241,   0.2624978721,   0.4157403261, ... 
-             0.0039003360,   0.1554147319 ]';
-  Aaa1k2 = [   0.0000000000,   0.8488442723,   0.0000000000,   0.0800570925, ... 
-               0.0000000000,   0.0603176982 ]';
-  Aaa2k2 = [   0.0000000000,   0.4086105763,   0.0000000000,   0.0061439632, ... 
-               0.0000000000 ]';
+  A1k2 = [   0.3111367513,   0.5163401027,   0.2159463379,   0.2273139277 ]';
+  A2k2 = [   0.6790060761,   0.0195542108,   0.4008769139,   0.4571588246, ... 
+             0.2564567428,   0.2651313254 ]';
+  Aaa1k2 = [ 0.0000000000,   0.9060096239,   0.0000000000,   0.2483775651, ... 
+             0.0000000000,   0.0281009916 ]';
+  Aaa2k2 = [ 0.0000000000,   0.5962212566,   0.0000000000,   0.0723849755, ... 
+             0.0000000000 ]';
 else
 
   if do_profiling
@@ -196,6 +197,7 @@ else
   % MMSE pass
   printf("\nMMSE pass :\n");
   feasible=false;
+  k_active=find(abs([A1k0,A2k0]) > 1e-10);
   [A1k1,A2k1,Aaa1k1,Aaa2k1,socp_iter,func_iter,feasible]= ...
     schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse ...
       ([], ...
@@ -209,9 +211,20 @@ else
   if feasible == 0
     error("MMSE infeasible");
   endif
+  
+  Asq1=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
+         (wa,A1k1,A2k1,difference,Aaa1k1,Aaa2k1);
+  T1=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
+       (wt,A1k1,A2k1,difference,Aaa1k1,Aaa2k1);
+  P1=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
+       (wp,A1k1,A2k1,difference,Aaa1k1,Aaa2k1);
+  dAsqdw1=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
+            (wd,A1k1,A2k1,difference,Aaa1k1,Aaa2k1);
+
   % PCLS pass
   printf("\nPCLS pass :\n");
   feasible=false;
+  k_active=find(abs([A1k0,A2k0,Aaa1k0,Aaa2k0]) > tol);
   [A1k2,A2k2,Aaa1k2,Aaa2k2,slb_iter,socp_iter,func_iter,feasible]= ...
     schurOneMPAlatticeDoublyPipelinedAntiAliased_slb ...
       (@schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse, ...
@@ -257,12 +270,13 @@ dAsqdw2=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 subplot(211)
 ax=plotyy(w(1:naap)*0.5/pi,   10*log10(Aaasq2(1:naap,:)), ...
           w(naap:end)*0.5/pi, 10*log10(Aaasq2(naap:end,:)));
-axis(ax(1),[0 0.5 -0.2 0.04]);
-axis(ax(2),[0 0.5 -60 0]);
+axis(ax(1),[0 0.5 -0.15 0.05]);
+axis(ax(2),[0 0.5 -60 -20]);
 grid("on")
 tstr=sprintf(["Bandpass Hilbert anti-aliasing filter PCLS response : ", ...
-              "fasl=%g,fapl=%g,fapu=%g,fasu=%g,dBap=%g,dBas=%g,tp=%g"], ...
-             fasl,fapl,fapu,fasu,dBap,dBas,tp);
+              "fasl=%g,fapl=%g,fapu=%g,fasu=%g,", ...
+              "dBap=%g,dBasl=%g,dBasu=%g,tp=%g"], ...
+             fasl,fapl,fapu,fasu,dBap,dBasl,dBasu,tp);
 title(tstr);
 ylabel("Amplitude(dB)");
 zticks([]);
@@ -278,29 +292,27 @@ close
 
 % Plot overall PCLS response
 subplot(311);
-[ax,hp,hs]=plotyy(wa*0.5/pi,10*log10([Asq2,Asqdu,Asqdl]), ...
-                  wa*0.5/pi,10*log10([Asq2,Asqdu]));
-axis(ax(1),[0 0.5 -1.2 0.2]);
-axis(ax(2),[0 0.5 -36 -22]);
+[ax,hp,hs]=plotyy(wa*0.5/pi,10*log10([Asq2,Asqdl,Asqdu]), ...
+                  wa*0.5/pi,10*log10([Asq2,Asqdl,Asqdu]));
+axis(ax(2),[0 0.5 -0.6 0.2]);
+axis(ax(1),[0 0.5 -50 -30]);
 grid("on");
 strP=sprintf(["Bandpass Hilbert R=2 filter PCLS response : ", ...
               "fasl=%g,fapl=%g,fapu=%g,fasu=%g,", ...
-              "dBap=%g,dBas=%g,tp=%g,tpr=%g,ppr=%g"], ...
-             fasl,fapl,fapu,fasu,dBap,dBas,tp,tpr,ppr);
+              "dBap=%g,dBasl=%g,dBasu=%g,tp=%g,tpr=%g,ppr=%g"], ...
+             fasl,fapl,fapu,fasu,dBap,dBasl,dBasu,tp,tpr,ppr);
 title(strP);
 % Copy line colour
 hpc=get(hp,"color");
-set(ax(1),"ycolor",hpc{1});
-hsc=get(hs,"color");
-set(ax(2),"ycolor",hsc{1});
-set(hs(2),"color",hpc{2});
+for p=1:length(hpc)
+  set(hs(p),"color",hpc{p});
+endfor
 ylabel("Ampl.(dB)","color","black");
 zticks([]);
 subplot(312);
 plot(wp*0.5/pi,mod((unwrap([P2 Pdl+Pz2 Pdu+Pz2])+(wp*(tp+Tz2)))/pi,2));
 axis([0 0.5 mod(pp,2)+(ppr*[-1,1])]);
 grid("on");
-zticks([]);
 ylabel("Phase(rad./$\\pi$)");
 zticks([]);
 subplot(313);
@@ -334,8 +346,8 @@ if max(abs(Asq2-Asq2c)) > tol
   error("max(abs(Asq2-Asq2c))(%g*tol) > tol",max(abs(Asq2-Asq2c))/tol);
 endif
 T2c=delayz(N2,D2,wt);
-if max(abs(T2-T2c)) > tol*100
-  error("max(abs(T2-T2c))(%g*tol*100) > tol*100",max(abs(T2-T2c))/(tol*100));
+if max(abs(T2-T2c)) > tol
+  error("max(abs(T2-T2c))(%g*tol) > tol",max(abs(T2-T2c))/tol);
 endif
 
 % Save coefficients
@@ -367,16 +379,16 @@ print_polynomial(D2,"D2",strcat(strf,"_D2_coef.m"));
 % Save specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"maxiter=%d %% Maximum iterations\n",maxiter);
+fprintf(fid,"tol=%g %% Tolerance on results\n",tol);
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%g %% Constraint on reflection coefficients\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"maa=%d %% Order of anti-aliasing filter\n",maa);
+fprintf(fid,"maa=%d %% Order of half-band anti-aliasing filter\n",maa);
 fprintf(fid,"NAaa1k=%d %% Order of anti-aliasing all-pass filter 1\n",NAaa1k);
 fprintf(fid,"NAaa2k=%d %% Order of anti-aliasing all-pass filter 2\n",NAaa2k);
 fprintf(fid,"NA1k=%d %% Order of band-pass Hilbert all-pass filter 1\n",NA1k);
 fprintf(fid,"NA2k=%d %% Order of band-pass Hilbert all-pass filter 2\n",NA2k);
-fprintf(fid,"faap=%g %% Initial anti-aliasing amplitude pass band edge\n",faap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fapl=%g %% Amplitude pass band lower edge\n",fapl);
 fprintf(fid,"fapu=%g %% Amplitude pass band upper edge\n",fapu);
@@ -387,7 +399,8 @@ fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"Watu=%g %% Amplitude upper transition band weight\n",Watu);
 fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple(dB)\n",dBap);
-fprintf(fid,"dBas=%g %% Amplitude stop band peak ripple(dB)\n",dBas);
+fprintf(fid,"dBasl=%g %% Amplitude lower stop band peak ripple(dB)\n",dBasl);
+fprintf(fid,"dBasu=%g %% Amplitude upper stop band peak ripple(dB)\n",dBasu);
 fprintf(fid,"fppl=%g %% Pass band phase lower edge\n",fppl);
 fprintf(fid,"fppu=%g %% Pass band phase lower edge\n",fppu);
 fprintf(fid,"pp=%g %% Nominal pass band phase(rad./pi)\n",pp);
@@ -405,8 +418,8 @@ fprintf(fid,"dpr=%g %% Pass band dAsqdw peak-to-peak ripple\n",dpr);
 fprintf(fid,"Wdp=%g %% Pass band dAsqdw weight\n",Wdp);
 fclose(fid);
 
-eval(sprintf(["save %s.mat ftol ctol rho n use_best_filter_found ", ...
-              "maa faap fasl fapl fapu fasu dBap Wap dBas Wasl Wasu ", ...
+eval(sprintf(["save %s.mat tol ftol ctol rho n use_best_filter_found ", ...
+              "maa fasl fapl fapu fasu dBap Wap dBasl dBasu Wasl Wasu ", ...
               "fppl fppu pp ppr Wpp ftpl ftpu tp tpr Wtp ", ...
               "fdpl fdpu dp dpr Wdp ", ...
               "Da0 Db0 A1k0 A2k0 Aaa1k0 Aaa2k0 ", ...

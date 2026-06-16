@@ -78,25 +78,25 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_min_coef.m << 'EOF'
-A1k_min = [   0.3847656250,   0.4951171875,   0.2109375000,   0.1337890625 ]';
+A1k_min = [      792,     1054,      400,      312 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min_coef.m"; fail; fi
 
 cat > test_A2k_min_coef.m << 'EOF'
-A2k_min = [   0.8750000000,   0.0625000000,   0.4140625000,   0.4599609375, ... 
-              0.2412109375,   0.1640625000 ]';
+A2k_min = [     1496,      290,      832,      968, ... 
+                 472,      368 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min_coef.m"; fail; fi
 
 cat > test_Aaa1k_min_coef.m << 'EOF'
-Aaa1k_min = [   0.0000000000,   0.8281250000,   0.0000000000,   0.1718750000, ... 
-                0.0000000000,   0.0000000000 ]';
+Aaa1k_min = [        0,     1812,        0,      273, ... 
+                     0,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k_min_coef.m"; fail; fi
 
 cat > test_Aaa2k_min_coef.m << 'EOF'
-Aaa2k_min = [   0.0000000000,   0.4804687500,   0.0000000000,   0.0351562500, ... 
-                0.0000000000 ]';
+Aaa2k_min = [        0,     1044,        0,        2, ... 
+                     0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k_min_coef.m"; fail; fi
 

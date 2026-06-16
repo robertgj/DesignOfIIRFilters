@@ -23,8 +23,8 @@ if use_best_branch_and_bound_found
  "Set \"use_best_branch_and_bound_found\"=false to re-run."]);
 endif
 enforce_pcls_constraints_on_final_filter=false
-branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_allocsd_Lim=false
-branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_allocsd_Ito=true
+eval(sprintf("%s_allocsd_Lim=false",strf));
+eval(sprintf("%s_allocsd_Ito=true",strf));
 
 tic;
 
@@ -126,7 +126,7 @@ k_l=-k_u;
 k_active=find(k0~=0);
 
 % Allocate signed-digits to the coefficients
-if branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_allocsd_Lim
+if eval(sprintf("%s_allocsd_Lim",strf))
   strItoLim="Lim"
   if 0
       ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Lim ...
@@ -142,7 +142,7 @@ if branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_te
                        wp,Pd,ones(size(Wp)), ...
                        wd,Dd,ones(size(Wd))); 
     endif
-elseif branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_allocsd_Ito
+elseif eval(sprintf("%s_allocsd_Lim",strf))
   strItoLim="Ito";
   ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Ito ...
                   (nbits,ndigits, ...
@@ -231,13 +231,6 @@ Esq_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
 
 % Find the number of signed-digits and adders used by k_sd
 [k_sd_digits,k_sd_adders]=SDadders(k_sd(k_active),nbits);
-
-% Initialise the vector of filter coefficients to be optimised
-kopt=zeros(size(k0));
-kopt(k_active)=k0(k_active);
-kopt_l=k_l;
-kopt_u=k_u;
-kopt_active=k_active;
 
 %
 % Loop finding truncated coefficients
@@ -734,6 +727,12 @@ close
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n",ndigits);
+%{
+fprintf(fid,"%s_allocsd_Lim=%d %% Use Lim digit allocation\n", ...
+        strf,eval(sprintf("%s_allocsd_Lim",strf)));
+fprintf(fid,"%s_allocsd_Ito=%d %% Use Ito digit allocation\n", ...
+        strf,eval(sprintf("%s_allocsd_Ito",strf)));
+%}
 fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
@@ -760,10 +759,11 @@ fclose(fid);
 
 % Save results
 eval(sprintf(["save %s.mat ", ...
- " n  rho ftol ctol fap dBap Wap Wat fas dBas Was ftp tp tpr Wtp ", ...
- " fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr Wdp ", ...
- " nbits ndigits ndigits_alloc A1k_min A2k_min Aaa1k_min Aaa2k_min"], ...
-             strf));
+              " %s_allocsd_Lim %s_allocsd_Ito nbits ndigits ndigits_alloc ", ...
+              " n rho ftol ctol fap dBap Wap Wat fas dBas Was ", ...
+              " fpp pp ppr Wpp ftp tp tpr Wtp fdp dpr Wdp ", ...
+              " A1k_min A2k_min Aaa1k_min Aaa2k_min"], ...
+             strf,strf,strf));
 
 % Done
 toc;

@@ -1,5 +1,9 @@
 % parallel_allpass_socp_slb_bandpass_hilbert_R2_test.m
 % Copyright (C) 2026 Robert G. Jenssen
+%
+% The parallel_allpassAsq() etc functions alias the response for R>1 so only
+% the lower frequency part of the response is optimised. The anti-aliasing
+% filter is fixed.
 
 test_common;
 
@@ -17,12 +21,25 @@ ctol=1e-8
 verbose=false
 
 %
+% Band-pass filter specification for parallel all-pass filters
+%
+% fapu=0.21,dBap=0.1 works but not with socp_relaxation_schurOneMPADoubly...
+polyphase=false
+difference=true
+fasl=0.05,fapl=0.1,fapu=0.21,fasu=0.25
+dBasl=40,dBap=0.2,
+Wasl=200,Watl=1e-3,Wap=1,Watu=1e-3
+ftpl=0.12,ftpu=0.18,tp=16,tpr=0.016,Wtp=10
+fppl=0.12,fppu=0.18,pp=1.5,ppr=0.0002,Wpp=10
+% Half-band Butterworth anti-aliasing filter
+maa=11;
+faap=0.25;
+
+%
 % Initial coefficients 
 %
 tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Da0_coef;
 tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Db0_coef;
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Naa_coef;
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Daa_coef;
 
 % Convert R=2 band-pass Hilbert filter to parallel all-pass pole-zero form
 [a0,Va,Qa]=tf2a(Da0);Ra=2;
@@ -34,40 +51,12 @@ K=1;
 printf("Initial ab0=[");printf("%14.10f ",ab0');printf("]'\n");
 
 % Convert R=2 anti-aliasing  filter to parallel all-pass polynomial form
+[Naa,Daa]=butter(maa,faap*2);
 [Aaa1,Aaa2]=tf2pa(Naa,Daa);
 Aaa1(2:2:end)=0;
 Aaa2(2:2:end)=0;
 print_polynomial(Aaa1,"Aaa1");
 print_polynomial(Aaa1,"Aaa2");
-
-%
-% Band-pass filter specification for parallel all-pass filters
-%
-% fapu=0.21,dBap=0.1 works but not with socp_relaxation_schurOneMPADoubly...
-polyphase=false
-difference=true
-fasl=0.05
-fapl=0.1
-fapu=0.2
-fasu=0.25
-dBap=0.5
-dBasu=40
-dBasl=40
-Wap=1
-Watl=1e-3
-Watu=1e-3
-Wasl=200
-Wasu=200
-ftpl=0.12
-ftpu=0.18
-tp=16
-tpr=0.02
-Wtp=10
-fppl=0.12
-fppu=0.18
-pp=1.5 % Initial phase offset in multiples of pi radians
-ppr=0.0002 % Peak-to-peak phase ripple in multiples of pi radians
-Wpp=10
 
 %
 % Frequency vectors
@@ -90,16 +79,15 @@ Asqd=[zeros(napl-1,1); ...
       ones(napu-napl+1,1)./Aaa(napl:napu); ...
       zeros(length(wa)-napu,1)];
 Asqdu=[(10^(-dBasl/10))*ones(nasl,1); ...
-       ones(nasu-nasl-1,1); ...
-       (10^(-dBasu/10))*ones(length(wa)-nasu+1,1)];
+       ones(nasu-nasl-1,1)./Aaa((nasl+1):(nasu-1))];
 Asqdl=[zeros(napl-1,1); ...
        (10^(-dBap/10))*ones(napu-napl+1,1); ...
        zeros(length(wa)-napu,1)];
 Wa=[Wasl*ones(nasl,1); ...
     Watl*ones(napl-nasl-1,1); ...
     Wap*ones(napu-napl+1,1); ...
-    Watu*ones(nasu-napu-1,1); ...
-    Wasu*ones(length(wa)-nasu+1,1)];
+    Watu*ones(length(wa)-napu,1)];
+
 % Desired pass-band phase response
 nppl=floor(n*fppl/0.5)+1;
 nppu=ceil(n*fppu/0.5)+1;
@@ -154,12 +142,12 @@ plot(wa*0.5/pi,(P0+(wa*tp)+Paa)/pi);
 axis([0 0.5 0 2]);
 grid("on");
 ylabel("Phase(rad./$\\pi$)");
+zticks([]);
 subplot(313);
 plot(wa*0.5/pi,T0+Taa);
 axis([0 0.5 0 20]);
 grid("on");
 ylabel("Delay(samples)");
-zticks([]);
 xlabel("Frequency");
 zticks([]);
 print(strcat(strf,"_ab0"),"-dpdflatex");
@@ -241,8 +229,8 @@ ylabel("Amplitude(dB)");
 axis([0 0.5 -60 10]);
 grid("on");
 strt=sprintf(["Parallel allpass bandpass Hilbert R=2: ", ...
-              "ma=%d,mb=%d,dBap=%g,dBasl=%g,dBasu=%gtp=%d"], ...
-             ma,mb,dBap,dBasl,dBasu,tp);
+              "ma=%d,mb=%d,dBap=%g,dBasl=%g,tp=%d,tpr=%g,ppr=%g"], ...
+             ma,mb,dBap,dBasl,tp,tpr,ppr);
 title(strt);
 zticks([]);
 subplot(312);
@@ -272,13 +260,13 @@ zticks([]);
 subplot(312);
 plot(w*0.5/pi,mod((Pab1+Paa+(w*tp))/pi,2));
 ylabel("Phase(rad./$\\pi$)");
-axis([0.08 0.24 pp+(ppr)*[-1,1]]);
+axis([0.08 0.24 pp+(0.0002*[-1,1])]);
 grid("on");
 zticks([]);
 subplot(313);
 plot(w*0.5/pi,Tab1+Taa);
 ylabel("Delay(samples)");
-axis([0.08 0.24 tp+(tpr*[-1,1])]);
+axis([0.08 0.24 tp+(0.01*[-1,1])]);
 grid("on");
 xlabel("Frequency");
 zticks([]);
@@ -305,7 +293,7 @@ fprintf(fid,"ftol=%g %% Tolerance on coefficient update vector\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"rho=%g %% Constraint on allpass pole radius\n",rho);
 fprintf(fid,"n=%d %% Frequency points across the band\n",n);
-fprintf(fid,"ma=%d %% Allpass model filter A denominator order\n",ma);
+fprintf(fid,"maa=%d %% Allpass model filter A denominator order\n",maa);
 fprintf(fid,"Va=%d %% Allpass model filter A no. of real poles\n",Va);
 fprintf(fid,"Qa=%d %% Allpass model filter A no. of complex poles\n",Qa);
 fprintf(fid,"Ra=%d %% Allpass model filter A decimation\n",Ra);
@@ -322,9 +310,7 @@ fprintf(fid,"Watu=%g %% Upper transition band amplitude response weight\n",Watu)
 fprintf(fid,"fasl=%g %% Stop band amplitude response lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Stop band amplitude response upper edge\n",fasu);
 fprintf(fid,"dBasl=%g %% Lower stop band amplitude response ripple(dB)\n",dBasl);
-fprintf(fid,"dBasu=%g %% Upper stop band amplitude response ripple(dB)\n",dBasu);
 fprintf(fid,"Wasl=%g %% Lower stop band amplitude response weight\n",Wasl);
-fprintf(fid,"Wasu=%g %% Upper stop band amplitude response weight\n",Wasu);
 fprintf(fid,"ftpl=%g %% Pass band group-delay response lower edge\n",ftpl);
 fprintf(fid,"ftpu=%g %% Pass band group-delay response upper edge\n",ftpu);
 fprintf(fid,"tp=%g %% Pass band nominal group-delay response (samples)\n",tp);
@@ -354,7 +340,7 @@ print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 eval(sprintf(["save %s.mat Naa Daa Da0 ma a0 Qa Va Ra Db0 mb b0 Qb Vb Rb ", ...
               " ftol ctol polyphase difference rho n ", ...
               " fapl fapu dBap Wap Watl Watu ", ...
-              " fasl fasu dBasl dBasu Wasl Wasu ", ...
+              " fasl fasu dBasl Wasl ", ...
               " ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp ", ...
               " ab1 Da1 Db1 Nab1 Dab1"],strf));
 

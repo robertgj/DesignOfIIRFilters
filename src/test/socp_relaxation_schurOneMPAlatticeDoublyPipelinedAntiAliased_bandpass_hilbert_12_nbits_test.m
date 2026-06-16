@@ -1,4 +1,5 @@
-% socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test.m
+% socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased ...
+% ... _bandpass_hilbert_12_nbits_test.m
 
 % SOCP-relaxation optimisation of the response of a band-pass Hilbert filter
 % composed of a parallel all-pass Schur one-multiplier lattice low-pass filter
@@ -9,25 +10,43 @@
 
 test_common;
 
-strf="socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test";
+strf=["socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased", ...
+      "_bandpass_hilbert_12_nbits_test"];
 
 delete(strcat(strf,".diary.tmp"));
 delete(strcat(strf,".diary"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Options
-socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Lim=true
-socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Ito=false
+eval(sprintf("%s_allocsd_Lim=true",strf));
+eval(sprintf("%s_allocsd_Ito=false",strf));
 
 tic;
 
-ftol=1e-4
-ctol=1e-6;
-maxiter=2000
+ftol=1e-3
+ctol=1e-6
+maxiter=10000
 verbose=false
 nbits=12
 nscale=2^(nbits-1);
 ndigits=3
+
+%
+% Band-pass Hilbert filter specification
+%
+difference=true;
+Ni=5; % Initial low-pass filter order
+fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25,fasuu=0.3
+dBap=0.3,dBasl=40,dBasu=20,dBasuu=40
+Wasl=100,Watl=0.01,Wap=1,Watu=0.01,Wasu=0.01
+fppl=0.12,fppu=0.18,pp=3.5,ppr=0.0008,Wpp=10
+ftpl=0.12,ftpu=0.18,tp=16,tpr=0.08,Wtp=10
+fdpl=0.1,fdpu=0.2,dp=0,dpr=3,Wdp=0.01
+% Additional z^-2 delay introduced by doubly-pipelined implementation
+Tz2=2;
+% The initial anti-aliasing filter is Butterworth half-band (ie:R=2)!
+maa=11;
+faap=0.25;
 
 %
 % Initial coefficients found by
@@ -41,9 +60,8 @@ Db0=Db1(1:2:end);clear Db1;Db0=Db0(:)';
 [A1k0,~,~,~]=tf2schurOneMlattice(fliplr(Da0),Da0);
 [A2k0,~,~,~]=tf2schurOneMlattice(fliplr(Db0),Db0);
 
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Naa_coef;
-tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Daa_coef;
 % Convert the anti-aliasing filter to parallel Schur lattice filters
+[Naa,Daa]=butter(maa,faap*2);
 [Aaa1_0,Aaa2_0]=tf2pa(Naa,Daa);
 [Aaa1k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
 [Aaa2k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
@@ -65,39 +83,29 @@ RAaa2k=(NA1k+NA2k+NAaa1k+1):(NA1k+NA2k+NAaa1k+NAaa2k);
 
 k0=[A1k0(:);A2k0(:);Aaa1k0(:);Aaa2k0(:)];
 
-%
-% Band-pass Hilbert filter specification
-%
-difference=true;
-Ni=5; % Initial low-pass filter order
-fasl=0.05,fapl=0.1,fapu=0.2,fasu=0.25
-dBap=0.4,dBas=40,Wasl=100,Watl=0.01,Wap=1,Watu=0.01,Wasu=200
-fppl=0.12,fppu=0.18,pp=3.5,ppr=0.0008,Wpp=10
-ftpl=0.12,ftpu=0.18,tp=16,tpr=0.04,Wtp=40
-fdpl=0.1,fdpu=0.2,dp=0,dpr=2,Wdp=0.01
-% Additional z^-2 delay introduced by doubly-pipelined implementation
-Tz2=2;
-
 % Reflection coefficient constraint
 rho=127/128;
 dmax=inf; % For compatibility with SQP
 
 % Frequency points (avoid zero at 0 but not at 0.25?!?)
 n=1000;
-w=pi*(1:(n-1))'/n;
+w=pi*(0:(n-1))'/n;
 
 % Pass and transition band amplitudes of combined filters
-wa=w(1:(n/2));
-nasl=ceil(n*fasl/0.5);
-napl=floor(n*fapl/0.5);
-napu=ceil(n*fapu/0.5);
-nasu=floor(n*fasu/0.5);
+wa=w;
+nasl=ceil(n*fasl/0.5)+1;
+napl=floor(n*fapl/0.5)+1;
+naap=floor(n*faap/0.5)+1;
+napu=ceil(n*fapu/0.5)+1;
+nasu=floor(n*fasu/0.5)+1;
+nasuu=floor(n*fasuu/0.5)+1;
 Asqd=[zeros(napl-1,1); ...
       ones(napu-napl+1,1); ...
       zeros(length(wa)-napu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
+Asqdu=[(10^(-dBasl/10))*ones(nasl,1); ...
        ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(length(wa)-nasu+1,1)];
+       (10^(-dBasu/10))*ones(nasuu-nasu,1); ...
+       (10^(-dBasuu/10))*ones(length(wa)-nasuu+1,1)];
 Asqdl=[zeros(napl-1,1); ...
        (10^(-dBap/10))*ones(napu-napl+1,1); ...
        zeros(length(wa)-napu,1)];
@@ -108,8 +116,8 @@ Wa=[Wasl*ones(nasl,1); ...
     Wasu*ones(length(wa)-nasu+1,1)];
 
 % Phase response of combined filters
-nppl=floor(n*fppl/0.5);
-nppu=ceil(n*fppu/0.5);
+nppl=floor(n*fppl/0.5)+1;
+nppu=ceil(n*fppu/0.5)+1;
 wp=w(nppl:nppu);
 Pd=(pp*pi)-(wp*(tp+Tz2));
 Pdu=Pd+(ppr*pi/2);
@@ -117,8 +125,8 @@ Pdl=Pd-(ppr*pi/2);
 Wp=Wpp*ones(size(wp));
 
 % Pass-band group delay response of combined filters
-ntpl=floor(n*ftpl/0.5);
-ntpu=ceil(n*ftpu/0.5);
+ntpl=floor(n*ftpl/0.5)+1;
+ntpu=ceil(n*ftpu/0.5)+1;
 wt=w(ntpl:ntpu);
 Td=(tp+Tz2)*ones(ntpu-ntpl+1,1);
 Tdu=Td+(tpr/2);
@@ -126,8 +134,8 @@ Tdl=Td-(tpr/2);
 Wt=Wtp*ones(size(wt));
 
 % dAsqdw response of combined filters
-ndpl=floor(n*fdpl/0.5);
-ndpu=ceil(n*fdpu/0.5);
+ndpl=floor(n*fdpl/0.5)+1;
+ndpu=ceil(n*fdpu/0.5)+1;
 wd=w(ndpl:ndpu);
 dp=0;
 Dd=dp*ones(size(wd));
@@ -165,23 +173,23 @@ k_l=-k_u;
 k_active=find(k0~=0);
 
 % Allocate signed-digits to the coefficients
-if socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Lim
+if eval(sprintf("%s_allocsd_Lim",strf))
   strItoLim="Lim"
   if 0
-      ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Lim ...
-                      (nbits,ndigits, ...
-                       k0(RA1k),k0(RA2k),difference,k0(RAaa1k),k0(RAaa2k), ...
-                       wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
-    else
-      ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Lim ...
-                      (nbits,ndigits, ...
-                       k0(RA1k),k0(RA2k),difference,k0(RAaa1k),k0(RAaa2k), ...
-                       wa,Asqd,ones(size(Wa)), ...
-                       wt,Td,ones(size(Wt)), ...
-                       wp,Pd,ones(size(Wp)), ...
-                       wd,Dd,ones(size(Wd))); 
-    endif
-elseif socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Ito
+    ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Lim ...
+                    (nbits,ndigits, ...
+                     k0(RA1k),k0(RA2k),difference,k0(RAaa1k),k0(RAaa2k), ...
+                     wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
+  else
+    ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Lim ...
+                    (nbits,ndigits, ...
+                     k0(RA1k),k0(RA2k),difference,k0(RAaa1k),k0(RAaa2k), ...
+                     wa,Asqd,ones(size(Wa)), ...
+                     wt,Td,ones(size(Wt)), ...
+                     wp,Pd,ones(size(Wp)), ...
+                     wd,Dd,ones(size(Wd))); 
+  endif
+elseif eval(sprintf("%s_allocsd_Ito",strf))
   strItoLim="Ito";
   ndigits_alloc=schurOneMPAlatticeDoublyPipelinedAntiAliased_allocsd_Ito ...
                   (nbits,ndigits, ...
@@ -366,42 +374,17 @@ Esq_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 printf("\nSolution:\nEsq_min=%g\n",Esq_min);
 
-print_polynomial(A1k_min,"A1k_min",nscale);
-print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
-print_polynomial(A2k_min,"A2k_min",nscale);
-print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
-print_polynomial(Aaa1k_min,"Aaa1k_min",nscale);
-print_polynomial(Aaa1k_min,"Aaa1k_min",strcat(strf,"_Aaa1k_min_coef.m"),nscale);
-print_polynomial(Aaa2k_min,"Aaa2k_min",nscale);
-print_polynomial(Aaa2k_min,"Aaa2k_min",strcat(strf,"_Aaa2k_min_coef.m"),nscale);
-
 % Find the number of signed-digits and adders used
-[kopt_digits,kopt_adders]=SDadders(k_min(k_active),nbits);
-printf("%d signed-digits used\n",kopt_digits);
+[kmin_digits,kmin_adders]=SDadders(k_min(k_active),nbits);
+printf("%d signed-digits used\n",kmin_digits);
 printf("%d %d-bit adders used for coefficient multiplications\n", ...
-       kopt_adders,nbits);
+       kmin_adders,nbits);
 fid=fopen(strcat(strf,"_k_min_digits.tab"),"wt");
-fprintf(fid,"$%d$",kopt_digits);
+fprintf(fid,"$%d$",kmin_digits);
 fclose(fid);
 fid=fopen(strcat(strf,"_k_min_adders.tab"),"wt");
-fprintf(fid,"$%d$",kopt_adders);
+fprintf(fid,"$%d$",kmin_adders);
 fclose(fid);
-
-wa=w;
-Asqd=[zeros(napl-1,1); ...
-      ones(napu-napl+1,1); ...
-      zeros(length(wa)-napu,1)];
-Asqdu=[(10^(-dBas/10))*ones(nasl,1); ...
-       ones(nasu-nasl-1,1); ...
-       (10^(-dBas/10))*ones(length(wa)-nasu+1,1)];
-Asqdl=[zeros(napl-1,1); ...
-       (10^(-dBap/10))*ones(napu-napl+1,1); ...
-       zeros(length(wa)-napu,1)];
-Wa=[Wasl*ones(nasl,1); ...
-    Watl*ones(napl-nasl-1,1); ...
-    Wap*ones(napu-napl+1,1); ...
-    Watu*ones(nasu-napu-1,1); ...
-    Wasu*ones(length(wa)-nasu+1,1)];
 
 % Find squared-magnitude, phase, group-delay and dAsqdw
 Asq0=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
@@ -495,7 +478,7 @@ fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
 fprintf(fid,"%d-bit %d-signed-digit(%s)& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,strItoLim,Esq_sd,k_sd_digits,k_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
-        nbits,ndigits,Esq_min,kopt_digits,kopt_adders);
+        nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
 
 %
@@ -709,15 +692,15 @@ if max(abs(T_min(ntpl:ntpu)-T2c)) > tol
 endif
 
 % Save coefficients
-print_polynomial(A1k_min,"A1k_min");
-print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"));
-print_polynomial(A2k_min,"A2k_min");
-print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"));
+print_polynomial(A1k_min,"A1k_min",nscale);
+print_polynomial(A1k_min,"A1k_min",strcat(strf,"_A1k_min_coef.m"),nscale);
+print_polynomial(A2k_min,"A2k_min",nscale);
+print_polynomial(A2k_min,"A2k_min",strcat(strf,"_A2k_min_coef.m"),nscale);
 
-print_polynomial(Aaa1k_min,"Aaa1k_min");
-print_polynomial(Aaa1k_min,"Aaa1k_min",strcat(strf,"_Aaa1k_min_coef.m"));
-print_polynomial(Aaa2k_min,"Aaa2k_min");
-print_polynomial(Aaa2k_min,"Aaa2k_min",strcat(strf,"_Aaa2k_min_coef.m"));
+print_polynomial(Aaa1k_min,"Aaa1k_min",nscale);
+print_polynomial(Aaa1k_min,"Aaa1k_min",strcat(strf,"_Aaa1k_min_coef.m"),nscale);
+print_polynomial(Aaa2k_min,"Aaa2k_min",nscale);
+print_polynomial(Aaa2k_min,"Aaa2k_min",strcat(strf,"_Aaa2k_min_coef.m"),nscale);
 
 print_polynomial(DA1k_min,"DA1k_min");
 print_polynomial(DA1k_min,"DA1k_min",strcat(strf,"_DA1k_min_coef.m"));
@@ -738,6 +721,12 @@ print_polynomial(D_min,"D_min",strcat(strf,"_D_min_coef.m"));
 fid=fopen(strcat(strf,"_spec.m"),"wt");
 fprintf(fid,"nbits=%g %% Coefficient bits\n",nbits);
 fprintf(fid,"ndigits=%g %% Nominal average coefficient signed-digits\n",ndigits);
+%{
+fprintf(fid,"%s_allocsd_Lim=%d %% Use Lim digit allocation\n", ...
+        strf,eval(sprintf("%s_allocsd_Lim",strf)));
+fprintf(fid,"%s_allocsd_Ito=%d %% Use Ito digit allocation\n", ...
+        strf,eval(sprintf("%s_allocsd_Ito",strf)));
+%}
 fprintf(fid,"ftol=%g %% Tolerance on coef. update\n",ftol);
 fprintf(fid,"ctol=%g %% Tolerance on constraints\n",ctol);
 fprintf(fid,"n=%d%% Frequency points across the band\n",n);
@@ -751,7 +740,9 @@ fprintf(fid,"dBap=%g %% Amplitude pass band peak-to-peak ripple\n",dBap);
 fprintf(fid,"Wap=%g %% Amplitude pass band weight\n",Wap);
 fprintf(fid,"fasl=%g %% Amplitude stop band lower edge\n",fasl);
 fprintf(fid,"fasu=%g %% Amplitude stop band upper edge\n",fasu);
-fprintf(fid,"dBas=%g %% Amplitude stop band peak-to-peak ripple\n",dBas);
+fprintf(fid,"dBasl=%g %% Amplitude lower stop band peak-to-peak ripple\n",dBasl);
+fprintf(fid,"dBasu=%g %% Amplitude upper stop band peak-to-peak ripple\n",dBasu);
+fprintf(fid,"dBasuu=%g %% Amp. upper 2 stop band peak-to-peak ripple\n",dBasuu);
 fprintf(fid,"Wasl=%g %% Amplitude lower stop band weight\n",Wasl);
 fprintf(fid,"Wasu=%g %% Amplitude upper stop band weight\n",Wasu);
 fprintf(fid,"fppl=%g %% Pass band phase response lower edge\n",fppl);
@@ -773,13 +764,12 @@ fclose(fid);
 
 % Save results
 eval(sprintf(["save %s.mat ", ...
- "socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Lim ", ...
- "socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_allocsd_Ito ", ...
+ "%s_allocsd_Lim %s_allocsd_Ito ", ...
  "ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
- "fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ", ...
+ "fapl fapu dBap Wap fasl fasu dBasl dBasu dBasuu Wasl Wasu ", ...
  "ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp ", ...
  "difference A1k0 A2k0 A1k0_sd A2k0_sd ", ...
- "A1k_sd A2k_sd A1k_min A2k_min N_min D_min"],strf));
+ "A1k_sd A2k_sd A1k_min A2k_min N_min D_min"],strf,strf,strf));
        
 % Done
 toc;

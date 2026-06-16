@@ -615,8 +615,9 @@ legend("boxoff");
 legend("left");
 ylabel("Amplitude");
 xlabel("Frequency");
-strt=sprintf(["Parallel all pass latticelow pass differentiator filter ", ...
- "stop band (nbits=%d,ndigits=%d) : fas=%g,Ars=%g"],nbits,ndigits,fas,Ars);
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "stop band (nbits=%d,ndigits=%d) : fas=%g,Ars=%g"], ...
+             nbits,ndigits,fas,Ars);
 title(strt);
 axis([fas, 0.5, 0 0.004]);
 grid("on");
@@ -630,8 +631,9 @@ plot(wa*0.5/pi,A_k0-Ad,"linestyle","-", ...
      wa*0.5/pi,A_k_min-Ad,"linestyle","-.");
 ylabel("Amplitude");
 xlabel("Frequency");
-strt=sprintf(["Parallel all pass lattice low pass differentiator filter ", ...
- "pass band(nbits=%d,ndigits=%d) : fap=%g,Arp=%g"],nbits,ndigits,fap,Arp);
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "pass band (nbits=%d,ndigits=%d) : fap=%g,Arp=%g"], ...
+             nbits,ndigits,fap,Arp);
 title(strt);
 axis([0 fap 0.01*[-1,1]]);
 legend("F-P","S-D(Lim)","S-D(B-and-B)");
@@ -654,10 +656,14 @@ axis([0 fap -0.05 0.1]);
 grid("on");
 ylabel("Relative amplitude");
 xlabel("Frequency");
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "pass band (nbits=%d,ndigits=%d) : ", ...
+              " ftp=%g,tpr=%g"],nbits,ndigits,ftp,tpr);
 legend("F-P","S-D(Lim)","S-D(B-and-B)");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
+title(strt);
 zticks([]);
 print(strcat(strf,"_pass_relative_error"),"-dpdflatex");
 close
@@ -668,8 +674,9 @@ plot(wp*0.5/pi,mod((P_k0+(wp*tp))/pi,2),"linestyle","-", ...
      wp*0.5/pi,mod((P_k_min+(wp*tp))/pi,2),"linestyle","-.");
 ylabel("Phase(rad./$\\pi$)");
 xlabel("Frequency");
-strt=sprintf(["Parallel all pass lattice low pass differentiator filter ", ...
- "pass-band(nbits=%d,ndigits=%d) : ftp=%g,tpr=%g"],nbits,ndigits,ftp,tpr);
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "pass band (nbits=%d,ndigits=%d) : ftp=%g,tpr=%g"], ...
+             nbits,ndigits,ftp,tpr);
 title(strt);
 axis([0, fpp, mod(pp,2)+((0.004)*[-1,1])]);
 legend("F-P","S-D(Lim)","S-D(B-and-B)");
@@ -687,8 +694,9 @@ plot(wt*0.5/pi,T_k0,"linestyle","-", ...
      wt*0.5/pi,T_k_min,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-strt=sprintf(["Parallel all pass lattice low pass differentiator filter ", ...
- "pass band(nbits=%d,ndigits=%d) : ftp=%g,tpr=%g"],nbits,ndigits,ftp,tpr);
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "pass band (nbits=%d,ndigits=%d) : ftp=%g,tpr=%g"], ...
+             nbits,ndigits,ftp,tpr);
 title(strt);
 axis([0, ftp, tp+0.04*[-1,1]]);
 legend("F-P","S-D(Lim)","S-D(B-and-B)");
@@ -704,10 +712,11 @@ close
 plot(wd*0.5/pi,dCsqdw_k0-Cd,"linestyle","-", ...
      wd*0.5/pi,dCsqdw_k0_sd-Cd,"linestyle","--", ...
      wd*0.5/pi,dCsqdw_k_min-Cd,"linestyle","-.");
-ylabel("$\\frac{dCsq}{d\\omega}$ error");
+ylabel("$\\frac{d|C|^{2}}{d\\omega}$ error");
 xlabel("Frequency");
-strt=sprintf(["Parallel all pass lattice low pass differentiator filter ", ...
- "pass band(nbits=%d,ndigits=%d) : fdp=%g,cpr=%g"],nbits,ndigits,fdp,cpr);
+strt=sprintf(["Parallel all pass low pass differentiator ", ...
+              "pass band (nbits=%d,ndigits=%d) : fdp=%g,cpr=%g"] ...
+             ,nbits,ndigits,fdp,cpr);
 title(strt);
 axis([0,fdp,0.02*[-1,1]]);
 legend("F-P","S-D(Lim)","S-D(B-and-B)");
@@ -766,10 +775,12 @@ fprintf(fid,"use_best_branch_and_bound_found=%d\n", ...
         use_best_branch_and_bound_found);
 fprintf(fid,"enforce_pcls_constraints_on_final_filter=%d\n", ...
         enforce_pcls_constraints_on_final_filter);
+%{
 fprintf(fid,sprintf("%s_allocsd_Lim=%d\n", strf, ...
 branch_bound_schurOneMPAlattice_lowpass_differentiator_alternate_allocsd_Lim));
 fprintf(fid,sprintf("%s_allocsd_Lim=%d\n", strf,...
 branch_bound_schurOneMPAlattice_lowpass_differentiator_alternate_allocsd_Ito));
+%}
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n", ...
         ndigits);

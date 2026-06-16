@@ -373,7 +373,7 @@ plot(wa*0.5/pi,10*log10(Asq_k),"linestyle","-", ...
      wa*0.5/pi,10*log10(Asq_k_sd),"linestyle","--", ...
      wa*0.5/pi,10*log10(Asq_k_min),"linestyle","-.");
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","southwest");
+legend("location","northeast");
 legend("boxoff");
 legend("left");
 ylabel("Amplitude(dB)");
@@ -396,7 +396,7 @@ xlabel("Frequency");
 title(strt);
 axis([min(fapl,ftpl) max(fapu,ftpu) -2.5 0.5]);
 legend("exact","s-d(Lim)","s-d(SOCP-relax)");
-legend("location","north");
+legend("location","southeast");
 legend("boxoff");
 legend("left");
 grid("on");
@@ -430,10 +430,12 @@ close
 
 % Filter specification
 fid=fopen(strcat(strf,"_spec.m"),"wt");
+%{
 fprintf(fid,sprintf("%s_allocsd_Lim=%d\n",strf, ...
         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Lim));
 fprintf(fid,sprintf("%s_allocsd_Ito=%d\n",strf, ...
         socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_allocsd_Ito));
+%}
 fprintf(fid,"nbits=%d %% Coefficient word length\n",nbits);
 fprintf(fid,"ndigits=%d %% Average number of signed digits per coef.\n", ...
         ndigits);
