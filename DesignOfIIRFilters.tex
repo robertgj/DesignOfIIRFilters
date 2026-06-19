@@ -14227,8 +14227,8 @@ correction filter are:
 The corresponding transfer function numerator and denominator polynomials of
 the correction filter are:
 \begin{small}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_N1_coef.m}
-\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_D1_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_N2_coef.m}
+\verbatiminput{schurOneMlattice_socp_slb_bandpass_differentiator_test_D2_coef.m}
 \end{small}
 
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
@@ -14237,9 +14237,7 @@ differentiator filter after PCLS optimisation and
 Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-dAsqdw}
 shows the pass-band \emph{dAsqdw} response of the band-pass differentiator
 filter after PCLS optimisation. 
-Figure~\ref{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
-shows the pole-zero plot of the band-pass differentiator filter after PCLS
-optimisation. 
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_error}}
@@ -14248,6 +14246,7 @@ optimisation.
   correction filter and $1-z^{-2}$.}
 \label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_dAsqdw}}
@@ -14255,14 +14254,6 @@ optimisation.
   filter composed of a Schur one-multiplier lattice correction filter and
   $1-z^{-2}$.}
 \label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-dAsqdw}
-\end{figure}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{schurOneMlattice_socp_slb_bandpass_differentiator_test_pz}}
-\caption{Pole-zero plot of the PCLS optimised band-pass differentiator filter
-  composed of a Schur one-multiplier lattice correction filter in series with
-  $1-z^{-2}$.}
-\label{fig:Schur-OneM-lattice-correction-bandpass-differentiator-SOCP-PCLS-pz}
 \end{figure}
 \clearpage
 \subsection{Design of parallel one-multiplier IIR Schur all-pass lattice filters with SOCP optimisation}
@@ -19449,10 +19440,10 @@ with 16 bit coefficients] {Comparison of the cost and number of 16-bit
 \label{tab:branch-bound-schurOneMPAlattice-elliptic-lowpass-16-nbits-cost-summary}
 \end{table}
 \clearpage
-\section{\label{sec:B-and-B-relaxation-search-signed-digit-coefficients-doubly-pipelined-antialiased-lowpass}Brand-and-Bound relaxation search for the  coefficients of a doubly-pipelined parallel all-pass one-multiplier Schur lattice low-pass filter}
+\section{\label{sec:B-and-B-relaxation-search-signed-digit-coefficients-doubly-pipelined-antialiased-lowpass}Branch-and-bound search for the  coefficients of a doubly-pipelined parallel all-pass one-multiplier Schur lattice low-pass filter}
 The Octave script 
 \emph{branch\_bound\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_lowpass\_12\_nbits\_test.m}
-performs successive Branch-and-Bound relaxations to optimise the response of a low-pass
+performs branch-and-bound search to optimise the response of a low-pass
 filter implemented as the series combination of a doubly-pipelined parallel
 all-pass one-multiplier Schur lattice filter and a parallel all-pass
 one-multiplier Schur lattice anti-aliasing filter based on the filter designed in
@@ -19490,7 +19481,7 @@ of \emph{Ito et al.} are:
 \verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_Aaa2k_sd_coef.m}
 \end{small}
 The signed-digit filter coefficients of the pipelined Schur one-multiplier
-lattice filter found by the Branch-and-Bound relaxation search are:
+lattice filter found by branch-and-bound search are:
 \begin{small}
 \verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A1k_min_coef.m}
 \verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_lowpass_12_nbits_test_A2k_min_coef.m}
@@ -19503,8 +19494,8 @@ compares the pass-band and stop-band amplitude responses of a low-pass
 doubly-pipelined anti-aliased one-multiplier Schur lattice filter with
 floating-point coefficients, 12-bit signed-digit coefficients allocated with
 the algorithm of \emph{Ito et al.} and 12-bit signed-digit coefficients
-allocated with the algorithm of \emph{Ito et al.} and found by Branch-and-Bound
-relaxation search. Similarly,
+allocated with the algorithm of \emph{Ito et al.} and found by branch-and-bound
+search. Similarly,
 Figure~\ref{fig:b-and-b-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-phase-delay},
 compares the pass-band phase error and delay responses of the low-pass
 doubly-pipelined anti-aliased one-multiplier Schur lattice filter. 
@@ -19513,7 +19504,7 @@ Table~\ref{tab:b-and-b-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lo
 compares the cost, the number of signed-digits and the number of $12$-bit
 shift-and-add operations required to implement the coefficient multiplications
 found by the signed-digit allocation heuristic of \emph{Ito et al.} and by
-Branch-and-Bound relaxation search.
+branch-and-bound search.
 
 \begin{figure}
 \centering
@@ -19522,7 +19513,7 @@ Branch-and-Bound relaxation search.
   doubly-pipelined anti-aliased one-multiplier Schur lattice lowpass filter with
   12-bit integer coefficients found by allocating an average of 4-signed-digits
   to each coefficient using the heuristic of \emph{Ito et al.} and performing
-  Branch-and-Bound relaxation search.} 
+  branch-and-bound search.} 
 \label{fig:b-and-b-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-amplitude}
 \end{figure}
 
@@ -19533,7 +19524,7 @@ Branch-and-Bound relaxation search.
   responses of a doubly-pipelined anti-aliased one-multiplier Schur lattice
   lowpass filter with 12-bit integer coefficients found by allocating an average
   of 4-signed-digits to each coefficient using the heuristic of
-  \emph{Ito et al.} and performing Branch-and-Bound relaxation search.} 
+  \emph{Ito et al.} and performing branch-and-bound search.} 
 \label{fig:b-and-b-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-phase-delay}
 \end{figure}
 
@@ -19547,14 +19538,14 @@ Branch-and-Bound relaxation search.
 \end{tabular}
 \end{threeparttable}
 \caption[Summary of cost results for the doubly-pipelined anti-aliased Schur
-one-multiplier lattice lowpass filter Branch-and-Bound relaxation example with 12-bit
+one-multiplier lattice lowpass filter branch-and-bound search example with 12-bit
 coefficients]
 {Comparison of the cost and number of 12-bit shift-and-add operations required 
   to implement the coefficient multiplications for a low-pass doubly-pipelined
   pipelined anti-aliased one-multiplier Schur lattice filter with 12-bit integer
   coefficients found by allocating an average of 4-signed-digits to each
   coefficient using the heuristic of \emph{Ito et al.} and performing
-  Branch-and-Bound relaxation search.}
+  branch-and-bound search.}
 \label{tab:b-and-b-pipelined-schurOneMPAlatticeDoublyPipelinedAntiAliased-lowpass-12-nbits-cost}
 \end{table}
 
@@ -19600,10 +19591,10 @@ The signed-digit filter coefficients of the pipelined Schur one-multiplier
 lattice filter with an average of $3$ signed-digits allocated by the algorithm
 of \emph{Lim et al.} are:
 \begin{small}
-\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_sd_coef.m}
-\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_sd_coef.m}
-\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_sd_coef.m}
-\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_Lim_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_Lim_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_Lim_sd_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_Lim_sd_coef.m}
 \end{small}
 The signed-digit filter coefficients of the pipelined Schur one-multiplier
 lattice filter found by the branch-and-bound search are:
@@ -21876,8 +21867,6 @@ $12$-bit $3$-signed-digit coefficients allocated with the algorithm of
 \emph{Lim et al.} and SOCP-relaxation search.
 Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-amplitude}
 shows the corresponding filter stop-band amplitude response.
-Figure~\ref{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pz}
-shows the filter pole-zero plot.
 Table~\ref{tab:socp-relax-schurOneMPAlattice-bandpass-12-nbits-cost-summary}
 compares the cost and the number of $12$ bit shift-and-add operations required
 to implement the coefficient multiplications found by the signed-digit
@@ -21911,17 +21900,6 @@ allocation heuristic of \emph{Lim et al.} with the SOCP-relaxation search.
   heuristic of \emph{Lim et al.} and performing SOCP-relaxation search.}
 \label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-stop-amplitude}
 \end{figure}
-\begin{comment}
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{socp_relaxation_schurOneMPAlattice_bandpass_12_nbits_test_k_min_pz}}
-\caption{Pole-zero plot of a parallel Schur one-multiplier all-pass lattice
-  band-pass filter with 12 bit integer coefficients found by allocating an
-  average of 3-signed-digits to each coefficient using the heuristic of
-  \emph{Lim et al.} and performing SOCP-relaxation search.}
-\label{fig:socp-relax-schurOneMPAlattice-bandpass-12-nbits-pz}
-\end{figure}
-\end{comment}
 \begin{table}
 \centering
 \begin{threeparttable}
@@ -22184,10 +22162,10 @@ The signed-digit filter coefficients of the pipelined Schur one-multiplier
 lattice filter with an average of $3$ signed-digits allocated by the algorithm
 of \emph{Lim et al.} are:
 \begin{small}
-\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_sd_coef.m}
-\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_sd_coef.m}
-\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_sd_coef.m}
-\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_Lim_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_Lim_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_Lim_sd_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_Lim_sd_coef.m}
 \end{small}
 The signed-digit filter coefficients of the pipelined Schur one-multiplier
 lattice filter found by the SOCP-relaxation search are:
@@ -26410,6 +26388,319 @@ implementations]{Comparison of the responses and the total number of signed
   branch-and-bound search and SOCP-relaxation search.}
 \label{fig:Comp-Schur-FIR-bandpass-hilbert-R2-13-nbits-delay}
 \end{figure}
+\clearpage
+\section{\label{sec:Comparison-filter-search-bandpass-hilbert-R2-filter}Comparison of filter coefficient search methods for a doubly-pipelined band-pass Hilbert filter with 12-bit 3-signed-digit  coefficients}
+This section compares the performance of an IIR parallel doubly-pipelined
+all-pass Schur one-multiplier lattice band-pass Hilbert filter in series with
+a parallel allpass Schur one-multiplier lattice anti-aliasing filter.
+Section~\ref{sec:Derivation-One-Multiplier-IIR-Lattice-Filter} describes the
+derivation of the Schur one-multiplier lattice.
+Section~\ref{sec:State-variable-all-pass-doubly-pipelined-One-multiplier-Schur-lattice-filter}
+describes the derivation of the state variable description of a
+doubly-pipelined all-pass Schur one-multiplier lattice filter.
+
+The filters compared are designed with floating-point and $12$-bit
+$3$-signed-digit coefficients. The number signed-digits of each coefficient is
+allocated by the method of \emph{Lim et al.}, as described in
+Section~\ref{sec:Lim-allocation-signed-digits}. The common filter specification
+is:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_spec.m}
+\end{small}
+The upper stop-band amplitude weight is reduced to avoid skewing the cost results
+
+Tne Octave script
+\emph{parallel\_allpass\_socp\_slb\_bandpass\_hilbert\_R2\_test.m} optimises
+the \emph{gain-pole-zero} implementation of an R=2 band-pass Hilbert
+filter~\cite{Deczky_MinPSynthesisIIRDigitalFilters,Richards_DeczkyRecursiveDecimator}
+as described in
+Section~\ref{sec:Parallel-allpass-bandpass-Hilbert-R2-filter-PCLS-SOCP}. The
+denominator polynomials of the band-pass Hilbert part of the filter are:
+\begin{small}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Da1_coef.m}
+\verbatiminput{parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef.m}
+\end{small}
+The corresponding doubly-pipelined Schur one-multiplier all-pass lattice filter
+coefficients are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k0_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k0_coef.m}
+\end{small}
+For this script, the anti-aliasing filter is fixed as an $11$-th order
+Butterworth half-band filter. The anti-aliasing filter is not required to be
+implemented as parallel doubly-pipelined all-pass
+lattices~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters, VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
+but it is so in this example. The denominator polynomials of the corresponding
+parallel all-pass filters are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1_0_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2_0_coef.m}
+\end{small}
+and the Schur one-multiplier all-pass lattice coefficients are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k0_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k0_coef.m}
+\end{small}
+
+The numbers of signed digits allocated to the each of the coefficients of the
+parallel Schur one-multiplier all-pass lattice filters are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_allocsd_digits.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_allocsd_digits.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_allocsd_digits.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_allocsd_digits.m}
+\end{small}
+
+The coefficients of the parallel Schur one-multiplier all-pass lattice filters
+are, after truncation to $12$-bit coefficients with an average of
+$3$-signed-digits allocated with the method of \emph{Lim et al.}:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_Lim_sd_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_Lim_sd_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_Lim_sd_coef.m}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_Lim_sd_coef.m}
+\end{small}
+
+The Octave script
+\emph{branch\_bound\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test},
+described in
+Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-doubly-pipelined-antialiased-bandpass-Hilbert},
+performs branch-and-bound search for $12$-bit coefficients with an average of
+$3$-signed-digits. At each branch, a coefficient is
+fixed to an upper or lower signed-digit approximation and the remaining un-fixed
+coefficients are SOCP-optimised. The band-pass Hilbert and anti-aliasing filter
+Schur one-multiplier all-pass coefficients found by branch-and-bound optimisation
+are:
+\begin{small}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_min_coef.m}
+\verbatiminput{branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_min_coef.m}
+\end{small}
+
+The Octave script
+\emph{socp\_relaxation\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test}, \\ % Avoid overfull warning
+described in
+Section~\ref{sec:SOCP-relaxation-search-signed-digit-coefficients-doubly-pipelined-antialiased-bandpass-Hilbert},
+performs SOCP-relaxation search for $12$-bit coefficients with an average of
+$3$-signed-digits. At each relaxation step, the coefficients with the largest
+span of upper and lower signed-digit approximation is selected and the
+response is optimised with SOCP with-respect-to the remaining \emph{active}
+coefficients. The band-pass Hilbert and anti-aliasing filter
+Schur one-multiplier all-pass coefficients found by SOCP-relaxation optimisation
+are:
+\begin{small}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa1k_min_coef.m}
+\verbatiminput{socp_relaxation_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_min_coef.m}
+\end{small}
+
+Figures~\ref{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-pass},
+~\ref{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-stop},
+~\ref{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-phase},
+~\ref{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-delay}
+and~\ref{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-dAsqdw}
+compare the pass-band amplitude, stop-band amplitude, pass-band phase, pass-band
+delay and gradient of the pass-band squared-amplitude responses of each filter
+with $12$-bit coefficients each having an average of $3$-signed-digits allocated
+by the method of \emph{Lim et al.} found with branch-and-bound search and
+SOCP-relaxation search. The phase response is adjusted for the nominal delay.
+Table~\ref{tab:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-cost}
+compares, for each filter, a cost function, the maximum pass-band and stop-band
+responses, the total number of signed-digits required by the $12$-bit 
+coefficients and the number of shift-and-add operations required to implement
+the filter coefficient multiplications.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrrr} \\ \toprule
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$12$-bit&Shift-and-adds\\
+ &filter &amplitude &amplitude &phase error &delay error&signed& \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+\midrule
+\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of band-pass Hilbert filter fixed-point implementations]
+{Comparison of the responses and the total number of signed digits in the
+  12-bit coefficients, each having an average of 3-signed digits, allocated by
+  the method of \emph{Lim et al.}, required for a parallel doubly-pipelined
+  anti-aliased Schur one-multiplier lattice band-pass Hilbert filter found by
+  branch-and-bound search and SOCP-relaxation search.}
+\label{tab:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-cost}
+\end{table}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_pass}}
+\caption{Comparison of the pass-band amplitude response errors of a parallel
+  doubly-pipelined anti-aliased Schur one-multiplier, lattice band-pass Hilbert
+  filter with 12-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-pass}
+\end{figure}
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_stop}}
+\caption{Comparison of the stop-band amplitude response errors of a parallel
+  doubly-pipelined anti-aliased Schur one-multiplier, lattice band-pass Hilbert
+  filter with 12-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-stop}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_phase}}
+\caption{Comparison of the pass-band phase response of a parallel
+  doubly-pipelined anti-aliased Schur one-multiplier, lattice band-pass Hilbert
+  filter with 12-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.
+  The phase response shown is adjusted for the nominal delay.}
+\label{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_delay}}
+\caption{Comparison of the pass-band group-delay response of a parallel
+  doubly-pipelined anti-aliased Schur one-multiplier, lattice band-pass Hilbert
+  filter with 12-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-delay}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_dAsqdw}}
+\caption{Comparison of the gradient of the pass-band squared-amplitude response
+  error with-respect-to angular frequency of a parallel
+  doubly-pipelined anti-aliased Schur one-multiplier lattice band-pass Hilbert
+  filter with 12-bit coefficients, each having an average of 3-signed-digits
+  allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-schurOneMPAlattice-doubly-pipelined-anti-aliased-bandpass-hilbert-12-nbits-dAsqdw}
+\end{figure}
+
+Appendix~\ref{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter}
+describes the design of a $30$-th order non-symmetric FIR band-pass Hilbert
+filter with a similar specification to the Schur one-multiplier all-pass lattice
+filter shown above. The floating-point coefficients of the FIR filter are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_h_coef.m}
+\end{small}
+The numbers of signed-digits allocated to each FIR coefficient by the heuristic
+of \emph{Lim et al.} are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_h_allocsd_digits.m}
+\end{small}
+After truncation to $12$-bits with an average of
+$3$-signed-digits allocated with the method of \emph{Lim et al.}, the FIR
+coefficients are:
+\begin{small}
+\verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_h_Lim_sd_coef.m}
+\end{small}
+After SOCP optimisation the FIR coefficients are:
+\begin{small}
+\verbatiminput{socp_relaxation_directFIRnonsymmetric_bandpass_hilbert_12_nbits_test_h_min_coef.m}
+\end{small}
+After branch-and-bound optimisation the FIR coefficients are:
+\begin{small}
+\verbatiminput{branch_bound_directFIRnonsymmetric_bandpass_hilbert_12_nbits_test_h_min_coef.m}
+\end{small}
+
+Figures~\ref{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-pass},
+~\ref{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-stop},
+~\ref{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-phase}
+and~\ref{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-delay} 
+compare the pass-band and stop-band amplitude responses, phase responses and
+delay responses of the Schur one-multiplier filter and the non-symmetric FIR
+band-pass Hilbert filter shown in
+Appendix~\ref{app:Design-socp-slb-non-symmetric-FIR-band-pass-Hilbert-filter},
+with coefficients found with found with branch-and-bound search
+and with SOCP-relaxation search, having $12$-bit coefficients each with an
+average of $3$-signed-digits allocated by the method of \emph{Lim et al.}.
+Likewise, Table~\ref{tab:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-cost}
+compares the responses and numbers of signed digits.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lrrrrrrr} \\ \toprule
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$12$-bit&Shift-and-adds\\
+ &filter &amplitude &amplitude &phase error &delay error&signed& \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+\midrule
+\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_cost.tab}
+\\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption[Comparison of band-pass Hilbert filter FIR and doubly-pipelined Schur
+lattice implementations]{Comparison of the responses and the total number of
+  signed digits of a doubly-pipelined anti-aliased Schur one-multiplier all-pass
+  lattice band-pass Hilbert filter and a non-symmetric direct-form FIR band-pass
+  Hilbert filter. Both filters have 12-bit coefficients, each having an average
+  of 3-signed-digits allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{tab:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-cost}
+\end{table}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_pass}}
+\caption{Comparison of the pass-band amplitude responses
+  of a doubly-pipelined anti-aliased Schur one-multiplier all-pass lattice
+  band-pass Hilbert filter and a non-symmetric direct-form FIR band-pass Hilbert
+  filter. Both filters have 12-bit coefficients, each having an average of
+  3-signed-digits allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-pass}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_stop}}
+\caption{Comparison of the stop-band amplitude responses
+  of a doubly-pipelined anti-aliased Schur one-multiplier all-pass lattice
+  band-pass Hilbert filter and a non-symmetric direct-form FIR band-pass Hilbert
+  filter. Both filters have 12-bit coefficients, each having an average of
+  3-signed-digits allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-stop}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_phase}}
+\caption{Comparison of the pass-band phase responses
+  of a doubly-pipelined anti-aliased Schur one-multiplier all-pass lattice
+  band-pass Hilbert filter and a non-symmetric direct-form FIR band-pass Hilbert
+  filter. Both filters have 12-bit coefficients, each having an average of
+  3-signed-digits allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.
+  The phase response shown is adjusted for the nominal delay.}
+\label{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-phase}
+\end{figure}
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_delay}}
+\caption{Comparison of the pass-band delay responses
+  of a doubly-pipelined anti-aliased Schur one-multiplier all-pass lattice
+  band-pass Hilbert filter and a non-symmetric direct-form FIR band-pass Hilbert
+  filter. Both filters have 12-bit coefficients, each having an average of
+  3-signed-digits allocated by the method of \emph{Lim et al.}, found with
+  branch-and-bound search and SOCP-relaxation search.}
+\label{fig:Comp-SchurOneMPA-FIR-bandpass-hilbert-12-nbits-delay}
+\end{figure}
+
 \cleardoublepage
 \appendix
 \part{Appendixes}

@@ -4,8 +4,6 @@ prog=branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_
 depends="test/branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test.m \
 ../parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Da1_coef.m \
 ../parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef.m \
-../tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Naa_coef.m \
-../tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Daa_coef.m \
 test_common.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_slb.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliased_socp_mmse.m \
@@ -77,25 +75,71 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 # the output should look like this
 #
+cat > test_A1k0_sd_coef.m << 'EOF'
+A1k0_sd = [      784,      991,      440,      252 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k0_sd_coef.m"; fail; fi
+
+cat > test_A2k0_sd_coef.m << 'EOF'
+A2k0_sd = [     1760,      148,      864,      912, ... 
+                 511,      312 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k0_sd_coef.m"; fail; fi
+
+cat > test_Aaa1k0_sd_coef.m << 'EOF'
+Aaa1k0_sd = [        0,     1728,        0,      352, ... 
+                     0,        7 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k0_sd_coef.m"; fail; fi
+
+cat > test_Aaa2k0_sd_coef.m << 'EOF'
+Aaa2k0_sd = [        0,      988,        0,       73, ... 
+                     0 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k0_sd_coef.m"; fail; fi
+
+cat > test_A1k_Lim_sd_coef.m << 'EOF'
+A1k_Lim_sd = [      792,      991,      440,      252 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_Lim_sd_coef.m"; fail; fi
+
+cat > test_A2k_Lim_sd_coef.m << 'EOF'
+A2k_Lim_sd = [     1744,      148,      864,      912, ... 
+                    511,      312 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_Lim_sd_coef.m"; fail; fi
+
+cat > test_Aaa1k_Lim_sd_coef.m << 'EOF'
+Aaa1k_Lim_sd = [        0,     1712,        0,      352, ... 
+                        0,        0 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k_Lim_sd_coef.m"; fail; fi
+
+cat > test_Aaa2k_Lim_sd_coef.m << 'EOF'
+Aaa2k_Lim_sd = [        0,      988,        0,       72, ... 
+                        0 ]'/2048;
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k_Lim_sd_coef.m"; fail; fi
+
 cat > test_A1k_min_coef.m << 'EOF'
-A1k_min = [      792,     1065,      432,      318 ]'/2048;
+A1k_min = [      792,     1062,      416,      316 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min_coef.m"; fail; fi
 
 cat > test_A2k_min_coef.m << 'EOF'
-A2k_min = [     1488,      286,      832,      984, ... 
-                 505,      368 ]'/2048;
+A2k_min = [     1480,      287,      832,      984, ... 
+                 484,      368 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min_coef.m"; fail; fi
 
 cat > test_Aaa1k_min_coef.m << 'EOF'
-Aaa1k_min = [        0,     1809,        0,      261, ... 
+Aaa1k_min = [        0,     1808,        0,      276, ... 
                      0,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k_min_coef.m"; fail; fi
 
 cat > test_Aaa2k_min_coef.m << 'EOF'
-Aaa2k_min = [        0,     1032,        0,       -6, ... 
+Aaa2k_min = [        0,     1041,        0,        4, ... 
                      0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k_min_coef.m"; fail; fi
@@ -109,6 +153,30 @@ octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
 
 nstr="branch_bound_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test"
+
+diff -Bb test_A1k0_sd_coef.m $nstr"_A1k0_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k0_sd_coef.m"; fail; fi
+
+diff -Bb test_A2k0_sd_coef.m $nstr"_A2k0_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k0_sd_coef.m"; fail; fi
+
+diff -Bb test_Aaa1k0_sd_coef.m $nstr"_Aaa1k0_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Aaa1k0_sd_coef.m"; fail; fi
+
+diff -Bb test_Aaa2k0_sd_coef.m $nstr"_Aaa2k0_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Aaa2k0_sd_coef.m"; fail; fi
+
+diff -Bb test_A1k_Lim_sd_coef.m $nstr"_A1k_Lim_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_Lim_sd_coef.m"; fail; fi
+
+diff -Bb test_A2k_Lim_sd_coef.m $nstr"_A2k_Lim_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A2k_Lim_sd_coef.m"; fail; fi
+
+diff -Bb test_Aaa1k_Lim_sd_coef.m $nstr"_Aaa1k_Lim_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Aaa1k_Lim_sd_coef.m"; fail; fi
+
+diff -Bb test_Aaa2k_Lim_sd_coef.m $nstr"_Aaa2k_Lim_sd_coef.m"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb test_Aaa2k_Lim_sd_coef.m"; fail; fi
 
 diff -Bb test_A1k_min_coef.m $nstr"_A1k_min_coef.m"
 if [ $? -ne 0 ]; then echo "Failed diff -Bb test_A1k_min_coef.m"; fail; fi

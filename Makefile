@@ -43,7 +43,9 @@ _spec.m _test.mat -core .tab .elg .results
 CLEAN_TEX_SUFFIXES= .aux .bbl .blg .brf .dvi .out .toc .lof .lot .loa \
 .log .synctex.gz 
 CLEAN_AEGIS_SUFFIXES= ,D ,B ,B,Conflicts
-CHECK_STRINGS= erfull warning 
+
+# Check TeX log file for problems
+TEX_CHECK_STRINGS= erfull warning '^No file'
 
 # Command definitions
 OCTAVE=octave
@@ -107,11 +109,11 @@ $(OCTAVE_SCRIPTS:%=%.diary) $(EXTRA_DIARY_FILES)
 %.oct : %.cc 
 	$(MKOCTFILE) $(MKOCTFILE_FLAGS) $(XCXXFLAGS) $<
 
+
 #
 # Macros 
 #
 clean_macro=-for suf in $(1) ; do find . -name \*$$suf -exec rm -f {} ';' ; done
-
 
 #
 # Templates defining dependencies
@@ -144,8 +146,8 @@ $(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	-@if [[ -x $(PDFGREP) ]] ; then \
 		$(PDFGREP) "\[\?" $(1).pdf || true ; \
 	fi;
-	-@for warnstr in $(CHECK_STRINGS); do \
-		$(GREP) $$$$warnstr $(1).log ; done ;
+	-@for warnstr in $(TEX_CHECK_STRINGS); do \
+		$(GREP) -e "$$$$warnstr" $(1).log || true ; done ;
 	-@echo Build complete
 endef
 

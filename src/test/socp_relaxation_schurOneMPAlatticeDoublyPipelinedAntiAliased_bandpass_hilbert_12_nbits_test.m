@@ -232,43 +232,52 @@ A1k0_sd=k0_sd(RA1k);
 A2k0_sd=k0_sd(RA2k);
 Aaa1k0_sd=k0_sd(RAaa1k);
 Aaa2k0_sd=k0_sd(RAaa2k);
-[k_sd,k_sdu,k_sdl]=flt2SD(k0,nbits,ndigits_alloc);
-A1k_sd=k_sd(RA1k);
-A2k_sd=k_sd(RA2k);
-Aaa1k_sd=k_sd(RAaa1k);
-Aaa2k_sd=k_sd(RAaa2k);
-print_polynomial(A1k_sd,"A1k_sd",nscale);
-print_polynomial(A1k_sd,"A1k_sd",strcat(strf,"_A1k_sd_coef.m"),nscale);
-print_polynomial(A2k_sd,"A2k_sd",nscale);
-print_polynomial(A2k_sd,"A2k_sd",strcat(strf,"_A2k_sd_coef.m"),nscale);
-print_polynomial(Aaa1k_sd,"Aaa1k_sd",nscale);
-print_polynomial(Aaa1k_sd,"Aaa1k_sd",strcat(strf,"_Aaa1k_sd_coef.m"),nscale);
-print_polynomial(Aaa2k_sd,"Aaa2k_sd",nscale);
-print_polynomial(Aaa2k_sd,"Aaa2k_sd",strcat(strf,"_Aaa2k_sd_coef.m"),nscale);
+print_polynomial(A1k0_sd,"A1k0_sd",nscale);
+print_polynomial(A1k0_sd,"A1k0_sd",strcat(strf,"_A1k0_sd_coef.m"),nscale);
+print_polynomial(A2k0_sd,"A2k0_sd",nscale);
+print_polynomial(A2k0_sd,"A2k0_sd",strcat(strf,"_A2k0_sd_coef.m"),nscale);
+print_polynomial(Aaa1k0_sd,"Aaa1k0_sd",nscale);
+print_polynomial(Aaa1k0_sd,"Aaa1k0_sd",strcat(strf,"_Aaa1k0_sd_coef.m"),nscale);
+print_polynomial(Aaa2k0_sd,"Aaa2k0_sd",nscale);
+print_polynomial(Aaa2k0_sd,"Aaa2k0_sd",strcat(strf,"_Aaa2k0_sd_coef.m"),nscale);
+
+[k_Lim_sd,k_Lim_sdu,k_Lim_sdl]=flt2SD(k0,nbits,ndigits_alloc);
+A1k_Lim_sd=k_Lim_sd(RA1k);
+A2k_Lim_sd=k_Lim_sd(RA2k);
+Aaa1k_Lim_sd=k_Lim_sd(RAaa1k);
+Aaa2k_Lim_sd=k_Lim_sd(RAaa2k);
+print_polynomial(A1k_Lim_sd,"A1k_Lim_sd",nscale);
+print_polynomial(A1k_Lim_sd,"A1k_Lim_sd",strcat(strf,"_A1k_Lim_sd_coef.m"),nscale);
+print_polynomial(A2k_Lim_sd,"A2k_Lim_sd",nscale);
+print_polynomial(A2k_Lim_sd,"A2k_Lim_sd",strcat(strf,"_A2k_Lim_sd_coef.m"),nscale);
+print_polynomial(Aaa1k_Lim_sd,"Aaa1k_Lim_sd",nscale);
+print_polynomial(Aaa1k_Lim_sd,"Aaa1k_Lim_sd",strcat(strf,"_Aaa1k_Lim_sd_coef.m"),nscale);
+print_polynomial(Aaa2k_Lim_sd,"Aaa2k_Lim_sd",nscale);
+print_polynomial(Aaa2k_Lim_sd,"Aaa2k_Lim_sd",strcat(strf,"_Aaa2k_Lim_sd_coef.m"),nscale);
 
 % Initialise k_active for optimisation
-k_sdul=k_sdu-k_sdl;
-k_active=find(k_sdul~=0);
+k_Lim_sdul=k_Lim_sdu-k_Lim_sdl;
+k_active=find(k_Lim_sdul~=0);
 n_active=length(k_active);
 
 % Check for consistent upper and lower bounds
-if any(k_sdl>k_sdu)
-  error("found k_sdl>k_sdu");
+if any(k_Lim_sdl>k_Lim_sdu)
+  error("found k_Lim_sdl>k_Lim_sdu");
 endif
-if any(k_sdl>k_sdu)
-  error("found k_sdl>k_sdu");
+if any(k_Lim_sdl>k_Lim_sdu)
+  error("found k_Lim_sdl>k_Lim_sdu");
 endif
-if any(k_sd(k_active)>k_sdu(k_active))
-  error("found k_sd(k_active)>k_sdu(k_active)");
+if any(k_Lim_sd(k_active)>k_Lim_sdu(k_active))
+  error("found k_Lim_sd(k_active)>k_Lim_sdu(k_active)");
 endif
-if any(k_sdl(k_active)>k_sd(k_active))
-  error("found k_sdl(k_active)>kuv0_sd(k_active)");
+if any(k_Lim_sdl(k_active)>k_Lim_sd(k_active))
+  error("found k_Lim_sdl(k_active)>kuv0_sd(k_active)");
 endif
-if any(k0(k_active)>k_sdu(k_active))
-  error("found k0(k_active)>k_sdu(k_active)");
+if any(k0(k_active)>k_Lim_sdu(k_active))
+  error("found k0(k_active)>k_Lim_sdu(k_active)");
 endif
-if any(k_sdl(k_active)>k0(k_active))
-  error("found k_sdl(k_active)>k0(k_active)");
+if any(k_Lim_sdl(k_active)>k0(k_active))
+  error("found k_Lim_sdl(k_active)>k0(k_active)");
 endif
 
 % Find k error
@@ -281,14 +290,14 @@ Esq0_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
        (k0_sd(RA1k),k0_sd(RA2k),difference,k0_sd(RAaa1k),k0_sd(RAaa2k), ...
         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
-% Find k_sd error
+% Find k_Lim_sd error
 Esq_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
-       (k_sd(RA1k),k_sd(RA2k),difference,k_sd(RAaa1k),k_sd(RAaa2k), ...
+       (k_Lim_sd(RA1k),k_Lim_sd(RA2k),difference,k_Lim_sd(RAaa1k),k_Lim_sd(RAaa2k), ...
         wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp,wd,Dd,Wd);
 
-% Find the number of signed-digits and adders used by k_sd
+% Find the number of signed-digits and adders used by k_Lim_sd
 [k0_sd_digits,k0_sd_adders]=SDadders(k0_sd(k_active),nbits);
-[k_sd_digits,k_sd_adders]=SDadders(k_sd(k_active),nbits);
+[k_Lim_sd_digits,k_Lim_sd_adders]=SDadders(k_Lim_sd(k_active),nbits);
 
 % Initialise the vector of filter coefficients to be optimised
 kopt=zeros(size(k0));
@@ -392,7 +401,7 @@ Asq0=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
 Asq0_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
          (w,A1k0_sd,A2k0_sd,difference,Aaa1k0_sd,Aaa2k0_sd);
 Asq_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
-         (w,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
+         (w,A1k_Lim_sd,A2k_Lim_sd,difference,Aaa1k_Lim_sd,Aaa2k_Lim_sd);
 Asq_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
           (w,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
@@ -403,8 +412,8 @@ Aaasq0_sd=schurOneMPAlatticeAsq ...
            (w,Aaa1k0_sd,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
             Aaa2k0_sd,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
 Aaasq_sd=schurOneMPAlatticeAsq ...
-           (w,Aaa1k_sd,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
-            Aaa2k_sd,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
+           (w,Aaa1k_Lim_sd,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
+            Aaa2k_Lim_sd,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
 Aaasq_min=schurOneMPAlatticeAsq ...
             (w,Aaa1k_min,ones(size(RAaa1k)),ones(size(RAaa1k)), ...
              Aaa2k_min,ones(size(RAaa2k)),ones(size(RAaa2k)),false);
@@ -414,7 +423,7 @@ P0=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
 P0_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
          (w,A1k0_sd,A2k0_sd,difference,Aaa1k0_sd,Aaa2k0_sd);
 P_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
-         (w,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
+         (w,A1k_Lim_sd,A2k_Lim_sd,difference,Aaa1k_Lim_sd,Aaa2k_Lim_sd);
 P_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
           (w,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
@@ -423,14 +432,14 @@ T0=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
 T0_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
          (w,A1k0_sd,A2k0_sd,difference,Aaa1k0_sd,Aaa2k0_sd);
 T_sd=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
-         (w,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
+         (w,A1k_Lim_sd,A2k_Lim_sd,difference,Aaa1k_Lim_sd,Aaa2k_Lim_sd);
 T_min=schurOneMPAlatticeDoublyPipelinedAntiAliasedT ...
          (w,A1k_min,A2k_min,difference,Aaa1k_min,Aaa2k_min);
 
 dAsqdw0=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
           (w,A1k0,A2k0,difference,Aaa1k0,Aaa2k0);
 dAsqdw_sd=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
-         (w,A1k_sd,A2k_sd,difference,Aaa1k_sd,Aaa2k_sd);
+         (w,A1k_Lim_sd,A2k_Lim_sd,difference,Aaa1k_Lim_sd,Aaa2k_Lim_sd);
 dAsqdw0_sd=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
          (w,A1k0_sd,A2k0_sd,difference,Aaa1k0_sd,Aaa2k0_sd);
 dAsqdw_min=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
@@ -476,7 +485,7 @@ fprintf(fid,"Exact & %8.6f & & \\\\\n",Esq0);
 fprintf(fid,"%d-bit %d-signed-digit& %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq0_sd,k0_sd_digits,k0_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(%s)& %8.6f & %d & %d \\\\\n", ...
-        nbits,ndigits,strItoLim,Esq_sd,k_sd_digits,k_sd_adders);
+        nbits,ndigits,strItoLim,Esq_sd,k_Lim_sd_digits,k_Lim_sd_adders);
 fprintf(fid,"%d-bit %d-signed-digit(SOCP-relax) & %8.6f & %d & %d \\\\\n", ...
         nbits,ndigits,Esq_min,kmin_digits,kmin_adders);
 fclose(fid);
@@ -768,8 +777,9 @@ eval(sprintf(["save %s.mat ", ...
  "ftol ctol nbits nscale ndigits ndigits_alloc n ", ...
  "fapl fapu dBap Wap fasl fasu dBasl dBasu dBasuu Wasl Wasu ", ...
  "ftpl ftpu tp tpr Wtp fppl fppu pp ppr Wpp fdpl fdpu dp dpr Wdp ", ...
- "difference A1k0 A2k0 A1k0_sd A2k0_sd ", ...
- "A1k_sd A2k_sd A1k_min A2k_min N_min D_min"],strf,strf,strf));
+ "difference A1k0 A2k0 Aaa1k0 Aaa2k0 A1k0_sd A2k0_sd Aaa1k0_sd Aaa2k0_sd ", ...
+ "A1k_Lim_sd A2k_Lim_sd Aaa1k_Lim_sd Aaa2k_Lim_sd ", ...
+ "A1k_min A2k_min Aaa1k_min Aaa2k_min N_min D_min"],strf,strf,strf));
        
 % Done
 toc;
