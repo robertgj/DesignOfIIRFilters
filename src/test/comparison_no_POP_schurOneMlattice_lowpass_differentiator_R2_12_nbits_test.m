@@ -544,7 +544,7 @@ branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_
 bandb_hM_min_adders=ans;
 
 % Plot hM_min amplitude response
-A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_bandb_hM_min,A_socp_hM_min];
 [ax,ha,hs] = plotyy(wa(Rap)*0.5/pi,A_hM_min_all(Rap,:)-Ad(Rap), ...
                     wa(Ras)*0.5/pi,A_hM_min_all(Ras,:)-Ad(Ras));
 % Copy line colour
@@ -562,7 +562,7 @@ axis(ax(2),[0 0.5 -0.001 0.001]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("F-P","Trunc. F-P","B-and-B","SOCP-relax");
 legend("location","north");
 legend("boxoff");
 legend("left");
@@ -573,7 +573,7 @@ print(strcat(strf,"_hM_min_amplitude"),"-dpdflatex");
 close
 
 % Plot hM_min pass band amplitude error
-A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Rap)*0.5/pi,A_hM_min_all(Rap,:)-Ad(Rap));
 % Set line style
 hls={"-",":","--","-."};
@@ -584,7 +584,7 @@ axis([0 fap -0.001 0.0015]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("F-P","Trunc. F-P","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("right");
@@ -595,7 +595,7 @@ print(strcat(strf,"_hM_min_pass_error"),"-dpdflatex");
 close
 
 % Plot hM_min pass band relative amplitude error
-A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Rap)*0.5/pi,(A_hM_min_all(Rap,:)./Ad(Rap))-1);
 % Set line style
 hls={"-",":","--","-."};
@@ -606,7 +606,7 @@ axis([0 fap -0.02 0.005]);
 grid("on");
 xlabel("Frequency");
 ylabel("Relative amplitude error");
-legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("F-P","Trunc. F-P","B-and-B","SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
@@ -617,7 +617,7 @@ print(strcat(strf,"_hM_min_pass_relative_error"),"-dpdflatex");
 close
 
 % Plot hM_min stop band amplitude response
-A_hM_min_all=[A_socp_h0,A_socp_hM0,A_socp_hM_min,A_bandb_hM_min];
+A_hM_min_all=[A_socp_h0,A_socp_hM0,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Ras)*0.5/pi,A_hM_min_all(Ras,:)-Ad(Ras));
 % Set line style
 hls={"-",":","--","-."};
@@ -628,7 +628,7 @@ axis([fas 0.5 -0.001 0.001]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude");
-legend("FIR F-P","Trunc. FIR F-P","FIR SOCP-relax","FIR B-and-B");
+legend("F-P","Trunc. F-P","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
@@ -661,7 +661,7 @@ fprintf(fid, ...
 fclose(fid);
 
 % Plot Schur-FIR pass band amplitude error
-A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+A_Schur_FIR=[bandb_A,socp_A,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Rap)*0.5/pi,A_Schur_FIR(Rap,:)-Ad(Rap));
 % Set line style
 hls={"-",":","--","-."};
@@ -672,7 +672,7 @@ axis([0 fap -0.002 0.001]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("Schur B-and-B","Schur SOCP-relax","FIR B-and-B","FIR SOCP-relax");
 legend("location","southwest");
 legend("boxoff");
 legend("left");
@@ -683,7 +683,7 @@ print(strcat(strf,"_Schur_FIR_pass_error"),"-dpdflatex");
 close
 
 % Plot Schur-FIR pass band relative amplitude error
-A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+A_Schur_FIR=[bandb_A,socp_A,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Rap)*0.5/pi,(A_Schur_FIR(Rap,:)./Ad(Rap))-1);
 % Set line style
 hls={"-",":","--","-."};
@@ -694,7 +694,7 @@ axis([0 fap -0.02 0.005]);
 grid("on");
 xlabel("Frequency");
 ylabel("Relative amplitude error");
-legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("Schur B-and-B","Schur SOCP-relax","FIR B-and-B","FIR SOCP-relax");
 legend("location","southeast");
 legend("boxoff");
 legend("left");
@@ -705,7 +705,7 @@ print(strcat(strf,"_Schur_FIR_pass_relative_error"),"-dpdflatex");
 close
 
 % Plot Schur-FIR stop band amplitude
-A_Schur_FIR=[socp_A,bandb_A,A_socp_hM_min,A_bandb_hM_min];
+A_Schur_FIR=[bandb_A,socp_A,A_bandb_hM_min,A_socp_hM_min];
 ha=plot(wa(Ras)*0.5/pi,abs(A_Schur_FIR(Ras,:))-Ad(Ras));
 % Set line style
 hls={"-",":","--","-."};
@@ -716,7 +716,7 @@ axis([fas 0.5 0 0.006]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude error");
-legend("Schur SOCP-relax","Schur B-and-B","FIR SOCP-relax","FIR B-and-B");
+legend("Schur B-and-B","Schur SOCP-relax","FIR B-and-B","FIR SOCP-relax");
 legend("location","north");
 legend("boxoff");
 legend("right");

@@ -123,7 +123,9 @@ endif
 h0=[hM(1:end);hM((end-1):-1:1)]';
 h_active=find(h0~=0);
 
+%
 % SOCP MMSE optimisation
+%
 try
   [h1,opt_iter,func_iter,feasible]= ...
   directFIRnonsymmetric_socp_mmse([],h0,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
@@ -142,7 +144,54 @@ if ~feasible
   error("h1 infeasible");
 endif
 
+% Save results
+print_polynomial(h1,"h1");
+print_polynomial(h1,"h1",strcat(strf,"_h1_coef.m"));
+
+% Find response
+Asq1=directFIRnonsymmetricAsq(wa,h1);
+T1=directFIRnonsymmetricT(wa,h1);
+P1=directFIRnonsymmetricP(wa,h1);
+
+% Plot MMSE response
+plot(wa*0.5/pi,10*log10(Asq1));
+axis([0 0.5 -dBas-10 5]);
+grid("on");
+ylabel("Amplitude(dB)");
+xlabel("Frequency");
+s=sprintf("Non-symmetric FIR bandpass Hilbert filter : N=%d, tp=%g", N,tp);
+title(s);
+zticks([]);
+print(strcat(strf,"_mmse_response"),"-dpdflatex");
+close
+
+% Plot MMSE passband response
+subplot(311);
+plot(wa(napl:napu)*0.5/pi,10*log10(Asq1(napl:napu)));
+ylabel("Amplitude(dB)");
+axis([fapl fapu -1 0.2]);
+grid("on");
+title(s);
+zticks([]);
+subplot(312);
+plot(wa*0.5/pi,mod(P1+(wa*tp),2*pi)/pi);
+ylabel("Phase(rad./$\\pi$)");
+axis([fapl fapu mod(pp+0.0002*[-1,1],2)]);
+grid("on");
+zticks([]);
+subplot(313);
+plot(wa*0.5/pi,T1);
+ylabel("Delay(samples)");
+xlabel("Frequency");
+axis([fapl fapu tp+0.02*[-1,1]]);
+grid("on");
+zticks([]);
+print(strcat(strf,"_mmse_passband"),"-dpdflatex");
+close
+
+%
 % SOCP PCLS optimisation
+%
 try
   [h,slb_iter,opt_iter,func_iter,feasible]=directFIRnonsymmetric_slb ...
    (@directFIRnonsymmetric_socp_mmse,h1,h_active,wa,Asqd,Asqdu,Asqdl,Wa,...
@@ -159,6 +208,10 @@ end_try_catch
 if ~feasible
   error("h infeasible");
 endif
+
+% Save results
+print_polynomial(h,"h");
+print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
 % Find response
 Asq=directFIRnonsymmetricAsq(wa,h);
@@ -264,10 +317,6 @@ fprintf(fid,"pp=%d %% Pass band initial phase (multiples of pi)\n",pp);
 fprintf(fid,"ppr=%g %% Pass band phase response ripple\n",ppr);
 fprintf(fid,"Wpp=%g %% Pass band phase response weight\n",Wpp);
 fclose(fid);
-
-% Save results
-print_polynomial(h,"h");
-print_polynomial(h,"h",strcat(strf,"_h_coef.m"));
 
 eval(sprintf(["save %s.mat ftol ctol n ", ...
  "N fapl fapu dBap Wap fasl fasu dBas Wasl Wasu ftpl ftpu tp tpr Wtp ", ...

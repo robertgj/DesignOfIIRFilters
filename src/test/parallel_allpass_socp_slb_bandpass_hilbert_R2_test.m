@@ -204,17 +204,19 @@ endif
 % Find overall filter polynomials
 a1=[ab1(1:ma)];
 b1=[ab1((ma+1):end)];
-[Na1,Da1]=a2tf(a1,Va,Qa,Ra);
-Da1=Da1(:);
-[Nb1,Db1]=a2tf(b1,Vb,Qb,Rb);
-Db1=Db1(:);
-Nab1=(conv(flipud(Da1),Db1)-conv(flipud(Db1),Da1))/2;
-Dab1=conv(Da1,Db1);
+[~,Da1R]=a2tf(a1,Va,Qa,Ra);
+Da1R=Da1R(:);
+Da1R(2:2:end)=0;
+[~,Db1R]=a2tf(b1,Vb,Qb,Rb);
+Db1R=Db1R(:);
+Db1R(2:2:end)=0;
+Nab1R=(conv(flipud(Da1R),Db1R)-conv(flipud(Db1R),Da1R))/2;
+Dab1R=conv(Da1R,Db1R);
 
 % Find response
 w=(0:(n-1))'*pi/n;
-Hab1=freqz(Nab1,Dab1,w);
-Tab1=delayz(Nab1,Dab1,w);
+Hab1=freqz(Nab1R,Dab1R,w);
+Tab1=delayz(Nab1R,Dab1R,w);
 Pab1=unwrap(arg(Hab1));
 % Anti-aliasing filter response
 Haa=freqz(Naa,Daa,w);
@@ -274,12 +276,12 @@ print(strcat(strf,"_ab1pass"),"-dpdflatex");
 close
 
 % Plot poles and zeros
-zplane(qroots(flipud(Da1)),qroots(Da1));
+zplane(qroots(flipud(Da1R)),qroots(Da1R));
 title("Allpass filter A");
 zticks([]);
 print(strcat(strf,"_a1pz"),"-dpdflatex");
 close
-zplane(qroots(flipud(Db1)),qroots(Db1));
+zplane(qroots(flipud(Db1R)),qroots(Db1R));
 title("Allpass filter B");
 zticks([]);
 print(strcat(strf,"_b1pz"),"-dpdflatex");
@@ -328,12 +330,17 @@ print_allpass_pole(a1,Va,Qa,Ra,"a1");
 print_allpass_pole(a1,Va,Qa,Ra,"a1",strcat(strf,"_a1_coef.m"));
 print_allpass_pole(b1,Vb,Qb,Rb,"b1");
 print_allpass_pole(b1,Vb,Qb,Rb,"b1",strcat(strf,"_b1_coef.m"));
+
+Da1=Da1R(1:2:end);
 print_polynomial(Da1,"Da1");
 print_polynomial(Da1,"Da1",strcat(strf,"_Da1_coef.m"));
+Db1=Db1R(1:2:end);
 print_polynomial(Db1,"Db1");
 print_polynomial(Db1,"Db1",strcat(strf,"_Db1_coef.m"));
+Nab1=Nab1R(1:2:end);
 print_polynomial(Nab1,"Nab1");
 print_polynomial(Nab1,"Nab1",strcat(strf,"_Nab1_coef.m"));
+Dab1=Dab1R(1:2:end);
 print_polynomial(Dab1,"Dab1");
 print_polynomial(Dab1,"Dab1",strcat(strf,"_Dab1_coef.m"));
 

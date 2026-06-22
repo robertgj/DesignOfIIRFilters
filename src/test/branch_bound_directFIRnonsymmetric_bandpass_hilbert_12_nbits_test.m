@@ -17,6 +17,10 @@ maxiter=400
 verbose=false
 tol=1e-4
 
+nbits=12
+ndigits=3
+nscale=2^(nbits-1)
+
 % From directFIRnonsymmetric_socp_slb_bandpass_hilbert_test.m
 directFIRnonsymmetric_socp_slb_bandpass_hilbert_test_h_coef;
 N=length(h)-1; % Filter order
@@ -63,9 +67,6 @@ Esq=directFIRnonsymmetricEsq(h,wa,Asqd,Wa,wt,Td,Wt,wp,Pd,Wp);
 printf("Esq=%g\n",Esq);
 
 % Scale the rounded coefficients to use all the bits 
-nbits=12
-ndigits=3
-nscale=2^(nbits-1)
 h_rd=round(h*nscale)/nscale;
 
 % Find the signed-digit approximations to h

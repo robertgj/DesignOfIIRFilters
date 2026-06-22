@@ -1,0 +1,99 @@
+% schur_OneMultiplierAllPass_Doubly_Pipelined.tex
+
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{dsp,chains}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+	\matrix (m1) [row sep=5mm, column sep=5mm]
+	{
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m000) {};               &
+		\node[coordinate]                   (m001) {};               &
+		\node[coordinate]                   (m002) {};               &
+		\node[coordinate]                   (m003) {};               &
+		\node[coordinate]                   (m004) {};               &
+		\node[coordinate]                   (m005) {};               &
+		\node[coordinate]                   (m006) {};               &
+		\node[coordinate]                   (m007) {};               &
+		\node[coordinate]                   (m008) {};               &
+		\node[coordinate]                   (m009) {};               &
+		\node[coordinate]                   (m010) {};               &
+		\node[coordinate]                   (m011) {};               &
+		\node[coordinate]                   (m012) {};               &
+		\node[coordinate]                   (m013) {};               &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                   (m100) {};               &	
+		\node[coordinate]                   (m101) {};               &
+        \node[dspnodeopen, dsp/label=left]  (m102) {$x_{2n+2}$};      &
+		\node[coordinate]                   (m103) {};               &
+		\node[coordinate]                   (m104) {};               &
+		\node[dspnodefull]                  (m105) {};               &
+		\node[dspadder]                     (m106) {};               &
+		\node[coordinate]                   (m107) {};               &
+		\node[dspnodefull]                  (m108) {};               &
+		\node[coordinate]                   (m109) {};               &
+		\node[dspadder]                     (m110) {};               &
+		\node[dspsquare]                    (m111) {$z^{-1}$};        &
+		\node[dspnodeopen, dsp/label=right] (m112) {$x_{2n}$};        &
+		\node[coordinate]                   (m113) {};               &
+		%--------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+		\node[coordinate]                    (m200) {};               &
+		\node[coordinate]                    (m201) {};               &
+		\node[dspnodeopen, dsp/label=left]   (m202) {$\hat{y}_n$};    &
+		\node[dspnodefull, dsp/label=above]  (m203) {$x_{2n+1}$};      &
+		\node[dspsquare]                     (m204) {$z^{-1}$};        &
+		\node[coordinate]                    (m205) {};               &
+		\node[dspadder]                      (m206) {};               &
+		\node[coordinate]                    (m207) {};               &
+		\node[dspnodefull]                   (m208) {};               &
+		\node[coordinate]                    (m209) {};               &
+		\node[coordinate]                    (m210) {};               &
+		\node[coordinate]                    (m211) {};               &
+		\node[dspnodeopen, dsp/label=right]  (m212) {$\hat{y}_{n-1}$}; &
+		\node[coordinate]                    (m213) {};               &
+		% --------------------------------------------------------------------
+        \\
+		%--------------------------------------------------------------------
+	};
+
+    % Draw horizontal connections from x(2n+2) -> x(2n)
+    \draw[dspconn] (m102) -- (m105);
+    \draw[dspconn] (m105) -- (m106);
+    \draw[dspconn] (m106) -- node[midway,above] {$k_{n}$} (m108);
+    \draw[dspconn] (m108) -- node[midway,above] {$\epsilon_{n}$} (m110);
+    \draw[dspconn] (m110) -- (m111);
+    \draw[dspline] (m111) -- (m112);
+
+	% Draw diagonal connections
+    \draw[dspconn] (m208) -- node[right,pos=0.4] {$-\epsilon_{n}$} (m106);
+    \draw[dspconn] (m108) -- (m206);
+    
+	% Draw horizontal connections from y^(n-1) to y^(n)
+	\begin{scope}[start chain]
+		\chainin (m212);
+		\chainin (m208) [join=by dspconn];
+		\chainin (m206) [join=by dspconn];
+		\chainin (m204) [join=by dspconn];	
+		\chainin (m203) [join=by dspconn];	
+		\chainin (m202) [join=by dspline];	
+	\end{scope}
+
+    % Draw upper connection from x(2n+2) -> adder
+    \begin{scope}[start chain]
+      \chainin (m105);
+      \chainin (m005) [join=by dspline];
+      \chainin (m010) [join=by dspline];
+      \chainin (m110) [join=by dspconn];
+    \end{scope}
+
+\end{tikzpicture}
+
+\end{document}

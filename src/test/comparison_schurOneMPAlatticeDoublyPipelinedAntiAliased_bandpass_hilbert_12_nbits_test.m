@@ -24,6 +24,8 @@ tic;
 tol=1e-12;
 nbits=12;
 nscale=2^(nbits-1);
+nbits_fir=12;
+nscale_fir=2^(nbits_fir-1);
 ndigits=3;
 
 % Filter specification
@@ -43,8 +45,8 @@ faap=0.25;
 parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Da1_coef;
 parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef;
 % Convert the R=2 band-pass Hilbert filter to parallel Schur lattice filters
-Da0=Da1(1:2:end);clear Da1;Da0=Da0(:)';
-Db0=Db1(1:2:end);clear Db1;Db0=Db0(:)';
+Da0=Da1(:)';clear Da1;
+Db0=Db1(:)';clear Db1;
 [A1k0,~,~,~]=tf2schurOneMlattice(fliplr(Da0),Da0);
 [A2k0,~,~,~]=tf2schurOneMlattice(fliplr(Db0),Db0);
 print_polynomial(A1k0,"A1k0",strcat(strf,"_A1k0_coef.m"));
@@ -371,7 +373,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fapl=%g,fapu=%g"], ...
-             nbits,ndigits,fapl,fapu);
+             ndigits,nbits,fapl,fapu);
 title(strt);
 legend("Floating point","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","south");
@@ -393,7 +395,7 @@ xlabel("Frequency");
 ylabel("Amplitude(dB)");
 strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
-             nbits,ndigits,fasl,fapl,fapu,fasu);
+             ndigits,nbits,fasl,fapl,fapu,fasu);
 title(strt);
 legend("Floating point","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","northeast");
@@ -416,7 +418,7 @@ xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
 strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
-             nbits,ndigits,fppl,fppu);
+             ndigits,nbits,fppl,fppu);
 title(strt);
 legend("Floating point","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","northeast");
@@ -438,7 +440,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
-             nbits,ndigits,ftpu,ftpu);
+             ndigits,nbits,ftpl,ftpu);
 title(strt);
 legend("Floating point","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","northwest");
@@ -460,7 +462,7 @@ xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$");
 strt=sprintf(["Schur one-multiplier lattice bandpass Hilbert filter :", ...
               " ndigits=%d,nbits=%d,fdpl=%g,fdpu=%g"], ...
-             nbits,ndigits,fdpl,fdpu);
+             ndigits,nbits,fdpl,fdpu);
 title(strt);
 legend("Floating point","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","south");
@@ -525,6 +527,8 @@ socp_h_sd=h_sd;
 socp_h_Lim_sd=h_Lim_sd;
 socp_h_min=h_min;
 
+clear h_allocsd_digits h_sd h_Lim_sd h_min 
+
 strd= ...
 "branch_bound_directFIRnonsymmetric_bandpass_hilbert_12_nbits_test";
 eval(strcat(strd,"_h_sd_coef;"));
@@ -536,6 +540,8 @@ bandb_h_allocsd=h_allocsd_digits;
 bandb_h_sd=h_sd;
 bandb_h_Lim_sd=h_Lim_sd;
 bandb_h_min=h_min;
+
+clear h_allocsd_digits h_sd h_Lim_sd h_min 
 
 % Sanity check
 if any(bandb_h ~= socp_h)
@@ -561,19 +567,17 @@ print_polynomial(exact_h,"h", ...
 print_polynomial(exact_h_allocsd_digits,"h_allocsd_digits", ...
                  strcat(strf,"_h_allocsd_digits.m"),"%2d");
 print_polynomial(exact_h_sd,"h_sd", ...
-                 strcat(strf,"_h_sd_coef.m"),nscale);
+                 strcat(strf,"_h_sd_coef.m"),nscale_fir);
 print_polynomial(exact_h_Lim_sd,"h_Lim_sd", ...
-                 strcat(strf,"_h_Lim_sd_coef.m"),nscale);
-print_polynomial(bandb_h_min,"h_min", ...
-                 strcat(strf,"_h_min_coef.m"),nscale);
+                 strcat(strf,"_h_Lim_sd_coef.m"),nscale_fir);
 
-clear h h_allocsd_digits socp_h_allocsd bandb_h_allocsd
-clear h_sd h_Lim_sd bandb_h_sd bandb_h_Lim_sd socp_h_sd socp_h_Lim_sd h_min
+clear socp_h_allocsd socp_h_sd socp_h_Lim_sd
+clear bandb_h_allocsd bandb_h_sd bandb_h_Lim_sd 
 
-[exact_h_sd_digits,exact_h_sd_adders]=SDadders(exact_h_sd,nbits);
-[exact_h_Lim_sd_digits,exact_h_Lim_sd_adders]=SDadders(exact_h_Lim_sd,nbits);
-[socp_h_min_digits,socp_h_min_adders]=SDadders(socp_h_min,nbits);
-[bandb_h_min_digits,bandb_h_min_adders]=SDadders(bandb_h_min,nbits);
+[exact_h_sd_digits,exact_h_sd_adders]=SDadders(exact_h_sd,nbits_fir);
+[exact_h_Lim_sd_digits,exact_h_Lim_sd_adders]=SDadders(exact_h_Lim_sd,nbits_fir);
+[socp_h_min_digits,socp_h_min_adders]=SDadders(socp_h_min,nbits_fir);
+[bandb_h_min_digits,bandb_h_min_adders]=SDadders(bandb_h_min,nbits_fir);
 
 Asq_exact_h=directFIRnonsymmetricAsq(w,exact_h);
 Asq_exact_h_pass_error=max(abs(10*log10(Asq_exact_h(Rap))));
@@ -648,9 +652,9 @@ legend("F-P","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","northeast");
 legend("boxoff");
 legend("left");
-strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
-             nbits,ndigits,fasl,fapl,fapu,fasu);
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter : ", ...
+              "ndigits=%d,nbits\\_fir=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
+             ndigits,nbits_fir,fasl,fapl,fapu,fasu);
 title(strt);
 zticks([]);
 print(strcat(strf,"_h_min_amplitude"),"-dpdflatex");
@@ -662,16 +666,16 @@ hls={"-",":","--","-."};
 for l=1:4
   set(ha(l),"linestyle",hls{l});
 endfor
-axis([0.08 0.22 -0.5,0.1]);
+axis([0.08 0.22 -1 0.1]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fapl=%g,fapu=%g"], ...
-             nbits,ndigits,fapl,fapu);
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter : ", ...
+              "ndigits=%d,nbits\\_fir=%d,fapl=%g,fapu=%g"], ...
+             ndigits,nbits_fir,fapl,fapu);
 title(strt);
 legend("F-P","S-D(Lim)","B-and-B","SOCP-relax");
-legend("location","north");
+legend("location","south");
 legend("boxoff");
 legend("left");
 zticks([]);
@@ -688,9 +692,9 @@ axis([0 0.5 -40 -20]);
 grid("on");
 xlabel("Frequency");
 ylabel("Amplitude(dB)");
-strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
-             nbits,ndigits,fasl,fapl,fapu,fasu);
+strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter : ", ...
+              "ndigits=%d,nbits\\_fir=%d,fasl=%g,fapl=%g,fapu=%g,fasu=%g"], ...
+             ndigits,nbits_fir,fasl,fapl,fapu,fasu);
 title(strt);
 legend("F-P","S-D(Lim)","B-and-B","SOCP-relax");
 legend("location","northeast");
@@ -708,7 +712,7 @@ hls={"-",":","--","-."};
 for c=1:4
   set(ha(c),"linestyle",hls{c});
 endfor
-axis([0.08 0.22 mod(pp,2)+[-0.001,0.002]]);
+axis([0.08 0.22 mod(pp,2)+[-0.001,0.001]]);
 grid("on");
 xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
@@ -717,8 +721,8 @@ legend("location","south");
 legend("boxoff");
 legend("left");
 strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,fppl=%g,fppu=%g"], ...
-             nbits,ndigits,fppl,fppu);
+              " ndigits=%d,nbits\\_fir=%d,fppl=%g,fppu=%g"], ...
+             ndigits,nbits_fir,fppl,fppu);
 title(strt);
 zticks([]);
 print(strcat(strf,"_h_min_phase"),"-dpdflatex");
@@ -741,8 +745,8 @@ legend("location","northwest");
 legend("boxoff");
 legend("left");
 strt=sprintf(["Non-symmetric FIR bandpass Hilbert filter :", ...
-              " ndigits=%d,nbits=%d,ftpl=%g,ftpu=%g"], ...
-             nbits,ndigits,ftpl,ftpu);
+              " ndigits=%d,nbits\\_fir=%d,ftpl=%g,ftpu=%g"], ...
+             ndigits,nbits_fir,ftpl,ftpu);
 title(strt);
 zticks([]);
 print(strcat(strf,"_h_min_delay"),"-dpdflatex");

@@ -61,8 +61,8 @@ faap=0.25
 parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Da1_coef;
 parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef;
 % Convert the R=2 band-pass Hilbert filter to parallel Schur lattice filters
-Da0=Da1(1:2:end);clear Da1;Da0=Da0(:)';
-Db0=Db1(1:2:end);clear Db1;Db0=Db0(:)';
+Da0=Da1(:)';clear Da1;
+Db0=Db1(:)';clear Db1;;
 [A1k0,~,~,~]=tf2schurOneMlattice(fliplr(Da0),Da0);
 [A2k0,~,~,~]=tf2schurOneMlattice(fliplr(Db0),Db0);
 

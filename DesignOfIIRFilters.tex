@@ -9953,7 +9953,7 @@ Figure~\ref{fig:iir-sqp-slb-bandpass-R2-test-compare-magnitude}.
 \label{fig:iir-sqp-slb-bandpass-R2-test-compare-magnitude}
 \end{figure}
 \clearpage
-\section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SQP}SQP PCLS design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SQP}}
+\subsection{\label{sec:Lowpass-IIR-R-2-decimation-filter-SQP}Low-pass R=2 decimation filter}
 The Octave script \emph{iir\_sqp\_slb\_lowpass\_R2\_test.m} designs an $R=2$
 lowpass filter. After some experimentation, the filter specification is:
 \begin{small}
@@ -10000,10 +10000,10 @@ are:
 \end{figure}
 \clearpage
 \subsection{\label{sec:Hilbert-transform-R2-decimation-filter}Hilbert transform R=2 decimation filter}
-A Hilbert transform filter\cite[p.118]{Papoulis_SignalAnalysis} has the transfer
-function 
+The transfer function of a Hilbert transform
+filter\cite[p.118]{Papoulis_SignalAnalysis} is:
 \begin{align*}
-H_{d}\left(\omega\right)=-\imath sign\left(\omega\right)e^{-\imath\omega t_{d}}
+H_{d}\left(\omega\right)=-\imath \, sign\left(\omega\right)e^{-\imath\omega t_{d}}
 \end{align*}
 The Octave script \emph{iir\_sqp\_slb\_hilbert\_R2\_test.m} designs a Hilbert
 transform filter with $U=7,\;V=2,\;M=4,\;Q=4,\;R=2$ and the group-delay of the
@@ -11314,10 +11314,10 @@ and
 \label{fig:iir-socp-slb-lowpass-differentiator-pcls-pz}
 \end{figure}
 \clearpage
-\section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\section{\label{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP design of a low-pass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_lowpass\_R2\_test.m} uses the
 \emph{SeDuMi} SOCP solver to design an $R=2$ lowpass filter, similar to that
-shown in Section~\ref{sec:Lowpass-R-2-IIR-filter-gain-zero-pole-with-SQP}.
+shown in Section~\ref{sec:Lowpass-IIR-R-2-decimation-filter-SQP}.
 After some experimentation, the filter specification is:
 \begin{small}
 \verbatiminput{iir_socp_slb_lowpass_R2_test_spec.m}
@@ -11364,7 +11364,7 @@ are:
 \label{fig:iir-socp-slb-lowpass-R2-test-pcls-pz}
 \end{figure}
 \clearpage
-\section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP MMSE design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\section{\label{sec:Bandpass-R-2-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP design of a bandpass R=2 filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script \emph{iir\_socp\_slb\_bandpass\_R2\_test.m} uses the
 \emph{SeDuMi} SOCP solver to design an $R=2$ bandpass filter similar to that
 designed with the SQP solver in Section~\ref{sec:Band-pass-R-2-decimation-filter}. After some 
@@ -11425,7 +11425,7 @@ of the filter after PCLS SOCP optimisation.}
 \label{fig:iir-socp-slb-bandpass-R2-test-pcls-d1-pz}
 \end{figure}
 \clearpage
-\section{\label{sec:Multi-bandpass-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP PCLS design of a multi-band-pass filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
+\section{\label{sec:Multi-bandpass-IIR-filter-gain-zero-pole-with-SeDuMi}SOCP design of a multi-band-pass filter expressed in \emph{gain-zero-pole} format with \emph{SeDuMi}}
 The Octave script
 \emph{iir\_socp\_slb\_multiband\_test.m}
 implements the design of a multi-band-pass IIR filter expressed in

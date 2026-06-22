@@ -286,7 +286,7 @@ xlabel("Frequency");
 ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
@@ -308,7 +308,7 @@ xlabel("Frequency");
 ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");
@@ -330,7 +330,7 @@ xlabel("Frequency");
 ylabel("Relative amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
@@ -352,7 +352,7 @@ xlabel("Frequency");
 ylabel("Relative amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");
@@ -374,7 +374,7 @@ xlabel("Frequency");
 ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","north");
@@ -396,7 +396,7 @@ xlabel("Frequency");
 ylabel("Amplitude error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","north");
@@ -418,7 +418,7 @@ xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","northeast");
@@ -440,7 +440,7 @@ xlabel("Frequency");
 ylabel("Phase(rad./$\\pi$)");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southeast");
@@ -462,7 +462,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","southeast");
@@ -484,7 +484,7 @@ xlabel("Frequency");
 ylabel("Delay(samples)");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","north");
@@ -506,7 +506,7 @@ xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$ error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","S-D","S-D(Lim)");
 legend("location","southwest");
@@ -529,7 +529,7 @@ xlabel("Frequency");
 ylabel("$\\frac{d|A|^{2}}{d\\omega}$ error");
 strt=sprintf(["Schur one-multiplier lattice lowpass differentiator filter", ...
               " (ndigits=%d,nbits=%d) : fap=%g,fas=%g"], ...
-             nbits,ndigits,fap,fas);
+             ndigits,nbits,fap,fas);
 title(strt);
 legend("Exact","B-and-B","SOCP-relax","POP-relax");
 legend("location","southwest");

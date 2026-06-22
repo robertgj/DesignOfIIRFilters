@@ -1,0 +1,100 @@
+#!/bin/sh
+
+prog=comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.m
+
+depends="test/comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_k2_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_epsilon2_coef.m \
+../schurOneMlattice_socp_slb_lowpass_differentiator_R2_test_c2_coef.m \
+../branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m \
+../branch_bound_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m \
+../socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m \
+../socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_epsilon_min_coef.m \
+../socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m \
+../socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_h0_coef.m \
+../socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM0_coef.m \
+../socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_coef.m \
+../socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_signed_digits.m \
+../socp_relaxation_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_adders.m \
+../branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_h0_coef.m \
+../branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM0_coef.m \
+../branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_coef.m \
+../branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_signed_digits.m \
+../branch_bound_directFIRantisymmetric_lowpass_differentiator_12_nbits_test_hM_min_adders.m \
+test_common.m \
+schurOneMlatticeAsq.m \
+schurOneMlatticeT.m \
+schurOneMlatticeP.m \
+schurOneMlatticedAsqdw.m \
+schurOneMlatticeEsq.m \
+schurOneMscale.m \
+tf2schurOneMlattice.m \
+schurOneMlattice2tf.m \
+schurOneMlattice_allocsd_Lim.m \
+directFIRantisymmetricA.m \
+directFIRantisymmetricEsq.m \
+print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
+
+tmp=/tmp/$$
+here=`pwd`
+if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
+
+fail()
+{
+        echo FAILED ${0#$here"/"} $prog 1>&2
+        cd $here
+        rm -rf $tmp
+        exit 1
+}
+
+pass()
+{
+        echo PASSED ${0#$here"/"} $prog
+        cd $here
+        rm -rf $tmp
+        exit 0
+}
+
+trap "fail" 1 2 3 15
+
+mkdir $tmp
+if [ $? -ne 0 ]; then echo "Failed mkdir"; exit 1; fi
+for file in $depends;do \
+  cp -R src/$file $tmp; \
+  if [ $? -ne 0 ]; then echo "Failed cp "$file; fail; fi \
+done
+cd $tmp
+if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
+
+#
+# the output should look like this
+#
+cat > test.cost.ok << 'EOF'
+Floating-point &3.55e-05&4.50e-04&1.33e-03&3.51e-03&9.78e-05&3.00e-03&&\\
+Signed-Digit &5.14e-05&1.56e-03&3.07e-03&3.95e-03&2.75e-04&6.08e-03&38&22\\
+Signed-Digit(Lim) &5.32e-05&1.18e-03&2.33e-03&4.00e-03&3.86e-04&6.66e-03&39&23\\
+Branch-and-bound &4.69e-05&1.80e-03&2.97e-03&5.10e-03&2.03e-04&6.56e-03&40&24\\
+SOCP-relaxation &4.52e-05&1.26e-03&2.22e-03&4.26e-03&1.48e-04&4.18e-03&37&21\\
+EOF
+if [ $? -ne 0 ]; then echo "Failed output cat test.cost.ok"; fail; fi
+
+#
+# run and see if the results match
+#
+echo "Running $prog"
+
+octave --no-gui -q $prog >test.out 2>&1
+if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi
+
+nstr="comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test"
+
+diff -Bb test.cost.ok $nstr"_cost.tab"
+if [ $? -ne 0 ]; then echo "Failed diff -Bb of test.cost.ok"; fail; fi
+
+#
+# this much worked
+#
+pass
