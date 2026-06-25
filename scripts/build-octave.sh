@@ -73,7 +73,7 @@ OPTFLAGS="-m64 -march=nehalem -O2"
 #
 # Get Octave archive
 #
-OCTAVE_VER=${OCTAVE_VER:-11.1.0}
+OCTAVE_VER=${OCTAVE_VER:-11.3.0}
 OCTAVE_ARCHIVE=octave-$OCTAVE_VER".tar.lz"
 OCTAVE_URL=https://ftpmirror.gnu.org/gnu/octave/$OCTAVE_ARCHIVE
 if ! test -f $OCTAVE_ARCHIVE; then
@@ -186,14 +186,14 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.2.1}
+CONTROL_VER=${CONTROL_VER:-4.2.2}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.2.3}
+DATATYPES_VER=${DATATYPES_VER:-1.2.5}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
@@ -514,8 +514,8 @@ rm -Rf octave-$OCTAVE_VER
 tar -xf $OCTAVE_ARCHIVE
 # Patch
 cat > octave-$OCTAVE_VER".patch.gz.uue" << 'EOF'
-begin-base64 644 octave-11.1.0.patch.gz
-H4sICNpJz2kAA29jdGF2ZS0xMS4xLjAucGF0Y2gAtRprc9NI8vP5VzSmKrGx
+begin-base64 644 octave-11.3.0.patch.gz
+H4sICEp4O2oAA29jdGF2ZS0xMS4zLjAucGF0Y2gAtRprc9NI8vP5VzSmKrGx
 7Ei280DGFCxk76gKsHXAwhahVIo0tlWRRj5JjpNN8Z/uN9wvu+6Z0dPyK4Aq
 sa2Znn53T8+j2+1C6CT2DesaRs/o6Ue+d+XxhEXzIyeM2MThR76dsNsu/ifd
 iHGXRSzqOc4/+nr/pKv3u8ZT0Ifm8dAc6j09faBjGLre6HQ6ZfQ9zpb7khh2

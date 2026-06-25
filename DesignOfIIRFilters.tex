@@ -45990,9 +45990,9 @@ Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
 \section*{\label{sec:Software-requirements}Software requirements}
 I currently use the Fedora 44 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{7.0.10-201.fc44.x86\_64}
+\item \texttt{uname -r} is \emph{7.0.12-201.fc44.x86\_64}
 \item \emph{gcc} version \emph{16.1.1 20260515 (Red Hat 16.1.1-2))}
-\item a local build of \emph{octave-11.1.0} with the \emph{struct}, \emph{io},
+\item a local build of \emph{octave-11.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
@@ -46003,7 +46003,7 @@ I currently use the Fedora 44 distribution of Linux~\cite{Fedora_website} with:
 \item \emph{dia-0.97.3-32} is used for line drawings
 \end{itemize}
 
-The local build of \emph{octave-11.1.0} and Octave-Forge packages assumes that
+The local build of \emph{octave-11.3.0} and Octave-Forge packages assumes that
 the following packages are installed in addition to the base Fedora distribution:
 \begin{small}
 \begin{verbatim}
@@ -46092,12 +46092,12 @@ Section~\ref{sec:Round-off-normalised-scaled-lattice}, has the corresponding
 \pdfbookmark[0]{Octave}{octave}
 \section*{Octave}
 The \emph{build-octave.sh} script builds a patched, local, command-line only,
-version of \emph{octave-11.1.0} avoiding the vagaries of the Fedora
+version of \emph{octave-11.3.0} avoiding the vagaries of the Fedora
 packagers. 
 
 The \emph{build-octave.sh} script builds Octave and the associated numerical
 libraries with the \emph{g++} option \texttt{-march=nehalem}. The patch file,
-\emph{octave-11.1.0.patch}, is a shell \emph{here} document
+\emph{octave-11.3.0.patch}, is a shell \emph{here} document
 within \emph{build-octave.sh}. 
 
 The \emph{build-octave.sh} script assumes the default sizes of FORTRAN
@@ -46242,7 +46242,7 @@ times each. The aim appears to be to find the bounding box of the label for
 typesetting. Unfortunately, trying to understand the control flow in
 \emph{libinterp/corefcn/graphics.cc} is a fruitless, quixotic exercise.
 
-The \emph{octave-11.1.0.patch} \texttt{here} document within
+The \emph{octave-11.3.0.patch} \texttt{here} document within
 \emph{build-octave.sh} patches files to:
 \begin{itemize}
 \item prevent a \emph{valgrind} warning from \emph{load-save.cc}
@@ -46475,9 +46475,9 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas     & 509.1 \\
-Shared reference lapack and blas            &  48.1 \\
-Shared reference lapack and blas, LTO       &  47.9 \\
+Debug, shared reference lapack and blas     & 505.8 \\
+Shared reference lapack and blas            &  48.4 \\
+Shared reference lapack and blas, LTO       &  48.0 \\
 Shared reference lapack and blas, PGO       &  49.5 \\
 Shared reference lapack and blas, LTO, PGO  &  48.2 \\
 \bottomrule
@@ -46515,7 +46515,7 @@ run.}:
 \begin{verbatim}
 atlas.x86_64            3.10.3-30.fc43
 blas.x86_64             3.12.0-11.fc44
-lapack.x86_64           3.12.0-10.fc44
+lapack.x86_64           3.12.0-11.fc44
 gsl.x86_64              2.8-3.fc44
 gsl-devel.x86_64        2.8-3.fc44
 openblas.x86_64         0.3.29-2.fc43
@@ -46557,18 +46557,18 @@ The largest is shown.
 \cmidrule{2-5}                  & MFLOPS & Normalised & Execution time & Execution time \\
                                 &        & residual   & (seconds)      & (seconds) \\
 \midrule
-x86-64 libblas/liblapack        &  6505  & 21.3       &  47.9          &  55.3 \\
-Nehalem libblas/liblapack       &  6503  & 21.3       &  47.9          &  55.3 \\
-Haswell libblas/liblapack       &  8455  & 18.5       &  47.7          &  49.6 \\
-Skylake libblas/liblapack       &  7916  & 18.5       &  47.8          &  49.7 \\
-Fedora libblas/liblapack        &  6611  & 21.3       &  47.8          &  55.2 \\
-Nehalem libgslcblas             &  6491  & 21.3       &  47.9          &  55.3 \\
-Nehalem libsatlas               & 13198  & 12.1       &  49.1          &  60.1 \\
-Nehalem libtatlas               & 20279  & 12.8       &  48.5          &  60.3 \\
-Nehalem libopenblas             & 33174  &  9.9       &  47.1          &  49.6 \\
-Nehalem libopenblasp (1 thread) & 33245  &  9.9       &  47.1          &  50.1 \\
-Nehalem libopenblasp (2 threads)& 46546  & 12.1       &  47.3          &  50.1 \\
-Nehalem libopenblasp (4 threads)& 58686  & 10.8       &  47.4          &  50.1 \\
+x86-64 libblas/liblapack        &  6485  & 21.3       &  48.0          &  55.8 \\
+Nehalem libblas/liblapack       &  6489  & 21.3       &  48.0          &  56.0 \\
+Haswell libblas/liblapack       &  9392  & 18.5       &  47.8          &  50.2 \\
+Skylake libblas/liblapack       &  9769  & 18.5       &  47.8          &  50.2 \\
+Fedora libblas/liblapack        &  6481  & 21.3       &  48.0          &  55.9 \\
+Nehalem libgslcblas             &  6488  & 21.3       &  48.0          &  55.9 \\
+Nehalem libsatlas               & 13303  & 12.1       &  49.2          &  60.5 \\
+Nehalem libtatlas               & 20120  & 12.8       &  48.6          &  60.7 \\
+Nehalem libopenblas             & 33095  &  9.9       &  47.3          &  50.1 \\
+Nehalem libopenblasp (1 thread) & 33118  &  9.9       &  47.3          &  50.6 \\
+Nehalem libopenblasp (2 threads)& 46459  & 12.1       &  47.4          &  50.6 \\
+Nehalem libopenblasp (4 threads)& 58397  & 10.8       &  47.6          &  50.6 \\
 \bottomrule
 \end{tabular}
 \egroup{}

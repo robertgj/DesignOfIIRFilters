@@ -16,7 +16,7 @@ export SUITESPARSE_VERSION=7.12.2
 export ARPACK_NG_VERSION=3.9.1
 export FFTW_VERSION=3.3.11
 export QRUPDATE_VERSION=1.1.2
-export OCTAVE_VERSION=11.1.0
+export OCTAVE_VERSION=11.3.0
 export SEDUMI_VERSION=1.3.8
 export YALMIP_VERSION=R20250626_fix2
 for file in lapack-$LAPACK_VERSION".tar.gz" \
@@ -94,8 +94,8 @@ tar -xf octave-$OCTAVE_VERSION".tar.lz"
 pushd octave-$OCTAVE_VERSION
 patch -p1 < ../octave-$OCTAVE_VERSION.patch
 cat > octave-$OCTAVE_VERSION".patch.gz.uue" << 'EOF'
-begin-base64 644 octave-11.1.0.patch.gz
-H4sICNpJz2kAA29jdGF2ZS0xMS4xLjAucGF0Y2gAtRprc9NI8vP5VzSmKrGx
+begin-base64 644 octave-11.3.0.patch.gz
+H4sICEp4O2oAA29jdGF2ZS0xMS4zLjAucGF0Y2gAtRprc9NI8vP5VzSmKrGx
 7Ei280DGFCxk76gKsHXAwhahVIo0tlWRRj5JjpNN8Z/uN9wvu+6Z0dPyK4Aq
 sa2Znn53T8+j2+1C6CT2DesaRs/o6Ue+d+XxhEXzIyeM2MThR76dsNsu/ifd
 iHGXRSzqOc4/+nr/pKv3u8ZT0Ifm8dAc6j09faBjGLre6HQ6ZfQ9zpb7khh2
