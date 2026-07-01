@@ -18,6 +18,7 @@ eval(sprintf("diary %s.diary.tmp",strf));
 % Low-pass filter specification (Reduce Esq_z while satisfying the constraints)
 M=15;N=2*M;fap=0.15;fas=0.2;Esq_s=1e-4;
 d=10;Esq_z=5.67e-3;
+Esq_t=1;
 AdB_est=konopacki(N,(fas-fap)*2*pi,d)
 
 % Common constants
@@ -29,6 +30,9 @@ C_d(N-d+1)=1;
 Phi=[-1,0;0,1];
 c_p=2*cos(2*pi*fap);
 Psi_z=[0,1;1,-c_p];
+e_c=e^(j*pi*(fap+fas));
+c_h=2*cos(pi*(fas-fap));
+Psi_t=[0,e_c;1/e_c,-c_h];
 c_s=2*cos(2*pi*fas);
 Psi_s=[0,-1;-1,c_s];
 
@@ -36,12 +40,19 @@ Psi_s=[0,-1;-1,c_s];
 CD=sdpvar(1,N+1);
 CD_d=CD-[C_d,0];
               
-% Pass band constraint on the error |H(w)-e^(-j*w*d)|^2
+% Constraint on the pass band error |H(w)-e^(-j*w*d)|^2
 P_z=sdpvar(N,N,"symmetric","real");
 Q_z=sdpvar(N,N,"symmetric","real");
 F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
       diag([zeros(1,N),-Esq_z]),CD_d']; ...
      [CD_d,-1]];
+
+% Constraint on maximum transition band amplitude
+P_t=sdpvar(N,N,"symmetric","real");
+Q_t=sdpvar(N,N,"symmetric","real");
+F_t=[[((AB')*(kron(Phi,P_t)+kron(Psi_t,Q_t))*AB) + ...
+      diag([zeros(1,N),-Esq_t]),CD']; ...
+     [CD,-1]];
 
 % Constraint on maximum stop band amplitude
 P_s=sdpvar(N,N,"symmetric","real");
@@ -52,7 +63,7 @@ F_s=[[((AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB) + ...
 
 % Satisfy constraints on zero-phase pass-band error and stop-band error
 Objective=[];
-Constraints=[F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
+Constraints=[F_z<=0,Q_z>=0,F_t<=0,Q_t>=0,F_s<=0,Q_s>=0];
 Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
@@ -68,6 +79,15 @@ if ~isdefinite(value(Q_z))
 endif
 if ~isdefinite(-value(F_z))
   error("F_z not negative semi-definite");
+endif
+if ~issymmetric(value(P_t))
+  error("P_t not symmetric");
+endif
+if ~isdefinite(value(Q_t))
+  error("Q_t not positive semi-definite");
+endif
+if ~isdefinite(-value(F_t))
+  error("F_t not negative semi-definite");
 endif
 if ~issymmetric(value(P_s))
   error("P_s not symmetric");
@@ -111,6 +131,8 @@ close
 % Check amplitude response
 max_Esq_z=max(abs(H(1:nap)-e.^(-j*w(1:nap)*d)))^2;
 printf("max_Esq_z=%10.8f\n",max_Esq_z);
+max_Esq_t=max(abs(H(nap:nas)))^2;
+printf("max_Esq_t=%10.8f\n",max_Esq_t);
 fid=fopen(strcat(strf,"_max_passband_squared_error.tab"),"wt");
 fprintf(fid,"%10.8f",max_Esq_z);
 fclose(fid);

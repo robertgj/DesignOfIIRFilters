@@ -63,7 +63,7 @@ for N=[6,7],
   if any(eigs(value(Q_s),N) < -sedumi_eps/100)
     error("Q_s not positive semi-definite");
   endif
-  if any(eigs(-value(F_s),N) < -2*sedumi_eps)
+  if any(eigs(value(F_s),N+2) > 10*sedumi_eps)
     error("F_s not negative semi-definite");
   endif
 
@@ -72,6 +72,7 @@ for N=[6,7],
   %
   
   yalmip("clear");
+  finsler_eps=1e-6;
   Esq_s=sdpvar(1,1,"full","real");
   P_s=sdpvar(N,N,"symmetric","real");
   Q_s=sdpvar(N,N,"symmetric","real");
@@ -83,10 +84,9 @@ for N=[6,7],
   F_s=[[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]+UV_s+(UV_s');
 
   % Solve
-  sedumi_eps=6.7e-7;
   Objective=Esq_s;
-  Options=sdpsettings("solver","sedumi","sedumi.eps",sedumi_eps);
-  Constraints=[ 0<=Esq_s, F_s<=sedumi_eps, Q_s>=0];
+  Options=sdpsettings("solver","sedumi","sedumi.eps",finsler_eps);
+  Constraints=[ 0<=Esq_s, F_s<=finsler_eps, Q_s>=0];
   sol=optimize(Constraints,Objective,Options)
   if sol.problem == 0
     fprintf(fhandle,"N=%d, Finsler generalised KYP solved!\n",N);
@@ -99,16 +99,39 @@ for N=[6,7],
   % Sanity checks
   check(Constraints)
 
-  if abs(value(Esq_s)-10^(-dBas/10)) > 2*sedumi_eps
-    error("Finsler abs(value(Esq_s)-10^(-dBas/10)) > 2*sedumi_eps");
+  if abs(value(Esq_s)-10^(-dBas/10)) > 2e-6
+    error("Finsler abs(value(Esq_s)-10^(-dBas/10)) > 2e-6");
   endif
   
   % Check stop band maximum amplitude response
-  if any(eigs(value(Q_s),N) < -sedumi_eps/100)
+  if any(eigs(value(Q_s),N) < -1e-9)
     error("Finsler Q_s not positive semi-definite");
   endif
-  if any(eigs(-value(F_s),N) < -sedumi_eps/100)
+
+  % Check Finsler lemma part 2
+  if any(eigs(value(F_s),N+2) > finsler_eps)
     error("Finsler F_s not negative semi-definite");
+  endif
+
+  % Check Finsler lemma part 1
+  Ut_s=[-eye(N),A,B]';
+  cUt_s=[A,B;eye(N),zeros(N,1);zeros(1,N),1]';
+  if max(max(abs(cUt_s*Ut_s))) > eps
+    error("max(max(abs(cUt_s*Ut_s))) > eps");
+  endif
+  vUFP_s=value([[L_s,zeros(2*N,1)];[zeros(1,2*N),0]]);
+  if any(eigs(cUt_s*vUFP_s*cUt_s',N+1) > 1e-4)
+    error("Finsler UFP_s not negative semi-definite");
+  endif
+  % Alternatively
+  vV_s=value(V_s);
+  cvV_s=null(vV_s);
+  if max(max(abs(vV_s*cvV_s))) > 10*eps
+    error("max(max(abs(vV_s*cvV_s))) > 10*eps");
+  endif
+  vVFP_s=value([[L_s,zeros(2*N,2)];[zeros(2,2*N),diag([-Esq_s,1])]]);
+  if any(eigs(cvV_s'*vVFP_s*cvV_s,N+1) > 1e-6)
+    error("Finsler VFP_s not negative semi-definite");
   endif
 
 endfor

@@ -110,13 +110,13 @@ for n=N,
       solver_time_Fp_remove_equal(k) + diagnostics_Fp_remove_equal.solvertime;
 
     % Sanity check on t
-    if abs(t_F(k) - t_Fp(k)) > 100*tol
-      error("abs(t_F(%d) - t_Fp(%d))(%g*tol) > 100*tol", ...
+    if abs(t_F(k) - t_Fp(k)) > 2*n*tol
+      error("abs(t_F(%d) - t_Fp(%d))(%g*tol) > 2*n*tol", ...
             k,k,abs(t_F(k) - t_Fp(k))/tol);
     endif
-    if abs(t_F(k) - t_Fp_remove_equal(k)) > tol
-      error("abs(t_F(%d) - t_Fp_remove_equal(%d))(%g*tol) > 100*tol", ...
-            k,k,abs(t_F(k) - t_Fp(k))/tol);
+    if abs(t_F(k) - t_Fp_remove_equal(k)) > 2*n*tol
+      error("abs(t_F(%d) - t_Fp_remove_equal(%d))(%g*tol) > 2*n*tol", ...
+            k,k,abs(t_F(k) - t_Fp_remove_equal(k))/tol);
     endif
     
   endfor

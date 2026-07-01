@@ -27065,6 +27065,12 @@ The \emph{trace} of a matrix is the sum of the elements on the diagonal:
 \begin{align*}
   \mathtrace\left(\boldsymbol{T}\right) &= \sum_{n}T_{nn}
 \end{align*}
+The \emph{trace} of a product of matrixes. $\boldsymbol{A}$ and $\boldsymbol{B}$
+is:
+\begin{align*}
+  \mathtrace\left(\boldsymbol{A}^{\top}\boldsymbol{B}\right)
+  &=\sum_{m}\sum_{n}A_{mn}B_{mn}
+\end{align*}
 For a column vector, $\boldsymbol{y}$, and a matrix, $\boldsymbol{Q}$:
 \begin{align*}
   \boldsymbol{y}^{\top}\boldsymbol{Q}\boldsymbol{y}
@@ -35117,7 +35123,8 @@ then the mean-squared-error over each frequency region $\Omega_{k}$ is:
  -2A_{k}\sum_{n=0,n\ne{}d_{k}}^{N}h_{n}\frac{\sin\left(n-d_{k}\right)\omega}{n-d_{k}}
  +A_{k}^{2}\omega\right]_{\Omega_{k}}
 \end{align*}
-In stop bands the nominal delay, $d_{k}$, is assumed to be zero. 
+Outside the pass band, the nominal delay, $d_{k}$, is assumed to be zero so that
+is not included in the calculation of the error.
 The Octave function \emph{directFIRnonsymmetricEsqPW.m} calculates the
 piece-wise calculation of $\mathcal{E}^{2}$, and its gradients
 with respect to the coefficients, $h_{n}$, of a non-symmetric FIR filter.
@@ -42866,6 +42873,49 @@ this case the state transition matrix $A$ has the same order and structure for
 symmetric and non-symmetric direct FIR filters. The function is described in
 Section~\ref{app:Unconstrained-opt-FIR-digital-filters-SOCP}.
 
+\emph{Freund}~\cite[Section 8]{Freund_IntroSDP} shows how to express
+the quadratic optimisation constraint as an SDP constraint. The problem:
+\begin{align*}
+\textbf{minimise}\quad x^{\top}Qx+q^{\top}x +c \;\;\; & \\
+\end{align*}
+is equivalent to:
+\begin{align*}
+\textbf{minimise}\quad & \theta \\
+  \textbf{subject to}\quad &
+                       x^{\top}Qx+2q^{\top}x +c -\theta\le 0
+\end{align*}
+If $Q$ can be factored as $Q=M^{\top}M$, then, with the \emph{Schur} complement,
+the problem becomes:
+\begin{align*}
+\textbf{minimise}\quad & \theta \\
+  \textbf{subject to}\quad & \left[\begin{array}{cc}
+    I & Mx \\
+    x^{\top}M^{\top} & -c-2q^{\top}x+\theta\end{array}\right] \succeq 0
+\end{align*}
+Note that the matrix coefficients are linear functions of $x$ and $\theta$.
+An alternative SDP formulation uses the proposition:
+\begin{align*}
+  \left[\begin{array}{cc}
+    I & x^{\top}\\
+    x & W \end{array}\right] \succeq 0 \text{ if-and-only-if } W\succeq xx^{\top}
+\end{align*}
+With this proposition, the SDP problem becomes:
+\begin{align*}
+\textbf{minimise}\quad & \theta \\
+  \textbf{subject to}\quad & \phantom{\langle}\left[\begin{array}{cc}
+    I & x^{\top}\\
+    x & W \end{array}\right] \succeq 0 \\
+ &  \mathtrace \left( \left[\begin{array}{cc}
+    c-\theta & q^{\top} \\
+    q & Q \end{array}\right]^{\top} \left[\begin{array}{cc}
+    I & x^{\top}\\
+    x & W \end{array}\right]\right) \le 0
+\end{align*}
+The quadratic constraint is converted to a linear inequality at the
+expense of the $\frac{n\left(n+1\right)}{2}$ additional variables in $W$. The
+Octave script \emph{yalmip\_sdp\_fir\_lowpass\_test.m} demonstrates the
+conversion of a quadratic constraint to an SDP constraint.
+
 \paragraph{Amplitude constraints}
 The desired response errors for each filter frequency band are encoded in the
 corresponding $\Pi$ matrix. For example, see
@@ -45481,12 +45531,12 @@ Also:
 \subsubsection{The dual of an SDP problem}
 A \emph{primal} SDP optimisation problem is:
 \begin{align}
-  \underset{X}{\textbf{minimise}} \quad & \langle C,X \rangle \nonumber \\
-  \textbf{subject to}\quad & \langle A_{k},X\rangle = b_{k} \; ,k=1,\hdots,m \\
-                                        & X \succeq 0
+  \underset{X}{\textbf{minimise}} \quad & \langle C,X \rangle  \nonumber \\
+  \textbf{subject to}\quad & \langle A_{k},X\rangle=b_{k}\text{ , }k=1,\hdots,m\\
+                           & X \succeq 0 \nonumber
 \label{Eqn:Definition-primal-SDP-problem}
 \end{align}
-where $C\in\mathbb{S}^{n\times{}n}$, $A_{k}\in\mathbb{S}^{n\times{}n}$ and
+where $C\in\mathbb{S}^{n}$, $A_{k}\in\mathbb{S}^{n}$ and
 $b_{k}\in\mathbb{R}$.
 The corresponding \emph{dual} SDP optimisation problem is stated as (or can be
 derived as\footnote{See the lecture notes of \emph{Bertsimas}~\cite[Lecture 23,
@@ -45494,24 +45544,81 @@ derived as\footnote{See the lecture notes of \emph{Bertsimas}~\cite[Lecture 23,
  \emph{El Ghaoui}~\cite{ElGhaoui_SDP_Duality}.}):
 \begin{align}
   \underset{y}{\textbf{maximise}} \quad & \sum_{k=1}^{m}y_{k}b_{k} \nonumber\\
-  \textbf{subject to}\quad & \sum_{k=1}^{m}y_{k}A_{k} + S = C \\
-                          & S \succeq 0
+  \textbf{subject to}\quad & \sum_{k=1}^{m}y_{k}A_{k} + Z = C \\
+                          & Z \succeq 0 
   \label{Eqn:Definition-dual-SDP-problem}
 \end{align}
 
+The dual problem is derived by finding the stationary point of the Lagrangian:
+\begin{align*}
+  \mathcal{L}\left(X,y,Z\right)
+  &= \langle C,X \rangle -
+    \sum_{k=1}^{m}y_{k}\left(\langle A_{k},X\rangle - b_{k}\right)
+    -\langle Z,X \rangle
+\end{align*}
+The last term takes account of the $X \succeq 0$ constraint, since for any
+$Y\in\mathbb{S}^{n}$, $\underset{Z\succeq 0}\max -\langle Z,Y \rangle$ is finite
+if-and-only-if $Y\succeq 0$. At the stationary point:
+\begin{align*}
+\underset{X\in\mathbb{S}^{n}}\inf  \mathcal{L}\left(X,y,Z\right)
+  &= \begin{cases}
+    y^{\top}b & \text{if } C-\sum_{k=1}^{m}y_{k}A_{k} - Z =0 \\
+    -\infty & \text{otherwise}
+    \end{cases}
+  \end{align*}
+
+  The Octave script \emph{yalmip\_dual\_test.m} shows an example of
+  primal and dual problems. The primal problem is:
+\begin{align*}
+  \underset{X}{\textbf{minimise}} \quad & \langle C=\left[\begin{array}{cc}
+    0 & 1 \\
+    1 & 0 \end{array}\right],
+  X=\left[\begin{array}{cc}
+          x_{11} & x_{12}\\ 
+          x_{21} & x_{22}\end{array}\right] \rangle \\
+  \textbf{subject to}\quad & x_{11}=1 \text{ , } x_{22}=2 \\
+                           & X \succeq 0
+\end{align*}
+Here $b_{1}=1$, $b_{2}=2$, $A_{1}=\left[\begin{array}{cc}
+  1 & 0\\
+  0 & 0\end{array}\right]$ and $A_{2}=\left[\begin{array}{cc}
+  0 & 0\\
+  0 & 1\end{array}\right]$ so the dual problem is
+\begin{align*}
+  \underset{X}{\textbf{minimise}} \quad & y_{1}+2y_{2} \\
+  \textbf{subject to}\quad & \left[\begin{array}{cc}
+    0 & 1 \\
+    1 & 0 \end{array}\right]-y_{1}\left[\begin{array}{cc}
+    1 & 0 \\
+    0 & 0 \end{array}\right]-y_{2}\left[\begin{array}{cc}
+    0 & 0 \\
+    0 & 1 \end{array}\right]=\left[\begin{array}{cc}
+    -y_{1} & 1 \\
+    1 & -y_{2} \end{array}\right] \succeq 0
+\end{align*}
+The solutions are:
+\begin{align*}
+  X & =\left[\begin{array}{cc}
+    1 & -\sqrt{2} \\
+    -\sqrt{2} & 2\end{array}\right] \;\text { , }\; y =\left[\begin{array}{c}
+      -\sqrt{2} \\
+      -\frac{1}{\sqrt{2}} \end{array}\right]
+\end{align*}
+
+  
 \paragraph{Weak duality} \emph{Bertsimas}~\cite[Lecture 23, Section 4.2 and
 4.3]{Bertsimas_IntroMathematicalProgramming} gives the following theorem for
 \emph{weak duality}:
 \begin{framed}
   \emph{Theorem}: Given a feasible solution, $X$,
-  of the primary SDP problem and a feasible solution $\left(y,S\right)$ of the
+  of the primary SDP problem and a feasible solution $\left(y,Z\right)$ of the
   dual SDP problem:
   \begin{align*}
-    \langle C,X \rangle - \sum_{k=1}^{m}y_{k}b_{k} & = \langle S,X \rangle \ge 0
+    \langle C,X \rangle - \sum_{k=1}^{m}y_{k}b_{k} & = \langle Z,X \rangle \ge 0
   \end{align*}
   If $\langle C,X \rangle - \sum_{k=1}^{m}y_{k}b_{k} = 0$, then $X$ and
-  $\left(y,S\right)$ are each optimal solutions of the primal and dual SDP
-  optimisation problems and $SX=0$.
+  $\left(y,Z\right)$ are each optimal solutions of the primal and dual SDP
+  optimisation problems and $ZX=0$.
 \end{framed}
 \paragraph{Strong duality and the ``duality gap''} \emph{Bertsimas}~\cite[Lecture 23,
 Section 4.4]{Bertsimas_IntroMathematicalProgramming} notes that the SDP primary
@@ -45525,8 +45632,8 @@ the semideﬁnite cone.''.
 \emph{Bertsimas} gives the following theorem for \emph{strong duality}:
 \begin{framed}
   \emph{Theorem}: If there exist feasible solutions $\hat{X}$ for the primary
-  problem and $\left(\hat{y},\hat{S}\right)$ for the dual problem such that
-  $\hat{X}\succ 0$ and $\hat{S}\succ 0$, then both the primary and dual
+  problem and $\left(\hat{y},\hat{Z}\right)$ for the dual problem such that
+  $\hat{X}\succ 0$ and $\hat{Z}\succ 0$, then both the primary and dual
   solutions attain their optimal values $\hat{z}_{P}$ and $\hat{z}_{D}$ and
   $\hat{z}_{P}=\hat{z}_{D}$.
 \end{framed}
@@ -45539,17 +45646,17 @@ This section follows the report of \emph{Wallin}, \emph{Hansson} and
   al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}
 consider the following SDP optimisation problem derived from the KYP lemma:
 \begin{align}
-  \underset{v,P}{\textbf{minimise}} \quad & c^{\top}v \nonumber \\
+  \underset{v,P}{\textbf{minimise}} \quad & c^{\top}v
+        \label{eqn:Primal-continuous-time-SDP} \\
   \textbf{subject to}\quad & \left[\begin{array}{cc}
     PA+A^{\top}P & PB \\
-    B^{\top}P & 0 \end{array}\right] + M\left(v\right) \succeq 0
-    \label{eqn:Primal-continuous-time-SDP-constraint} \\
-    & M\left(v\right)=M_{0}+\sum_{l=1}^{p}v_{l}M_{l} \nonumber
+    B^{\top}P & 0 \end{array}\right] + M\left(v\right) \succeq 0 \nonumber
 \end{align}
 where the matrix $A\in\mathbb{R}^{n\times{}n}$, $B\in\mathbb{R}^{n\times{}m}$,
-the matrix $M\left(v\right)\in\mathbb{S}^{\left(n+m\right)\times\left(n+m\right)}$,
+the matrix $M\left(v\right)\in\mathbb{S}^{\left(n+m\right)}$,
 the column vectors $c,v\in\mathbb{R}^{p\times 1}$,
-and the matrix $P\in\mathbb{S}^{n\times n}$.
+and the matrix $P\in\mathbb{S}^{n}$ and
+$M\left(v\right)=M_{0}+\sum_{l=1}^{p}v_{l}M_{l}$.
 
 \subsubsection{The adjoint of the continuous-time KYP mapping}
 The linear mapping,
@@ -45610,26 +45717,34 @@ and the following properties of $\mathtrace$:
 The corresponding dual SDP optimisation problem derived from the KYP
 lemma~\cite[Equations 3, 4 and
 5]{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers} is:
-\begin{subequations}
 \begin{align}
-  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \nonumber \\
+\label{eqn:Cont-time-Dual-SDP-KYP}
+  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \\
   \textbf{subject to}\quad & AZ_{11}+Z_{11}A^{\top}+
-                             BZ_{12}^{\top}+Z_{12}B^{\top} = 0
-  \label{eqn:Cont-time-Dual-SDP-KYP-a} \\
-                          & \langle M_{l},Z \rangle =c_{l} \; , \; l=1,2,\hdots,p 
-  \label{eqn:Cont-time-Dual-SDP-KYP-b} \\
-                          & Z \succeq 0
-  \label{eqn:Cont-time-Dual-SDP-KYP-c}
+                             BZ_{12}^{\top}+Z_{12}B^{\top} = 0 \nonumber \\
+          & \langle M_{l},Z \rangle =c_{l} \; , \; l=1,2,\hdots,p \nonumber \\
+                             & Z \succeq 0 \nonumber
 \end{align}
-\end{subequations}
-
+The Lagrangian function of Equation~\ref{eqn:Primal-continuous-time-SDP} is:
+\begin{align*}
+  \mathcal{L}\left(c,v,P,Z\right)
+  &=c^{\top}v-\langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle
+   -\langle M_{0},Z \rangle - \sum_{l=1}^{p}v_{k}\langle M_{l},Z \rangle
+\end{align*}
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP} is the system
+of equations that results when $\mathcal{L}\left(c,v,P,Z\right)$ is expressed
+in terms of the variable $X=\left[v,\mathvec{}P\right]$ and evaluated at the
+stationary point.
 \subsubsection{Reducing the number of variables in the dual SDP problem}
 Following \emph{Wallin et
  al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
 WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
 a basis for $Z$ is:
 \begin{align*}
-  Z &= \sum_{k=1}^{k_{max}}z_{k}F_{k} \\
+  Z &= \sum_{k=1}^{k_{max}}z_{k}F_{k}
+\end{align*}
+where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and:
+\begin{align*}
   F_{k} &=\begin{cases}
     \left[\begin{array}{cc}
       E_{k\left(11\right)} & E_{k\left(12\right)} \\
@@ -45641,11 +45756,10 @@ a basis for $Z$ is:
     & k=mn+1,\hdots,k_{max}
     \end{cases}
 \end{align*}
-where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and
 $\left\{E_{k\left(12\right)}\right\}$ is a basis for $n\times{}m$ matrixes and
 $\left\{E_{k\left(22\right)}\right\}$ is a basis for $m\times{}m$ matrixes. The
 symmetric $\left\{E_{k\left(11\right)}\right\}$ basis matrixes are found by the
-solution of Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-a}, which is a set of
+solution of Equation~\ref{eqn:Cont-time-Dual-SDP-KYP}, which is a set of
 continuous-time \emph{Lyapunov}
 equations~\cite[Section 2.6]{Kailath_LinearSystems}:
 \begin{align*}
@@ -45722,7 +45836,7 @@ Any solution of $Ax=b$ can be expressed:
 
 \subsubsection{Further reducing the number of variables in the dual SDP problem}
 To further reduce the number of variables in the dual SDP problem, rewrite
-Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-b}:
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP}:
 \begin{align}
   Gz &= c \label{eqn:Cont-time-Dual-SDP-KYP-Gz-c}
 \end{align}
@@ -45820,7 +45934,7 @@ solver such as SeDuMi. \emph{Wallin et al}~\cite[Section 3]{WallinHanssonVandenb
 assume that the ``optimal value of the duality gap is known to
 be zero''. Now, given $v$, we can compute P by solving the Lyapunov
 equation corresponding to the $\left(1,1\right)$ block of the primal SDP
-constraint shown in Equation~\ref{eqn:Primal-continuous-time-SDP-constraint}.
+constraint shown in Equation~\ref{eqn:Primal-continuous-time-SDP}.
 \subsubsection{Examples}
 
 \paragraph{\emph{L\"{o}fberg}'s YALMIP example} \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_Auto_dualization} provides an example of
@@ -45951,30 +46065,32 @@ This follows from the definition of the inner product:
   &= \langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle 
 \end{align*}
 \subsubsection{The dual of the discrete-time KYP lemma}
-\emph{Cheng}~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}
-proves the following dual of the discrete-time KYP lemma with the linear
-mapping shown in Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping}:
-\begin{framed}
-  \emph{Proposition 2}~\cite[Section
-  3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}: There exists
-  $Z\in\mathbb{H}^{n+m}$ such that:
-  \begin{align*}
-    Z = \left[\begin{array}{cc}
-             Z_{11} & Z_{12} \\
-             Z_{12}^{\top} & Z_{22}\end{array}\right] &\prec 0 \\
-    AZ_{11}A^{\top} - Z_{11} + BZ_{12}^{\top}A^{\top}
-    + AZ_{12}B^{\top} + BZ_{22}B^{\top} &= 0\\
-    \mathtrace\left(\Theta Z\right) &\le 0
-  \end{align*}
-\end{framed}
-Here $\Theta$ is as in Equation~\ref{eqn:Discrete-time-KYP-Theta}.
 The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
-dual of the KYP lemma for the maximum amplitude of a low-pass FIR filter
-designed with the Octave \emph{remez} function. Unfortunately, in this script,
-SeDuMi fails for the KYP lemma linear mapping of
+dual of the discrete-time KYP lemma shown in
+Equation~\ref{eqn:ChengDiscreteTimeKYP}. A Lagrangian function for
+Equation~\ref{eqn:ChengDiscreteTimeKYP} is:
+\begin{align*}
+  \mathcal{L}\left(P,Z\right) &=
+-\langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle - \langle \Theta,Z \rangle
+\end{align*}
+There are no optimised variables and no Lagrange multipliers. The dual SDP
+optimisation problem solved in the script
+is~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}:
+\begin{align*}
+  \textbf{minimise} \quad & -\langle \Theta , Z  \rangle \\
+  \textbf{subject to}\quad & Z\succeq 0 \\
+                          & \mathcal{F}^{\mathadj}\left(Z\right)=0 \\
+                          & \langle \Theta , Z  \rangle \le 0
+\end{align*}
+The script designs a low-pass FIR filter with the Octave \emph{remez} function
+and calculates the maximum amplitude, $\varepsilon^{2}$, in advance. 
+Unfortunately, in this script, SeDuMi fails for the KYP lemma linear mapping of
 Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
-succeeds. However, SeDuMi does solve the dual mapping and solves the
-primal problem when the YALMIP \emph{'dualize'} option is set.
+succeeds. However, SeDuMi solves the
+primal problem when the YALMIP \texttt{``dualize''} option is set to\
+texttt{true} and does solve the dual problem when \texttt{``dualize''}  is set
+to \texttt{false}\footnote{The
+  default value of the YALMIP \texttt{``dualize''} option is \texttt{false}.}.
 
 \subsection{The dual of the generalised discrete-time KYP lemma}
 \emph{Seungil} and

@@ -11,12 +11,17 @@ eval(sprintf("diary %s.diary.tmp",strf));
 
 tic;
 
-Options=sdpsettings("solver","sedumi","dualize",true);
+Options=sdpsettings("solver","sedumi", ...
+                    "dualize",true, ...
+                    "saveyalmipmodel",true, ...
+                    "savesolverinput",true, ...
+                    "savesolveroutput",true);
 
 % Low-pass filter specification
 N=30;d=10;fap=0.1;Wap=1;Wat=0.0001;fas=0.2;Was=1;
 
 % Common constants
+tol=1e-6;
 nplot=1000;
 nap=(fap*nplot/0.5)+1;
 nas=(fas*nplot/0.5)+1;
@@ -39,17 +44,16 @@ c_h=2*cos(pi*(fas-fap));
 printf("\nUsing YALMIP to solve for a quadratic constraint on the amplitude\n");
 [~,~,G,g]=directFIRnonsymmetricEsqPW ...
             (zeros(N+1,1),[0,fap,fas,0.5]*2*pi,[1,0,0],[d,0,0],[Wap,Wat,Was]);
-L=chol(G)';
-l=(g*inv(L'));
 % Call YALMIP
 x=sdpvar(1,N+1);
+Objective=x*G*x'+2*g*x'+2*fap;
 Constraints=[];
-Objective=norm((x*L)+l);
-sol=optimize(Constraints,Objective,Options);
+sol=optimize(Constraints,Objective,sdpsettings("solver","sedumi"));
 if sol.problem
   error("YALMIP failed : %s",sol.info);
 endif
 h=value(x);
+
 % Plot response
 [H,w]=freqz(h,1,nplot);
 [T,w]=delayz(h,1,nplot);
@@ -98,14 +102,15 @@ for use_AB_plus_Theta=0:1
   Q_max=sdpvar(N,N,"symmetric");
   if use_AB_plus_Theta
     F_max=((AB')*[-P_max,Q_max;Q_max,P_max+(2*Q_max)]*AB) + ...
-          ((CD')*[1,0;0,-Asq_max]*CD);
+          ((CD')*[[1,0];[0,-Asq_max]]*CD);
   else
     F_max=[[((AB')*[-P_max, Q_max; Q_max,P_max+(2*Q_max)]*AB) + ...
             diag([zeros(1,N),-Asq_max]),[C,D]']; ...
            [C,D,-1]];
   endif
   Constraints_max=[F_max<=0,Q_max>=0];
-  sol=optimize(Constraints_max,[],Options);
+  Objective=[];
+  sol=optimize(Constraints_max,Objective,Options);
   if sol.problem
     error("YALMIP failed maximum amplitude constraint : %s",sol.info);
   endif
@@ -116,12 +121,12 @@ for use_AB_plus_Theta=0:1
   if ~isdefinite(-value(F_max))
     error("F_max not negative semi-definite");
   endif
-
+  
   % Passband constraints
   % Constraint on maximum pass band amplitude
   printf("\nChecking maximum pass band amplitude constraint\n");
   P_pu=sdpvar(N,N,"symmetric");
-  Q_pu=sdpvar(N,N,"symmetric");
+  Q_pu=sdpvar(N,N,"symmetric"); 
   if use_AB_plus_Theta
     F_pu=((AB')*[-P_pu,Q_pu;Q_pu,P_pu-(c_p*Q_pu)]*AB)+((CD')*[1,0;0,-Asq_pu]*CD);
   else
@@ -130,7 +135,8 @@ for use_AB_plus_Theta=0:1
           [C,D,-1]];
   endif
   Constraints_pu=[F_pu<=0,Q_pu>=0];
-  sol=optimize(Constraints_pu,[],Options);
+  Objective=[];
+  sol=optimize(Constraints_pu,Objective,Options);
   if sol.problem
     error("YALMIP failed maximum pass band amplitude constraint : %s",sol.info);
   endif
@@ -217,10 +223,9 @@ for use_AB_plus_Theta=0:1
   printf("\nChecking stop band constraint\n");
   P_s=sdpvar(N,N,"symmetric");
   Q_s=sdpvar(N,N,"symmetric");
-  if 1 || use_AB_plus_Theta
+  if use_AB_plus_Theta
     F_s=((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB)+((CD')*[1,0;0,-Asq_s]*CD);
   else
-    % This fails with numerical problems !?!?!
     F_s=[[((AB')*[-P_s,-Q_s;-Q_s,P_s+(c_s*Q_s)]*AB) + ...
           diag([zeros(1,N),-Asq_s]),[C,D]'];...
          [C,D,-1]];
@@ -243,11 +248,11 @@ endfor
 % Design filter with KYP and stop band amplitude constraint
 %
 printf("\nUsing YALMIP to design filter with stop band amplitude constraint\n");
+% Use G and g to minimise` the gradient of the overall response error
+tp=floor(N/2);
 [~,~,G,g]=directFIRnonsymmetricEsqPW(zeros(N+1,1),[0,fap,fas,0.5]*2*pi, ...
-                                     [1,0,0],[floor(N/2),0,0],[Wap,Wat,Was]);
-L=chol(G)';
-l=(g*inv(L'));
-Esq_s=5e-5;
+                                     [1,0,0],[tp,0,0],[Wap,Wat,Was]);
+Esq_s=5e-6;
 C=sdpvar(1,N);
 D=sdpvar(1,1);
 % Stop band amplitude constraint
@@ -258,7 +263,7 @@ F_s=[[((AB')*(kron(Phi,P_s)+kron([0,-1;-1,c_s],Q_s))*AB) + ...
      [C,D,-1]];
 % Solve
 Constraints=[F_s<=0,Q_s>=0];
-Objective=norm((fliplr([C,D])*L)+l);
+Objective=norm((fliplr([C,D])*G)+g);
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
@@ -273,6 +278,10 @@ if ~isdefinite(-value(F_s))
 endif
 % Plot h_amp response
 h_amp=value(fliplr([C,D]));
+% Check h_amp is approximately symmetric
+if max(abs(h_amp-fliplr(h_amp)))>tol
+  error("max(abs(h_amp-fliplr(h_amp)))>tol");
+endif
 [H_amp,w]=freqz(h_amp,1,nplot);
 [T_amp,w]=delayz(h_amp,1,nplot);
 subplot(211);
@@ -280,15 +289,15 @@ plot(w*0.5/pi,20*log10(abs(H_amp)));
 ylabel("Amplitude(dB)");
 axis([0 0.5 -80 5]);
 grid("on");
-strt=sprintf("KYP non-symmetric FIR filter : N=%d,d=%d,fap=%g,fas=%g", ...
-             N,d,fap,fas);
+strt=sprintf("KYP approx. symmetric FIR filter : N=%d,tp=%d,fap=%g,fas=%g", ...
+             N,tp,fap,fas);
 title(strt);
 zticks([]);
 subplot(212);
 plot(w(1:nap)*0.5/pi,T_amp(1:nap));
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 floor(N/2)-0.1 floor(N/2)+0.1]);
+axis([0 0.5 tp+0.002*[-1,1]]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_amp_response"),"-dpdflatex");

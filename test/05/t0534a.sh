@@ -40,13 +40,13 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 cat > test.ok << 'EOF'
 
 Primal problem:
-Objective=-2.8284292
+Objective=-2.82843
 X=   1.0000  -1.4142
   -1.4142   2.0000
 
 
 Dual problem:
-Objective= 2.8284241
+Objective= 2.82843
 y=  -1.4142  -0.7071
 
 EOF

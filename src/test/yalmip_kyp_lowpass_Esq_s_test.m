@@ -107,7 +107,8 @@ for d=[10,12,M],
   if sol.problem
     error("YALMIP failed : %s",sol.info);
   endif
-
+  printf("d=%d,Esq_s=%g,Esq_z=%g\n",d,value(Esq_s),value(Esq_z));
+  
   %
   % Sanity checks
   %
@@ -128,7 +129,7 @@ for d=[10,12,M],
     subplot(211);
     strs="KYP non-symmetric FIR";
   endif
-  strt=sprintf("%s : N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.1g,Esq\\_s=%6.1g", ...
+  strt=sprintf("%s:N=%d,d=%d,fap=%4.2f,fas=%4.2f,Esq\\_z=%6.1g,Esq\\_s=%6.1g",...
                strs,N,d,fap,fas,value(Esq_z),value(Esq_s));
   [H,w]=freqz(h,1,nplot);
   [T,w]=delayz(h,1,nplot);
