@@ -1,8 +1,13 @@
 function r = reprand(N,M)
+% r = reprand(N);
 % r = reprand(N,M);
-% reprand is a wrapper function that calls reprand.oct if it exists
+% r = reprand([N,M]);
+% reprand()
+%
+% reprand.m is a wrapper function that calls Octave rand() if reprand.oct does
+% not exist. If there are no input or output arguments rand() is initialised.
 
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -24,8 +29,21 @@ function r = reprand(N,M)
 
   warning("Using builtin function rand()!");
   
-  if nargin==1
+  if (nargin==0) && (nargout==0)
+    rand("seed",0xdeadbeef);
+    return;
+  endif
+    
+  if (nargin==1) && (length(N)==1)
     M=N;
+  elseif (nargin==1) && (length(N) == 2)
+    M=N(2);
+    N=N(1);
+  elseif (nargin==2) && (length(N)==1) && (length(M)==1)
+    N=N(1);
+    M=M(1);
+  else
+    error("Unexpected input arguments!");
   endif
 
   r=rand(N,M);

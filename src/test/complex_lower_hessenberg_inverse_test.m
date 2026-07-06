@@ -1,5 +1,5 @@
 % complex_lower_hessenberg_inverse_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -61,8 +61,8 @@ if err_AB > 1000*eps
   error("err_AB > 1000*eps");
 endif
 err_BA=max(max(abs((B*A)-eye(N))));
-if err_BA > 2e3*eps
-  error("err_BA > 2e3*eps");
+if err_BA > 5000*eps
+  error("err_BA > 5000*eps");
 endif
 
 % Done

@@ -1,5 +1,5 @@
 % reprand_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -10,9 +10,9 @@ diary reprand_test.diary.tmp
 check_octave_file("reprand");
 
 try
-  reprand()
+  r=reprand()
 catch
-  printf("Caught reprand exception for no arguments!\n");
+  printf("Caught reprand exception for no input arguments!\n");
 end_try_catch
 
 try
@@ -21,21 +21,48 @@ catch
   printf("Caught reprand exception for 3 arguments!\n");
 end_try_catch
 
+try
+  reprand([1,2,3])
+catch
+  printf("Caught reprand exception for array of 3 arguments!\n");
+end_try_catch
+
+reprand();
+
 isempty(reprand(-1))
-
 isempty(reprand(0))
-
 isempty(reprand(0,0))
+r1=reprand(1)
+r2=reprand(1,1)
+r3=reprand(1,4)
+r4=reprand(4,1)
+r5=reprand(4)
 
-reprand(1)
+reprand();
 
-reprand(1,1)
-
-reprand(1,4)
-
-reprand(4,1)
-
-reprand(4)
+isempty(reprand([-1]))
+isempty(reprand([0]))
+isempty(reprand([0,0]))
+ar1=reprand([1]);
+if any(ar1 ~= r1)
+  error("any(ar1 ~= r1)");
+endif
+ar2=reprand([1,1]);
+if any(ar2 ~= r2)
+  error("any(ar2 ~= r2)");
+endif
+ar3=reprand([1,4]);
+if any(ar3 ~= r3)
+  error("any(ar3 ~= r3)");
+endif
+ar4=reprand([4,1]);
+if any(ar4 ~= r4)
+  error("any(ar4 ~= r4)");
+endif
+ar5=reprand([4]);
+if any(any(ar5 ~= r5))
+  error("any(ar5 ~= r5)");
+endif
 
 n1=reprand(1,2^14);
 size(n1)

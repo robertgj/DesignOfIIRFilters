@@ -8,7 +8,7 @@
 //   Bioinformatics Applications" by David Jones, UCL Bioinformatics Group
 //
 
-// Copyright (C) 2017-2025 Robert G. Jenssen
+// Copyright (C) 2017-2026 Robert G. Jenssen
 // 
 // This program is free software; you can redistribute it
 // and/or modify it underthe terms of the GNU General Public
@@ -30,37 +30,65 @@
 static void init_JKISS(void);
 static double uni_qdblflt(void);
 
-DEFUN_DLD(reprand, args, nargout, "r=reprand(N,M)")
+DEFUN_DLD(reprand, args, nargout,
+          "r=reprand(N);\nr=reprand([N,M]);\nr=reprand(N,M);\nreprand();")
 {
+  static int init_done=0;
+  
   // Compile time sanity check
   static_assert (sizeof(double)==sizeof(unsigned long long));
   
-  if ((args.length() > 2) || (args.length() == 0) || (nargout > 1))
+  if ((args.length() > 2) || (nargout > 1))
     {
+      init_done=0;
       print_usage();
       return octave_value();
     }
-  if ((args(0).length() != 1) || (args.length() == 2 && args(1).length() != 1))
+
+  if ((args.length() == 0) && (nargout == 0))
     {
-      error("Expected integer arguments!");
+      init_done=0;
       return octave_value();
     }
-  uint64NDArray NN=args(0).vector_value();
-  uint64_t N=NN(0);
-  uint64_t M=1;
-  if (args.length() == 1)
+
+  uint64_t N;
+  uint64_t M;
+  if ((args.length() == 1) && (args(0).length() == 1))
     {
+      uint64NDArray NM=args(0).vector_value();
+      N=NM(0);
       M=N;
     }
-  else
+  else if ((args.length() == 1) && (args(0).length() == 2))
     {
+      uint64NDArray NM=args(0).vector_value();
+      N=NM(0);
+      M=NM(1);
+    }
+  else if ((args.length() == 2)
+           && (args(0).length() == 1)
+           && (args(1).length() == 1))
+    {
+      uint64NDArray NN=args(0).vector_value();
+      N=NN(0);
       uint64NDArray MM=args(1).vector_value();
       M=MM(0);
     }
+  else
+    {
+      init_done=0;
+      print_usage();
+      return octave_value();
+    }
 
+  if (init_done == 0)
+    {
+      init_JKISS();
+      init_done=1;
+    }
+  
   Matrix r(N,M);
 
-  init_JKISS();
   for (uint64_t n = 0;n < N;n++)
     {
       for (uint64_t m = 0;m < M;m++)
@@ -114,7 +142,11 @@ static double uni_qdblflt(void)
 
   a = ((unsigned long long)JKISS()<<32) + JKISS();
   a = (a >> 12) | 0x3FF0000000000000ULL; // Take upper 52 bits
+#if 1
   memcpy(&x,&a,sizeof(double));     // Make a double from bits
+#else
+  *((unsigned long long *)&x) = a;
+#endif  
   return x-1.0;
 }
 

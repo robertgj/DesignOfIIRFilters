@@ -39,45 +39,49 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 #
 cat > test.ok << 'EOF'
 Using reprand octfile
-Caught reprand exception for no arguments!
+Caught reprand exception for no input arguments!
 Caught reprand exception for 3 arguments!
+Caught reprand exception for array of 3 arguments!
 ans = 1
 ans = 1
 ans = 1
-ans = 0.1304
-ans = 0.1304
-ans =
-   0.1304   0.5919   0.5370   0.9554
+r1 = 0.1304
+r2 = 0.5919
+r3 =
+   0.5370   0.9554   0.3888   0.5533
 
-ans =
-   0.1304
-   0.5919
-   0.5370
-   0.9554
+r4 =
+   0.1437
+   0.6165
+   0.6280
+   0.8849
 
-ans =
-   0.1304   0.5919   0.5370   0.9554
-   0.3888   0.5533   0.1437   0.6165
-   0.6280   0.8849   0.8206   0.5632
-   0.1277   0.2058   0.6102   0.2795
+r5 =
+   0.820557   0.563199   0.127732   0.205758
+   0.610204   0.279487   0.736367   0.024376
+   0.548099   0.327713   0.191691   0.745022
+   0.233184   0.691969   0.518537   0.642747
 
+ans = 1
+ans = 1
+ans = 1
 ans =
        1   16384
 
 max(n1)=  9.999736466302e-01
 min(n1)=  3.078602492268e-06
-mean(n1)=  5.011120354351e-01
-var(n1)=  8.352967703586e-02
-std(n1)=  2.890150117829e-01
+mean(n1)=  5.011639894368e-01
+var(n1)=  8.356043697316e-02
+std(n1)=  2.890682220051e-01
 ans =
    16384       1
 
-max(n2)=  9.999736466302e-01
-min(n2)=  3.078602492268e-06
-mean(n2)=  5.011120354351e-01
-var(n2)=  8.352967703586e-02
-std(n2)=  2.890150117829e-01
-norm(n1(:)-n2(:))=  0.000000000000e+00
+max(n2)=  9.999968233472e-01
+min(n2)=  2.496853509035e-04
+mean(n2)=  4.992470965958e-01
+var(n2)=  8.292523080078e-02
+std(n2)=  2.879674127411e-01
+norm(n1(:)-n2(:))=  5.245378411172e+01
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 

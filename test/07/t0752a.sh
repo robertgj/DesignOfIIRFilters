@@ -45,22 +45,22 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok.1"; fail; fi
 
 cat > test.ok.2 << 'EOF'
-NN=2 : Overall scaled ng12=0.807, ngs=0.828, est_vary12=0.352, est_varysd=0.359, varysd=0.359
+NN=2 : Overall scaled ng12=0.807, ngs=0.828, est_vary12=0.352, est_varysd=0.359, varysd=0.358
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok.2"; fail; fi
 
 cat > test.ok.3 << 'EOF'
-NN=3 : Overall scaled ng12=1.434, ngs=1.427, est_vary12=0.561, est_varysd=0.559, varysd=0.570
+NN=3 : Overall scaled ng12=1.434, ngs=1.427, est_vary12=0.561, est_varysd=0.559, varysd=0.557
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok.3"; fail; fi
 
 cat > test.ok.4 << 'EOF'
-NN=4 : Overall scaled ng12=1.873, ngs=1.857, est_vary12=0.708, est_varysd=0.702, varysd=0.709
+NN=4 : Overall scaled ng12=1.873, ngs=1.857, est_vary12=0.708, est_varysd=0.702, varysd=0.704
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok.4"; fail; fi
 
 cat > test.ok.5 << 'EOF'
-NN=5 : Overall scaled ng12=2.436, ngs=2.367, est_vary12=0.895, est_varysd=0.872, varysd=0.879
+NN=5 : Overall scaled ng12=2.436, ngs=2.367, est_vary12=0.895, est_varysd=0.872, varysd=0.874
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok.5"; fail; fi
 
