@@ -90,8 +90,8 @@ $(OCTAVE_SCRIPTS:%=%.diary) $(EXTRA_DIARY_FILES)
 # To test an octfile with valgrind and gdb:
 #   1. XCXXFLAGS="-ggdb3 -O0"
 #   2. Run "valgrind --track-origins=yes --vgdb=yes --vgdb-error=0 \
-#           octave-cli -p src -p src/test"
-#   3. Run "gdb --args octave-cli -p src -p src/test" in a separate
+#           octave --no-gui -p src -p src/test"
+#   3. Run "gdb --args octave --no-gui -p src -p src/test" in a separate
 #      shell and then issue the gdb commands:
 #        target remote | vgdb
 #        continue

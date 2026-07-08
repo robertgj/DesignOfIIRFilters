@@ -4,12 +4,12 @@ prog=schurOneMPAlatticeDoublyPipelinedT_test.m
 depends="test/schurOneMPAlatticeDoublyPipelinedT_test.m \
 test_common.m \
 schurOneMPAlatticeDoublyPipelinedT.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m H2T.m \
-delayz.m \
-schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct" 
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m H2T.m delayz.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
+qroots.oct schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct \
+Abcd2tf.oct" 
 
 tmp=/tmp/$$
 here=`pwd`

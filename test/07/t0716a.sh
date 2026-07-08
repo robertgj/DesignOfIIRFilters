@@ -30,10 +30,10 @@ schurOneMPAlattice2tf.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 tf2schurOneMlattice.m \
 schurOneMscale.m \
 delayz.m local_max.m tf2pa.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct Abcd2H.oct Abcd2tf.oct \
 qroots.oct" 
@@ -72,24 +72,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k2_coef.m << 'EOF'
-A1k2 = [  -0.2846558284,   0.4410616104,  -0.4416023676,   0.3738918230, ... 
-          -0.1943793036,   0.0395726747 ]';
+A1k2 = [  -0.2856469529,   0.4414675175,  -0.4409079334,   0.3730120655, ... 
+          -0.1944290617,   0.0401254550 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k2_coef.m"; fail; fi
 
 cat > test_A2k2_coef.m << 'EOF'
-A2k2 = [   0.2256852415,   0.7856014855,  -0.5685188941,   0.3963557750, ... 
-          -0.3369127093,   0.1989457889,  -0.0453177441 ]';
+A2k2 = [   0.2255884816,   0.7857359374,  -0.5690373062,   0.3957868638, ... 
+          -0.3359825576,   0.1990569499,  -0.0458432147 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k2_coef.m"; fail; fi
 
 cat > test_Aaa1k2_coef.m << 'EOF'
-Aaa1k2 = [   0.0000000000,   0.7643214759,   0.0000000000,   0.0642897077 ]';
+Aaa1k2 = [   0.0000000000,   0.7647667403,   0.0000000000,   0.0645506632 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k2_coef.m"; fail; fi
 
 cat > test_Aaa2k2_coef.m << 'EOF'
-Aaa2k2 = [   0.0000000000,   0.3347962560,   0.0000000000 ]';
+Aaa2k2 = [   0.0000000000,   0.3354152392,   0.0000000000 ]';
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k2_coef.m"; fail; fi
 

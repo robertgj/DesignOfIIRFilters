@@ -773,34 +773,51 @@ pipelined Schur one-muliplier all pass lattice filter can be expressed as:
 The $\epsilon_{p}$ coefficients of a purely all-pass Schur one-multilpier lattice
 filter can be chosen after the $k_{p}$ coefficients are determined.
 
-For example, the state variable matrix calculations for a doubly pipelined
-fourth order Schur one-muliplier all pass lattice filter are:
+The state variable description of a second order Schur one-multiplier all-pass
+lattice implemented in doubly-pipelined form is:
 \begin{align*}
-  \left[\begin{array}{c}
-    x_{1}^{\prime} \\
-    x_{2}^{\prime} \\
-    x_{3}^{\prime} \\
-    x_{4}^{\prime} \\
-    x_{5}^{\prime} \\
-    x_{6}^{\prime} \\
-    \hat{y}
-  \end{array}\right] &= 
-   \left[\begin{array}{ccccccc} 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
-    -k_{1} & 0 & 0 & 1+\epsilon_{1}k_{1} & 0 & 0 & 0\\
-    1-\epsilon_{1}k_{1} & 0 & 0 & k_{1} & 0 & 0 & 0 \\
-    0 & 0 & -k_{2} & 0 & 0 & 1+\epsilon_{2}k_{2} & 0 \\
-    0 & 0 & 1-\epsilon_{2}k_{2}  & 0 & 0 & k_{2} & 0 \\
-    0 & 0 & 0 & 0 & 0 & 0 & 1 \\
-    0 & 0 & 0 & 0 & 1 & 0 & 0 
-   \end{array}\right] \left[\begin{array}{c}
-    x_{1} \\
-    x_{2} \\
-    x_{3} \\
-    x_{4} \\
-    x_{5} \\
-    x_{6} \\
-    u \end{array} \right]
+  \left[\begin{array}{cc}
+    A & B \\
+    C & D \end{array}\right] &= \left[\begin{array}{ccccccc}
+    0     & 1 &   0     &   0     & 0 &   0     & 0 \\
+   -k_{1}  & 0 &   0     & k_{1}+1 & 0 &   0     & 0 \\
+  1-k_{1}  & 0 &   0     &   k_{1} & 0 &   0     & 0 \\
+    0      & 0 &  -k_{2} &   0     & 0 & k_{2}+1 & 0 \\
+    0      & 0 & 1-k_{2} &   0     & 0 &  k_{2}  & 0 \\
+    0      & 0 &   0     &   0    &  0 &   0    & 1 \\
+    0      & 0 &   0     &   0    &  1 &   0    & 0 \end{array}\right]
 \end{align*}
+The \emph{resolvent} matrix is $\left(zI-A\right)^{-1}$.
+Swapping consecutive pairs of rows of the state vector, $x$, with a permutation
+matrix gives a \emph{tridiagonal} matrix
+\begin{align*}
+\left(zI-A\right)P &=  \left(zI-\left[\begin{array}{cccccc}
+    0     & 1 &   0     &   0     & 0 &   0     \\
+   -k_{1}  & 0 &   0     & k_{1}+1 & 0 &   0     \\
+  1-k_{1}  & 0 &   0     &   k_{1} & 0 &   0     \\
+    0      & 0 &  -k_{2} &   0    & 0 & k_{2}+1  \\
+    0      & 0 & 1-k_{2} &   0    & 0 &   k_{2}  \\
+    0      & 0 &   0     &   0   & 0 &   0  \end{array}\right]\right)
+  \left[\begin{array}{cccccc}
+    0 &   1     &   0     &   0     &   0     & 0  \\
+    1 &   0     &   0     &   0     &   0     & 0  \\
+    0 &   0     &   0     &   1     &   0     & 0  \\
+    0 &   0     &   1     &   0     &   0     & 0  \\
+    0 &   0     &   0     &   0     &   0     & 1  \\
+    0 &   0     &   0     &   0     &   1     & 0  \end{array}\right] \\
+    &= \left[\begin{array}{cccccc}
+ -1  &   z      &   0       & 0      &    0       &  0 \\
+  z  &  k_{1}   &  -k_{1}- 1 & 0      &    0       &  0 \\
+  0  &  k_{1}-1 &  -k_{1}    &  z     &    0       &  0 \\
+  0  &   0      &  z        & k_{2}   &  -k_{2}-1  &  0 \\
+  0  &   0      &  0        & k_{2}-1 &  -k_{2}    &  z \\
+  0  &   0      &  0        & 0       &   z       &  0  \end{array}\right]
+\end{align*}
+\emph{Golub} and
+\emph{van Loan}~\cite[Section 4.3]{GolubVanLoan_MatrixComputations} and
+\emph{Higham}~\cite[Section 9.6]{Higham_AccuracyStabilityNumericalAlgorithms}
+show simple recurrence relations for the decomposition of a tridiagonal matrix
+into \emph{LU} form. 
 
 \subsection{\label{sec:Frequency-response-of-state-variable-filter}Frequency response of a state variable filter}
 Eliminating the filter state, $\mathbf{x}$, from

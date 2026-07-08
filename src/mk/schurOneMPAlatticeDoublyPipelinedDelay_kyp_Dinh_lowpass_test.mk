@@ -31,7 +31,6 @@ schurOneMPAlattice_slb_show_constraints.m \
 schurOneMPAlattice_slb_update_constraints.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMPAlatticeDoublyPipelinedAsq.m \
 schurOneMPAlatticeDoublyPipelinedEsq.m \
 schurOneMAPlattice2tf.m \
@@ -39,6 +38,7 @@ schurOneMAPlattice2Abcd.m \
 tf2schurOneMlattice.m \
 schurOneMscale.m \
 allpass_delay_wise_lowpass.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
+tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ_DA.m delayz.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
 Abcd2H.oct schurdecomp.oct complex_zhong_inverse.oct qroots.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct
+Abcd2tf.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct

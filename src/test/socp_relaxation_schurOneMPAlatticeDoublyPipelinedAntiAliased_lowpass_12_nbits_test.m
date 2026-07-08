@@ -55,9 +55,9 @@ RAaa2k=(NA1k+NA2k+NAaa1k+1):(NA1k+NA2k+NAaa1k+NAaa2k);
 
 % Low pass filter specification
 difference=false;
-fap=0.15;dBap=0.08;Wap=1;Wat=0.01;
+fap=0.15;dBap=0.1;Wap=1;Wat=0.01;
 fas=0.175;dBas=55;Was=200;
-fpp=0.10;pp=0;ppr=0.002;Wpp=1;
+fpp=0.10;pp=0;ppr=0.004;Wpp=1;
 ftp=0.10;tp=15;tpr=0.2;Wtp=1;
 fdp=0.10;dpr=0.4;Wdp=0.01;
 
@@ -427,7 +427,7 @@ strt=sprintf(["Parallel OneM all-pass lattice low-pass filter :", ...
               " (nbits=%d) fap=%g,dBap=%g,Wap=%g,tp=%g,Wtp=%g"], ...
              nbits,fap,dBap,Wap,tp,Wtp);
 title(strt);
-axis([0 0.5 -0.1 0.05]);
+axis([0 0.2 -0.08 0.02]);
 legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
 legend("boxoff");
@@ -502,7 +502,7 @@ plot(wp*0.5/pi,(P0-Pd)/pi,"linestyle","-", ...
      wp*0.5/pi,(P_min-Pd)/pi,"linestyle","-.");
 ylabel("Phase error(rad./$\\pi$)");
 xlabel("Frequency");
-axis([0 0.5 0.001*[-1 1]]);
+axis([0 0.5 0.004*[-1 1]]);
 grid("on");
 legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
@@ -575,7 +575,7 @@ plot(wp*0.5/pi,(P0-Pd)/pi,"linestyle","-", ...
      wp*0.5/pi,(P_sd-Pd)/pi,"linestyle","--", ...
      wp*0.5/pi,(P_min-Pd)/pi,"linestyle","-.");
 ylabel("Phase error(rad./$\\pi$)");
-axis([0 0.5 0.001*[-1 1]]);
+axis([0 0.1 0.004*[-1 1]]);
 grid("on");
 legend("exact",sprintf("s-d(%s)",strItoLim),"s-d(SOCP-relax)");
 legend("location","northeast");
@@ -593,7 +593,7 @@ plot(wt*0.5/pi,T0,"linestyle","-", ...
      wt*0.5/pi,T_min,"linestyle","-.");
 ylabel("Delay(samples)");
 xlabel("Frequency");
-axis([0 0.5 (tp+Tz2)+[-0.1 0.15]]);
+axis([0 0.1 (tp+Tz2)+(0.1*[-1 1])]);
 grid("on");
 zticks([]);
 print(strcat(strf,"_k_min_phase_delay"),"-dpdflatex");

@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedP_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -40,7 +40,7 @@ for difference=[false,true]
     H=(Hap1-Hap2)/2;
     Hcheck=H((npass+1):end);
     Pcheck=P((npass+1):end);
-    wcheck=wplot((npass+1):end)+(2*pi);
+    wcheck=wplot((npass+1):end)+(4*pi);
     ncheck=length(wcheck);
   else
     H=(Hap1+Hap2)/2;
@@ -49,8 +49,10 @@ for difference=[false,true]
     wcheck=wplot(1:npass);
     ncheck=length(wcheck);
   endif
-  if max(abs(unwrap(arg(Hcheck))-Pcheck-wcheck)) > 100*eps
-    error("max(abs(unwrap(arg(Hcheck))-Pcheck-wcheck)) > 100*eps");
+  max_diff=max(abs(unwrap(arg(Hcheck))-Pcheck-wcheck));
+  if max_diff > 100*eps
+    error("max(abs(unwrap(arg(Hcheck))-Pcheck-wcheck))(%g*eps) > 100*eps", ...
+         max_diff/eps);
   endif
 
   % Find the gradients of P

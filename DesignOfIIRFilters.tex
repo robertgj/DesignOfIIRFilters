@@ -6408,6 +6408,9 @@ one-multiplier lattice filter.
 Figure~\ref{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice} shows only the all-pass part of a first order segment of the
 doubly-pipelined Schur one-multiplier lattice filter of
 Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Lattice}.
+Construction of a state variable description of the all-pass doubly-pipelined
+Schur one-multiplier lattice filter is summarised in
+Algorithm~\ref{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}. 
 
 \begin{figure}
 \centering
@@ -6415,10 +6418,6 @@ Figure~\ref{fig:State-variable-description-doubly-pipelined-One-Multiplier-Latti
 \caption{First order segment of an all-pass doubly pipelined Schur one-multiplier lattice filter.}
 \label{fig:State-variable-description-all-pass-doubly-pipelined-One-Multiplier-Lattice}
 \end{figure}
-
-Construction of a state variable description of the all-pass doubly-pipelined
-Schur one-multiplier lattice filter is summarised in
-Algorithm~\ref{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}. 
 
 \begin{algorithm}
 Given $\left\{k_{1},k_{2},\hdots,k_{N}\right\}$ and
@@ -6438,6 +6437,56 @@ $\left\{\epsilon_{1},\epsilon_{2},\hdots,\epsilon_{N}\right\}$:
   doubly-pipelined Schur one-multiplier lattice filter.}
 \label{alg:Construction-state-variable-all-pass-doubly-pipelined-One-Multiplier-lattice}
 \end{algorithm}
+
+The state variable description of a second order Schur one-multiplier all-pass
+lattice implemented in doubly-pipelined form is:
+\begin{align*}
+  \left[\begin{array}{cc}
+    A & B \\
+    C & D \end{array}\right] &= \left[\begin{array}{ccccccc}
+    0     & 1 &   0     &   0     & 0 &   0     & 0 \\
+   -k_{1}  & 0 &   0     & k_{1}+1 & 0 &   0     & 0 \\
+  1-k_{1}  & 0 &   0     &   k_{1} & 0 &   0     & 0 \\
+    0      & 0 &  -k_{2} &   0     & 0 & k_{2}+1 & 0 \\
+    0      & 0 & 1-k_{2} &   0     & 0 &  k_{2}  & 0 \\
+    0      & 0 &   0     &   0    &  0 &   0    & 1 \\
+    0      & 0 &   0     &   0    &  1 &   0    & 0 \end{array}\right]
+\end{align*}
+The \emph{resolvent} matrix is $\left(zI-A\right)^{-1}$.
+Swapping consecutive pairs of rows of the state vector, $x$, with a permutation
+matrix gives a \emph{tridiagonal} matrix:
+\begin{align*}
+\left(zI-A\right)P &=  \left(zI-\left[\begin{array}{cccccc}
+    0     & 1 &   0     &   0     & 0 &   0     \\
+   -k_{1}  & 0 &   0     & k_{1}+1 & 0 &   0     \\
+  1-k_{1}  & 0 &   0     &   k_{1} & 0 &   0     \\
+    0      & 0 &  -k_{2} &   0    & 0 & k_{2}+1  \\
+    0      & 0 & 1-k_{2} &   0    & 0 &   k_{2}  \\
+    0      & 0 &   0     &   0   & 0 &   0  \end{array}\right]\right)
+  \left[\begin{array}{cccccc}
+    0 &   1     &   0     &   0     &   0     & 0  \\
+    1 &   0     &   0     &   0     &   0     & 0  \\
+    0 &   0     &   0     &   1     &   0     & 0  \\
+    0 &   0     &   1     &   0     &   0     & 0  \\
+    0 &   0     &   0     &   0     &   0     & 1  \\
+    0 &   0     &   0     &   0     &   1     & 0  \end{array}\right] \\
+    &= \left[\begin{array}{cccccc}
+ -1  &   z      &   0       & 0      &    0       &  0 \\
+  z  &  k_{1}   &  -k_{1}- 1 & 0      &    0       &  0 \\
+  0  &  k_{1}-1 &  -k_{1}    &  z     &    0       &  0 \\
+  0  &   0      &  z        & k_{2}   &  -k_{2}-1  &  0 \\
+  0  &   0      &  0        & k_{2}-1 &  -k_{2}    &  z \\
+  0  &   0      &  0        & 0       &   z       &  0  \end{array}\right]
+\end{align*}
+\emph{Golub} and
+\emph{van Loan}~\cite[Section 4.3]{GolubVanLoan_MatrixComputations} and
+\emph{Higham}~\cite[Section 9.6]{Higham_AccuracyStabilityNumericalAlgorithms}
+show simple recurrence relations for the decomposition of a tridiagonal matrix
+into \emph{LU} form. The Octave function \emph{schurOneMAPlatticeDoublyPipelined2H.m} and the oct-file function
+\emph{schurOneMAPlatticeDoublyPipelined2H.cc} calculate the complex transfer
+function and derivatives of a doubly-pipelined Schur one-multiplier all-pass
+lattice with coefficients $k_{1},\hdots$.
+
 \clearpage
 \subsection{\label{State-Variable-Description-Scaled-Normalised-IIR-Lattice-Filter}State variable description of the scaled-normalised IIR lattice filter}
 In Figure~\ref{fig:State-variable-description-Scaled-Normalised-lattice},
@@ -46499,6 +46548,10 @@ and ``pre-load'' the \emph{address-sanitizer} library:
 LD_PRELOAD=/usr/lib64/libasan.so.8 octave-cli --eval oct_file_test_script
 \end{verbatim}
 \end{small}
+
+The Octave source distribution includes \emph{etc/gdbinit}, a script
+that contains useful macros for debugging oct-files with \emph{gdb}. The
+oct-file and the Octave interpreter must be compiled with debugging symbols.
 
 \subsubsection*{Installing Octave-Forge packages}
 To install Octave packages from a remote Octave-Forge file-server:

@@ -33,14 +33,10 @@ difference=false;
 % Low-pass filter specification 
 fap=0.15;dBap=0.06;Wap=1;Wat=0.01;
 fas=0.175;dBas=71;Was=200;Was_wise=0.1;
-fpp=0.1;pp=0;ppr=0.001;Wpp=1;
+fpp=0.1;pp=0;ppr=0.001;Wpp=1; % ppr=0.0008 works but takes much longer
 ftp=0.1;tp=15;tpr=0.2;Wtp=1;
 fdp=0.1;dpr=0.3;Wdp=0.01;
 
-% Previously:
-if 0
-  ctol=1e-7;dBap=0.08;dBas=65;Was=100;ppr=0.0008;tpr=0.1;dpr=0.2;
-endif
 
 % Anti-aliasing filter
 maa=7;
@@ -136,15 +132,7 @@ if max(abs(Taap(1:ntp)-Taa(1:ntp))) > 1000*eps
 endif
 
 % Example sanity check
-if 1
-  [Nc2,Dc2]=butter(ma+mb,2*2*fap);
-elseif 0
-  [Nc2,Dc2]=cheby1(ma+mb,dBap,2*2*fap);
-elseif 0
-  [Nc2,Dc2]=cheby2(ma+mb,dBas,2*2*fap);
-elseif 0
-  [Nc2,Dc2]=ellip(ma+mb,dBap,dBas,2*2*fap);
-endif
+[Nc2,Dc2]=butter(ma+mb,2*2*fap);
 [Dac2,Dbc2]=tf2pa(Nc2,Dc2);
 [A1kc2,~,~,~]=tf2schurOneMlattice(fliplr(Dac2),Dac2);
 [A2kc2,~,~,~]=tf2schurOneMlattice(fliplr(Dbc2),Dbc2);

@@ -76,12 +76,12 @@ directFIRnonsymmetricP.m \
 directFIRnonsymmetricT.m \
 directFIRnonsymmetricEsq.m \
 directFIRnonsymmetric_allocsd_Lim.m \
-print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m \
+print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2pa.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 schurOneMAPlattice2Abcd.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
-qroots.oct bin2SD.oct bin2SPT.oct Abcd2H.oct \
+schurOneMAPlatticeDoublyPipelined2H.oct \
+qroots.oct bin2SD.oct bin2SPT.oct Abcd2H.oct Abcd2tf.oct \
 schurdecomp.oct schurexpand.oct schurOneMAPlattice2H.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
 spectralfactor.oct complex_zhong_inverse.oct"

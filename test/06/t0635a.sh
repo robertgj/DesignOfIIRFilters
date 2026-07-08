@@ -1,13 +1,12 @@
 #!/bin/sh
 
 prog=schurOneMAPlatticeDoublyPipelined2H_test.m
-depends="test/schurOneMAPlatticeDoublyPipelined2H_test.m \
-test_common.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
+depends="test/schurOneMAPlatticeDoublyPipelined2H_test.m test_common.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m \
-Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct" 
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
+Abcd2tf.oct schurdecomp.oct schurexpand.oct spectralfactor.oct qroots.oct" 
 
 tmp=/tmp/$$
 here=`pwd`
@@ -49,7 +48,7 @@ if [ $? -ne 0 ]; then echo "Failed output cat"; fail; fi
 #
 # run and see if the results match. .
 #
-echo "Running $prog"
+echo "Running $prog (octfile)"
 
 octave --no-gui -q $prog >test.out 2>&1
 if [ $? -ne 0 ]; then echo "Failed running $prog"; fail; fi

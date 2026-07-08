@@ -5,15 +5,16 @@ depends="test/schurOneMPAlatticeDoublyPipelinedAntiAliasedT_test.m \
 test_common.m \
 schurOneMPAlatticeDoublyPipelinedAntiAliasedT.m \
 schurOneMPAlatticeDoublyPipelinedT.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMlatticeDoublyPipelined2Abcd.m \
 schurOneMPAlatticeT.m \
 schurOneMAPlattice2Abcd.m \
-tf2schurOneMlattice.m Abcd2tf.m qroots.oct schurOneMscale.m tf2pa.m H2T.m \
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m H2T.m \
 delayz.m phi2p.m tfp2g.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct complex_zhong_inverse.oct \
-schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct" 
+qroots.oct schurdecomp.oct schurexpand.oct spectralfactor.oct Abcd2H.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

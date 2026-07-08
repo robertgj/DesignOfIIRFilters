@@ -65,11 +65,11 @@ schurOneMPAlatticedAsqdw.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 print_polynomial.m H2T.m H2P.m H2Asq.m H2dAsqdw.m KW.m \
 tf2schurOneMlattice.m schurOneMscale.m delayz.m local_max.m tf2pa.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct Abcd2tf.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct schurOneMAPlattice2H.oct \
 spectralfactor.oct Abcd2H.oct Abcd2tf.oct complex_zhong_inverse.oct qroots.oct

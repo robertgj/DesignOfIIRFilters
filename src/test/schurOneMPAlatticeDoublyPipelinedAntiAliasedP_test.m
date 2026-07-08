@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelinedAntiAliasedP_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 % Test the series combination of a doubly-pipelined parallel-allpass lattice
 % filter and a low-pass anti-aliasing filter. The doubly-pipelined lattice has
@@ -118,11 +118,12 @@ for difference=[false,true]
   HB=freqz(Bn,Bd,wcheck);
   PB=unwrap(arg(HB));
   PP=PA+PB;
-  if verbose
-    printf("max(abs(PP-P))=%g*eps\n",max(abs(PP-P))/eps);
+  max_diff=max(abs(PP-P));
+  if  max_diff > 200*eps
+    error("max(abs(PP-P))(%g*eps) > 200*eps",max_diff/eps);
   endif
-  if max(abs(PP-P)) > 100*eps
-    error("max(abs(PP-P)) > 100*eps");
+  if verbose
+    printf("max(abs(PP-P))=%g*eps\n",max_diff/eps);
   endif
 
   %

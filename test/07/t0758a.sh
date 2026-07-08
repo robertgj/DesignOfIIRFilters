@@ -35,11 +35,11 @@ schurOneMPAlatticedAsqdw.m \
 schurOneMPAlattice2tf.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 print_polynomial.m H2T.m H2P.m H2Asq.m H2dAsqdw.m KW.m \
 schurOneMscale.m delayz.m local_max.m tf2pa.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct Abcd2tf.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct schurOneMAPlattice2H.oct \
 spectralfactor.oct Abcd2H.oct Abcd2tf.oct complex_zhong_inverse.oct qroots.oct"
@@ -78,24 +78,24 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k_min_coef.m << 'EOF'
-A1k_min = [     -576,      904,     -900,      768, ... 
-                -392,       79 ]'/2048;
+A1k_min = [     -578,      904,     -904,      764, ... 
+                -396,       80 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k_min_coef.m"; fail; fi
 
 cat > test_A2k_min_coef.m << 'EOF'
-A2k_min = [      448,     1600,    -1148,      797, ... 
-                -695,      409,      -91 ]'/2048;
+A2k_min = [      448,     1600,    -1160,      804, ... 
+                -688,      409,      -95 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k_min_coef.m"; fail; fi
 
 cat > test_Aaa1k_min_coef.m << 'EOF'
-Aaa1k_min = [        0,     1536,        0,      128 ]'/2048;
+Aaa1k_min = [        0,     1552,        0,      128 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa1k_min_coef.m"; fail; fi
 
 cat > test_Aaa2k_min_coef.m << 'EOF'
-Aaa2k_min = [        0,      656,        0 ]'/2048;
+Aaa2k_min = [        0,      672,        0 ]'/2048;
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_Aaa2k_min_coef.m"; fail; fi
 

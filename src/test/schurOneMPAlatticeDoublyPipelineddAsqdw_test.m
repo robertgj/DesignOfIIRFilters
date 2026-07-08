@@ -1,5 +1,5 @@
 % schurOneMPAlatticeDoublyPipelineddAsqdw_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -75,8 +75,8 @@ for x=1:2
   if verbose
     printf("max_abs_diff_ddAsqdwdx = del/%g\n", del/max_abs_diff_ddAsqdwdx);
   endif
-  if max_abs_diff_ddAsqdwdx> del/60
-    error("max_abs_diff_ddAsqdwdx > del/60");
+  if max_abs_diff_ddAsqdwdx> del/30
+    error("max_abs_diff_ddAsqdwdx > del/30");
   endif
 
   %

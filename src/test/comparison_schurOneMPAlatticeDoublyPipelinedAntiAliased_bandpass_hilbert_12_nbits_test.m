@@ -354,7 +354,7 @@ socp_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate SOCP-relaxation errors
 socp_Asq_pass_error=max(abs(10*log10(socp_Asq(Rap))));
 socp_Asq_stop_error=min(abs(10*log10(socp_Asq(Ras))));
-socp_P_pass_error=max(abs(socp_P(Rpp)-Pz2-Pd+(2*pi))/pi);
+socp_P_pass_error=max(abs(socp_P(Rpp)-Pz2-Pd)/pi);
 socp_T_pass_error=max(abs(socp_T(Rtp)-Tz2-Td));
 socp_dAsqdw_pass_error=max(abs(socp_dAsqdw(Rdp)-Dd));
 socp_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...

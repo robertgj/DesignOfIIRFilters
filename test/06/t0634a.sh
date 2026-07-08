@@ -10,10 +10,10 @@ schurOneMPAlatticeDoublyPipelinedT.m \
 schurOneMPAlatticeDoublyPipelinedP.m \
 schurOneMPAlatticeDoublyPipelineddAsqdw.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
-schurOneMAPlatticeDoublyPipelined2H.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-tf2schurOneMlattice.m schurOneMscale.m tf2pa.m qroots.oct \
-Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct"
+tf2schurOneMlattice.m schurOneMscale.m tf2pa.m \
+schurOneMAPlatticeDoublyPipelined2H.oct \
+qroots.oct Abcd2H.oct schurdecomp.oct schurexpand.oct spectralfactor.oct"
 
 tmp=/tmp/$$
 here=`pwd`
