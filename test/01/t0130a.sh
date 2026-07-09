@@ -3,11 +3,10 @@
 prog=error_feedback_test.m
 
 depends="test/error_feedback_test.m test_common.m \
-optKW.m KW.m Abcd2tf.m tf2Abcd.m \
-factorFdoubleprime.m FprimeToFdoubleprime.m orthogonaliseTF.m \
-tf2schurOneMlattice.m schurdecomp.oct schurOneMscale.m schurexpand.oct \
-schurOneMlattice2Abcd.oct C1D1FToG0primeFprime.m svf.m crossWelch.m \
-p2n60.m qroots.oct"
+optKW.m KW.m tf2Abcd.m factorFdoubleprime.m FprimeToFdoubleprime.m \
+orthogonaliseTF.m C1D1FToG0primeFprime.m svf.m crossWelch.m \
+tf2schurOneMlattice.m schurOneMscale.m p2n60.m \
+schurdecomp.oct schurexpand.oct schurOneMlattice2Abcd.oct qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

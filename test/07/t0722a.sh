@@ -21,9 +21,9 @@ schurOneMR2lattice2Abcd.m \
 schurOneMscale.m \
 tf2schurOneMlattice.m \
 tf_wise_lowpass.m local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ.m delayz.m \
+tf2Abcd.m H2Asq.m H2T.m H2P.m WISEJ.m delayz.m \
 Abcd2H.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

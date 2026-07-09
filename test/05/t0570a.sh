@@ -3,8 +3,8 @@
 prog=schurOneMlatticePipelined2Abcd_symbolic_test.m
 depends="test/schurOneMlatticePipelined2Abcd_symbolic_test.m test_common.m \
 schurOneMlatticePipelined2Abcd.m tf2schurOneMlatticePipelined.m tf2Abcd.m \
-Abcd2tf.m schurOneMscale.m \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct"
+schurOneMscale.m \
+schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

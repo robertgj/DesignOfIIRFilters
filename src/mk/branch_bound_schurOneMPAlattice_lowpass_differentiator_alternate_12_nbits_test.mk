@@ -43,8 +43,8 @@ schurOneMPAlattice_slb_constraints_are_empty.m \
 tf2schurOneMlattice.m \
 schurOneMAPlattice2tf.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m flt2SD.m bin2SDul.m SDadders.m x2nextra.m \
-schurOneMscale.m print_polynomial.m Abcd2tf.m local_max.m delayz.m \
-qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
+schurOneMscale.m print_polynomial.m local_max.m delayz.m \
+qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct Abcd2tf.oct \
 complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct
 
 branch_bound_schurOneMPAlattice_lowpass_differentiator_alternate_12_nbits_test.diary : \

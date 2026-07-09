@@ -5,10 +5,12 @@ prog=bitflip_schurNSlattice_bandpass_R2_test.m
 depends="test/bitflip_schurNSlattice_bandpass_R2_test.m \
 ../iir_sqp_slb_bandpass_R2_test_D1_coef.m \
 ../iir_sqp_slb_bandpass_R2_test_N1_coef.m \
-test_common.m delayz.m bitflip_bandpass_R2_test_common.m schurNSlattice2tf.m SDadders.m \
-schurNSlattice_cost.m schurNSscale.oct schurdecomp.oct schurexpand.oct \
-schurNSlattice2Abcd.oct Abcd2tf.m tf2schurNSlattice.m bin2SD.oct flt2SD.m \
-x2nextra.m bitflip.oct print_polynomial.m bin2SPT.oct"
+test_common.m delayz.m bitflip_bandpass_R2_test_common.m schurNSlattice2tf.m \
+SDadders.m schurNSlattice_cost.m tf2schurNSlattice.m flt2SD.m x2nextra.m \
+print_polynomial.m \
+schurNSscale.oct schurdecomp.oct schurexpand.oct schurNSlattice2Abcd.oct \
+Abcd2tf.oct bin2SD.oct bitflip.oct bin2SPT.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

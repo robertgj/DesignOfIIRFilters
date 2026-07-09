@@ -9,10 +9,9 @@ schurOneMAPlattice_frm_halfband_slb_show_constraints.m \
 schurOneMAPlattice_frm_halfbandEsq.m schurOneMAPlattice_frm_halfbandT.m \
 schurOneMAPlattice_frm_halfbandAsq.m schurOneMAPlatticeP.m \
 schurOneMAPlatticeT.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m \
-Abcd2tf.m tf2pa.m schurOneMscale.m H2Asq.m H2P.m H2T.m \
+tf2pa.m schurOneMscale.m H2Asq.m H2P.m H2T.m local_max.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct spectralfactor.oct \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct local_max.m \
-qroots.oct"
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

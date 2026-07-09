@@ -7,16 +7,17 @@ schurOneMlatticeT.m \
 schurOneMlatticeP.m \
 schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
-schurOneMlattice_sqp_mmse.m schurOneMlattice2Abcd.oct schurOneMscale.m \
+schurOneMlattice_sqp_mmse.m \
 schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_sqp_slb_lowpass_plot.m \
 schurOneMlattice_slb_constraints_are_empty.m \
 tf2schurOneMlattice.m \
 schurOneMlattice2tf.m \
-local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m sqp_bfgs.m qroots.oct \
+schurOneMscale.m \
+local_max.m x2tf.m tf2pa.m print_polynomial.m sqp_bfgs.m \
 armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-spectralfactor.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2H.oct"
+Abcd2tf.oct qroots.oct spectralfactor.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct schurOneMlattice2Abcd.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -17,9 +17,10 @@ schurOneMlatticePipelined2Abcd.m \
 schurOneMlatticePipelinedAsq.m schurOneMlatticePipelinedT.m \
 schurOneMlatticePipelinedP.m schurOneMlatticePipelinedEsq.m \
 schurOneMscale.m tf2schurOneMlatticePipelined.m local_max.m x2tf.m tf2pa.m \
-print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
+print_polynomial.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m \
 x2nextra.m SDadders.m Abcd2ng.m KW.m \
-Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct bin2SD.oct qroots.oct 
+Abcd2H.oct schurdecomp.oct schurexpand.oct bin2SPT.oct bin2SD.oct qroots.oct \
+Abcd2tf.oct
 
 branch_bound_schurOneMlatticePipelined_bandpass_10_nbits_test.diary : \
 schurOneMlattice_socp_slb_bandpass_test.diary

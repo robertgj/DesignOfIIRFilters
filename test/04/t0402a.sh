@@ -9,13 +9,19 @@ schurOneMAPlattice_frm_socp_slb_plot.m \
 schurOneMAPlattice2tf.m \
 schurOneMAPlattice_frm_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm.m \
-schurOneMAPlattice_frmEsq.m schurOneMAPlattice_frmT.m \
-schurOneMAPlattice_frmAsq.m schurOneMAPlattice_frmP.m \
-schurOneMAPlatticeP.m schurOneMAPlatticeT.m tf2schurOneMlattice.m \
-schurOneMAPlattice2Abcd.m Abcd2tf.m tf2pa.m schurOneMscale.m \
-H2Asq.m H2P.m H2T.m schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-print_polynomial.m print_pole_zero.m qroots.oct"
+schurOneMAPlattice_frmEsq.m \
+schurOneMAPlattice_frmT.m \
+schurOneMAPlattice_frmAsq.m \
+schurOneMAPlattice_frmP.m \
+schurOneMAPlatticeP.m \
+schurOneMAPlatticeT.m \
+tf2schurOneMlattice.m \
+schurOneMAPlattice2Abcd.m \
+print_polynomial.m print_pole_zero.m \
+H2Asq.m H2P.m H2T.m tf2pa.m schurOneMscale.m \
+spectralfactor.oct schurdecomp.oct schurexpand.oct \
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
+complex_zhong_inverse.oct qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

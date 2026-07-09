@@ -7,7 +7,7 @@ samin_schurOneMPAlattice_lowpass_test_COEFS = \
 samin_schurOneMPAlattice_lowpass_test_FILES = \
 samin_schurOneMPAlattice_lowpass_test.m \
 test_common.m delayz.m truncation_test_common.m schurOneMPAlattice_cost.m \
-schurOneMPAlattice2tf.m tf2schurOneMlattice.m schurOneMscale.m Abcd2tf.m \
+schurOneMPAlattice2tf.m tf2schurOneMlattice.m schurOneMscale.m\
 flt2SD.m x2nextra.m tf2pa.m print_polynomial.m SDadders.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct qroots.oct \
-schurOneMlattice2Abcd.oct spectralfactor.oct
+schurOneMlattice2Abcd.oct spectralfactor.oct Abcd2tf.oct

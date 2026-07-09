@@ -1,10 +1,9 @@
 #!/bin/sh
 
 prog=schurOneMR2lattice2Abcd_symbolic_test.m
-depends="test/schurOneMR2lattice2Abcd_symbolic_test.m \
-test_common.m schurOneMR2lattice2Abcd.m tf2schurOneMlattice.m tf2Abcd.m \
-Abcd2tf.m schurOneMscale.m \
-schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct"
+depends="test/schurOneMR2lattice2Abcd_symbolic_test.m test_common.m \
+schurOneMR2lattice2Abcd.m tf2schurOneMlattice.m tf2Abcd.m schurOneMscale.m \
+schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

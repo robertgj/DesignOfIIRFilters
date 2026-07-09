@@ -13,10 +13,10 @@ branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test.m test_common.m \
 schurOneMlatticeAsq.m schurOneMlatticeT.m schurOneMlatticeP.m \
 schurOneMlatticeEsq.m schurOneMscale.m tf2schurOneMlattice.m \
 schurOneMlattice2tf.m local_max.m x2tf.m tf2pa.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m x2nextra.m SDadders.m \
+H2Asq.m H2T.m H2P.m flt2SD.m bin2SDul.m x2nextra.m SDadders.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
 schurOneMlattice2H.oct schurOneMlattice2Abcd.oct bin2SPT.oct bin2SD.oct \
-qroots.oct 
+qroots.oct Abcd2tf.oct
 
 branch_bound_schurOneMlattice_bandpass_R2_6_nbits_test.diary : \
 schurOneMlattice_sqp_slb_bandpass_R2_test.diary

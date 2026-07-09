@@ -4,8 +4,8 @@ prog=bitflip_schurFIRlattice_bandpass_test.m
 depends="test/bitflip_schurFIRlattice_bandpass_test.m \
 ../iir_sqp_slb_fir_17_bandpass_test_b1_coef.m \
 test_common.m delayz.m bitflip_bandpass_test_common.m flt2SD.m \
-schurFIRlattice2Abcd.m Abcd2tf.m print_polynomial.m x2nextra.m SDadders.m \
-bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct"
+schurFIRlattice2Abcd.m print_polynomial.m x2nextra.m SDadders.m \
+bin2SPT.oct bin2SD.oct schurFIRdecomp.oct bitflip.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

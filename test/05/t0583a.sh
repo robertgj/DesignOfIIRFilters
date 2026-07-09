@@ -2,9 +2,8 @@
 
 prog=schurOneMlatticeDoublyPipelined2Abcd_test.m
 depends="test/schurOneMlatticeDoublyPipelined2Abcd_test.m test_common.m \
-schurOneMlatticeDoublyPipelined2Abcd.m tf2schurOneMlattice.m Abcd2tf.m qroots.oct \
-schurOneMscale.m \
-schurdecomp.oct schurexpand.oct"
+schurOneMlatticeDoublyPipelined2Abcd.m tf2schurOneMlattice.m schurOneMscale.m \
+schurdecomp.oct schurexpand.oct qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

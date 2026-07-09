@@ -31,10 +31,11 @@ directFIRnonsymmetricAsq.m \
 directFIRnonsymmetricP.m \
 directFIRnonsymmetricT.m \
 directFIRnonsymmetricEsq.m \
-print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m \
 qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct"
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMlattice2H.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

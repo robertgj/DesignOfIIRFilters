@@ -5,9 +5,10 @@ prog=orthogonaliseTF_test.m
 depends="test/orthogonaliseTF_test.m test_common.m \
 schurexpand.oct schurdecomp.oct \
 orthogonaliseTF.m tf2Abcd.m schurOneMscale.m tf2schurOneMlattice.m \
-tf2schurNSlattice.m schurNSlattice2Abcd.oct schurNSscale.oct \
-schurOneMlattice2Abcd.oct C1D1FToG0primeFprime.m FprimeToFdoubleprime.m \
-factorFdoubleprime.m Abcd2tf.m KW.m optKW.m"
+tf2schurNSlattice.m  KW.m optKW.m \
+factorFdoubleprime.m C1D1FToG0primeFprime.m FprimeToFdoubleprime.m \
+schurOneMlattice2Abcd.oct Abcd2tf.oct schurNSlattice2Abcd.oct schurNSscale.oct"
+
 tmp=/tmp/$$
 here=`pwd`
 if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi

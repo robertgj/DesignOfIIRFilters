@@ -2,9 +2,9 @@
 
 prog=yalmip_kyp_check_iir_lowpass_test.m
 depends="test/yalmip_kyp_check_iir_lowpass_test.m test_common.m KW.m optKW.m \
-tf2Abcd.m Abcd2tf.m tf2schurNSlattice.m tf2schurOneMlattice.m schurOneMscale.m \
+tf2Abcd.m tf2schurNSlattice.m tf2schurOneMlattice.m schurOneMscale.m \
 schurOneMAPlattice2Abcd.m schurOneMlatticeDoublyPipelined2Abcd.m tf2pa.m \
-schurdecomp.oct schurexpand.oct schurNSscale.oct qroots.oct \
+schurdecomp.oct schurexpand.oct schurNSscale.oct qroots.oct Abcd2tf.oct \
 schurNSlattice2Abcd.oct schurOneMlattice2Abcd.oct spectralfactor.oct"
 
 tmp=/tmp/$$

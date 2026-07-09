@@ -6,9 +6,9 @@ descr="bitflip_test.m (mfile)"
 
 depends="test/bitflip_test.m test_common.m check_octave_file.m \
 bitflip.m tf2schurNSlattice.m truncation_test_common.m print_polynomial.m \
-schurNSlattice2tf.m schurNSlattice_cost.m \
+schurNSlattice2tf.m schurNSlattice_cost.m x2nextra.m flt2SD.m \
 schurNSscale.oct schurdecomp.oct schurexpand.oct \
-schurNSlattice2Abcd.oct Abcd2tf.m x2nextra.m flt2SD.m bin2SD.oct"
+schurNSlattice2Abcd.oct Abcd2tf.oct bin2SD.oct"
 
 tmp=/tmp/$$
 here=`pwd`

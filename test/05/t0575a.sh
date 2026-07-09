@@ -2,7 +2,8 @@
 
 prog=schurFIRlattice2Abcd_symbolic_test.m
 depends="test/schurFIRlattice2Abcd_symbolic_test.m test_common.m \
-schurFIRlattice2Abcd.m Abcd2tf.m schurFIRdecomp.oct"
+schurFIRlattice2Abcd.m \
+Abcd2tf.oct schurFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -3,8 +3,9 @@
 prog=complementaryFIRlattice_test.m
 depends="test/complementaryFIRlattice_test.m test_common.m \
 print_polynomial.m complementaryFIRlatticeFilter.m crossWelch.m KW.m \
-complementaryFIRlattice2Abcd.m Abcd2tf.m complementaryFIRlattice.m \
-minphase.m direct_form_scale.m complementaryFIRdecomp.oct"
+complementaryFIRlattice2Abcd.m complementaryFIRlattice.m \
+minphase.m direct_form_scale.m \
+Abcd2tf.oct complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

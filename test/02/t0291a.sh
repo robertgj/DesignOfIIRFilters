@@ -9,11 +9,9 @@ schurOneMPAlattice_slb_set_empty_constraints.m \
 schurOneMPAlattice_slb_constraints_are_empty.m \
 schurOneMPAlattice2tf.m schurOneMAPlattice2tf.m schurOneMAPlattice2Abcd.m \
 local_max.m tf2pa.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-tf2schurOneMlattice.m schurOneMscale.m \
+H2Asq.m H2T.m H2P.m H2dAsqdw.m tf2schurOneMlattice.m schurOneMscale.m \
 schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
-qroots.oct"
+schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

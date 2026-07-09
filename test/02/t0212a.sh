@@ -8,13 +8,14 @@ schurOneMlatticeT.m \
 schurOneMlatticeP.m \
 schurOneMlatticedAsqdw.m \
 schurOneMlatticeEsq.m \
-schurOneMlattice2Abcd.oct schurOneMscale.m \
 schurOneMlattice_slb_set_empty_constraints.m \
 schurOneMlattice_slb_show_constraints.m \
 schurOneMlattice_slb_constraints_are_empty.m tf2schurOneMlattice.m \
-schurOneMlattice2tf.m local_max.m x2tf.m print_polynomial.m \
-Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct schurOneMlattice2H.oct"
+schurOneMlattice2tf.m \
+schurOneMscale.m \
+local_max.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
+complex_zhong_inverse.oct schurOneMlattice2H.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -23,7 +24,7 @@ if [ $? -ne 0 ]; then echo "Failed pwd"; exit 1; fi
 fail()
 {
         echo FAILED ${0#$here"/"} $prog 1>&2
-        cd $here
+        cd $herex1
         rm -rf $tmp
         exit 1
 }

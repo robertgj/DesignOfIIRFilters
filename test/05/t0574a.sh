@@ -2,8 +2,9 @@
 
 prog=complementaryFIRlattice2Abcd_symbolic_test.m
 depends="test/complementaryFIRlattice2Abcd_symbolic_test.m test_common.m \
-complementaryFIRlattice2Abcd.m Abcd2tf.m complementaryFIRlattice.m \
-minphase.m direct_form_scale.m complementaryFIRdecomp.oct"
+complementaryFIRlattice2Abcd.m complementaryFIRlattice.m \
+minphase.m direct_form_scale.m \
+complementaryFIRdecomp.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

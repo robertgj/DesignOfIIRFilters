@@ -59,14 +59,14 @@ allpass_filter_test_MH3d_real_pgrad
 allpass_filter_test_FILES = \
 allpass_filter_test.m \
 test_common.m \
-Abcd2tf.m \
 H2Asq.m \
 H2T.m \
 H2P.m \
 svf.m \
 KW.m \
-Abcd2H.oct \
 Abcd2ng.m \
+Abcd2tf.oct \
+Abcd2H.oct \
 allpass_AL7c.m \
 allpass_AL7c_coef2Abcd.m \
 allpass_AL7c_coef2ng.m \

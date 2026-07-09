@@ -345,11 +345,12 @@ schurOneMlattice_bandpass_R2_allocsd_test.m test_common.m delayz.m \
 schurOneMlattice_allocsd_Ito.m schurOneMlattice_allocsd_Lim.m bin2SDul.m \
 schurOneMlatticeEsq.m H2Asq.m schurOneMlatticeAsq.m schurOneMlatticeT.m \
 schurOneMlatticeP.m schurOneMlattice_cost.m schurOneMlattice2tf.m \
-schurOneMlatticeNoiseGain.m tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m \
+schurOneMlatticeNoiseGain.m tf2schurOneMlattice.m schurOneMscale.m \
 print_polynomial.m H2T.m H2P.m flt2SD.m x2nextra.m schurOneMR2lattice2Abcd.m \
 KW.m SDadders.m \
 schurdecomp.oct schurexpand.oct bin2SD.oct bitflip.oct bin2SPT.oct \
-schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct
+schurOneMlattice2Abcd.oct schurOneMlattice2H.oct complex_zhong_inverse.oct \
+Abcd2tf.oct
 
 schurOneMlattice_bandpass_R2_allocsd_test.diary : \
 schurOneMlattice_sqp_slb_bandpass_R2_test.diary

@@ -28,11 +28,11 @@ schurOneMAPlattice_frm_hilbert_allocsd_Lim.m \
 schurOneMAPlattice_frm_hilbertEsq.m schurOneMAPlattice_frm_hilbertAsq.m \
 schurOneMAPlattice_frm_hilbertP.m schurOneMAPlattice_frm_hilbertT.m  \
 schurOneMAPlatticeT.m schurOneMAPlatticeP.m schurOneMAPlattice2Abcd.m \
-bin2SDul.m Abcd2tf.m schurOneMscale.m H2Asq.m H2T.m H2P.m flt2SD.m \
+bin2SDul.m schurOneMscale.m H2Asq.m H2T.m H2P.m flt2SD.m \
 x2nextra.m local_max.m print_polynomial.m SDadders.m \
 schurOneMAPlattice2H.oct schurdecomp.oct schurexpand.oct \
 bin2SD.oct bitflip.oct bin2SPT.oct schurOneMlattice2Abcd.oct \
-schurOneMlattice2H.oct complex_zhong_inverse.oct 
+schurOneMlattice2H.oct complex_zhong_inverse.oct Abcd2tf.oct
 
 branch_bound_schurOneMAPlattice_frm_hilbert_12_nbits_test.diary : \
 schurOneMAPlattice_frm_hilbert_socp_slb_test.diary

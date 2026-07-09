@@ -42,10 +42,11 @@ schurOneMAPlattice2tf.m \
 schurOneMAPlattice2Abcd.m \
 schurOneMPAlattice_allocsd_Lim.m \
 schurOneMPAlattice_allocsd_Ito.m \
-local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
+local_max.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m H2dAsqdw.m \
 flt2SD.m x2nextra.m bin2SDul.m SDadders.m delayz.m \
 qroots.oct bin2SD.oct bin2SPT.oct schurdecomp.oct schurexpand.oct \
-complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct
+complex_zhong_inverse.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
+Abcd2tf.oct
 
 socp_relaxation_schurOneMPAlattice_lowpass_differentiator_alternate_12_nbits_test.diary : \
 schurOneMPAlattice_socp_slb_lowpass_differentiator_alternate_test.diary

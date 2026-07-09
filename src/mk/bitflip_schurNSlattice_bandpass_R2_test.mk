@@ -14,10 +14,10 @@ bitflip_schurNSlattice_bandpass_R2_test_adders.tab
 
 bitflip_schurNSlattice_bandpass_R2_test_FILES = \
 bitflip_schurNSlattice_bandpass_R2_test.m test_common.m delayz.m \
-bitflip_bandpass_R2_test_common.m schurNSlattice2tf.m SDadders.m \
-schurNSlattice_cost.m schurNSscale.oct schurdecomp.oct schurexpand.oct \
-schurNSlattice2Abcd.oct Abcd2tf.m tf2schurNSlattice.m bin2SD.oct flt2SD.m \
-x2nextra.m bitflip.oct print_polynomial.m bin2SPT.oct
+bitflip_bandpass_R2_test_common.m schurNSlattice2tf.m SDadders.m flt2SD.m \
+schurNSlattice_cost.m tf2schurNSlattice.m x2nextra.m print_polynomial.m \
+schurNSscale.oct schurdecomp.oct schurexpand.oct schurNSlattice2Abcd.oct \
+Abcd2tf.oct bin2SD.oct bitflip.oct bin2SPT.oct
 
 bitflip_schurNSlattice_bandpass_R2_test.diary : \
 iir_sqp_slb_bandpass_R2_test.diary

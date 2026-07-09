@@ -18,12 +18,12 @@ schurOneMAPlattice_frm.m \
 schurOneMAPlattice_frmEsq.m schurOneMAPlattice_frmT.m \
 schurOneMAPlattice_frmAsq.m schurOneMAPlattice_frmP.m \
 schurOneMAPlattice2tf.m tf2schurOneMlattice.m \
-schurOneMAPlatticeP.m schurOneMAPlatticeT.m  \
-schurOneMAPlattice2Abcd.m Abcd2tf.m tf2pa.m schurOneMscale.m \
-H2Asq.m H2P.m H2T.m local_max.m \
+schurOneMAPlatticeP.m schurOneMAPlatticeT.m \
+schurOneMAPlattice2Abcd.m tf2pa.m schurOneMscale.m \
+H2Asq.m H2P.m H2T.m local_max.m print_polynomial.m print_pole_zero.m \
 schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-print_polynomial.m print_pole_zero.m qroots.oct"
+qroots.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

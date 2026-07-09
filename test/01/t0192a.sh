@@ -3,7 +3,8 @@
 prog=tfp2Abcd_test.m
 
 depends="test/tfp2Abcd_test.m test_common.m print_polynomial.m \
-phi2p.m tfp2g.m Abcd2tf.m tf2Abcd.m tfp2Abcd.m"
+phi2p.m tfp2g.m tf2Abcd.m tfp2Abcd.m \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

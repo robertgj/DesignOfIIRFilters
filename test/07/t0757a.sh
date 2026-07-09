@@ -27,9 +27,9 @@ schurOneMPAlatticeT.m \
 schurOneMPAlatticedAsqdw.m \
 schurOneMAPlatticeDoublyPipelined2Abcd.m \
 schurOneMAPlattice2Abcd.m \
-schurOneMscale.m KW.m SDadders.m \
-print_polynomial.m H2T.m H2P.m H2Asq.m H2dAsqdw.m flt2SD.m x2nextra.m \
-bin2SDul.m \
+schurOneMscale.m \
+KW.m SDadders.m print_polynomial.m H2T.m H2P.m H2Asq.m H2dAsqdw.m flt2SD.m \
+x2nextra.m bin2SDul.m \
 schurOneMAPlatticeDoublyPipelined2H.oct \
 schurdecomp.oct schurexpand.oct bin2SD.oct bin2SPT.oct Abcd2tf.oct \
 schurOneMlattice2Abcd.oct schurOneMlattice2H.oct schurOneMAPlattice2H.oct \

@@ -29,12 +29,14 @@ bitflip_schurOneMlattice_bandpass_R2_test_adders_Lim.tab \
 bitflip_schurOneMlattice_bandpass_R2_test_adders_Ito.tab
 
 bitflip_schurOneMlattice_bandpass_R2_test_FILES = \
-bitflip_bandpass_R2_test_common.m schurOneMlattice_cost.m schurOneMlattice2tf.m \
-schurdecomp.oct schurexpand.oct bin2SD.oct flt2SD.m x2nextra.m bitflip.oct \
-tf2schurOneMlattice.m schurOneMlatticeNoiseGain.m schurOneMlattice2Abcd.oct \
-Abcd2tf.m schurOneMscale.m print_polynomial.m bin2SPT.oct schurOneMlatticeAsq.m \
-schurOneMlattice2H.oct complex_zhong_inverse.oct H2Asq.m schurOneMlatticeEsq.m \
-schurOneMlatticeT.m H2T.m bin2SDul.m schurOneMlattice_allocsd_Lim.m SDadders.m \
-schurOneMlattice_allocsd_Ito.m delayz.m
+bitflip_bandpass_R2_test_common.m schurOneMlattice_cost.m \
+schurOneMlattice2tf.m flt2SD.m x2nextra.m tf2schurOneMlattice.m \
+schurOneMlatticeNoiseGain.m schurOneMscale.m print_polynomial.m \
+schurOneMlatticeAsq.m H2Asq.m schurOneMlatticeEsq.m \
+schurOneMlatticeT.m H2T.m bin2SDul.m schurOneMlattice_allocsd_Lim.m \
+SDadders.m schurOneMlattice_allocsd_Ito.m delayz.m \
+schurOneMlattice2Abcd.oct bitflip.oct schurdecomp.oct schurexpand.oct \
+bin2SD.oct Abcd2tf.oct bin2SPT.oct schurOneMlattice2H.oct \
+complex_zhong_inverse.oct
 
 bitflip_schurOneMlattice_bandpass_R2_test.diary : iir_sqp_slb_bandpass_R2_test.diary

@@ -4,8 +4,8 @@ prog=complementaryFIRlattice_bandpass_test.m
 depends="test/complementaryFIRlattice_bandpass_test.m test_common.m delayz.m \
 print_polynomial.m x2tf.m complementaryFIRlattice.m \
 complementaryFIRlatticeFilter.m crossWelch.m \
-complementaryFIRlattice2Abcd.m Abcd2tf.m KW.m \
-minphase.m direct_form_scale.m complementaryFIRdecomp.oct"
+complementaryFIRlattice2Abcd.m KW.m minphase.m direct_form_scale.m \
+ complementaryFIRdecomp.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -9,10 +9,11 @@ schurOneMAPlattice_frm_hilbert_slb_set_empty_constraints.m \
 schurOneMAPlattice_frm_hilbertEsq.m schurOneMAPlattice_frm_hilbertT.m \
 schurOneMAPlattice_frm_hilbertAsq.m schurOneMAPlattice_frm_hilbertP.m \
 schurOneMAPlatticeP.m schurOneMAPlatticeT.m tf2schurOneMlattice.m \
-schurOneMAPlattice2Abcd.m Abcd2tf.m tf2pa.m schurOneMscale.m \
-H2Asq.m H2P.m H2T.m schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
+schurOneMAPlattice2Abcd.m tf2pa.m schurOneMscale.m \
+H2Asq.m H2P.m H2T.m print_polynomial.m print_pole_zero.m \
+Abcd2tf.oct schurOneMlattice2Abcd.oct schurOneMAPlattice2H.oct \
 spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-print_polynomial.m print_pole_zero.m qroots.oct"
+qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`

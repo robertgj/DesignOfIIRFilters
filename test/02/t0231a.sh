@@ -2,8 +2,8 @@
 
 prog=schurOneMR2lattice2Abcd_test.m
 depends="test/schurOneMR2lattice2Abcd_test.m test_common.m svf.m crossWelch.m \
-schurOneMR2lattice2Abcd.m tf2schurOneMlattice.m Abcd2tf.m schurOneMscale.m KW.m \
-p2n60.m qroots.oct schurdecomp.oct schurexpand.oct reprand.oct"
+schurOneMR2lattice2Abcd.m tf2schurOneMlattice.m schurOneMscale.m KW.m p2n60.m \
+qroots.oct schurdecomp.oct schurexpand.oct reprand.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

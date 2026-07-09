@@ -4,7 +4,7 @@ prog=pq2blockKWopt_test.m
 
 depends="test/pq2blockKWopt_test.m test_common.m \
 butter2pq.m pq2blockKWopt.m pq2svcasc.m svcasc2Abcd.m KW.m optKW.m optKW2.m \
-Abcd2tf.m"
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

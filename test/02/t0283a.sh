@@ -19,9 +19,8 @@ complementaryFIRlattice_slb_update_constraints.m \
 complementaryFIRlattice.m \
 complementaryFIRlattice2Abcd.m \
 complementaryFIRlatticeFilter.m \
-local_max.m x2tf.m print_polynomial.m Abcd2tf.m H2Asq.m H2T.m H2P.m \
-direct_form_scale.m qroots.oct \
-minphase.oct Abcd2H.oct complementaryFIRdecomp.oct"
+local_max.m x2tf.m print_polynomial.m H2Asq.m H2T.m H2P.m direct_form_scale.m \
+qroots.oct Abcd2tf.oct minphase.oct Abcd2H.oct complementaryFIRdecomp.oct"
 
 tmp=/tmp/$$
 here=`pwd`

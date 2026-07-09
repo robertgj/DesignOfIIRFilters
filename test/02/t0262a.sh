@@ -1,9 +1,9 @@
 #!/bin/sh
 
 prog=schurOneMAPlattice2tf_test.m
-depends="test/schurOneMAPlattice2tf_test.m schurOneMAPlattice2tf.m test_common.m \
-tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMlattice2Abcd.oct \
-Abcd2tf.m schurOneMscale.m schurdecomp.oct schurexpand.oct"
+depends="test/schurOneMAPlattice2tf_test.m schurOneMAPlattice2tf.m \
+test_common.m tf2schurOneMlattice.m schurOneMAPlattice2Abcd.m schurOneMscale.m \
+schurOneMlattice2Abcd.oct Abcd2tf.oct schurdecomp.oct schurexpand.oct"
 
 tmp=/tmp/$$
 here=`pwd`

@@ -3,11 +3,10 @@
 prog=simplex_schurNSlattice_lowpass_test.m
 
 depends="test/simplex_schurNSlattice_lowpass_test.m test_common.m \
-truncation_test_common.m \
-schurNSlattice2tf.m schurNSlattice_cost.m flt2SD.m x2nextra.m \
-print_polynomial.m Abcd2tf.m tf2schurNSlattice.m \
+truncation_test_common.m schurNSlattice2tf.m schurNSlattice_cost.m flt2SD.m \
+x2nextra.m print_polynomial.m tf2schurNSlattice.m \
 schurNSscale.oct schurdecomp.oct schurexpand.oct schurNSlattice2Abcd.oct \
-bin2SD.oct"
+bin2SD.oct Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

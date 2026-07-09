@@ -2,10 +2,10 @@
 
 prog=bitflip_schurNSPAlattice_lowpass_test.m
 
-depends="test/bitflip_schurNSPAlattice_lowpass_test.m test_common.m print_polynomial.m \
-truncation_test_common.m schurNSPAlattice2tf.m schurNSPAlattice_cost.m \
-tf2schurNSlattice.m Abcd2tf.m flt2SD.m x2nextra.m  tf2pa.m \
-bitflip.oct spectralfactor.oct schurNSscale.oct schurdecomp.oct \
+depends="test/bitflip_schurNSPAlattice_lowpass_test.m test_common.m \
+print_polynomial.m truncation_test_common.m schurNSPAlattice2tf.m \
+schurNSPAlattice_cost.m tf2schurNSlattice.m flt2SD.m x2nextra.m tf2pa.m \
+Abcd2tf.oct bitflip.oct spectralfactor.oct schurNSscale.oct schurdecomp.oct \
 schurexpand.oct bin2SD.oct schurNSlattice2Abcd.oct qroots.oct"
 
 tmp=/tmp/$$

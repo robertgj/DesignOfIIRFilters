@@ -12,11 +12,11 @@ schurNSlattice_slb_set_empty_constraints.m \
 schurNSlattice_sqp_slb_lowpass_plot.m \
 schurNSlattice2tf.m \
 schurNSlatticeFilter.m \
-tf2schurNSlattice.m local_max.m x2tf.m tf2pa.m print_polynomial.m Abcd2tf.m \
-sqp_bfgs.m armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m svf.m \
-crossWelch.m schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct \
-spectralfactor.oct schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct \
-p2n60.m qroots.oct"
+tf2schurNSlattice.m local_max.m x2tf.m tf2pa.m print_polynomial.m sqp_bfgs.m \
+armijo_kim.m updateWbfgs.m invSVD.m H2Asq.m H2T.m svf.m crossWelch.m p2n60.m \
+schurNSlattice2Abcd.oct schurNSscale.oct Abcd2H.oct spectralfactor.oct \
+schurdecomp.oct schurexpand.oct complex_zhong_inverse.oct qroots.oct \
+Abcd2tf.oct"
 
 tmp=/tmp/$$
 here=`pwd`

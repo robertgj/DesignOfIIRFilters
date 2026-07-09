@@ -2,10 +2,10 @@
 
 prog=simplex_schurOneMlattice_lowpass_test.m
 
-depends="test/simplex_schurOneMlattice_lowpass_test.m test_common.m print_polynomial.m \
-schurOneMlattice2tf.m truncation_test_common.m schurOneMlattice_cost.m \
-tf2schurOneMlattice.m schurOneMlattice2Abcd.oct Abcd2tf.m \
-schurOneMscale.m schurdecomp.oct schurexpand.oct flt2SD.m x2nextra.m bin2SD.oct"
+depends="test/simplex_schurOneMlattice_lowpass_test.m test_common.m \
+print_polynomial.m schurOneMlattice2tf.m truncation_test_common.m flt2SD.m \
+schurOneMlattice_cost.m tf2schurOneMlattice.m x2nextra.m schurOneMscale.m \
+schurOneMlattice2Abcd.oct Abcd2tf.oct schurdecomp.oct schurexpand.oct bin2SD.oct"
 
 tmp=/tmp/$$
 here=`pwd`
