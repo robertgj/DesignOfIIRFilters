@@ -33,17 +33,36 @@
 // vector, w, of length Nw and the columns correspond to the coefficient
 // vector, k, of length Nk. d2Hdydx is returned as a matrix of size (Nw,Nk,Nk).
 
-// Copyright (C) 2026 Robert G. Jenssen
+// Profiling schurOneMAPlatticeDoublyPipelined2H_test.m with m-file and
+// oct-file versions of schurOneMAPlatticeDoublyPipelined2H() gives:
+// 
+// Testing schurOneMAPlatticeDoublyPipelined2H oct-file
+//    #                               Function Attr     Time (s)   Time (%)  Calls
+// -------------------------------------------------------------------------------
+//   81    schurOneMAPlatticeDoublyPipelined2H             0.771      96.08     80
+//   79 schurOneMAPlatticeDoublyPipelined2Abcd             0.010       1.27     68
+//   56                                    fft             0.006       0.78      6
+// 
+// Testing schurOneMAPlatticeDoublyPipelined2H m-file
+//    #                               Function Attr     Time (s)   Time (%)  Calls
+// -------------------------------------------------------------------------------
+//  82                                 Abcd2H             1.141      97.04     80
+//  79 schurOneMAPlatticeDoublyPipelined2Abcd             0.010       0.85     68
+//  81    schurOneMAPlatticeDoublyPipelined2H             0.008       0.71     80
 //
+// Note that schurOneMAPlatticeDoublyPipelined2H.m calls Abcd2H.oct
+  
+// Copyright (C) 2026 Robert G. Jenssen
+// 
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
 // published by the Free Software Foundation; either version 3 of 
 // the License, or (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-//
+// 
 // See the GNU General Public License for more details.
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.

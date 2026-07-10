@@ -193,14 +193,14 @@ if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.2.5}
+DATATYPES_VER=${DATATYPES_VER:-1.2.6}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
   wget -c $DATATYPES_URL 
 fi
 
-IO_VER=${IO_VER:-2.7.1}
+IO_VER=${IO_VER:-2.7.2}
 IO_ARCHIVE=io-$IO_VER".tar.gz"
 IO_URL=$OCTAVE_FORGE_URL/$IO_ARCHIVE
 if ! test -f $IO_ARCHIVE; then

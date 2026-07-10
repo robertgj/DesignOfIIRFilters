@@ -1,5 +1,5 @@
 % benchmark_iirA_freqz_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 test_common;
 
@@ -14,84 +14,38 @@ strf="benchmark_iirA_freqz_test";
 %
 % Initial coefficients from schurOneMPAlattice_socp_slb_bandpass_hilbert_test.m
 %
-A1k = [  -0.4135004229,   0.6119694730,   0.4794873904,  -0.5067394002, ... 
-          0.7072993736,  -0.3010516772,  -0.0646071285,   0.3675203809, ... 
-         -0.2563697410,   0.0890435079 ];
-A1epsilon = [  -1,  -1,   1,   1,   1,   1,   1,  -1,  -1,  -1 ];
-A1p = [   0.9856238388,   0.6348879426,   1.2940246193,   0.7675426769, ... 
-          1.3414774959,   0.5554441242,   0.7578183494,   0.8084678865, ... 
-          1.1887934672,   0.9145894817 ];
-A2k = [  -0.7696310526,   0.7216132469,   0.4481643290,  -0.5762702648, ... 
-          0.7320010792,  -0.2531067642,  -0.0688876567,   0.3754458362, ... 
-         -0.2352692288,   0.1058925849 ];
-A2epsilon = [  -1,  -1,   1,  -1,  -1,   1,  -1,   1,   1,  -1 ];
-A2p = [   1.1896028264,   0.4292127269,   1.0673727377,   0.6588887134, ... 
-          0.3416183554,   0.8684578679,   1.1248989931,   1.0499014585, ... 
-          0.7074762197,   0.8991628915 ];
+A1k = [  -0.4562840864,   0.8402776683,  -0.3098215977,   0.1703087020, ... 
+          0.6486396502,  -0.3793485882,   0.2190654451,   0.4501243760, ... 
+         -0.3484852669,   0.2581545686 ];
+A1epsilon = [   1,  1,  1, -1,  1,  1, -1, -1,  1,  1 ];
+A1p = [   0.8217705222,   1.3448925517,   0.3962130094,   0.5458258785, ... 
+          0.6482552939,   0.2992675148,   0.4461416003,   0.5574153336, ... 
+          0.9052099184,   1.3022977381 ];
+A2k = [  -0.8098958551,   0.8848410408,  -0.3758498446,   0.1423917229, ... 
+          0.6652786728,  -0.3507843601,   0.2265736413,   0.4519170720, ... 
+         -0.3337929337,   0.2615546729 ];
+A2epsilon = [  1,  1,  1, -1, -1, -1, -1,  1,  1, -1 ];
+A2p = [   0.3458017784,   1.0669847741,   0.2637361869,   0.3915711630, ... 
+          0.4519326757,   1.0080347657,   0.6988387619,   0.8800641193, ... 
+          0.5407126703,   0.7650787419 ];
+A1d = [   1.0000000000,  -1.5197027047,   1.4848359353,   0.3956466620, ... 
+         -1.8161329898,   2.2125503124,  -0.6845245159,  -0.6323659945, ... 
+          1.2174609748,  -0.7175790872,   0.2581545686 ]';
+A2d = [   1.0000000000,  -2.2664872182,   2.1042431350,   0.3573745969, ... 
+         -2.7699727733,   2.9973575445,  -0.8904057394,  -1.0785732134, ... 
+          1.6021025332,  -0.9037681994,   0.2615546729 ]';
 difference=true;
+
 [N,D]=schurOneMPAlattice2tf(A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
 [x,U,V,M,Q]=tf2x(N,D);R=1;
 
 %
-% n a multiple of 200
-%
-Asq_tim=[];
-H_tim=[];
-A_tim=[];
-
-nr=200:200:10000;
-for n=nr,
-
-  display(n);
-  
-  wa=(1:(n-1))'*pi/n;
-
-  Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-  t0=clock();
-  for k=1:10,
-    Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-  endfor
-  t1=clock();
-  Asq_tim=[Asq_tim,etime(t1,t0)/k];
-
-  H=freqz(N,D,n);
-  t0=clock();
-  for k=1:10, 
-    H=freqz(N,D,n);
-  endfor
-  t1=clock();
-  H_tim=[H_tim,etime(t1,t0)/k];
-  
-  A=iirA(wa,x,U,V,M,Q,R);
-  t0=clock();
-  for k=1:20, 
-    A=iirA(wa,x,U,V,M,Q,R);
-  endfor
-  t1=clock();
-  A_tim=[A_tim,etime(t1,t0)/k];
-  
-endfor
-
-semilogy(nr,Asq_tim,"--",nr,A_tim,"-",nr,H_tim,"-.");
-xlabel("Frequency vector length");
-ylabel("Mean execution time (seconds)");
-legend("schurOneMPAlatticeAsq","iirA","freqz");
-legend("location","northwest");
-legend("boxoff");
-legend("right");
-grid("on");
-title(sprintf ...
-        ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));
-zticks([]);
-print(strcat(strf,sprintf("_n_%d",n)),"-dpdflatex");
-close
-
-%
 % n a power of 2
 %
-Asq_tim_2=[];
 H_tim_2=[];
 A_tim_2=[];
+Asq_tim_2=[];
+AsqDP_tim_2=[];
 
 p=4:16;
 nr2=2.^p;
@@ -100,54 +54,145 @@ for n=nr2,
   display(n);
   
   wa=(0:(n-1))'*pi/n;
-
-  Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-  t0=clock();
-  for k=1:10,
-    Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
-  endfor
-  t1=clock();
-  Asq_tim_2=[Asq_tim_2,etime(t1,t0)/k];
+  waDP=wa(1:floor(n/2));
 
   H=freqz(N,D,n);
   t0=clock();
-  for k=1:10, 
+  for l=1:10, 
     H=freqz(N,D,n);
   endfor
   t1=clock();
-  H_tim_2=[H_tim_2,etime(t1,t0)/k];
+  H_tim_2=[H_tim_2,etime(t1,t0)/l];
   
   A=iirA(wa,x,U,V,M,Q,R);
   t0=clock();
-  for k=1:20, 
+  for l=1:10, 
     A=iirA(wa,x,U,V,M,Q,R);
   endfor
   t1=clock();
-  A_tim_2=[A_tim_2,etime(t1,t0)/k];
+  A_tim_2=[A_tim_2,etime(t1,t0)/l];
   
+  Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+  t0=clock();
+  for l=1:10,
+    Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p,difference);
+  endfor
+  t1=clock();
+  Asq_tim_2=[Asq_tim_2,etime(t1,t0)/l];
+
+  AsqDP=schurOneMPAlatticeDoublyPipelinedAsq(waDP,A1k,A2k,difference);
+  t0=clock();
+  for l=1:10,
+    AsqDP=schurOneMPAlatticeDoublyPipelinedAsq(waDP,A1k,A2k,difference);
+  endfor
+  t1=clock();
+  AsqDP_tim_2=[AsqDP_tim_2,etime(t1,t0)/l];
+
 endfor
 
-semilogy(p,Asq_tim_2,"--",p,A_tim_2,"-",p,H_tim_2,"-.");
+semilogy(p,H_tim_2,"-",p,A_tim_2,"--",p,Asq_tim_2,"-.",p,AsqDP_tim_2,":");
 xlabel("Frequency vector length");
 xticks([2:2:16]);
 xticklabels ({"$2^{2}$","$2^{4}$","$2^{6}$","$2^{8}$", ...
               "$2^{10}$","$2^{12}$","$2^{14}$","$2^{16}$"})
 ylabel("Mean execution time (seconds)");
-legend("schurOneMPAlatticeAsq","iirA","freqz");
+legend("freqz","iirA","schurOneMPAlatticeAsq", ...
+       "schurOneMPAlatticeDoublyPipelinedAsq");
 legend("location","northwest");
 legend("boxoff");
 legend("right");
 grid("on");
-title(sprintf ...
-        ("Mean execution time (%d runs) schurOneMPAlatticeAsq,iirA,freqz",k));
+title(sprintf(["Mean execution time (%d runs) ", ...
+               "freqz,iirA,schurOneMPAlatticeAsq,", ...
+               "schurOneMPAlatticeDoublyPipelinedAsq"],l));
 zticks([]);
 print(strcat(strf,sprintf("_n_%d",n)),"-dpdflatex");
 close
 
-save benchmark_iirA_freqz_test.mat x U V M Q R N D ...
-     Asq_tim A_tim H_tim Asq_tim_2 A_tim_2 H_tim_2
+%
+% Fix n and vary filter length
+%
+
+H_tim_m=[];
+A_tim_m=[];
+Asq_tim_m=[];
+AsqDP_tim_m=[];
+
+n=4000;
+fpass=0.1;
+npass=floor(fpass*(n-1)/0.5)+1;
+mm=3:2:21;
+
+for m=3:2:21
+
+  display(m);
+  
+  [N,D]=butter(m,2*fpass);
+  [x,U,V,M,Q]=tf2x(N,D);R=1;
+  [a1,a2]=tf2pa(N,D);
+  [A1k,A1epsilon,A1p,A1c] = tf2schurOneMlattice(flipud(a1(:)),a1(:));
+  [A2k,A2epsilon,A2p,A2c] = tf2schurOneMlattice(flipud(a2(:)),a2(:));
+
+  wa=(0:(n-1))'*pi/n;
+  waDP=wa(1:floor(n/2));
+
+  H=freqz(N,D,n);
+  t0=clock();
+  for l=1:10, 
+    H=freqz(N,D,n);
+  endfor
+  t1=clock();
+  H_tim_m=[H_tim_m,etime(t1,t0)/l];
+  
+  A=iirA(wa,x,U,V,M,Q,R);
+  t0=clock();
+  for l=1:10, 
+    A=iirA(wa,x,U,V,M,Q,R);
+  endfor
+  t1=clock();
+  A_tim_m=[A_tim_m,etime(t1,t0)/l];
+  
+  Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+  t0=clock();
+  for l=1:10,
+    Asq=schurOneMPAlatticeAsq(wa,A1k,A1epsilon,A1p,A2k,A2epsilon,A2p);
+  endfor
+  t1=clock();
+  Asq_tim_m=[Asq_tim_m,etime(t1,t0)/l];
+
+  AsqDP=schurOneMPAlatticeDoublyPipelinedAsq(waDP,A1k,A2k);
+  t0=clock();
+  for l=1:10,
+    AsqDP=schurOneMPAlatticeDoublyPipelinedAsq(waDP,A1k,A2k);
+  endfor
+  t1=clock();
+  AsqDP_tim_m=[AsqDP_tim_m,etime(t1,t0)/l];
+
+endfor
+
+semilogy(mm,H_tim_m,"-",mm,A_tim_m,"--",mm,Asq_tim_m,"-.",mm,AsqDP_tim_m,":");
+xlabel("Filter order");
+xticks(mm);
+ylabel("Mean execution time (seconds)");
+axis([3,21,0.0001,2]);
+legend("freqz","iirA","schurOneMPAlatticeAsq", ...
+       "schurOneMPAlatticeDoublyPipelinedAsq");
+legend("location","northwest");
+legend("boxoff");
+legend("right");
+grid("on");
+title(sprintf(["Mean execution time (%d runs) ", ...
+               "freqz,iirA,schurOneMPAlatticeAsq,", ...
+               "schurOneMPAlatticeDoublyPipelinedAsq"],l));
+zticks([]);
+print(strcat(strf,sprintf("_m_%d",n)),"-dpdflatex");
+close
 
 % Done
 toc;
+eval(sprintf(["save %s.mat n x U V M Q R N D ", ...
+              "AsqDP_tim_2 Asq_tim_2 A_tim_2 H_tim_2 ", ...
+              "AsqDP_tim_m Asq_tim_m A_tim_m H_tim_m"],strf));
+
 diary off
-movefile benchmark_iirA_freqz_test.diary.tmp benchmark_iirA_freqz_test.diary;
+movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

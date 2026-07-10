@@ -1,5 +1,5 @@
 benchmark_iirA_freqz_test_FIGURES = \
-benchmark_iirA_freqz_test_n_10000 \
+benchmark_iirA_freqz_test_m_4000 \
 benchmark_iirA_freqz_test_n_65536
 
 benchmark_iirA_freqz_test_COEFS = \

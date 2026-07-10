@@ -1,5 +1,5 @@
 % schurOneMAPlatticeDoublyPipelined2H_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -9,6 +9,17 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 verbose=true;
+create_profile=false;
+if create_profile
+  profile("on");
+  if exist(strf) == 2
+    printf("Profiling %s m-file\n", strf);
+  elseif exist(strf) == 3
+    printf("Profiling %s oct-file\n", strf);
+  else
+    error("Did not find %s m-file or oct-file!\n", strf);
+  endif
+endif
 
 % Low pass filter
 norder=9;
@@ -304,7 +315,14 @@ if max(abs(A2diagd2Hdk2(npass,:) - ...
   error(["max(abs(A2diagd2Hdk2(npass,:) - ...\n", ...
  "           transpose(diag(squeeze(A2d2Hdk2(npass,,)))))) > eps"]);
 endif
-                                                                  
+
 % Done
+
+if create_profile
+  profile("off");
+  T=profile("info");
+  profshow(T);
+endif
+
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

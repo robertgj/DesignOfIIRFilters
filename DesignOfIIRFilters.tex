@@ -46569,6 +46569,7 @@ be installed with this work-around:
 --eval 'texi_macros_file("/dev/null");pkg install package_file_name'
 \end{verbatim}
 \end{small}
+
 \pdfbookmark[1]{Benchmarking Octave}{benchmarking-octave}
 \subsection*{Benchmarking Octave}
 This section shows the results of benchmarking various builds of Octave
@@ -46710,10 +46711,9 @@ export OPENBLAS_NUM_THREADS=2
 \end{small}
 
 Table~\ref{tab:benchmark-octave-blas-libraries} shows the average MFLOPS or
-execution time for $10$\footnote{Probably not enough!} runs of each test. If
-not stated, the CPU is \emph{nehalem}.
-The normalised residuals for the two ATLAS libraries varied between two values.
-The largest is shown.
+execution time for $10$ runs of each test. If not stated, the CPU is
+\emph{nehalem}. The normalised residuals for the two ATLAS libraries varied
+between two values. The largest is shown.
 
 \begin{table}
 \centering
@@ -46751,31 +46751,45 @@ Nehalem libopenblasp (4 threads)& 58397  & 10.8       &  47.6          &  50.6 \
 \subsubsection*{Benchmarking \emph{freqz}, \emph{iirA}  and \emph{schurOneMPAlatticeAsq}}
 The Octave script \emph{benchmark\_iirA\_freqz\_test.m} compares the average
 execution time of the Octave \emph{signal} package function \emph{freqz}
-(calculated at equal frequency intervals with an FFT) and the \emph{iirA} and
-\emph{schurOneMPAlatticeAsq} functions (calculated at arbitrary frequencies with
-matrix multiplication).
-Figure~\ref{fig:benchmark-iirA-freqz-test-10000} shows the mean execution times
-for frequency vectors with a length that is a multiple of $200$.
+(calculated at equal frequency intervals with an FFT) and the \emph{iirA},
+\emph{schurOneMPAlatticeAsq} and \emph{schurOneMPAlatticeDoublyPipelinedAsq}
+functions. The \emph{freqz} function returns the amplitude and phase of the
+frequency response but, unlike the other functions, cannot directly return the
+gradients of the frequency response with-respect-to the coefficients.
 Figure~\ref{fig:benchmark-iirA-freqz-test-65536} shows the mean execution times
-for frequency vectors with a length that is a power of $2$.
-
-\begin{figure}
-\centering
-\scalebox{\DesignOfIIRFiltersPdfScale}{\input{benchmark_iirA_freqz_test_n_10000}}
-\caption{Mean execution times of \emph{freqz}, \emph{iirA} and
-\emph{schurOneMPAlatticeAsq} for frequency vectors with a length that is a
-multiple of $200$.}  
-\label{fig:benchmark-iirA-freqz-test-10000}
-\end{figure}
+for frequency vectors with a length that is a power of $2$. For this figure, the
+filter coefficients were calculated by the Octave script described in
+Section~\ref{sec:Design-parallel-Schur-one-mult-all-pass-lattice-band-pass-Hilbert-SOCP}.
+For the \emph{freqz}, \emph{iirA} and \emph{schurOneMPAlatticeAsq} functions,
+the total number of states in each filter is $20$. For a doubly-pipelined
+parallel all-pass filter with the same number of coefficients, the number of
+states in each all-pass filter and is $22$, so that the total number of states
+in the filter is $44$\footnote{The $2$ extra states are added to each all-pass
+  filter so that the filter coefficients are all in the state transition
+  matrix, $A$.}. The doubly-pipelined filter implementation aliases the
+frequency response so, in that case, only the first half of the frequency vector
+is used. Figure~\ref{fig:benchmark-iirA-freqz-test-m-4000} shows the mean
+execution times as the order of a Butterworth low-pass filter is varied for a
+fixed frequency vector length. Again, for the doubly-pipelined filter, only the
+first half of the frequency vector is used.
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{benchmark_iirA_freqz_test_n_65536}}
-\caption{Mean execution times of \emph{freqz}, \emph{iirA} and
-\emph{schurOneMPAlatticeAsq} for frequency vectors with a length that is a
-power of $2$.}
+\caption{Mean execution times of \emph{freqz}, \emph{iirA},
+  \emph{schurOneMPAlatticeAsq} and \emph{schurOneMPAlatticeDoublyPipelinedAsq}
+  for frequency vectors with a length that is a power of $2$.}
 \label{fig:benchmark-iirA-freqz-test-65536}
 \end{figure}
 
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{benchmark_iirA_freqz_test_m_4000}}
+\caption{Mean execution times of \emph{freqz}, \emph{iirA},
+  \emph{schurOneMPAlatticeAsq} and \emph{schurOneMPAlatticeDoublyPipelinedAsq}
+  for a Butterworth low-pass filter.}  
+\label{fig:benchmark-iirA-freqz-test-m-4000}
+\end{figure}
+\clearpage
 \pdfbookmark[1]{Profiling Octave}{profiling-octave}
 \subsection*{Profiling Octave}
 \subsubsection*{Profiling Octave scripts with the internal profiler}
