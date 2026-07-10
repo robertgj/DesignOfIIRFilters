@@ -18,20 +18,27 @@
 //
 // Test with address-sanitizer (and a release build of octave):
 #if 0
-   mkoctfile -O0 -g -fsanitize=address -fsanitize=undefined \
-     -fno-sanitize=vptr -fno-omit-frame-pointer complex_zhong_inverse.cc
-   LD_PRELOAD=/usr/lib64/libasan.so.5 octave-cli  \
-     --eval "N=4, \
+   mkoctfile -O0 -g \
+     -fsanitize=address -fsanitize=undefined \
+     -fno-sanitize=vptr -fno-omit-frame-pointer \
+     -o src/complex_zhong_inverse.oct src/complex_zhong_inverse.cc
+   ASAN_OPTIONS='stack_trace_format="[frame=%n, function=%f, location=%S]"' \
+   ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer \
+   LD_PRELOAD=/usr/lib64/libasan.so.8 \
+     octave-cli -q -p src \
+     --eval "N=5, \
              r=reprand(2*N*N); \
              A=hess(reshape(r(1:(N*N)),N,N)+ \
                     j*reshape(r(((N*N)+1):(2*N*N)),N,N))', \
              B=complex_zhong_inverse(A), \
-             max(max(abs((B*A)-eye(N))))/eps, \
-             max(max(abs((A*B)-eye(N))))/eps"
+             C=complex_zhong_inverse(A), \
+             max(max(abs((B-C))))/eps, \
+             max(max(abs((C*A)-eye(N))))/eps, \
+             max(max(abs((A*C)-eye(N))))/eps" \
+     > asan.out 2>&1; grep -i zhong asan.out
 #endif
 
-
-// Copyright (C) 2017-2025 Robert G. Jenssen
+// Copyright (C) 2017-2026 Robert G. Jenssen
 //
 // This program is free software; you can redistribute it and/or 
 // modify it underthe terms of the GNU General Public License as 
@@ -51,6 +58,78 @@
 #include <octave/builtin-defun-decls.h>
 #include <octave/f77-fcn.h>
 
+#undef COMPLEX_ZHONG_INVERSE_USE_CACHE
+#undef COMPLEX_ZHONG_INVERSE_USE_CACHE_VERBOSE
+
+#if defined(COMPLEX_ZHONG_INVERSE_USE_CACHE)
+
+// As of aegis change 1721 all tests pass with the cache enabled
+//
+// For schurOneMAPlattice_frm_hilbert_socp_slb_test.m, running the
+// profiler on the PCLS loop without caching:
+/*
+   #                Function Attr     Time (s)   Time (%)        Calls
+----------------------------------------------------------------------
+  26    schurOneMAPlattice2H            22.594      24.15         3960
+ 157                  asmDxq             6.344       6.78        47065
+  27   complex_zhong_inverse             6.309       6.74      1906081
+ 160                 wrapPcg             5.108       5.46        12301
+ 108                   clear             3.808       4.07         9154
+  85                  sedumi             3.515       3.76          226
+ 167                 wregion             3.368       3.60         4012
+ 173                 maxstep             2.638       2.82        16048
+ 
+ */
+// and with caching:
+/*
+  26    schurOneMAPlattice2H            20.002      21.43         3960
+  27   complex_zhong_inverse             6.413       6.87      1906081
+ 157                  asmDxq             5.974       6.40        47065
+ 160                 wrapPcg             5.083       5.45        12301
+ 108                   clear             4.336       4.65         9154
+  85                  sedumi             4.060       4.35          226
+ 167                 wregion             3.611       3.87         4012
+ 173                 maxstep             2.614       2.80        16048
+  */
+
+// Create a static std::unordered_map
+#include <unordered_map>
+static std::unordered_map<u_int64_t,ComplexMatrix> complex_zhong_inverse_cache;
+     
+// The FNV-1a hash function.
+// See:
+//     [1] https://github.com/lcn2/fnv and
+//     [2] https://www.rfc-editor.org/rfc/rfc9923.pdf
+#include <stdint.h>
+#include <sys/types.h>
+extern "C"
+{
+  static u_int64_t fnv_64a_buf(void *buf, size_t len)
+  {
+    unsigned char *bp = (unsigned char *)buf;   /* start of buffer */
+    unsigned char *be = bp + len;               /* beyond end of buffer */
+    u_int64_t hval = ((u_int64_t)0xcbf29ce484222325ULL);
+    #define FNV_64_PRIME = ((u_int64_t)0x100000001b3ULL);
+
+    /* FNV-1a hash each octet of the buffer */
+    while (bp < be)
+      {
+        /* xor the bottom with the current octet */
+        hval ^= (u_int64_t)*bp++;
+
+        /* Multiply by the 64 bit FNV magic prime mod 2^64 */
+        hval += (hval << 1) + (hval << 4) + (hval << 5) +
+          (hval << 7) + (hval << 8) + (hval << 40);
+      }
+
+    /* return our new hash value */
+    return hval;
+  }
+}
+
+#endif
+
+// Interface to the LAPACK ZTRTRI function
 extern "C"
 {
   F77_RET_T
@@ -92,6 +171,27 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
   ComplexMatrix A=args(0).complex_matrix_value();
   const octave_idx_type N=A.columns();
 
+#if defined(COMPLEX_ZHONG_INVERSE_USE_CACHE)
+  // Check the cache
+  u_int64_t fnv64a_key = fnv_64a_buf(A.rwdata(), A.byte_size());
+  auto node=complex_zhong_inverse_cache.extract(fnv64a_key);
+  if (!node.empty())
+    {
+      ComplexMatrix &B = node.mapped();
+      if ((B.rows() != N) || (B.columns() != N))
+        {
+          error("complex_zhong_inverse.cc: cached inverse has wrong size!");
+          return octave_value_list();
+        }
+#if defined(COMPLEX_ZHONG_INVERSE_USE_CACHE_VERBOSE)
+      warning("Cached inverse found!");
+#endif
+      octave_value_list retval(1);
+      retval(0)=B;
+      return octave_value_list(retval);
+    }
+#endif
+  
   // Arguments to ZTRTRI
   const char UPLO = 'L';
   const char DIAG = 'N';
@@ -101,7 +201,7 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
   Complex *pP=P.fortran_vec();
   // Initialise the lower triangular part, P
   for (octave_idx_type i=0;i<N-1;i++)
-    {
+    { 
       for (octave_idx_type j=0;j<=i;j++)
         {
           P.elem(i,j)=A.elem(i,j+1);
@@ -115,7 +215,7 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
                               F77_CHAR_ARG_LEN (1)) );
   if (INFO)
     {
-      warning("complex_zhong_inverse.cc: INFO=%ld",INFO);
+      error("complex_zhong_inverse.cc: INFO=%ld",INFO);
       RowVector retval0(0);
       octave_value_list retval(1);
       retval(0)=retval0;
@@ -162,21 +262,31 @@ DEFUN_DLD(complex_zhong_inverse,args,nargout,"B=complex_zhong_inverse(A)")
 
   // Construct inverse
   Array<Complex> B(dim_vector(N,N));
-  for (int i=0;i<N-1;i++)
+  for(int k=0;k<N-1;k++)
     {
-      for(int k=0;k<N-1;k++)
+      for (int i=0;i<N-1;i++)
         {
           B.elem(i+1,k)=P.elem(i,k);
         }
     }
-  for (int i=0;i<N;i++)
+  for(int k=0;k<N;k++)
     {
-      for(int k=0;k<N;k++)
+      for (int i=0;i<N;i++)
         {
           B.elem(i,k)=B.elem(i,k)+(xi[i]*wi[k]);
         }
     }
 
+#if defined(COMPLEX_ZHONG_INVERSE_USE_CACHE)
+  // Cache the inverse
+  bool ok = complex_zhong_inverse_cache.insert({fnv64a_key,B}).second;
+  if (!ok)
+    {
+      error("complex_zhong_inverse.cc: caching inverse failed!");
+      return octave_value_list();
+    }
+#endif
+  
   // Done
   octave_value_list retval(1);
   retval(0)=B;
