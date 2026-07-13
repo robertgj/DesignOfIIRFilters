@@ -41792,8 +41792,8 @@ or:
           +\Theta\prec{}0
 \end{align}
  
-For the purposes of filter design, the lemma states that an infinite
-dimension frequency response constraint is equivalent to a constraint on
+For the purposes of filter design, the lemma states that a constraint
+true on the entire range of frequencies is equivalent to a constraint on
 the coefficients of the state variable description. If 
 $H\left(\omega\right)=C\left(\imath\omega{}I-A\right)^{-1}B+D$ is the
 transfer function of the filter, then we can write:
@@ -42879,7 +42879,10 @@ Appendix~\ref{app:Linear-algebra-Schur-complement-positive-definite}} to:
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m}
 experiments with various combinations of constraints and objective functions.
 I concluded that the best approach is to optimise with an empty objective
-function and amplitude constraints found by trial and error.
+function and amplitude constraints found by trial and error\footnote{If the
+  objective function is empty then setting the Lagrange multipliers to zero is a
+  solution of the dual of the optimisation problem.
+  See Section~\ref{sec:Structure-exploiting-algorithms-KYP}.}.
 
 \subsubsection{Preliminaries}
 
@@ -45531,7 +45534,7 @@ amplitude of the filter design.
 \end{figure}
 
 \clearpage
-\section{Structure-exploiting algorithms for solving  KYP lemma problems}
+\section{\label{sec:Structure-exploiting-algorithms-KYP}Structure-exploiting algorithms for solving  KYP lemma problems}
 \emph{Vandenberghe}, \emph{Balakrishnan}
 \emph{et al.}~\cite{VandenbergheBalakrishnan_ImplementationInteriorPointKYPlemma}
 note that the solution of the continuous-time KYP lemma of
@@ -45767,10 +45770,10 @@ The corresponding dual SDP optimisation problem derived from the KYP
 lemma~\cite[Equations 3, 4 and
 5]{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers} is:
 \begin{align}
-\label{eqn:Cont-time-Dual-SDP-KYP}
-  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \\
+  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \nonumber \\
+  \label{eqn:Cont-time-Dual-SDP-KYP}
   \textbf{subject to}\quad & AZ_{11}+Z_{11}A^{\top}+
-                             BZ_{12}^{\top}+Z_{12}B^{\top} = 0 \nonumber \\
+                             BZ_{12}^{\top}+Z_{12}B^{\top} = 0 \\
           & \langle M_{l},Z \rangle =c_{l} \; , \; l=1,2,\hdots,p \nonumber \\
                              & Z \succeq 0 \nonumber
 \end{align}
@@ -45783,15 +45786,20 @@ The Lagrangian function of Equation~\ref{eqn:Primal-continuous-time-SDP} is:
 Equation~\ref{eqn:Cont-time-Dual-SDP-KYP} is the system
 of equations that results when $\mathcal{L}\left(c,v,P,Z\right)$ is expressed
 in terms of the variable $X=\left[v,\mathvec{}P\right]$ and evaluated at the
-stationary point.
+stationary point. The Octave script
+\emph{yalmip\_kyp\_dual\_continuous\_test.m} checks the continuous-time
+KYP lemma for the maximum amplitude response of a single-input and single-output
+$3$-rd order Butterworth filter.
+
 \subsubsection{Reducing the number of variables in the dual SDP problem}
 Following \emph{Wallin et
  al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
 WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
 a basis for $Z$ is:
-\begin{align*}
+\begin{align}
+  \label{eqn:Cont-time-Dual-SDP-KYP-Z-basis}
   Z &= \sum_{k=1}^{k_{max}}z_{k}F_{k}
-\end{align*}
+\end{align}
 where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and:
 \begin{align*}
   F_{k} &=\begin{cases}
@@ -45808,7 +45816,7 @@ where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and:
 $\left\{E_{k\left(12\right)}\right\}$ is a basis for $n\times{}m$ matrixes and
 $\left\{E_{k\left(22\right)}\right\}$ is a basis for $m\times{}m$ matrixes. The
 symmetric $\left\{E_{k\left(11\right)}\right\}$ basis matrixes are found by the
-solution of Equation~\ref{eqn:Cont-time-Dual-SDP-KYP}, which is a set of
+solution of $\mathcal{F}^{\mathadj}\left(Z\right)=0$, which is a set of
 continuous-time \emph{Lyapunov}
 equations~\cite[Section 2.6]{Kailath_LinearSystems}:
 \begin{align*}
@@ -45817,9 +45825,25 @@ equations~\cite[Section 2.6]{Kailath_LinearSystems}:
 \end{align*}
 If $m\ll n$, then expressing the $E_{k\left(11\right)}$ in terms of the
 $E_{k\left(12\right)}$ reduces the number of variables in the dual SDP problem from
-$\mathcal{O}\left(n^{2}\right)$ to $\mathcal{O}\left(n\right)$.
-\begin{comment}
-\end{comment}
+$\mathcal{O}\left(n^{2}\right)$ to $\mathcal{O}\left(n\right)$. When
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Z-basis} is substituted into
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP} the dual SDP optimisation problem
+becomes:
+\begin{align}
+  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \nonumber \\
+  \label{eqn:Cont-time-Dual-SDP-KYP-reduced-Z}
+  \textbf{subject to}\quad  & \langle M_{l},Z \rangle =c_{l}
+                              \; , \; l=1,2,\hdots,p \\
+                                        & Z \succeq 0 \nonumber
+\end{align}
+The adjoint constraint $\mathcal{F}^{\mathadj}\left(Z\right)=0$ by
+construction. The Octave script
+\emph{yalmip\_kyp\_dual\_continuous\_reduced\_test.m} checks the continuous-time
+KYP lemma with Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Z-basis} for the maximum
+amplitude response of a single-input and single-output $3$-rd order Butterworth
+filter. The combination of YALMIP and SeDuMi has numerical problems for higher
+orders than $3$.
+
 \subsubsection{Optimisation with linear constraints}
 % This is too long to be a footnote!
 \emph{Nocedal}
@@ -45981,11 +46005,11 @@ and $g_{k}=\langle F_{k},V-M_{0}\rangle$.
 shows how YALMIP recovers the primal matrix variable $V$ from a primal-dual
 solver such as SeDuMi. \emph{Wallin et al}~\cite[Section 3]{WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic}
 assume that the ``optimal value of the duality gap is known to
-be zero''. Now, given $v$, we can compute P by solving the Lyapunov
-equation corresponding to the $\left(1,1\right)$ block of the primal SDP
-constraint shown in Equation~\ref{eqn:Primal-continuous-time-SDP}.
-\subsubsection{Examples}
+be zero''. Given $v$, compute P by solving the Lyapunov equation corresponding
+to the $\left(1,1\right)$ block of the primal SDP constraint shown in
+Equation~\ref{eqn:Primal-continuous-time-SDP}.
 
+\subsubsection{Examples}
 \paragraph{\emph{L\"{o}fberg}'s YALMIP example} \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_Auto_dualization} provides an example of
 solving a KYP lemma problem with YALMIP, as shown in the Octave script
 \emph{yalmip\_kyp\_lofberg\_primalize\_test.m}. He states that, by default,
@@ -46022,9 +46046,8 @@ the solver time required for each solution by \emph{optimize}. As
 \emph{L\"{o}fberg} points out, removing the equality constraints from the
 \emph{primalize}'d version of the initial problem dramatically reduces the
 size of the solver matrixes and the solver execution time, at the expense of
-increased YALMIP processing time. In each case, the execution time is a
-quadratic on the log-log plot, rather that the linear
-$\mathcal{O}\left(n^{4}\right)$ relation suggested by \emph{Wallin et. al.}.
+increased YALMIP processing time. In each case, the execution time is greater
+than linear on a log-log plot.
 
 \begin{figure}
 \centering
@@ -46065,14 +46088,14 @@ the $L_{2}$ gain:
 \begin{align*}
   \sup_{\mathnorm{u}_{2}\ne 0} \frac{\mathnorm{y}_{2}}{\mathnorm{u}_{2}} \le \gamma
 \end{align*}
-if and only if, for some $P=P^{\top}\prec 0$:
+if and only if, for some $P\in\mathbb{S}^{n}$:
 \begin{align*}
   \left[\begin{array}{cc}
     PA+A^{\top}P & PB \\
     B^{\top}P & 0 \end{array}\right] +
   \left[\begin{array}{cc}
-    -C^{\top}C & 0 \\
-    0 & \gamma^{2}I \end{array}\right]  \succeq 0
+    C^{\top}C & 0 \\
+    0 & -\gamma^{2}I \end{array}\right]  \preceq 0
 \end{align*}
 \emph{Wallin et al.} compute $\gamma$ for systems with $20$ to $60$ states,
 $5$ inputs and $5$ outputs. They plot the solution time for the dual SDP
@@ -46114,31 +46137,23 @@ This follows from the definition of the inner product:
   &= \langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle 
 \end{align*}
 \subsubsection{The dual of the discrete-time KYP lemma}
-The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP to check the
-dual of the discrete-time KYP lemma shown in
-Equation~\ref{eqn:ChengDiscreteTimeKYP}. A Lagrangian function for
-Equation~\ref{eqn:ChengDiscreteTimeKYP} is:
-\begin{align*}
-  \mathcal{L}\left(P,Z\right) &=
--\langle P,\mathcal{F}^{\mathadj}\left(Z\right)\rangle - \langle \Theta,Z \rangle
-\end{align*}
-There are no optimised variables and no Lagrange multipliers. The dual SDP
-optimisation problem solved in the script
-is~\cite[Section 3.5]{ChengYiping_ProofDiscreteTimeKYPusingSDPduality}:
-\begin{align*}
-  \textbf{minimise} \quad & -\langle \Theta , Z  \rangle \\
-  \textbf{subject to}\quad & Z\succeq 0 \\
-                          & \mathcal{F}^{\mathadj}\left(Z\right)=0 \\
-                          & \langle \Theta , Z  \rangle \le 0
-\end{align*}
-The script designs a low-pass FIR filter with the Octave \emph{remez} function
-and calculates the maximum amplitude, $\varepsilon^{2}$, in advance. 
-Unfortunately, in this script, SeDuMi fails for the KYP lemma linear mapping of
-Equation~\ref{eqn:Discrete-time-KYP-lemma-linear-mapping} but the SDPT3 solver
-succeeds. However, SeDuMi solves the
-primal problem when the YALMIP \texttt{``dualize''} option is set to\
-texttt{true} and does solve the dual problem when \texttt{``dualize''}  is set
-to \texttt{false}\footnote{The
+Similarly to the dual of the continuous-time KYP lemma, shown in
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP}, the dual of the discrete-time KYP
+lemma, shown in Equation~\ref{eqn:ChengDiscreteTimeKYP}, is:
+\begin{align}
+  \underset{Z}{\textbf{maximise}} \quad & -\langle M_{0},Z \rangle \nonumber \\
+  \label{eqn:Discrete-time-Dual-SDP-KYP}
+  \textbf{subject to}\quad & AZ_{11}A^{\top}-Z_{11}+BZ_{12}^{\top}A^{\top}+
+                             AZ_{12}B^{\top}+BZ_{22}B^{\top} = 0 \\
+             & \langle M_{l},Z \rangle =c_{l} \; , \; l=1,2,\hdots,p \nonumber \\
+                                        & Z \succeq 0 \nonumber
+\end{align}
+The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP and SeDuMi to
+check Equation~\ref{eqn:Discrete-time-Dual-SDP-KYP}. The script designs a
+low-pass FIR filter with the Octave \emph{remez} function and calculates the
+maximum amplitude, $\varepsilon^{2}$. SeDuMi solves the primal problem when the
+YALMIP \texttt{``dualize''} option is set to \texttt{true} and solves the
+dual problem when \texttt{``dualize''}  is set to \texttt{false}\footnote{The
   default value of the YALMIP \texttt{``dualize''} option is \texttt{false}.}.
 
 \subsection{The dual of the generalised discrete-time KYP lemma}
