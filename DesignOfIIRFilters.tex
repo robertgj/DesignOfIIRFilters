@@ -45801,7 +45801,8 @@ a basis for $Z$ is:
   Z &= \sum_{k=1}^{k_{max}}z_{k}F_{k}
 \end{align}
 where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and:
-\begin{align*}
+\begin{align}
+  \label{eqn:Cont-time-Dual-SDP-KYP-Z-basis-Fk}
   F_{k} &=\begin{cases}
     \left[\begin{array}{cc}
       E_{k\left(11\right)} & E_{k\left(12\right)} \\
@@ -45812,7 +45813,7 @@ where $k_{max}=mn+\frac{m\left(m+1\right)}{2}$ and:
       0 & E_{k\left(22\right)}\end{array}\right]
     & k=mn+1,\hdots,k_{max}
     \end{cases}
-\end{align*}
+\end{align}
 $\left\{E_{k\left(12\right)}\right\}$ is a basis for $n\times{}m$ matrixes and
 $\left\{E_{k\left(22\right)}\right\}$ is a basis for $m\times{}m$ matrixes. The
 symmetric $\left\{E_{k\left(11\right)}\right\}$ basis matrixes are found by the
@@ -46149,18 +46150,110 @@ lemma, shown in Equation~\ref{eqn:ChengDiscreteTimeKYP}, is:
                                         & Z \succeq 0 \nonumber
 \end{align}
 The Octave script \emph{yalmip\_kyp\_dual\_test.m} calls YALMIP and SeDuMi to
-check Equation~\ref{eqn:Discrete-time-Dual-SDP-KYP}. The script designs a
-low-pass FIR filter with the Octave \emph{remez} function and calculates the
-maximum amplitude, $\varepsilon^{2}$. SeDuMi solves the primal problem when the
-YALMIP \texttt{``dualize''} option is set to \texttt{true} and solves the
-dual problem when \texttt{``dualize''}  is set to \texttt{false}\footnote{The
-  default value of the YALMIP \texttt{``dualize''} option is \texttt{false}.}.
+check Equation~\ref{eqn:Discrete-time-Dual-SDP-KYP}. The script designs an
+$N$'th order low-pass FIR filter with the Octave \emph{remez} function and
+calculates the maximum amplitude, $\varepsilon^{2}$. SeDuMi solves the primal
+problem when the YALMIP \texttt{``dualize''} option is set to \texttt{true} and
+solves the dual problem when \texttt{``dualize''}  is set to
+\texttt{false}\footnote{The default value of the YALMIP \texttt{``dualize''}
+  option is \texttt{false}.}.
+
+\subsubsection{The reduced complexity dual of the discrete-time KYP lemma}
+Similarly to the continuous-time case, the number of variables of the adjoint
+mapping of the dual of the discrete-time KYP lemma is reduced by substituting
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Z-basis}. The symmetric
+$\left\{E_{k\left(11\right)}\right\}$ basis matrixes are found by the
+solution of $\mathcal{F}^{\mathadj}\left(Z\right)=0$, which is a set of
+discrete-time \emph{Lyapunov} equations for $k=1,\hdots,mn$:
+\begin{align*}
+  AE_{k\left(11\right)}A^{\top}-E_{k\left(11\right)}+
+  BE_{k\left(12\right)}^{\top}A^{\top}+AE_{k\left(12\right)}B^{\top} &= 0
+\end{align*}
+
+For the discrete-time case, as demonstrated in the Octave script
+\emph{yalmip\_kyp\_dual\_test.m}, the additional basis matrix for $k=N+1$ is
+found by the solution of the discrete-time \emph{Lyapunov} equation:
+\begin{align*}
+  AE_{k\left(11\right)}A^{\top}-E_{k\left(11\right)} + BB^{\top} &= 0 
+\end{align*}
+Similarly to the continuous-time basis matrixes shown in
+Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Z-basis-Fk}, the basis matrixes
+for the example $N$'th order FIR filter are:
+\begin{align}
+  \label{eqn:Discrete-time-Dual-SDP-KYP-Z-basis-Fk}
+  F_{k} &=\begin{cases}
+    \left[\begin{array}{cc}
+      E_{k\left(11\right)} & E_{k\left(12\right)} \\
+      E_{k\left(12\right)}^{\top} & 0 \end{array}\right]
+    & k=1,\hdots,N \\
+    \left[\begin{array}{cc}
+      E_{k\left(11\right)} & 0 \\
+      0 & 1\end{array}\right]
+    & k=N+1
+    \end{cases}
+\end{align}
+
+Table~\ref{tab:KYP-Dual-KYP-FIR-filter-comparison} compares the results
+found by the Octave script \emph{yalmip\_kyp\_dual\_test.m} for the maximum
+amplitude response error, solver time and the number of non-zero entries in the
+SeDuMi $A$ matrix for an FIR low-pass filter found by solving the KYP lemma,
+the dual of the KYP lemma, the reduced complexity dual of the KYP lemma and the
+reduced complexity dual of the KYP lemma with a similarity transform of the FIR
+filter. 
+Figure~\ref{fig:yalmip-kyp-dual-test-solver-time} shows the SeDuMi solver time
+required to find the maximum amplitude response of an $N$'th order symmetric
+FIR low-pass filter with the dual of the KYP lemma and the reduced complexity
+dual of the KYP lemma. The YALMIP time is similar each KYP problem at each
+order, $N$. SeDuMi had numerical problems for the dual of the KYP lemma with
+$N=70$ and for the reduced complexity dual of the KYP lemma with $N=100$.
+Figure~\ref{fig:yalmip-kyp-dual-test-nnz} shows the number of non-zero entries
+in the SeDuMi solver $A$ matrix required to find the maximum amplitude response
+of an $N$'th order symmetric FIR low-pass filter with the dual of the KYP lemma
+and the reduced complexity dual of the KYP lemma.
+
+\begin{table}
+\centering
+\begin{threeparttable}
+\begin{tabular}{lcrr} \\ \toprule
+ & $\varepsilon^{2}$ & Solver time (s) & nnz of SeDuMi A \\ \midrule
+\input{yalmip_kyp_dual_test_cost.tab} \\ \bottomrule
+\end{tabular}
+\end{threeparttable}
+\caption{Comparison of maximum amplitude response error, solver time and the
+  number of non-zero entries in the SeDuMi $A$ matrix for an $N$'th order
+  symmetric FIR low-pass filter found by solving the KYP lemma, the dual of the
+  KYP lemma, the reduced complexity dual of the KYP lemma and the reduced
+  complexity dual of the KYP lemma with a similarity transform of the FIR
+  filter.}
+\label{tab:KYP-Dual-KYP-FIR-filter-comparison}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_dual_test_solvertime}}
+\caption{SeDuMi solver time required to find the maximum amplitude response of
+  an $N$'th order symmetric FIR low-pass filter with the dual of the KYP lemma
+  and the reduced complexity dual of the KYP lemma.}
+\label{fig:yalmip-kyp-dual-test-solver-time}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_dual_test_nnz}}
+\caption{Non-zero entries in the SeDuMi $A$ matrix required to find the maximum
+  amplitude response of an $N$'th order symmetric FIR low-pass filter with the
+  dual of the KYP lemma and the reduced complexity dual of the KYP lemma.}
+\label{fig:yalmip-kyp-dual-test-nnz}
+\end{figure}
 
 \subsection{The dual of the generalised discrete-time KYP lemma}
 \emph{Seungil} and
 \emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
-the generalised discrete-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}.
+the generalised continuous-time KYP lemma by the dual of the Lagrangian of
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}. In this section I hope
+to find a dual of the generalised discrete-time KYP lemma with reduced
+complexity, as described by \emph{Wallin et
+  al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}.
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
