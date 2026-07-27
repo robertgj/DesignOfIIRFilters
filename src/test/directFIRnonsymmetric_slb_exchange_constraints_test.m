@@ -13,14 +13,15 @@ verbose=true
 
 % Low-pass filter specification from yalmip_kyp_lowpass_test.m
 N=30;d=10;fap=0.1;Wap=1;Wat=0.0001;fas=0.2;Was=1000;
-h0 = [  0.0008656281,  0.0021696544,  0.0015409094, -0.0044622917, ... 
-       -0.0158159316, -0.0238564167, -0.0115295105,  0.0369399475, ... 
-        0.1209482871,  0.2146857085,  0.2753128363,  0.2671184150, ... 
-        0.1864131493,  0.0680195698, -0.0338776291, -0.0783792857, ... 
-       -0.0609991209, -0.0114347624,  0.0303914254,  0.0408361994, ... 
-        0.0229705268, -0.0030363605, -0.0182941274, -0.0172426361, ... 
-       -0.0067422453,  0.0030663947,  0.0067934959,  0.0053367805, ... 
-        0.0023609590,  0.0004446292, -0.0000798085 ];
+h0 =  [  0.0024629409,  0.0043299063,  0.0008282373, -0.0115481441, ... 
+        -0.0278864843, -0.0325179405, -0.0066048486,  0.0572758926, ... 
+         0.1445170633,  0.2220942579,  0.2561794255,  0.2318957749, ... 
+         0.1611645154,  0.0739876834,  0.0009749025, -0.0403275948, ... 
+        -0.0484701847, -0.0329188013, -0.0072304664,  0.0156129560, ... 
+         0.0262868789,  0.0218829195,  0.0071201577, -0.0082811653, ... 
+        -0.0156301553, -0.0126116904, -0.0037676802,  0.0039725804, ... 
+         0.0065852969,  0.0047851743,  0.0018073130 ];
+
 N=length(h0)-1;
 dBap=0.05; % Pass band amplitude response ripple
 dBas=60; % Stop band amplitude response ripple
@@ -105,18 +106,20 @@ subplot(211);
 plot(fa(1:nap),10*log10([Asq0(1:nap),Asqdu(1:nap),Asqdl(1:nap)]), ...
      fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
      fa(vR0.au),10*log10(Asq0(vR0.au)),"+");
-axis([0,fap,-0.1,0.1]);
+axis([0,fap,-0.2,0.2]);
 strM0=sprintf(strM,"0");
 title(strM0);
 ylabel("Amplitude(dB)");
+grid("on");
 zticks([]);
 subplot(212);
 plot(fa(nas:end),10*log10([Asq0(nas:end),Asqdu(nas:end)]), ...
      fa(vR0.al),10*log10(Asq0(vR0.al)),"*", ...
      fa(vR0.au),10*log10(Asq0(vR0.au)),"+");
-axis([fas,0.5,-80,-30]);
+axis([fas,0.5,-80,-40]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
+grid("on");
 zticks([]);
 print(sprintf(strd,"0Asq"),"-dpdflatex");
 close
@@ -130,6 +133,7 @@ plot(ft,[T0,Tdu,Tdl], ...
 title(strM0);
 ylabel("Delay(samples)");
 xlabel("Frequency")
+grid("on");
 zticks([]);
 print(sprintf(strd,"0T"),"-dpdflatex");
 close
@@ -143,6 +147,7 @@ plot(fp,[P0-Pd,Pdu-Pd,Pdl-Pd], ...
 title(strM0);
 ylabel("Phase(rad.)");
 xlabel("Frequency")
+grid("on");
 zticks([]);
 print(sprintf(strd,"0P"),"-dpdflatex");
 close
@@ -163,12 +168,13 @@ plot(fa(1:nap),10*log10([Asq0(1:nap),Asq1(1:nap), ...
      fa(vR0.au),10*log10(Asq0(vR0.au)),"+", ...
      fa(vS1.al),10*log10(Asq1(vS1.al)),"*", ...
      fa(vS1.au),10*log10(Asq1(vS1.au)),"+");
-axis([0,fap,-0.1,0.1]);
+axis([0,fap,-0.2,0.2]);
 strM1=sprintf(strM,"1");
 title(strM1);
 ylabel("Amplitude(dB)");
 legend("Asq0","Asq1","Asqdu","Asqdu+tol","location","southwest");
 legend("boxoff");
+grid("on");
 zticks([]);
 subplot(212);
 plot(fa(nas:end), ...
@@ -178,9 +184,10 @@ plot(fa(nas:end), ...
      fa(vR0.au),10*log10(Asq0(vR0.au)),"+", ...
      fa(vS1.al),10*log10(Asq1(vS1.al)),"*", ...
      fa(vS1.au),10*log10(Asq1(vS1.au)),"+");
-axis([fas 0.5 -80 -30]);
+axis([fas 0.5 -80 -40]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency")
+grid("on");
 zticks([]);
 print(sprintf(strd,"1Asq"),"-dpdflatex");
 close
@@ -192,12 +199,13 @@ plot(ft,[T0,T1,Tdu,Tdl], ...
      ft(vR0.tu),T0(vR0.tu),"+", ...
      ft(vS1.tl),T1(vS1.tl),"*", ...
      ft(vS1.tu),T1(vS1.tu),"+");
-axis([0 ftp td-(tdr*2) td+(tdr*4)]);
+axis([0 ftp td+(tdr*4*[-1,1])]);
 title(strM1);
 ylabel("Delay(samples)");
 xlabel("Frequency")
-legend("T0","T1","Tdu","Tdl","location","northwest");
+legend("T0","T1","Tdu","Tdl","location","southwest");
 legend("boxoff");
+grid("on");
 zticks([]);
 print(sprintf(strd,"1T"),"-dpdflatex");
 close
@@ -215,6 +223,7 @@ ylabel("Phase(rad.)");
 xlabel("Frequency")
 legend("P0","P1","Pdu","Pdl","location","northwest");
 legend("boxoff");
+grid("on");
 zticks([]);
 print(sprintf(strd,"1P"),"-dpdflatex");
 close
