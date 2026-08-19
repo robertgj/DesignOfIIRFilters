@@ -1,0 +1,11 @@
+directFIRnonsymmetric_qcqp_lowpass_test_FIGURES = \
+directFIRnonsymmetric_qcqp_lowpass_test_response \
+directFIRnonsymmetric_qcqp_lowpass_test_passband_response \
+directFIRnonsymmetric_qcqp_lowpass_test_dual_response
+
+directFIRnonsymmetric_qcqp_lowpass_test_COEFS = \
+directFIRnonsymmetric_qcqp_lowpass_test_h_coef.m 
+
+directFIRnonsymmetric_qcqp_lowpass_test_FILES = \
+directFIRnonsymmetric_qcqp_lowpass_test.m test_common.m \
+print_polynomial.m directFIRnonsymmetricEsqPW.m delayz.m

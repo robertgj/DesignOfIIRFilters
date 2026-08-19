@@ -38169,7 +38169,89 @@ $\left|H_{p}\left(\omega\right)\right|-\omega$, of the differentiators.
 \end{figure}
 
 \clearpage
-\section{\label{app:LMI-design-symmetric-FIR-filters}Linear Matrix Inequality(LMI) design of symmetric FIR filters}
+\section{\label{app:LMI-design-symmetric-FIR-filters}Linear Matrix Inequality design of symmetric FIR filters}
+\subsection{\label{app:Freund-LMI-design-FIR-filters}Quadratically constrained design of FIR filters with the method of \emph{Freund}}
+\emph{Freund}~\cite[Section 8.1]{Freund_IntroSDP} considers a quadratically
+constrained quadratic program (QCQP):
+\begin{align*}
+  \underset{x,\theta}{\textbf{minimise}} \quad & \theta \\
+  \textbf{subject to} \quad & x^{\top}Q_{0}x+2q_{0}^{\top}x+c_{0}-\theta\le 0 \\
+        & x^{\top}Q_{l}x+2q_{l}^{\top}x+c_{l}\le 0 \; ,\; l=1,\hdots,m
+\end{align*}
+For $Q_{0}\succeq 0$, $Q_{l}\succeq 0\;,\; l=1,\hdots,m$. If each $Q=M^{\top}M$:
+\begin{align*}
+  \left[\begin{array}{cc}
+    I & M_{l}x \\
+    x^{\top}M_{l}^{\top} & -c_{l}-2q_{l}^{\top}x \end{array}\right] \succeq 0
+\quad \Leftrightarrow \quad x^{\top}Q_{l}x+2q_{l}^{\top}x+c_{l}\le 0 
+\end{align*}
+and the QCQP is:
+\begin{align*}
+  \underset{x,\theta}{\textbf{minimise}} \quad & \theta \\
+  \textbf{subject to} \quad &  
+ \left[\begin{array}{cc}
+    I & M_{0}x \\
+   x^{\top}M_{0}^{\top} & -c_{0}-2q_{0}^{\top}x +\theta\end{array}\right] \succeq 0 \\
+& \left[\begin{array}{cc}
+    I & M_{l}x \\
+   x^{\top}M_{l}^{\top} & -c_{l}-2q_{l}^{\top}x \end{array}\right] \succeq 0
+                              \; ,\; l=1,\hdots,m
+\end{align*}
+
+Alternatively, \emph{Freund}~\cite[Section 8.2]{Freund_IntroSDP} uses the
+proposition $\left[\begin{array}{cc}
+  1 &  x^{\top} \\
+  x & W \end{array}\right] \succeq 0  \Leftrightarrow W\succeq xx^{\top}$, where
+$x\in\mathbb{R}^{k}$ and $W\in\mathbb{R}^{k\times k}$, to rewrite the QCQP as:
+\begin{align}
+\label{eqn:Freund-QCQP-SDP-optimisation}
+  \underset{x,\theta,W}{\textbf{minimise}} \quad & \theta \\
+  \textbf{subject to} \quad &  \left[\begin{array}{cc}
+    1 &  x^{\top} \\
+    x & W \end{array}\right] \succeq 0 \nonumber \\
+& \mathtrace{\left[\begin{array}{cc}
+ c_{0}-\theta & q_{0}^{\top} \\
+  q_{0} & Q_{0} \end{array}\right]\left[\begin{array}{cc}
+ 1 &  x^{\top} \\
+  x & W \end{array}\right]} \ge 0 \nonumber \\
+& \mathtrace{\left[\begin{array}{cc}
+ c_{l} &  q_{l}^{\top} \\
+  q_{l} & Q_{l} \end{array}\right]\left[\begin{array}{cc}
+ 1 &  x^{\top} \\
+    x & W \end{array}\right]} \ge 0 \; ,\; l=1,\hdots,m \nonumber
+\end{align}
+
+The Octave script \emph{directFIRnonsymmetric\_qcqp\_lowpass\_test.m}
+calls YALMIP~\cite{Lofberg_YALMIP} to design a non-symmetric direct-form FIR
+filter with the QCQP method of \emph{Freund} shown in
+Equation~\ref{eqn:Freund-QCQP-SDP-optimisation}. The script calls the Octave
+function \emph{directFIRnonsymmetricEsqPW.m} to find $Q_{p}$ and $q_{p}$ in the
+pass-band and $Q_{s}$ and $q_{s}$ in the stop-band. The objective, $\theta_{s}$,
+is found for the stop-band. The filter specification is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_qcqp_lowpass_test_spec.m}
+\end{small}
+
+The filter designed is:
+\begin{small}
+\verbatiminput{directFIRnonsymmetric_qcqp_lowpass_test_h_coef.m}
+\end{small}
+
+Figure~\ref{fig:Freund-QCQP-direct-FIR-nonsymmetric-low-pass-response} shows the
+pass-band and stop-band amplitude response and pass-band group delay response.
+YALMIP does not find a solution with strong duality.
+
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{directFIRnonsymmetric_qcqp_lowpass_test_dual_response}}
+\caption{Pass-band and stop-band amplitude response and pass-band group delay
+  response of an order $N=30$ non-symmetric low pass FIR filter designed by
+  YALMIP with the LMI equation of
+  \emph{Freund}~\cite[Section 8.2]{Freund_IntroSDP}.}
+\label{fig:Freund-QCQP-direct-FIR-nonsymmetric-low-pass-response}
+\end{figure}
+
+\subsection{\label{app:Tuan-LMI-design-symmetric-FIR-filters}Peak constrained design of symmetric FIR filters with the method of \emph{Tuan et al.}}
 This section follows the peak-constrained LMI design of even-order symmetric FIR
 filters described by \emph{Tuan et
 al.}~\cite{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric}. They use 
@@ -38180,7 +38262,7 @@ curves. The primal form of the SDP solution of the LMI FIR frequency constraints
 requires $\mathcal{O}\left(n^{2}\right)$ variables. \emph{Tuan et al.} derive
 a dual form of the SDP with $\mathcal{O}\left(n\right)$ variables. 
 
-\subsection{The \emph{Markov-Lukacs} theorem}
+\subsubsection{The \emph{Markov-Lukacs} theorem}
 \emph{Despr\'{e}s}~\cite{Despres_PositivePolynomials}
 shows the following version of the \emph{Markov-Lukacs} theorem:
 \begin{framed}
@@ -38231,7 +38313,7 @@ Note that $p\left(x\right)$ is not unique:
 1 &= 1^{2}+x\left(1-x\right)0^{2}=\left(1-2x\right)^{2}+x\left(1-x\right)2^{2}
 \end{align*}
 
-\subsection{Trigonometric curves}
+\subsubsection{Trigonometric curves}
 \emph{Tuan et al.}~\cite[Section
 I]{TuanSonVoNguyen_EfficientFilterDesignLMITrigonometric} define the
 trigonometric curve, $C_{a,b}$:
@@ -38256,7 +38338,7 @@ or:
 \cos\omega\in\left[\cos a,\cos b\right]
 \end{align*}
 
-\subsection{Moment matrix of trigonometric curves}
+\subsubsection{Moment matrix of trigonometric curves}
 Let $\phi_{k}\left(t\right)=\left(1,t,\hdots,t^{k}\right)^{\top}$. The $k$-th
 order moment matrix of $\phi_{k}\left(t\right)$ is:
 \begin{align*}
@@ -38325,7 +38407,7 @@ function}. Thus:
 T_{l,k}\left(y\right) &=\sum^{l+2k}_{m=0}y_{m}\mathcal{E}^{m}_{l,k} 
 \end{align*}
 
-\subsection{A \emph{Markov-Lukacs} theorem for trigonometric curves}
+\subsubsection{A \emph{Markov-Lukacs} theorem for trigonometric curves}
 \emph{Tuan et
 al}~\cite[Appendix 1]{TuanHoangNgoTuyVo_DualFrequencySelectiveBoundedRealLemma}
 prove the following version of the \emph{Markov-Lukacs} theorem:
@@ -38409,7 +38491,7 @@ F^{a,b}_{k}\left(y\right)=\left(\cos b+\cos a\right)T_{1,k-1}\left(y\right)
 \end{align*}
 \end{framed}
 
-\subsection{The conic hull of \texorpdfstring{$C_{a,b}$}{Cab}}
+\subsubsection{The conic hull of \texorpdfstring{$C_{a,b}$}{Cab}}
 The \emph{convex hull} of a set $C\subset\mathbb{R}^{n}$ is the smallest convex
 set in $\mathbb{R}^{n}$ that contains $C$. Likewise, The \emph{conic hull} of a
 set $C\subset\mathbb{R}^{n}$ is the smallest cone in $\mathbb{R}^{n}$ that
@@ -38480,7 +38562,7 @@ e^{\top}_{m+1}\left(A_{i}x+d_{i}\right)&=\begin{cases}
 \end{align}
 where $X_{i},Z_{i}\succeq 0$.
 
-\subsection{Optimisation of the dual of a convex quadratic objective function}
+\subsubsection{Optimisation of the dual of a convex quadratic objective function}
 The convex quadratic optimisation problem over a set of trigonometric
 polynomials is:
 \begin{align*}
@@ -38556,7 +38638,7 @@ satisfy:
 & x_{\star}=-\frac{1}{2}Q^{-1}\left(q-\sum_{i}A^{\top}_{i}y^{i}_{\star}\right)
 \end{align*}
 
-\subsection{Example of LMI design of a low pass symmetric FIR filter}
+\subsubsection{Example of LMI design of a low pass symmetric FIR filter}
 The low pass filter design primal problem is:
 \begin{align*}
 \textbf{minimise}\quad x^{\top}Qx+q^{\top}x \;\;\; & \\
@@ -38668,7 +38750,7 @@ designed with the \emph{Selesnick-Burrus} modification
 \label{fig:selesnickFIRsymmetric-lowpass-alternate-test-dual}
 \end{figure}
 
-\subsection{Example of LMI design of a band-pass symmetric FIR filter}
+\subsubsection{Example of LMI design of a band-pass symmetric FIR filter}
 The Octave script \emph{directFIRsymmetric\_sdp\_bandpass\_test.m} uses the LMI
 procedure of \emph{Tuan et al.} to design a band-pass symmetric FIR filter with 
 the specification:
