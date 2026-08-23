@@ -118,7 +118,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.12.2}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.14.0}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -147,14 +147,14 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.7.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.8.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
   wget -c $SUNDIALS_URL
 fi
 
-GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.47}
+GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.48}
 GRAPHICSMAGICK_ARCHIVE=GraphicsMagick-$GRAPHICSMAGICK_VER".tar.xz"
 GRAPHICSMAGICK_URL=https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/$GRAPHICSMAGICK_VER/GraphicsMagick-$GRAPHICSMAGICK_VER.tar.xz
 if ! test -f $GRAPHICSMAGICK_ARCHIVE; then
@@ -186,14 +186,14 @@ fi
 
 OCTAVE_FORGE_URL=https://downloads.sourceforge.net/project/octave/Octave%20Forge%20Packages/Individual%20Package%20Releases
 
-CONTROL_VER=${CONTROL_VER:-4.2.2}
+CONTROL_VER=${CONTROL_VER:-4.2.3}
 CONTROL_ARCHIVE=control-$CONTROL_VER".tar.gz"
 CONTROL_URL="https://github.com/gnu-octave/pkg-control/releases/download/control-"$CONTROL_VER/$CONTROL_ARCHIVE
 if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.2.6}
+DATATYPES_VER=${DATATYPES_VER:-1.3.3}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
@@ -228,14 +228,14 @@ if ! test -f $PIQP_ARCHIVE; then
     wget -c $PIQP_URL
 fi
 
-SIGNAL_VER=${SIGNAL_VER:-1.4.7}
+SIGNAL_VER=${SIGNAL_VER:-1.4.8}
 SIGNAL_ARCHIVE=signal-$SIGNAL_VER".tar.gz"
 SIGNAL_URL=https://github.com/gnu-octave/octave-signal/releases/download/$SIGNAL_VER/$SIGNAL_ARCHIVE
 if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.8.3}
+STATISTICS_VER=${STATISTICS_VER:-1.8.4}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then

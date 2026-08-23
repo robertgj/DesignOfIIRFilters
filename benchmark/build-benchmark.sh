@@ -12,7 +12,7 @@ export BUILD=shared
 
 # Assume these archive files are present:
 export LAPACK_VERSION=3.12.1
-export SUITESPARSE_VERSION=7.12.2
+export SUITESPARSE_VERSION=7.14.0
 export ARPACK_NG_VERSION=3.9.1
 export FFTW_VERSION=3.3.11
 export QRUPDATE_VERSION=1.1.2
