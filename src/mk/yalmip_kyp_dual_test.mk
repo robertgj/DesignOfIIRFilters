@@ -1,6 +1,7 @@
 yalmip_kyp_dual_test_FIGURES = \
 yalmip_kyp_dual_test_solvertime \
-yalmip_kyp_dual_test_nnz
+yalmip_kyp_dual_test_nnz \
+yalmip_kyp_dual_test_numel
 
 yalmip_kyp_dual_test_COEFS = \
 yalmip_kyp_dual_test_cost.tab

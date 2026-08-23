@@ -105,14 +105,14 @@ printf("Primal objective: DualModel.C'*x=%g\n",DualModel.C'*x);
 printf("Dual objective: DualModel.b'*y=%g\n",DualModel.b'*y);
 if abs(((DualModel.C)'*x)-((DualModel.b)'*y)) > 1e4*tol
   error("abs(DualModel.C'*x-DualModel.b'*y)(%g*tol) > 1e4*tol", ...
-        abs(((DualModel.C)'*x)-((DualModel.b)'*y)));
+        abs(((DualModel.C)'*x)-((DualModel.b)'*y))/tol);
 endif
 
 Y=triu(ones(n+1,n+1));Y(Y==1)=y;Y=Y+triu(Y,1)';
 printf("Dual objective: trace(Y*Theta0)=%g\n",trace(Y*Theta0));
 if abs(((DualModel.C)'*x)-trace(Y*Theta0)) > 1e4*tol
   error("abs(DualModel.C'*x-trace(Y*Theta0))(%g*tol) > 1e4*tol", ...
-        abs(((DualModel.C)'*x)-trace(Y*Theta0)));
+        abs(((DualModel.C)'*x)-trace(Y*Theta0))/tol);
 endif
 
 if ((DualModel.C'*x)-max_abs_Asq) > 1e4*tol

@@ -7183,7 +7183,7 @@ an example of slowing and retiming a $3$rd-order Butterworth filter.
 \begin{figure}
 \centering
 \includegraphics[scale=\DesignOfIIRFiltersIncludeScale]{Example_Butt3OneM_SV_retimed}
-\caption{Slowed and retimed single-multipler lattice for the 3rd order
+\caption{Slowed and retimed one-multiplier lattice for the 3rd order
   Butterworth example.}
 \label{fig:Slowed-and-retimed-3rdButt-Single-Mult}
 \end{figure}
@@ -7235,7 +7235,7 @@ the round-off noise. (In the case of $x_{2}$, $c_{0}$ is included in the
 calculation of state $x_{5}$).
 
 The Octave script \emph{schurOneMlatticeFilter\_test.m} compares simulations of
-a low-pass elliptic filter implemented as a one-multipler Schur lattice,
+a low-pass elliptic filter implemented as a one-multiplier Schur lattice,
 a state-variable implementation of the Schur lattice and a direct-form
 state-variable implementation scaled as shown in
 Section~\ref{sec:Scaling-State-Variable-Filters-To-Avoid-Overflow} with
@@ -22634,8 +22634,11 @@ correction filter with the number of digits allocated by the algorithm of
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c0_sd_coef.m}
 \end{small}
 \end{comment}
-The signed-digit filter coefficients of the Schur one-multiplier lattice
-correction filter found by the SOCP-relaxation search are:
+The coefficients found by truncating the exact coefficients to an average of $3$
+signed-digits allocated by the heuristic of \emph{Lim et al.} are the same as
+those found by SOCP-relaxation search. The signed-digit filter coefficients of
+the Schur one-multiplier lattice correction filter found by the SOCP-relaxation
+search are:
 \begin{small}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_k_min_coef.m}
 \verbatiminput{socp_relaxation_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_c_min_coef.m}
@@ -41927,7 +41930,7 @@ In the remainder of this section I follow the discussion of a finite-frequency
 continuous-time KYP lemma described by \emph{Iwasaki}, \emph{Meinsma} and
 \emph{Minyue Fu}~\cite{Iwasaki_GeneralizedSProcFiniteFreqKYP}.
 
-\subsection{A generalised S-procedure}
+\subsection{The S-procedure}
 The \emph{S-procedure}\footnote{Also see Section~\ref{app:Jonsson-S-procedure}}
 is the basis of proofs of the KYP lemma. \emph{Iwasaki}, \emph{Meinsma} and
 \emph{Minyue Fu}~\cite[Section 1]{Iwasaki_GeneralizedSProcFiniteFreqKYP}
@@ -42044,7 +42047,7 @@ Hence there exists $\zeta_{k}$ so that $\zeta_{k}^{\mathconj}\Theta\zeta\ge 0$.
 Noting that $\zeta_{k}\in\mathcal{G}$, the first statement does not hold.
 \end{framed}
 
-\subsection{A finite-frequency continuous-time KYP lemma}
+\subsection{\label{sec:Generalised-continuous-time-KYP-lemm}The generalised continuous-time KYP lemma}
 \emph{Iwasaki et al.}~\cite[Section
 3]{Iwasaki_GeneralizedSProcFiniteFreqKYP} now define the set $\mathcal{G}$ as:
 \begin{align*}
@@ -42224,7 +42227,8 @@ such that $\mathabs{\hat{\omega}}\le\omega_{m}$ where:
 \hat{A} & =A-\imath\omega_{c}I
 \end{align*}
 The LMI becomes:
-\begin{align*}
+\begin{align}
+\label{eqn:Bandpass-continuous-time-KYP-lemma}
 \left[\begin{array}{cc}
 A & B \\
 I & 0 \end{array}\right]^{\mathconj} \left[\begin{array}{cc}
@@ -42233,7 +42237,7 @@ P-\imath\omega_{c}Q &  -\omega_{1}\omega_{2}Q\end{array}\right]
 \left[\begin{array}{cc}
 A & B \\
 I & 0 \end{array}\right]+\Theta \prec 0
-\end{align*}
+\end{align}
 This can be seen by multiplying out the LMI:
 \begin{align*}
 \begin{split}
@@ -42269,7 +42273,7 @@ The second corollary shows how to express the Linear Matrix Inequality (LMI) of
 Theorem 2 in terms of real matrixes that represent the real and imaginary parts
 of $P$ and $Q$. 
 
-\section{\label{sec:Discrete_time_KYP_lemma}The discrete-time KYP lemma}
+\section{\label{sec:Discrete-time-KYP-lemma}The discrete-time KYP lemma}
 \emph{Cheng}~\cite{ChengYiping_ProofDiscreteTimeKYPusingSDPduality} shows
 proofs of the discrete- and continuous-time KYP lemmas by the properties of the
 dual problems. For the discrete-time KYP lemma
@@ -42805,10 +42809,11 @@ Alternatively:
 \cos\left(\omega -\omega_{c}\right)\ge\cos\omega_{m}
 \end{align*}
 where $0\le\omega\le\pi$ and:
-\begin{align*}
+\begin{align}
+\label{eqn:Discrete-time-KYP-bandpass-omega}
 \omega_{c}\coloneq\frac{\omega_{2}+\omega_{1}}{2}\\
 \omega_{m}\coloneq\frac{\omega_{2}-\omega_{1}}{2}
-\end{align*}
+\end{align}
 This condition can be rewritten as $\sigma\left(e^{\imath\omega},\Psi\right)\ge 0$
 with\footnote{Note the correction to $\Psi_{o}$, demonstrated in the Octave
 script \emph{kyp\_symbolic\_frequency\_transformation\_test.m}.}:
@@ -42862,7 +42867,7 @@ I & 0 \\
 0 & -\varepsilon^{2}I\end{array}\right]
 \end{align*}
 
-\subsubsection{Linearising the generalised discrete-time KYP lemma}
+\subsubsection{\label{sec:Linearising-generalised-discrete-time-KYP-theorem}Linearising the generalised discrete-time KYP lemma}
 The expansion of $\Theta$ in Equation~\ref{eqn:Discrete-time-KYP-Theta} is
 bi-linear in the $C$ and $D$ state variable matrixes. \emph{Iwasaki} and
 \emph{Hara}~\cite[Section VII, 
@@ -42874,7 +42879,7 @@ p.52]{Iwasaki_GeneralizedKYPFrequencyDomainInequalities} add a lemma:
   $\lambda\in\boldsymbol{\Lambda}$ holds if-and-only-if there exist Hermitian
   matrices $P$ and $Q\succeq{}0$ such that
 \begin{align}
-\label{eqn:Iwasaki_Hara_KYP_Lemma_8}
+\label{eqn:Iwasaki-Hara-KYP-Lemma-8}
   \left[\begin{array}{cc}
 \Gamma\left(P,Q,A,B,C,D\right)& \left[C\;D\right]^{\mathconj}\Pi_{11}^{\mathconj}\\
 \Pi_{11}\left[C\;D\right]      & -\Pi_{11}^{\mathconj}\end{array}\right] \preceq 0
@@ -43096,7 +43101,7 @@ amplitude constraints.
 
 The minimum passband amplitude constraint for a single-input single-output
 filter, $\left|H\left(\omega\right)\right|\ge A_{pl}^{2}$,
-cannot use Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} because it requires
+cannot use Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} because it requires
 $\Pi_{11}\succeq 0$ and in this case $\Pi_{11}=-1$. The Octave script
 \emph{yalmip\_kyp\_lowpass\_test.m} uses
 Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI} to check the minimum
@@ -43160,7 +43165,7 @@ The Octave script \emph{directFIRsymmetric\_kyp\_lowpass\_test.m}
 designs a symmetric FIR low-pass filter with
 YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} and SeDuMi. The YALMIP objective is
 empty. The YALMIP constraints for each frequency band are
-Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$
+Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} with $Q\succeq{}0$. The $C$
 matrix of the state variable description for the pass-band constraint is
 modified to subtract a signal delayed by $M$ samples.
 
@@ -43224,7 +43229,7 @@ $\varepsilon^{2}_{z}\le 0.00569$ and an empty objective.}.
 The Octave script \emph{directFIRnonsymmetric\_kyp\_lowpass\_test.m}
 designs a similar filter with YALMIP~\cite{Lofberg_YALMIP,Lofberg2004} and
 SeDuMi. The YALMIP objective is empty. The YALMIP constraints for each
-frequency band are Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with
+frequency band are Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} with
 $Q\succeq{}0$\footnote{The Octave script
 \emph{directFIRnonsymmetric\_kyp\_lowpass\_alternate\_test.m} experiments with
 constraints on $\varepsilon^{2}_{z}$ or $\varepsilon^{2}_{s}$, with an empty
@@ -43274,7 +43279,7 @@ The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_test.m} uses
 the  generalised KYP lemma of \emph{Iwasaki} and \emph{Hara} to design a band
 pass FIR filter with YALMIP and SeDuMi. The YALMIP objective is
 empty. The YALMIP constraints for each frequency band are
-Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} with $Q\succeq{}0$. The $C$ matrix of
 the state variable description for the pass-band constraint is modified
 to subtract a signal delayed by $d$ samples. The filter specification is:
 \begin{small}
@@ -43314,9 +43319,10 @@ The Octave script \emph{directFIRnonsymmetric\_kyp\_bandpass\_hilbert\_test.m}
 uses the generalised KYP lemma of \emph{Iwasaki} and \emph{Hara} to design a band
 pass FIR Hilbert filter with  with YALMIP and SeDuMi. The YALMIP objective
 is empty. The YALMIP constraints for each frequency band are
-Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} with $Q\succeq{}0$. The $C$ matrix of
 the state variable description for the pass-band constraint is modified
-to subtract a signal delayed by $d$ samples. The filter specification is:
+to subtract a signal multiplied by $\imath$ and delayed by $d$ samples. The
+filter specification is:
 \begin{small}
 \verbatiminput{directFIRnonsymmetric_kyp_bandpass_hilbert_test_spec.m}
 \end{small}
@@ -43343,7 +43349,7 @@ shown is adjusted for the nominal delay.
 The Octave script \emph{directFIRnonsymmetric\_kyp\_highpass\_test.m} designs a
 high-pass filter with YALMIP and SeDuMi. The YALMIP objective is
 empty. The YALMIP constraints for each frequency band are
-Equation~\ref{eqn:Iwasaki_Hara_KYP_Lemma_8} with $Q\succeq{}0$. The $C$ matrix of
+Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} with $Q\succeq{}0$. The $C$ matrix of
 the state variable description for the pass-band constraint is modified
 to subtract a signal delayed by $d$ samples. The filter specification is: 
 \begin{small}
@@ -45792,7 +45798,7 @@ the column vectors $c,v\in\mathbb{R}^{p\times 1}$,
 and the matrix $P\in\mathbb{S}^{n}$ and
 $M\left(v\right)=M_{0}+\sum_{l=1}^{p}v_{l}M_{l}$.
 
-\subsubsection{The adjoint of the continuous-time KYP mapping}
+\subsubsection{\label{sec:Adjoint-continuous-time-KYP-mapping}The adjoint of the continuous-time KYP mapping}
 The linear mapping,
 $\mathcal{F}:\mathbb{R}^{n\times n}\rightarrow\mathbb{R}^{\left(n+m\right)\times\left(n+m\right)}$,
 associated with the continuous-time KYP lemma of
@@ -45923,9 +45929,9 @@ The adjoint constraint $\mathcal{F}^{\mathadj}\left(Z\right)=0$ by
 construction. The Octave script
 \emph{yalmip\_kyp\_dual\_continuous\_reduced\_test.m} checks the continuous-time
 KYP lemma with Equation~\ref{eqn:Cont-time-Dual-SDP-KYP-Z-basis} for the maximum
-amplitude response of a single-input and single-output $3$-rd order Butterworth
-filter. The combination of YALMIP and SeDuMi has numerical problems for higher
-orders than $3$.
+whole-of-band amplitude response of a single-input and single-output $3$-rd
+order Butterworth filter. The combination of YALMIP and SeDuMi has numerical
+problems for higher orders than $3$. 
 
 \subsubsection{Optimisation with linear constraints}
 % This is too long to be a footnote!
@@ -46055,7 +46061,7 @@ The dual SDP problem is reformulated as:
                              \sum_{k=1}^{k_{max}-p}\tilde{z}_{k}H_{k}\succeq 0 
 \end{align*}
 
-\subsubsection{Recovering the primal variables $P$ and $v$}
+\subsubsection{\label{sec:Recovering-primal-variables-from-the-dual-solution}Recovering the primal variables $P$ and $v$}
 The constraint of the primal SDP problem can be written as:
 \begin{align*}
   V &= \mathcal{F}\left(P\right) + M_{0} + \mathcal{M}\left(v\right) \succeq 0
@@ -46092,6 +46098,34 @@ be zero''. Given $v$, compute P by solving the Lyapunov equation corresponding
 to the $\left(1,1\right)$ block of the primal SDP constraint shown in
 Equation~\ref{eqn:Primal-continuous-time-SDP}.
 
+\subsubsection{The dual SDP problem of the generalised continuous-time KYP lemma}
+Section~\ref{sec:Generalised-continuous-time-KYP-lemm} describes the
+generalised finite-frequency continuous-time KYP lemma.
+Section~\ref{sec:Adjoint-continuous-time-KYP-mapping} describes the adjoint of
+the mapping associated with the continuous-time KYP lemma shown in
+Equation~\ref{eqn:Continuous-time-KYP-lemma-linear-mapping}.
+
+The Octave script
+\emph{yalmip\_kyp\_dual\_continuous\_bandpass\_test.m} checks the reduced
+complexity continuous-time KYP lemma for a band-pass finite-frequency range, as
+shown in Equation~\ref{eqn:Bandpass-continuous-time-KYP-lemma}, for the maximum
+pass-band amplitude response of a single-input and single-output $6$-th order
+Butterworth band-pass filter. In the dual implementation of
+Equation~\ref{eqn:Bandpass-continuous-time-KYP-lemma} the adjoint matrix
+mappings are:
+\begin{align*}
+ \mathcal{P}^{\mathadj}\left(Z\right)
+  &= AZ_{11} + Z_{11}A^{\top} + BZ_{12}^{\top} + Z_{12}B^{\top} \\
+  \mathcal{Q}^{\mathadj}\left(Z\right)
+  &= -\left[ AZ_{11}A^{\top} + \omega_{1}\omega_{2}Z_{11} + BZ_{12}^{\top}A^{\top} +
+    AZ_{12}B^{\top}\right] 
+    +\imath\omega_{c}\left[ BZ_{12}^{\top} + Z_{12}B^{\top}\right]
+\end{align*}
+For the primal problem, the combination of YALMIP
+and SeDuMi warns \emph{``Run into numerical problems.''} For the reduced
+complexity dual problem, the \texttt{nnz} values and the residual values are
+smaller than those of the primal and dual problems.
+
 \subsubsection{Examples}
 \paragraph{\emph{L\"{o}fberg}'s YALMIP example} \emph{L\"{o}fberg}~\cite{Lofberg_YALMIP_Auto_dualization} provides an example of
 solving a KYP lemma problem with YALMIP, as shown in the Octave script
@@ -46120,6 +46154,7 @@ optimize(Fp,objp,options)
 optimize(Fp,objp,sdpsettings(options,"removeequalities",true))
 \end{verbatim}
 \end{small}
+
 The \emph{dualize} option stops YALMIP solving the dual form of the initial
 problem. Figure~\ref{fig:yalmip-kyp-lofberg-primalize-test-yalmip-time} shows
 the YALMIP time required by \emph{L\"{o}fberg}'s KYP example for each solution
@@ -46140,6 +46175,7 @@ than linear on a log-log plot.
   problem with equality constraints removed.}
 \label{fig:yalmip-kyp-lofberg-primalize-test-yalmip-time}
 \end{figure}
+
 \begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_lofberg_primalize_test_solver_time}}
@@ -46185,7 +46221,7 @@ $5$ inputs and $5$ outputs. They plot the solution time for the dual SDP
 problem with a reduced number of variables and demonstrate the
 $\mathcal{O}\left(n^{4}\right)$ dependence.
 
-\subsection{The dual of the discrete-time KYP lemma}
+\subsection{\label{sec:Dual-discrete-time-KYP-lemma}The dual of the discrete-time KYP lemma}
 \subsubsection{The adjoint of the discrete-time KYP mapping}
 The linear mapping associated with the discrete-time KYP lemma is
 $\mathcal{F}:\mathbb{H}^{n}\rightarrow\mathbb{H}^{n+m}$:
@@ -46238,7 +46274,9 @@ calculates the maximum amplitude, $\varepsilon^{2}$. SeDuMi solves the primal
 problem when the YALMIP \texttt{``dualize''} option is set to \texttt{true} and
 solves the dual problem when \texttt{``dualize''}  is set to
 \texttt{false}\footnote{The default value of the YALMIP \texttt{``dualize''}
-  option is \texttt{false}.}.
+  option is \texttt{false}.}. For this test script there is a single variable
+in the objective function, $\varepsilon^{2}$, and we assume strong duality or,
+in other words, no duality gap between the primal and dual solutions.
 
 \subsubsection{The reduced complexity dual of the discrete-time KYP lemma}
 Similarly to the continuous-time case, the number of variables of the adjoint
@@ -46253,7 +46291,7 @@ discrete-time \emph{Lyapunov} equations for $k=1,\hdots,mn$:
 \end{align*}
 
 For the discrete-time case, as demonstrated in the Octave script
-\emph{yalmip\_kyp\_dual\_test.m}, the additional basis matrix for $k=N+1$ is
+\emph{yalmip\_kyp\_dual\_test.m}, an additional basis matrix for $k=N+1$ is
 found by the solution of the discrete-time \emph{Lyapunov} equation:
 \begin{align*}
   AE_{k\left(11\right)}A^{\top}-E_{k\left(11\right)} + BB^{\top} &= 0 
@@ -46271,7 +46309,6 @@ for the example $N$'th order FIR filter are:
     \left[\begin{array}{cc}
       E_{k\left(11\right)} & 0 \\
       0 & 1\end{array}\right]
-    & k=N+1
     \end{cases}
 \end{align}
 
@@ -46291,26 +46328,29 @@ $N=70$ and for the reduced complexity dual of the KYP lemma with $N=100$.
 Figure~\ref{fig:yalmip-kyp-dual-test-nnz} shows the number of non-zero entries
 in the SeDuMi solver $A$ matrix required to find the maximum amplitude response
 of an $N$'th order symmetric FIR low-pass filter with the dual of the KYP lemma
-and the reduced complexity dual of the KYP lemma.
+and the reduced complexity dual of the KYP lemma and
+Figure~\ref{fig:yalmip-kyp-dual-test-numel} shows the number of entries
+in the SeDuMi solver $A$ matrix.
 
 \begin{table}
 \centering
 \begin{threeparttable}
-\begin{tabular}{lcrr} \\ \toprule
- & $\varepsilon^{2}$ & Solver time (s) & nnz of SeDuMi A \\ \midrule
+\begin{tabular}{lcrrr} \\ \toprule
+  & $\varepsilon^{2}$ & Solver time (s) & nnz of SeDuMi A  & numel of SeDuMi A \\
+  \midrule
 \input{yalmip_kyp_dual_test_cost.tab} \\ \bottomrule
 \end{tabular}
 \end{threeparttable}
 \caption{Comparison of maximum amplitude response error, solver time and the
-  number of non-zero entries in the SeDuMi $A$ matrix for an $N$'th order
-  symmetric FIR low-pass filter found by solving the KYP lemma, the dual of the
-  KYP lemma, the reduced complexity dual of the KYP lemma and the reduced
-  complexity dual of the KYP lemma with a similarity transform of the FIR
-  filter.}
+  number of non-zero entries and number of entries in the SeDuMi $A$ matrix for
+  an $N$'th order symmetric FIR low-pass filter found by solving the KYP lemma,
+  the dual of the KYP lemma, the reduced complexity dual of the KYP lemma and
+  the reduced complexity dual of the KYP lemma with a similarity transform of
+  the FIR filter.}
 \label{tab:KYP-Dual-KYP-FIR-filter-comparison}
 \end{table}
 
-\begin{figure}[!htb]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_dual_test_solvertime}}
 \caption{SeDuMi solver time required to find the maximum amplitude response of
@@ -46319,7 +46359,7 @@ and the reduced complexity dual of the KYP lemma.
 \label{fig:yalmip-kyp-dual-test-solver-time}
 \end{figure}
 
-\begin{figure}[!htb]
+\begin{figure}
 \centering
 \scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_dual_test_nnz}}
 \caption{Non-zero entries in the SeDuMi $A$ matrix required to find the maximum
@@ -46328,14 +46368,167 @@ and the reduced complexity dual of the KYP lemma.
 \label{fig:yalmip-kyp-dual-test-nnz}
 \end{figure}
 
-\subsection{The dual of the generalised discrete-time KYP lemma}
-\emph{Seungil} and
+\begin{figure}
+\centering
+\scalebox{\DesignOfIIRFiltersPdfScale}{\input{yalmip_kyp_dual_test_numel}}
+\caption{Number of elements in the SeDuMi $A$ matrix required to find the maximum
+  amplitude response of an $N$'th order symmetric FIR low-pass filter with the
+  dual of the KYP lemma and the reduced complexity dual of the KYP lemma.}
+\label{fig:yalmip-kyp-dual-test-numel}
+\end{figure}
+
+\clearpage
+\subsection{\label{sec:Dual-generalised-discrete-time-lemma}The dual of the generalised discrete-time KYP lemma}
+Section~\ref{sec:Generalised_discrete_time_KYP_theorem} describes the
+generalised discrete-time KYP lemma and
+Section~\ref{sec:Dual-discrete-time-KYP-lemma} descibes the dual of the
+discrete-time KYP lemma. \emph{Seungil} and
 \emph{Doyle}~\cite{SeungilDoyle_LagrangianDualApproachGeneralizedKYP} prove
 the generalised continuous-time KYP lemma by the dual of the Lagrangian of
-Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}. In this section I hope
-to find a dual of the generalised discrete-time KYP lemma with reduced
-complexity, as described by \emph{Wallin et
-  al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}.
+Equation~\ref{eqn:Iwasaki-Hara-Generalised-KYP-LMI}. In this section describe
+the dual of the generalised discrete-time KYP lemma with reduced complexity, as
+described by \emph{Wallin et
+al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers}.
+
+A typical optimisation problem based on the generalised KYP lemma is:
+\begin{align}
+  \label{eqn:Generalised-KYP-lemma-for-finding-dual}
+  \underset{v,P,Q}{\textbf{minimise}}\quad   & c^{\top}v \nonumber\\
+  \textbf{subject to}\quad & \left[\begin{array}{cc}
+             A & B \\
+             I& 0 \end{array}\right]^{\mathconj}
+                \left(\Phi\otimes P\right)
+      \left[\begin{array}{cc}
+              A & B \\
+              I& 0 \end{array}\right] +
+      \left[\begin{array}{cc}
+             A & B \\
+             I& 0 \end{array}\right]^{\mathconj}
+                \left(\Psi\otimes Q\right)
+      \left[\begin{array}{cc}
+              A & B \\
+        I& 0 \end{array}\right] +
+                             \Theta\left(v\right) \preceq 0 
+\end{align}
+where $A\in\mathbb{R}^{N\times N}$, $P,Q\in\mathbb{S}^{N}$, $Q\succeq 0$,
+$\Phi = \left[\begin{array}{cc}
+1 & \phantom{-}0 \\
+0 & -1\end{array}\right]$ , $\Psi = \left[\begin{array}{cc}
+0 & \Psi_{12} \\
+  \Psi_{12}^{\mathconj} & \Psi_{22}\end{array}\right]$,
+ $\Pi = \left[\begin{array}{cc}
+  \Pi_{11} & \Pi_{12} \\
+  \Pi_{12}^{\mathconj}& \Pi_{22}\end{array}\right]$, $\Pi_{11}\succeq 0$ and:
+\begin{align*}
+  \Theta\left(v\right) &= \Theta_{0}+\sum_{l} v_{l}\Theta_{l} 
+   = \left[\begin{array}{cc}
+  C & D \\
+  0 & I\end{array}\right]^{\mathconj} \Pi \left[\begin{array}{cc}
+    C & D \\
+    0 & I\end{array}\right]
+\end{align*}
+Alternatively, Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} in
+Section~\ref{sec:Linearising-generalised_discrete-time-KYP-theorem} shows how
+the problem is linearised in the $C$ and $D$ coefficients.
+
+The Lagrangian function of the optimisation problem is:
+\begin{align*}
+  \mathcal{L}\left(v,P,Q,Z\right) &= c^{\top}v 
+           -\langle \mathcal{P}\left(P\right),Z\rangle
+           -\langle \mathcal{Q}\left(Q\right),Z\rangle
+           -\langle \Theta_{0},Z\rangle
+           -\sum_{l}v_{l}\langle \Theta_{l},Z\rangle 
+\end{align*}
+where $\mathcal{P}$ and $\mathcal{Q}$ are matrix mappings corresponding to $P$
+and $Q$ in Equation~\ref{eqn:Generalised-KYP-lemma-for-finding-dual} and $Z$ is
+the Lagrange multiplier. At the stationary point of
+$\mathcal{L}\left(v,P,Q\right)$, the dual of the optimisation problem is:
+\begin{align}
+  \underset{Z}{\textbf{maximise}} \quad & -\langle \Theta_{0},Z\rangle\nonumber\\
+  \label{eqn:Discrete-time-Dual-Generalised-KYP}
+  \textbf{subject to}\quad & \mathcal{P}^{\mathadj}\left(Z\right) = 0 \\
+                           & \mathcal{Q}^{\mathadj}\left(Z\right) = 0 \nonumber\\
+                           & \langle \Theta_{l},Z \rangle =c_{l}\nonumber\\
+                           & Z \succeq 0 \nonumber
+\end{align}
+Defining $Z=\left[\begin{array}{cc}
+          Z_{11} & Z_{12}\\ 
+          Z_{21} & Z_{22}\end{array}\right]$, the adjoint mappings are:
+\begin{align*}
+  \mathcal{P}^{\mathadj}\left(Z\right) &=
+   AZ_{11}A^{\top}-Z_{11} + BZ_{12}^{\top}A^{\top}
+    + AZ_{12}B^{\top} + BZ_{22}B^{\top} \\
+  \mathcal{Q}^{\mathadj}\left(Z\right) &=
+\Psi_{12}Z_{11}A^{\top}+\Psi_{12}^{\mathconj}AZ_{11}+\Psi_{22}Z_{11} +
+\Psi_{12}^{\mathconj}BZ_{12}^{\top}+\Psi_{12}Z_{12}B^{\top}
+\end{align*}
+Following \emph{Wallin et
+ al.}~\cite{WallinHanssonVandenberge_SemiDefiniteKYPlemmaStandardSolvers,
+ WallinHanssonVandenberge_ComparisonStructureExploitingIntegralQuadratic},
+as shown in Section~\ref{sec:Dual-discrete-time-KYP-lemma}, the number of
+variables in $Z$ can be reduced from $\mathcal{O}\left(n^{2}\right)$ to
+$\mathcal{O}\left(n\right)$ by defining a set of basis matrixes for $Z$:
+\begin{align}
+  \label{eqn:Discrete-time-Dual-SDP-KYP-Z-basis}
+  Z &= \sum_{k}z_{k}F_{k}
+\end{align}
+where for example:
+\begin{align*}
+  F_{k} &=\left[\begin{array}{cc}
+      E_{k\left(11\right)} & E_{k\left(12\right)} \\
+      E_{k\left(12\right)}^{\top} & 0 \end{array}\right] \\
+\end{align*}
+Given the vector $E_{k\left(12\right)}$, the symmetric
+$\left\{E_{k\left(11\right)}\right\}$ basis sub-matrixes are found by the solution
+of $\mathcal{P}^{\mathadj}\left(Z\right)=0$, which is a set of $N$ discrete-time
+Lyapunov equations:
+\begin{align*}
+  AE_{k\left(11\right)}A^{\top}-E_{k\left(11\right)}+
+  BE_{k\left(12\right)}^{\top}A^{\top}+AE_{k\left(12\right)}B^{\top} &= 0 \\
+\end{align*}
+Also:
+\begin{align*}
+  AE_{k\left(11\right)}A^{\top}-E_{k\left(11\right)} + BB^{\top} &= 0
+\end{align*}
+
+The Octave scripts \emph{yalmip\_kyp\_dual\_lowpass\_test.m} and
+\emph{yalmip\_kyp\_dual\_highpass\_test.m} show the solution of the
+reduced-complexity dual of the generalised discrete-time KYP lemma separately
+for the pass-band and stop-band response errors.
+
+The Octave script \emph{yalmip\_kyp\_dual\_bandpass\_test.m} attempts to
+demonstrate the reduced-complexity dual of the generalised discrete-time KYP
+lemma for a band-pass FIR filter. The variable optimised is the maximum
+squared-amplitude response, $\varepsilon^{2}$. The basis for $Z$ found from the
+$\mathcal{P}^{\mathadj}$ matrix mapping is sufficient to solve the generalised
+discrete-time KYP lemma in the whole-band, low-pass and high-pass cases but not
+in the band-pass case. In the latter case, $\Psi_{12}=e^{\imath\omega_{c}}$ is
+complex and:
+\begin{align*}
+  \mathcal{Q}^{\mathadj}\left(Z\right) &=
+e^{\imath\omega_{c}}Z_{11}A^{\top}+e^{-\imath\omega_{c}}AZ_{11}-2\cos\omega_{m}Z_{11}+
+e^{-\imath\omega_{c}}BZ_{12}^{\top}+e^{\imath\omega_{c}}Z_{12}B^{\top} \\
+&=\cos\omega_{c}\left[Z_{11}A^{\top}+AZ_{11}+BZ_{12}^{\top}+Z_{12}B^{\top}\right]
+ -2\cos\omega_{m}Z_{11}+
+\imath\sin\omega_{c}\left[Z_{11}A^{\top}-AZ_{11}-BZ_{12}^{\top}+Z_{12}B^{\top}\right]
+\end{align*}
+The real part of $\mathcal{Q}^{\mathadj}\left(Z\right)=0$ is a continuous time
+Lyapunov equation with $\hat{A}=A-\frac{\cos\omega_{m}}{\cos\omega_{c}}$ and the
+imaginary part is a \emph{Sylvester} equation of the form
+$FZ-ZG=C$~\cite[Algorithm 7.6.2]{GolubVanLoan_MatrixComputations}.
+Unfortunately, the \emph{Bartels-Stewart} algorithm for solution of such a
+matrix equation assumes that the eigenvalues of $F$ and $G$ are distinct. It may
+be possible to solve the band-pass case by transforming the problem from the
+discrete-time unit circle to the continuous-time imaginary axis, as shown in
+Section~\ref {sec:Generalised_discrete_time_KYP_theorem}. Alternatively,
+with the transformation:
+\begin{align*}
+  \bar{A} &= \frac{A+\cos\omega_{c}}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}\\
+  \bar{B} &= \frac{B}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}
+\end{align*}
+$\mathcal{P}^{\mathadj}\left(Z\right) +\Re\mathcal{Q}^{\mathadj}\left(Z\right)=0$ is
+also a discrete-time Lyapunov equation that may provide a second set of basis
+matrixes.
 
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}

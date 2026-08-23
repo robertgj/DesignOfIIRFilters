@@ -6827,6 +6827,9 @@ yalmip_kyp_dual_test_cost.tab
 yalmip_kyp_dual_test_nnz-inc.pdf
 yalmip_kyp_dual_test_nnz.pdf
 yalmip_kyp_dual_test_nnz.tex
+yalmip_kyp_dual_test_numel-inc.pdf
+yalmip_kyp_dual_test_numel.pdf
+yalmip_kyp_dual_test_numel.tex
 yalmip_kyp_dual_test_solvertime-inc.pdf
 yalmip_kyp_dual_test_solvertime.pdf
 yalmip_kyp_dual_test_solvertime.tex

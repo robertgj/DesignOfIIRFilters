@@ -1,7 +1,7 @@
 #!/bin/sh
 
-prog=yalmip_kyp_dual_continuous_reduced_test.m
-depends="test/yalmip_kyp_dual_continuous_reduced_test.m test_common.m"
+prog=yalmip_kyp_dual_continuous_lowpass_test.m
+depends="test/yalmip_kyp_dual_continuous_lowpass_test.m test_common.m"
 
 tmp=/tmp/$$
 here=`pwd`
