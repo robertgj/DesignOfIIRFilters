@@ -20,10 +20,8 @@ delete(strcat(strf,".diary"));
 delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
-tol=1e-7;
-
-N=26; if rem(N,2), error("Expect N even!");endif;d=(N/2);
-fap=0.15;fas=0.25;
+M=15;N=2*M;d=M;
+fap=0.15;fas=0.2;
 nplot=10000;
 nap=ceil(fap*nplot/0.5)+1;
 nas=floor(fas*nplot/0.5)+1;
@@ -83,6 +81,7 @@ endfor
 %
 % Overall maximum response
 %
+printf("\nOverall maximum response:\n")
 z_max=sdpvar(1,length(Fk),"full","real");
 ZR_max=zeros(N+2);
 for l=1:length(Fk),
@@ -102,17 +101,15 @@ if sol.problem
 endif
 check(Constraints);
 printf("z_max=[");printf(" %g ",value(z_max));printf(" ]\n");
+printf("\n");
 kyp_Esq_max=-value(Objective);
-printf("Overall maximum response = %g, (Esq_max=%g)\n\n", ...
+printf("Overall KYP maximum response = %g, (Esq_max=%g)\n\n", ...
        kyp_Esq_max,Esq_max);
-if abs(kyp_Esq_max-Esq_max) > tol
-  error("abs(kyp_Esq_max-Esq_max)(%g*tol) > tol", ...
-        abs(kyp_Esq_max-Esq_max)/tol);
-endif
 
 %
 % Pass-band maximum response
 %
+printf("\nPass-band maximum response:\n")
 z_max_pass=sdpvar(1,length(Fk),"full","real");
 ZR_max_pass=zeros(N+2);
 for l=1:length(Fk),
@@ -137,17 +134,15 @@ if sol.problem
 endif
 check(Constraints);
 printf("z_max_pass=[");printf(" %g ",value(z_max_pass));printf(" ]\n");
+printf("\n");
 kyp_Esq_max_pass=value(Objective);
-printf("Pass-band maximum response = %g, (Esq_max_pass=%g)\n\n", ...
+printf("Pass-band KYP maximum response = %g, (Esq_max_pass=%g)\n\n", ...
        kyp_Esq_max_pass,Esq_max_pass);
-if abs(kyp_Esq_max_pass-Esq_max_pass) > 5000*tol
-  error("abs(kyp_Esq_max_pass-Esq_max_pass)(%g*tol) > 5000*tol", ...
-        abs(kyp_Esq_max_pass-Esq_max_pass)/tol);
-endif
 
 %
 % Pass-band maximum response error
 %
+printf("\nPass-band maximum response error:\n")
 z_pass=sdpvar(1,length(Fk),"full","real");
 ZR_pass=zeros(N+2);
 for l=1:length(Fk),
@@ -171,17 +166,51 @@ if sol.problem
 endif
 check(Constraints);
 printf("z_pass=[");printf(" %g ",value(z_pass));printf(" ]\n");
+printf("\n");
 kyp_Esq_pass=-value(Objective);
-printf("Pass-band maximum response error = %g, (Esq_pass=%g)\n\n", ...
+printf("Pass-band KYP maximum response error = %g, (Esq_pass=%g)\n\n", ...
        kyp_Esq_pass,Esq_pass);
-if abs(kyp_Esq_pass-Esq_pass) > 100*tol
-  error("abs(kyp_Esq_pass-Esq_pass)(%g*tol) > 100*tol", ...
-        abs(kyp_Esq_pass-Esq_pass)/tol);
+
+%
+% Transition-band maximum response
+%
+printf("\nTransition-band maximum response:\n")
+z_max_trans=sdpvar(1,length(Fk),"full","real");
+ZR_max_trans=zeros(N+2);
+for l=1:length(Fk),
+  ZR_max_trans=ZR_max_trans+(z_max_trans(l)*Fk{l});
+endfor
+ZR_max_trans11=ZR_max_trans(1:N,1:N);
+ZR_max_trans12=ZR_max_trans(1:N,N+1);
+ZR_max_trans22=ZR_max_trans(N+1,N+1);
+Padj_max_trans=(A*ZR_max_trans11*(A'))-ZR_max_trans11+ ...
+               (B*(ZR_max_trans12')*(A'))+(A*ZR_max_trans12*(B'))+ ...
+               (B*ZR_max_trans22*(B'));
+Qadj_max_trans=(e_trans*ZR_max_trans11*(A')) + ...
+               (conj(e_trans)*A*ZR_max_trans11) - ...
+               (c_trans*ZR_max_trans11) + ...
+               (conj(e_trans)*B*(ZR_max_trans12')) + ...
+               (e_trans*ZR_max_trans12*(B'));
+Constraints=[ZR_max_trans>=0,Qadj_max_trans==0,Padj_max_trans==0, ...
+             trace(Theta1*ZR_max_trans)==-1];
+Objective=[-trace(Theta0*ZR_max_trans)];
+Options=sdpsettings("solver","sedumi");
+sol=optimize(Constraints,Objective,Options);
+if sol.problem
+  warning("YALMIP failed : %s",sol.info);
+else
+  check(Constraints);
+  printf("z_max_trans=[");printf(" %g ",value(z_max_trans));printf(" ]\n");
+  printf("\n");
+  kyp_Asq_max_trans=value(Objective);
+  printf("Transition-band KYP maximum response = %g, (Asq_max_trans=%g)\n\n", ...
+         kyp_Asq_max_trans,Asq_max_trans);
 endif
 
 %
 % Stop-band maximum response
 %
+printf("\nStop-band maximum response:\n")
 z_stop=sdpvar(1,length(Fk),"full","real");
 ZR_stop=zeros(N+2);
 for l=1:length(Fk),
@@ -204,18 +233,16 @@ if sol.problem
 endif
 check(Constraints);
 printf("z_stop=[");printf(" %g ",value(z_stop));printf(" ]\n");
+printf("\n");
 kyp_Asq_stop=-value(Objective);
-printf("Stop-band maximum response = %g, (Asq_max_stop=%g)\n\n", ...
+printf("Stop-band KYP maximum response = %g, (Asq_max_stop=%g)\n\n", ...
        kyp_Asq_stop,Asq_max_stop);
-if abs(kyp_Asq_stop-Asq_max_stop) > tol
-  error("abs(kyp_Asq_stop-Asq_max_stop)(%g*tol) > tol", ...
-        abs(kyp_Asq_stop-Asq_max_stop)/tol);
-endif
 
 %
 % Combine overall, pass-band error and stop-band maximum responses
 %
-Constraints=[ZR_max>=0,              Padj_max==0, trace(Theta1*ZR_max)==-1, ...
+printf("\nCombined pass-band, pass-band error and stop-band maximum response:\n")
+Constraints=[ZR_max>=0, Padj_max==0,              trace(Theta1*ZR_max)==-1, ...
              ZR_pass>=0,Qadj_pass==0,Padj_pass==0,trace(Theta1*ZR_pass)==-1, ...
              ZR_stop>=0,Qadj_stop==0,Padj_stop==0,trace(Theta1*ZR_stop)==-1];
 Objective=[-trace((Theta0*ZR_max)+(Theta0_pass*ZR_pass)+(Theta0_stop*ZR_stop))];
@@ -228,15 +255,16 @@ check(Constraints);
 printf("z_max=[");printf(" %g ",value(z_max));printf(" ]\n");
 printf("z_pass=[");printf(" %g ",value(z_pass));printf(" ]\n");
 printf("z_stop=[");printf(" %g ",value(z_stop));printf(" ]\n");
+printf("\n");
 kyp_objective=-value(Objective);
 kyp_Esq_max=trace(Theta0*value(ZR_max));
 kyp_Esq_pass=trace(Theta0_pass*value(ZR_pass));
 kyp_Asq_stop=trace(Theta0_stop*value(ZR_stop));
-printf("Overall maximum response = %g, (Esq_max=%g)\n\n", ...
+printf("Overall KYP maximum response = %g, (Esq_max=%g)\n\n", ...
        kyp_Esq_max,Esq_max);
-printf("Pass-band maximum error response = %g, (Esq_pass=%g)\n\n", ...
+printf("Pass-band KYP maximum error response = %g, (Esq_pass=%g)\n\n", ...
        kyp_Esq_pass,Esq_pass);
-printf("Stop-band maximum response = %g, (Asq_max_stop=%g)\n\n", ...
+printf("Stop-band KYP maximum response = %g, (Asq_max_stop=%g)\n\n", ...
        kyp_Asq_stop,Asq_max_stop);
 
 

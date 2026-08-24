@@ -43127,7 +43127,7 @@ $\Pi_{21}=\Pi_{12}=0$, then for each frequency band response constraint:
     0 & \Pi_{22} \end{array}\right]
     \left[\begin{array}{cc}
           C & D \end{array}\right] &\preceq 0
-\label{eqn:Iwasaki_Hara_KYP_SDP_constraints}
+\label{eqn:Iwasaki-Hara-KYP-SDP-constraints}
 \end{align}
 where $P$, $Q$ are Hermitian and $Q\succeq{}0$.
 For an FIR filter, the unknown variables are $P$, $Q$, $C$ and
@@ -43137,7 +43137,7 @@ $A$, $B$ and $\Theta$ matrixes are real valued then the $P$ and $Q$ matrixes can
 be constrained to be real and symmetric.
 
 \paragraph{Solving the  generalised KYP lemma with a rank-1 constraint}
-Equation~\ref{eqn:Iwasaki_Hara_KYP_SDP_constraints} has the form
+Equation~\ref{eqn:Iwasaki-Hara-KYP-SDP-constraints} has the form
 $\Gamma+X\preceq 0$ and the FIR filter coefficients are represented by the
 rank-$1$ matrix $X=\left[\begin{array}{cc} C & D\end{array}\right]^{\top}
 \left[\begin{array}{cc} C & D\end{array}\right]$.
@@ -46495,15 +46495,18 @@ The Octave scripts \emph{yalmip\_kyp\_dual\_lowpass\_test.m} and
 \emph{yalmip\_kyp\_dual\_highpass\_test.m} show the solution of the
 reduced-complexity dual of the generalised discrete-time KYP lemma separately
 for the pass-band and stop-band response errors.
-
-The Octave script \emph{yalmip\_kyp\_dual\_bandpass\_test.m} attempts to
-demonstrate the reduced-complexity dual of the generalised discrete-time KYP
-lemma for a band-pass FIR filter. The variable optimised is the maximum
-squared-amplitude response, $\varepsilon^{2}$. The basis for $Z$ found from the
-$\mathcal{P}^{\mathadj}$ matrix mapping is sufficient to solve the generalised
-discrete-time KYP lemma in the whole-band, low-pass and high-pass cases but not
-in the band-pass case. In the latter case, $\Psi_{12}=e^{\imath\omega_{c}}$ is
-complex and:
+The Octave scripts \emph{directFIRnonsymmetric\_kyp\_dual\_lowpass\_test.m}
+and \emph{directFIRsymmetric\_kyp\_dual\_lowpass\_test.m} attempt,
+unsuccessfully, to design a low-pass FIR filter by finding a solution of the
+pass-band and stop-band reduced complexity generalised discrete-time KYP lemma.
+The Octave script \emph{yalmip\_kyp\_dual\_bandpass\_test.m} attempts,
+unsuccessfully, to demonstrate the reduced-complexity dual of the generalised
+discrete-time KYP lemma for a band-pass FIR filter. The variable optimised is
+the maximum squared-amplitude response, $\varepsilon^{2}$. The basis for $Z$
+found from the $\mathcal{P}^{\mathadj}$ matrix mapping is sufficient to solve the
+generalised discrete-time KYP lemma in the whole-band, low-pass and high-pass
+cases but not in the band-pass case. In the latter case,
+$\Psi_{12}=e^{\imath\omega_{c}}$ is complex and:
 \begin{align*}
   \mathcal{Q}^{\mathadj}\left(Z\right) &=
 e^{\imath\omega_{c}}Z_{11}A^{\top}+e^{-\imath\omega_{c}}AZ_{11}-2\cos\omega_{m}Z_{11}+
@@ -46517,19 +46520,179 @@ Lyapunov equation with $\hat{A}=A-\frac{\cos\omega_{m}}{\cos\omega_{c}}$ and the
 imaginary part is a \emph{Sylvester} equation of the form
 $FZ-ZG=C$~\cite[Algorithm 7.6.2]{GolubVanLoan_MatrixComputations}.
 Unfortunately, the \emph{Bartels-Stewart} algorithm for solution of such a
-matrix equation assumes that the eigenvalues of $F$ and $G$ are distinct. It may
-be possible to solve the band-pass case by transforming the problem from the
-discrete-time unit circle to the continuous-time imaginary axis, as shown in
-Section~\ref {sec:Generalised_discrete_time_KYP_theorem}. Alternatively,
-with the transformation:
-\begin{align*}
-  \bar{A} &= \frac{A+\cos\omega_{c}}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}\\
-  \bar{B} &= \frac{B}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}
-\end{align*}
-$\mathcal{P}^{\mathadj}\left(Z\right) +\Re\mathcal{Q}^{\mathadj}\left(Z\right)=0$ is
-also a discrete-time Lyapunov equation that may provide a second set of basis
-matrixes.
+matrix equation assumes that the eigenvalues of $F$ and $G$ are distinct.
+\emph{Wallin} and \emph{Hansson}~\cite[Section V]{WallinHansson_KYPD} imply that
+they do not have a discrete-time KYP-LMI solver. They describe transformation of
+the problem from the discrete-time unit circle to the continuous-time imaginary
+axis. This is also shown by \emph{Iwasaki} and
+\emph{Hara}~\cite[Section 2.2]{Iwasaki_KYPlemmaFrequencyInequalities},
+reproduced in Section~\ref{sec:Generalised_discrete_time_KYP_theorem}\footnote{See also, for example,~\cite{TsuchiyaLourenco_LimitingAnalysisSDP}}. 
 
+\begin{comment}
+Alternatively, with the transformation:
+\begin{align*}
+ \bar{A}&=\frac{A+\cos\omega_{c}I}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}\\
+ \bar{B}&=\frac{B}{\sqrt{1+2\cos\omega_{m}+\cos^{2}\omega_{c}}}
+\end{align*}
+$\mathcal{P}^{\mathadj}\left(Z\right)+\Re\mathcal{Q}^{\mathadj}\left(Z\right)=0$
+is also a discrete-time Lyapunov equation that may provide a second set of basis
+matrixes. For the low-pass and high-pass cases $\bar{A}=A+I$ suffices.
+
+\subsection{Design of FIR filters with the dual of the generalised discrete-time KYP lemma}
+The linear matrix mapping of generalised discrete-time KYP lemma shown in
+Equation~\ref{eqn:Generalised-KYP-lemma-for-finding-dual} is converted into
+the linearised form of Equation~\ref{eqn:Iwasaki-Hara-KYP-Lemma-8} by:
+\begin{align*}
+\begin{split}
+&    \left[ \begin{array}{ccc}
+      A^{\mathconj}PA-P & A^{\mathconj}PB & 0 \\
+      B^{\mathconj}PA   & B^{\mathconj}PB & 0 \\
+      0               & 0             & 0 \end{array}\right] + \hdots \\
+&\left[ \begin{array}{ccc}
+\Psi_{12}^{\mathconj}QA+\Psi_{12}A^{\mathconj}Q+\Psi_{22}Q &\Psi_{12}^{\mathconj}QB & 0 \\
+\Psi_{12}B^{\mathconj}Q  & 0 & 0 \\
+      0              & 0 & 0 \end{array}\right] + \hdots \\
+&\left[ \begin{array}{ccc}
+  0                 & C^{\mathconj}\Pi_{12} & C^{\mathconj}\Pi_{11}^{\mathconj} \\
+ \Pi_{12}^{\mathconj}C & D^{\mathconj}\Pi_{12}+\Pi_{12}^{\mathconj}D+\Pi_{22} &
+                                                 D^{\mathconj}\Pi_{11}^{\mathconj} \\
+  \Pi_{11}C          & \Pi_{11}D            & -\Pi_{11}^{\mathconj}\end{array}\right]
+  \preceq 0
+\end{split}
+\end{align*}
+
+For filter design that constrains the maximum squared-amplitude response:
+\begin{align*}
+\left[\begin{array}{cc}
+  \Pi_{11} & \Pi_{12} \\
+  \Pi_{12}^{\mathconj} & \Pi_{22} \end{array}\right] = \left[\begin{array}{cc}
+    I & 0 \\
+    0 & -\varepsilon^{2}I \end{array}\right]
+\end{align*}
+
+For an FIR filter $h=\sum_{k=0}^{N}h_{k}z^{-k}$, $\left[\begin{array}{cc}
+  C & D\end{array}\right] = \left[\begin{array}{ccccc}
+    h_{N} & h_{N-1} & \hdots & h_{1} & h_{0}\end{array}\right]$. The reduced
+complexity dual of the generalised KYP lemma filter design problem is that of
+Equation~\ref{eqn:Discrete-time-Dual-Generalised-KYP}. The variables in the
+objective function of the corresponding primal optimisation problem shown in
+Equation~\ref{eqn:Generalised-KYP-lemma-for-finding-dual} are the maximum
+squared-amplitude in each of $B$ bands and the filter coefficients,
+$v = \left[\begin{array}{cccc}
+  h_{N} & \hdots & h_{0} & \varepsilon^{2}\end{array}\right]^{\top}$ and the
+objective function is $\varepsilon^{2}$ so that
+$c=\left[\begin{array}{cccc} 0 & \hdots & 0 & 1 \end{array}\right]^{\top}$. The
+Lagrange multiplier matrix is:
+\begin{align*}
+  Z &= \left[\begin{array}{ccc}
+    Z_{11} & Z_{12} & Z_{13} \\
+    Z_{12}^{\mathconj} & Z_{22} & Z_{23} \\
+    Z_{13}^{\mathconj} & Z_{23}^{\mathconj} & Z_{33} \end{array}\right]
+\end{align*}
+The additional set of basis matrixes for the $Z_{13}$ components of $Z$ is:
+\begin{align*}
+  E_{k(13)} &= \left\{\left[\begin{array}{ccccc}
+    0      & 0      & \cdots & 0 & 1 \\
+    0      & \ddots &        &   & 0 \\
+    \vdots &        &        &   & \vdots \\
+    0      &        & 0      &   & 0 \\
+    1      & 0      & \cdots & 0 & 0\end{array}\right], \left[\begin{array}{ccccc}
+    0      & 0      & \cdots &   & 0 \\
+    0      & \ddots &        &   & 1 \\
+    \vdots &        &        &   & \vdots \\
+    0      &        &        & 0 & 0 \\
+    0      & 1      & \cdots & 0 & 0\end{array}\right],\;\hdots\;,
+              \left[\begin{array}{ccccc}
+    0      & \cdots &        &   & 0 \\
+    \vdots & \ddots &        &   & \vdots \\
+    0      &        &        &   & 1 \\
+    0      &        &        & 0 & 0 \\
+    0      & \cdots & 1      & 0 & 0\end{array}\right]\right\}
+\end{align*}
+The basis matrixes for the $Z_{22}$, $Z_{23}$ and $Z_{33}$ components of $Z$ are:
+\begin{align*}
+  E_{k(22)} = \left[\begin{array}{cccc}
+    0      & \cdots &   & 0 \\
+    \vdots & \ddots &   & \vdots \\
+    0      &        & 1 & 0 \\
+    0      & \cdots & 0 & 0\end{array}\right] \text{ , }
+  E_{k(23)} = \left[\begin{array}{cccc}
+    0      & \cdots &   & 0 \\
+    \vdots & \ddots &   & \vdots \\
+    0      &        & 0 & 1 \\
+    0      & \cdots & 1 & 0\end{array}\right] \text{ , }
+  E_{k(33)} = \left[\begin{array}{cccc}
+    0      & \cdots &   & 0 \\
+    \vdots & \ddots &   & \vdots \\
+    0      &        & 0 & 0 \\
+    0      & \cdots & 0 & 1\end{array}\right]
+\end{align*}
+
+\subsubsection{Design of a low-pass FIR filter with the dual of the generalised discrete-time KYP lemma}
+The Octave scripts \emph{directFIRnonsymmetric\_kyp\_dual\_lowpass\_test.m}
+and \emph{directFIRsymmetric\_kyp\_dual\_lowpass\_test.m} attempt to design a
+low-pass FIR filter by finding a solution of the pass-band and stop-band reduced
+complexity generalised discrete-time KYP lemma. The primal optimisation problem
+is:
+\begin{align}
+\textbf{minimise}\quad & c^{\top}v \label{eqn:Primal-discrete-time-KYP-SDP} \\
+\textbf{subject to}\quad &
+\mathcal{P}_{p}\left(P_{p}\right)+\mathcal{Q}_{p}\left(Q_{p}\right) +
+\mathcal{M}_{p}\left(v\right) \preceq 0 \nonumber \\
+& \mathcal{P}_{s}\left(P_{s}\right)+\mathcal{Q}_{s}\left(Q_{s}\right) +
+\mathcal{M}_{s}\left(v\right) \preceq 0 \nonumber
+\end{align}
+where:
+\begin{align*}
+  \mathcal{M}_{p}\left(v\right) &= \Theta_{0,p}+\sum_{l} v_{l}\Theta_{l,p}\\
+  \mathcal{M}_{s}\left(v\right) &= \Theta_{0,s}+\sum_{l} v_{l}\Theta_{l,s}
+\end{align*}
+
+With Lagrange multiplier matrixes $Z_{p}$ and $Z_{s}$, the Lagrangian function is:
+\begin{align*}
+  \mathcal{L} \left(v,P_{p},Q_{p},P_{s},Q_{s}\right)
+  &= c^{\top}v -\langle Z_{p},\mathcal{P}_{p}\left(P_{p}\right)\rangle
+  -\langle Z_{p},\mathcal{Q}_{p}\left(Q_{p}\right)\rangle 
+  -\langle Z_{p},\mathcal{M}_{p}\left(v\right)\rangle \hdots \\
+&\quad -\langle Z_{s},\mathcal{P}_{s}\left(P_{s}\right)\rangle
+  -\langle Z_{s},\mathcal{Q}_{s}\left(Q_{s}\right)\rangle
+  -\langle Z_{s},\mathcal{M}_{s}\left(v\right)\rangle \\
+&= c^{\top}v-\langle P_{p},\mathcal{P}_{p}^{\mathadj}\left(Z_{p}\right)\rangle
+  -\langle Q_{p},\mathcal{Q}_{p}^{\mathadj}\left(Z_{p}\right)\rangle
+  -\langle v,\mathcal{M}_{p}^{\mathadj}\left(Z_{p}\right)\rangle \hdots \\
+&\quad -\langle P_{s},\mathcal{P}_{s}^{\mathadj}\left(Z_{s}\right)\rangle
+  -\langle Q_{s},\mathcal{Q}_{s}^{\mathadj}\left(Z_{s}\right)\rangle
+  -\langle v,\mathcal{M}_{s}^{\mathadj}\left(Z_{s}\right)\rangle
+\end{align*}
+
+At the stationary point of the Lagrangian function, the dual optimisation
+problem is:
+\begin{align}
+  \label{eqn:Dual-discrete-time-KYP-SDP}
+  \textbf{maximise} \quad & -\langle \Theta_{0,p},Z_{p}\rangle
+  -\langle \Theta_{0,s},Z_{s}\rangle \\
+  \textbf{subject to}\quad
+& \langle \Theta_{l,p}, Z_{p}\rangle + \langle \Theta_{l,s}, Z_{s} \rangle = c_{l}
+   \nonumber \\
+& Z_{p} \succeq 0 \nonumber \\
+& Z_{s} \succeq 0 \nonumber \\
+& \mathcal{P}_{p}^{\mathadj}\left(Z_{p}\right) = 0 \nonumber \\
+& \mathcal{Q}_{p}^{\mathadj}\left(Z_{p}\right) = 0 \nonumber \\
+& \mathcal{P}_{s}^{\mathadj}\left(Z_{s}\right) = 0 \nonumber \\
+& \mathcal{Q}_{s}^{\mathadj}\left(Z_{s}\right) = 0 \nonumber 
+\end{align}
+
+The Octave scripts \emph{directFIRnonsymmetric\_kyp\_dual\_lowpass\_test.m} and
+\emph{directFIRsymmetric\_kyp\_dual\_lowpass\_test.m} fix
+the required pass-band $\varepsilon^{2}_{p}$ in $\Theta_{0,p}$ and optimise the
+primal variables $v=\left[\begin{array}{cccc}
+  h_{1} & \hdots & h_{N+1} & \varepsilon^{2}_{s}\end{array}\right]^{\top}$.
+The primal objective function is $\varepsilon^{2}_{s}$. In other words,
+$c=\left[\begin{array}{cccc}
+  0 & \hdots & 0 & 1\end{array}\right]^{\top}$. Both scripts fail to find
+feasible primal and dual solutions.
+\end{comment}
+  
 \cleardoublepage
 \chapter*{\hypertarget{sec:Colophon}{Colophon}}
 \addcontentsline{toc}{part}{Colophon}

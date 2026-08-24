@@ -145,6 +145,7 @@ $(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	fi
 	-@if [[ -x $(PDFGREP) ]] ; then \
 		$(PDFGREP) "\[\?" $(1).pdf || true ; \
+		$(PDFGREP) "\?\?" $(1).pdf || true ; \
 	fi;
 	-@for warnstr in $(TEX_CHECK_STRINGS); do \
 		$(GREP) -e "$$$$warnstr" $(1).log || true ; done ;
