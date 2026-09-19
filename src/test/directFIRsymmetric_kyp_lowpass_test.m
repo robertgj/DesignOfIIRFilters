@@ -1,6 +1,6 @@
 % directFIRsymmetric_kyp_lowpass_test.m
 %
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 % SDP design of a symmetric direct-form FIR lowpass filter with the
 % KYP lemma. See Section VII.B.2, pp. 53-55 of "Generalised KYP Lemma:
@@ -21,9 +21,7 @@ tic;
 %
 % Low-pass filter
 %
-M=27;N=2*M;d=M;
-fap=0.15;Esq_z=0.81241e-5;
-fas=0.2;Esq_s=1e-5;
+M=27;N=2*M;fap=0.15;fas=0.2;d=M;Asq_s=1e-5;Esq_z=4.38e-6;
 
 % Common constants
 A=[zeros(N-1,1),eye(N-1);zeros(1,N)];
@@ -38,8 +36,8 @@ c_s=2*cos(2*pi*fas);
 Psi_s=[0,-1;-1,c_s];
 
 % Filter impulse response SDP variable
-CM1=sdpvar(1,M+1);
-CD=[CM1,CM1(M:-1:1)];
+var_hM=sdpvar(1,M+1,"full","real");
+CD=[var_hM,var_hM((end-1):-1:1)];
 CD_d=CD-[C_d,0];
               
 % Pass band constraint on the error |H(w)-e^(-j*w*d)|^2
@@ -53,13 +51,13 @@ F_z=[[((AB')*(kron(Phi,P_z)+kron(Psi_z,Q_z))*AB) + ...
 P_s=sdpvar(N,N,"symmetric","real");
 Q_s=sdpvar(N,N,"symmetric","real");
 F_s=[[((AB')*(kron(Phi,P_s)+kron(Psi_s,Q_s))*AB) + ...
-      diag([zeros(1,N),-Esq_s]),CD']; ...
+      diag([zeros(1,N),-Asq_s]),CD']; ...
      [CD,-1]];
 
 % Satisfy constraints on zero-phase pass-band error and stop-band error
 Objective=[];
 Constraints=[F_z<=0,Q_z>=0,F_s<=0,Q_s>=0];
-Options=sdpsettings("solver","sedumi");
+Options=sdpsettings("solver","sedumi","dualize",true);
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
@@ -89,6 +87,7 @@ endif
 nplot=1000;
 nap=(fap*nplot/0.5)+1;
 nas=(fas*nplot/0.5)+1;
+hM=value(var_hM);
 h=value(fliplr(CD));
 f=(0:(nplot-1))'*0.5/nplot;
 w=f*2*pi;
@@ -100,8 +99,8 @@ axis(ax(2),[0 0.5 -60 -40]);
 ylabel("Amplitude(dB)");
 xlabel("Frequency");
 grid("on");
-strt=sprintf("N=%d,d=%d,fap=%4.2f,Esq\\_z=%g,fas=%4.2f,Esq\\_s=%g", ...
-             N,d,fap,Esq_z,fas,Esq_s);
+strt=sprintf("N=%d,d=%d,fap=%4.2f,Esq\\_z=%g,fas=%4.2f,Asq\\_s=%g", ...
+             N,d,fap,Esq_z,fas,Asq_s);
 title(strt);
 zticks([]);
 print(strcat(strf,"_response"),"-dpdflatex");
@@ -113,10 +112,10 @@ printf("max_Esq_z=%g\n",max_Esq_z);
 fid=fopen(strcat(strf,"_max_passband_squared_error.tab"),"wt");
 fprintf(fid,"%10.5g",max_Esq_z);
 fclose(fid);
-max_Esq_s=max(abs(H(nas:end)))^2;
-printf("max_Esq_s=%g\n",max_Esq_s);
+max_Asq_s=max(abs(H(nas:end)))^2;
+printf("max_Asq_s=%g\n",max_Asq_s);
 fid=fopen(strcat(strf,"_max_stopband_squared_error.tab"),"wt");
-fprintf(fid,"%10.5g",max_Esq_s);
+fprintf(fid,"%10.5g",max_Asq_s);
 fclose(fid);
 printf("max_A_p=%10.8f, %5.3fdB\n", ...
        max(abs(H(1:nap))),20*log10(max(abs(H(1:nap)))));
@@ -136,11 +135,11 @@ fprintf(fid,"M=%d %% Filter order is 2*M\n",M);
 fprintf(fid,"fap=%g %% Amplitude pass band edge\n",fap);
 fprintf(fid,"fas=%g %% Amplitude stop band edge\n",fas);
 fprintf(fid,"Esq_z=%g %% Squared pass band error from delay\n",Esq_z);
-fprintf(fid,"Esq_s=%g %% Squared amplitude stop band error\n",Esq_s);
+fprintf(fid,"Asq_s=%g %% Squared amplitude stop band error\n",Asq_s);
 fclose(fid);
-print_polynomial(h,"h","%13.10f");
-print_polynomial(h,"h",strcat(strf,"_h_coef.m"),"%13.10f");
-eval(sprintf("save %s.mat N d fap fas Esq_z Esq_s h",strf));
+print_polynomial(hM,"hM","%13.10f");
+print_polynomial(hM,"hM",strcat(strf,"_hM_coef.m"),"%13.10f");
+eval(sprintf("save %s.mat N d fap fas Esq_z Asq_s hM",strf));
 
 %
 % Comparison with mcclellanFIRsymmetric

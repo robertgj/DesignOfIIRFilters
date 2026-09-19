@@ -1,5 +1,5 @@
 % kyp_symbolic_frequency_transformation_test.m
-% Copyright (C) 2022-2025 Robert G. Jenssen
+% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Try to verify Lemmas etc. in "Generalization of Kalman-Yakubovic-Popov Lemma
 % for Restricted Frequency Inequalities", T. Iwasaki and S. Hara, Proceedings
@@ -19,29 +19,11 @@ pkg load symbolic
 %
 % Lemma 2
 %
-% 1. The following commented out section checks Lemma 2 and passes after some
-%    minutes. The kyp_frequency_transformation_test.m script performs
-%    a numerical verification.
-% 2. isAlways() uses a feature deprecated in SymPy V1.10.1.
-%    From Symbolic pkg v3.0.1:
-%
-% <stdin>:22: SymPyDeprecationWarning: 
-%
-%  non-Expr objects in a Matrix is deprecated. Matrix represents
-%  a mathematical matrix. To represent a container of non-numeric
-%  entities, Use a list of lists, TableForm, NumPy array, or some
-%  other data structure instead.
-%
-%  See:
-% https://docs.sympy.org/latest/explanation/active-deprecations.html#deprecated-non-expr-in-matrix
-%
-%  for details.
-%
-%  This has been deprecated since SymPy version 1.9. It
-%  will be removed in a future version of SymPy.
+% The following commented out section checks Lemma 2 and passes after some
+% minutes. The kyp_frequency_transformation_test.m script performs
+% a numerical verification.
 
-%{
-syms w a b c d A11 A12 A21 A22 B1 B2 real
+syms s w a b c d A11 A12 A21 A22 B1 B2 real
 A=[A11,A12;A21,A22];
 B=[B1;B2];
 I=eye(2);
@@ -54,12 +36,10 @@ s=j*w;
 T=(b-(d*s))/((c*s)-a);
 H=inv((T*I)-A)*B;
 Hc=(Cc*inv((s*I)-Ac)*Bc)+Dc;
-isAlways(H==Hc);
-if ~all(ans)
+if any(simplify(H-Hc))
   error("H==Hc failed");
 endif
 clear w a b c d A11 A12 A21 A22 B1 B2
-%}
 
 %
 % Lemma 3
@@ -117,8 +97,9 @@ J=[[1,0];[0,j]];
 invJK=[[1,-j];[-1,-j]];
 wc=(w2+w1)/2;
 ww=(w2-w1)/2;
-Psi_o=factor(eval(real((invJK'*Psi*invJK))))
-det(Psi_o)
+Psi_o=factor(eval(real((invJK'*Psi*invJK))));
+Psi_o=simplify(Psi_o)
+simplify(det(Psi_o))
 clear wc ww w1 w2
 
 % Done

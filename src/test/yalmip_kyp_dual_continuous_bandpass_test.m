@@ -136,7 +136,7 @@ if abs(((DualModel.C)'*x)-((DualModel.b)'*y)) > tol
         abs(((DualModel.C)'*x)-((DualModel.b)'*y))/tol);
 endif
 
-Y=triu(ones(NN+1,NN+1));Y(Y==1)=y;Y=Y+triu(Y,1)';
+Y=vec2sym(y,NN+1);
 printf("Dual objective: trace(Y*Theta0)=%g\n",trace(Y*Theta0));
 if abs(((DualModel.C)'*x)-trace(Y*Theta0)-scaleSq) > tol
   error("abs(DualModel.C'*x-trace(Y*Theta0)-scaleSq)(%g*tol) > tol", ...

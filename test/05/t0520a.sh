@@ -60,7 +60,11 @@ Yb=
 isdefinite(Yb)=1
 norm(Xa-Xb)=9.339e-06
 norm(Ya-Yb)=1.468e-05
+
+t=[ -1.90986 ; 0.735759]
+
 ta=    2.549
+max(max(abs(Fb-Fa)))=2.078e-10
 tb=    2.549
 tc=    2.549
 norm(ta-tb)=1.692e-09

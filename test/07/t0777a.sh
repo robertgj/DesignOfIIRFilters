@@ -1,7 +1,7 @@
 #!/bin/sh
 
 prog=yalmip_kyp_dual_continuous_bandpass_test.m
-depends="test/yalmip_kyp_dual_continuous_bandpass_test.m test_common.m"
+depends="test/yalmip_kyp_dual_continuous_bandpass_test.m test_common.m vec2sym.m"
 
 tmp=/tmp/$$
 here=`pwd`

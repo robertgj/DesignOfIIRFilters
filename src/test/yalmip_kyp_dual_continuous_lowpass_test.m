@@ -20,7 +20,8 @@ tol=1e-8;
 N=3;M=1;p=1;
 fc=0.5;
 wc=2*pi*fc;
-[n,d]=butter(N,2*pi*fc,"s");
+[n,d]=butter(N,wc,"s");
+
 n=n*2;
 f=0:0.001:1;
 w=2*pi*f;
@@ -33,28 +34,18 @@ if abs(abs(Hl(nc))-sqrt(2)) > 100*eps
 endif
 Argl=unwrap(arg(Hl));
 [A,B,C,D]=tf2ss(n,d);
-subplot(211)
-plot(f,abs(Hl));
-ylabel("Amplitude(dB)");
-grid("on");
-title("s-plane responses of Abcd")
-subplot(212)
-plot(f,Argl/pi);
-ylabel("arg(H)/\\pi");
-grid("on");
-xlabel("Frequency (\\omega/2\\pi)")
-print(strcat(strf,"_s_response"),"-dpdflatex");
-close;
 
 %
 % Solve the continuous time KYP
 %
-
+printf("\n\nSolve continuous time KYP lemma:\n\n");
 P=sdpvar(N,N,"symmetric","real");
+Q=sdpvar(N,N,"symmetric","real");
 Esq=sdpvar(p,1,"full","real");
 AB=[A,B;eye(N,N),zeros(N,M)];
 CD=sparse([C,D;zeros(M,N),eye(M,M)]);
 Phi=[0,1;1,0];
+Psi=[-1,0;0,wc^2];
 Theta0=sparse((CD')*[[eye(M,M),zeros(M,M)];[zeros(M,M),zeros(M,M)]]*CD);
 Thetal=cell(p,1);
 for l=1:p,
@@ -64,10 +55,10 @@ Theta=Theta0;
 for l=1:p,
   Theta=Theta+(Thetal{l}*Esq(l));
 endfor
-F=((AB')*kron(Phi,P)*AB)+Theta;
+F=((AB')*(kron(Phi,P)+kron(Psi,Q))*AB)+Theta;
 cc=ones(size(Esq));
 Objective=[(cc')*Esq];
-Constraints=[F<=0,Esq>=0];
+Constraints=[F<=0,Q>=0];
 Options=sdpsettings("solver","sedumi","sedumi.eps",tol); 
 sol=optimize(Constraints,Objective,Options);
 if sol.problem
@@ -77,16 +68,27 @@ endif
 check(Constraints)
 value(Objective)
 sort(eigs(value(F),N+M)',"descend")
+if max(eigs(value(F),N+M)) > tol
+  error("max(eigs(value(F),N+M))(%g*tol) > tol", ...
+        max(eigs(value(F),N+M))/tol);
+endif
+sort(eigs(value(Q),N)',"descend")
+if min(eigs(value(Q),N)) < -tol
+  error("min(eigs(value(Q),N))(%g*tol) < -tol", ...
+        min(eigs(value(Q),N))/tol);
+endif
 
 %
 % Solve the dual of the continuous time KYP
 %
+printf("\n\nSolve continuous time dual of KYP lemma:\n\n");
 Z11=sdpvar(N,N,"symmetric","real");
 Z12=sdpvar(N,M,"full","real");
 Z22=sdpvar(M,M,"symmetric","real");
 Z=[[Z11,Z12];[Z12',Z22]];
-dualF=(A*Z11)+(Z11*(A'))+(B*(Z12'))+(Z12*(B'));
-Constraints=[dualF==0,Z>=0];
+Padj=(A*Z11)+(Z11*(A'))+(B*(Z12'))+(Z12*(B'));
+Qadj=-(A*Z11*(A'))+(wc*wc*Z11)-(B*(Z12')*(A'))-(A*Z12*(B'))-(B*Z22*(B'));
+Constraints=[Padj==0,Qadj==0,Z>=0];
 for l=1:p,
   Constraints=[Constraints,trace(Thetal{l}*Z)==-cc(l)];
 endfor
@@ -99,13 +101,26 @@ endif
 % Sanity checks
 check(Constraints)
 value(Objective)
-value(trace(Theta0*Z))
-max(max(abs(value(dualF))))
+value(-trace(Theta0*Z))
 sort(eigs(value(Z),N+M)',"descend")
+if max(eigs(value(Z),N+M)) < -tol
+  error("max(eigs(value(Z),N+M))(%g*tol) < -tol", ...
+        max(eigs(value(Z),N+M))/tol);
+endif
+if max(max(abs(value(Padj)))) < -tol
+  error("max(max(abs(value(Padj))))(%g*tol) < -tol", ...
+        max(max(abs(value(Padj))))/tol);
+endif
+if max(max(abs(value(Qadj)))) < -tol
+  error("max(max(abs(value(Qadj))))(%g*tol) < -tol", ...
+        max(max(abs(value(Qadj))))/tol);
+endif
 
 %
-% Solve the Lyapunov equation for Fdual to find the basis matrixes of Z
+% Solve the reduced dual of the continuous-time KYP problem
 %
+printf("\n\nSolve continuous time reduced complexity dual of KYP lemma:\n\n");
+% Solve the Lyapunov equation for Fdual to find the basis matrixes of Z
 MN=M*N;
 kmax=(MN)+(M*(M+1)/2);
 Fk=cell(1,kmax);
@@ -128,17 +143,22 @@ for r=1:M,
   endfor
 endfor
 
-%
-% Solve the reduced dual of the continuous-time KYP problem
-%
 z=sdpvar(1,kmax,"full","real");
 ZR=(z(1)*Fk{1});
 for l=2:kmax,
   ZR=ZR+(z(l)*Fk{l});
 endfor
-Constraints=[ZR>=0];
+Z11R=sdpvar(N,N,"symmetric","real");
+Z12R=sdpvar(N,M,"full","real");
+Z22R=sdpvar(M,M,"symmetric","real");
+Z11R=ZR(1:N,1:N);
+Z12R=ZR(1:N,(N+1):(N+M));
+Z22R=ZR((N+1):(N+M),(N+1):(N+M));
+PadjR=(A*Z11R)+(Z11R*(A'))+(B*(Z12R'))+(Z12R*(B'));
+QadjR=-(A*Z11R*(A'))+(wc*wc*Z11R)-(B*(Z12R')*(A'))-(A*Z12R*(B'))-(B*Z22R*(B'));
+Constraints=[PadjR==0,QadjR==0,ZR>=0];
 for l=1:p,
-  Constraints=[Constraints,-cc(l)<=trace(Thetal{l}*ZR)<=-cc(l)];
+  Constraints=[Constraints,trace(Thetal{l}*ZR)==-cc(l)];
 endfor
 Objective=[-trace(Theta0*ZR)];
 Options=sdpsettings("solver","sedumi"); 
@@ -148,26 +168,20 @@ if sol.problem
 endif
 % Sanity checks
 check(Constraints)
-
 value(Objective)
-if abs(value(Objective)+max_abs_Asq) > tol
-  error("abs(value(Objective)+max_abs_Asq)(%g) > tol", ...
-        abs(value(Objective)+max_abs_Asq)/tol);
-endif
-
+value(-trace(Theta0*Z))
 sort(eigs(value(ZR),N+M)',"descend")
 if min(eigs(value(ZR),N+M)) < -tol
   error("min(eigs(value(ZR),N+M))(%g*tol) < -tol", ...
         min(eigs(value(ZR),N+M))/tol);
 endif
-
-ZR11=ZR(1:N,1:N);
-ZR12=ZR(1:N,N+1);
-ZR22=ZR(N+1:N+M,N+1:N+M);
-Fadj=value((A*ZR11)+(ZR11*A')+(B*ZR12')+(ZR12*B'));
-if max(max(abs(Fadj))) > 1000*eps
-  error("max(max(abs(Fadj)))(%g*eps) > 1000*eps", ...
-        max(max(abs(Fadj)))/eps);
+if max(max(abs(value(PadjR)))) < -tol
+  error("max(max(abs(value(PadjR))))(%g*tol) < -tol", ...
+        max(max(abs(value(PadjR))))/tol);
+endif
+if max(max(abs(value(QadjR)))) < -tol
+  error("max(max(abs(value(QadjR))))(%g*tol) < -tol", ...
+        max(max(abs(value(QadjR))))/tol);
 endif
 
 % Done

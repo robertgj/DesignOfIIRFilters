@@ -16,9 +16,7 @@ delete(strcat(strf,".diary.tmp"));
 eval(sprintf("diary %s.diary.tmp",strf));
 
 % Low-pass filter specification (Reduce Esq_z while satisfying the constraints)
-M=15;N=2*M;fap=0.15;fas=0.2;Esq_s=1e-4;
-d=10;Esq_z=5.67e-3;
-Esq_t=1;
+M=15;N=2*M;fap=0.15;fas=0.2;d=10;Esq_z=5.67e-3;Esq_s=1e-4;Esq_t=1;
 AdB_est=konopacki(N,(fas-fap)*2*pi,d)
 
 % Common constants

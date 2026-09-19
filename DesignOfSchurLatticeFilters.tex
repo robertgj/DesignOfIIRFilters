@@ -770,7 +770,7 @@ pipelined Schur one-muliplier all pass lattice filter can be expressed as:
 \begin{align*}
   A &= A_{0}+\sum_{p=1}^{N}A_{p}k_{p}
 \end{align*}
-The $\epsilon_{p}$ coefficients of a purely all-pass Schur one-multilpier lattice
+The $\epsilon_{p}$ coefficients of a purely all-pass Schur one-multiplier lattice
 filter can be chosen after the $k_{p}$ coefficients are determined.
 
 The state variable description of a second order Schur one-multiplier all-pass
@@ -1597,9 +1597,9 @@ the correction filter coefficient multiplications of the correction filter.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrrr} \\ \toprule
- &Correction&Max. pass&Max. pass &Max. stop &Max. pass   &Max. pass  &$12$-bit&Shift-\\
- &filter    &amplitude&amplitude &amplitude &phase error &delay error&signed  &and- \\
- &cost      &error    &rel. error&error     &(rad./$\pi$)&(samples)  &digits  &adds \\
+&Correction&Max. pass&Max. pass &Max. stop&Max. pass   &Max. pass  &$12$-bit&Shift-\\
+&filter    &amplitude&amplitude &amplitude&phase error &delay error&signed  &and- \\
+&cost      &error(dB)&rel. error&error(dB)&(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -1754,8 +1754,8 @@ truncated FIR and the branch-and-bound optimised truncated FIR filter.
 \begin{threeparttable}
 \begin{tabular}{lrrrrrr} \\ \toprule
  &Low pass        &Max. pass&Max. pass &Max. stop &$12$-bit&Shift-\\
- &differentiator  &amplitude&amplitude &amplitude &signed  &and- \\
- &cost            &error    &rel. error&error     &digits  &adds \\
+ &differentiator  &amplitude&amplitude &amplitude &signed  &and-  \\
+ &cost            &error(dB)&rel. error&error(dB) &digits  &adds  \\
 \midrule
 \input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_hM_min_cost.tab}
 \\ \bottomrule
@@ -1833,8 +1833,8 @@ truncated FIR and Schur lattice filters.
 \begin{threeparttable}
 \begin{tabular}{lrrrrrr} \\ \toprule
  &Low pass        &Max. pass&Max. pass &Max. stop &$12$-bit&Shift-\\
- &differentiator  &amplitude&amplitude &amplitude &signed  &and- \\
- &cost            &error    &rel. error&error     &digits  &adds \\
+ &differentiator  &amplitude&amplitude &amplitude &signed  &and-  \\
+ &cost            &error(dB)&rel. error&error(dB) &digits  &adds  \\
 \midrule
 \input{comparison_no_POP_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_Schur_FIR_cost.tab}
 \\ \bottomrule
@@ -2067,9 +2067,9 @@ the correction filter coefficient multiplications of the correction filter.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrrr} \\ \toprule
- &Correction&Max. pass&Max. pass &Max. stop &Max. pass   &Max. pass  &$12$-bit&Shift-\\
- &filter    &amplitude&amplitude &amplitude &phase error &delay error&signed  &and- \\
- &cost      &error    &rel. error&error     &(rad./$\pi$)&(samples)  &digits  &adds \\
+&Correction&Max. pass&Max. pass &Max. stop&Max. pass   &Max. pass  &$12$-bit&Shift-\\
+&filter    &amplitude&amplitude &amplitude&phase error &delay error&signed  &and- \\
+&cost      &error(dB)&rel. error&error(dB)&(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -2214,9 +2214,9 @@ SOCP-relaxation optimised FIR filters.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Band pass &Max. pass&Max. stop &Max. pass &Max. pass &$12$-bit&Shift-\\
- &Hilbert   &amplitude&amplitude &phase     &delay     &signed  &and- \\
- &cost      &error    &error     &error     &error     &digits  &adds \\
+&Band pass&Max. pass&Max. stop&Max. pass        &Max. pass     &$12$-bit&Shift-\\
+&Hilbert  &amplitude&amplitude&phase            &delay         &signed  &and-  \\
+&cost     &error(dB)&error(dB)&error(rad./$\pi$)&error(samples)&digits  &adds  \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_h_min_cost.tab}
 \\ \bottomrule
@@ -2303,9 +2303,9 @@ truncated FIR and Schur lattice filters.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Band pass &Max. pass&Max. stop &Max. pass &Max. pass &$12$-bit&Shift-\\
- &Hilbert   &amplitude&amplitude &phase     &delay     &signed  &and- \\
- &cost      &error    &error     &error     &error     &digits  &adds \\
+&Band pass&Max. pass&Max. stop&Max. pass        &Max. pass     &$12$-bit&Shift-\\
+&Hilbert  &amplitude&amplitude&phase            &delay         &signed  &and-  \\
+&cost     &error(dB)&error(dB)&error(rad./$\pi$)&error(samples)&digits  &adds  \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_cost.tab}
 \\ \bottomrule

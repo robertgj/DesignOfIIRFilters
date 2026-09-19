@@ -1,10 +1,12 @@
 % yalmip_dualize_test.m
 % Copyright (C) 2021-2025 Robert G. Jenssen
 %
-% See  https://yalmip.github.io/command/dualize/ and
-% "Dualize it: software for automatic primal and dual conversions of
-% conic programs", J. Lofberg, Optimization Methods and Software, Vol. 24,
-% No. 3, 2009, pp. 313-325
+% See:
+%  [1] https://yalmip.github.io/command/dualize
+%  [2] https://yalmip.github.io/command/automaticdualization
+%  [3] "Dualize it: software for automatic primal and dual conversions of
+%      conic programs", J. Lofberg, Optimization Methods and Software,
+%      Vol. 24, No. 3, 2009, pp. 313-325
 
 test_common;
 
@@ -54,6 +56,20 @@ fprintf(fid,"norm(Xa-Xb)=%9.4g\n",norm(Xa-Xb));
 fprintf(fid,"norm(Ya-Yb)=%9.4g\n",norm(Ya-Yb));
 
 %
+% Lofberg example from his tutorial on  "Automatic dualization"
+%
+X = sdpvar(2,2);
+t = sdpvar(2,1);
+Y = sdpvar(3,3);
+obj = trace(X)+trace(Y)+5*sum(t);
+F = [sum(X) == 6+pi*t(1), diag(Y) == -2+exp(1)*t(2)];
+F = [F, Y>=0, X>=0];
+[Fd,objd,primals,free] = dualize(F,obj);
+optimize(Fd,-objd);
+assign(free,dual(Fd(end)));
+fprintf(fid,"\nt=[ %g ; %g]\n\n",value(t)(1),value(t)(2));
+
+%
 % Control theory example
 %
 n = 50;
@@ -65,17 +81,22 @@ t = sdpvar(1,1);
 P = sdpvar(n,n);
 obj = t;
 F = [kyp(A,B,P,blkdiag(C'*C,-t)) <= 0]
-
-sol=optimize(F,obj)
+sol=optimize(F,obj,sdpsettings("dualize",false))
+Fa=value(dual(F(1)));
+Fe=value(F(1));
 ta=value(t)
+value(obj)
 fprintf(fid,"ta=%9.4g\n",ta);
 
-[Fp,objp] = primalize(F,-obj);Fp
-sol=optimize(Fp,objp)
+[Fp,objp] = primalize(F,-obj);
+sol=optimize(Fp,objp,sdpsettings("dualize",false))
+Fb=value(Fp(1));
 tb=value(t)
+max(max(abs(Fb-Fa)))
+fprintf(fid,"max(max(abs(Fb-Fa)))=%9.4g\n",max(max(abs(Fb-Fa))));
 fprintf(fid,"tb=%9.4g\n",tb);
 
-sol=optimize(Fp,objp,sdpsettings("removeequalities",1))
+sol=optimize(Fp,objp,sdpsettings("dualize",false,"removeequalities",true))
 tc=value(t)
 fprintf(fid,"tc=%9.4g\n",tc);
 
