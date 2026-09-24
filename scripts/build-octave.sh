@@ -147,7 +147,7 @@ if ! test -f $GLPK_ARCHIVE; then
   wget -c $GLPK_URL
 fi
 
-SUNDIALS_VER=${SUNDIALS_VER:-7.8.0}
+SUNDIALS_VER=${SUNDIALS_VER:-7.9.0}
 SUNDIALS_ARCHIVE=sundials-$SUNDIALS_VER".tar.gz"
 SUNDIALS_URL=https://github.com/LLNL/sundials/releases/download/v$SUNDIALS_VER/$SUNDIALS_ARCHIVE
 if ! test -f $SUNDIALS_ARCHIVE; then
@@ -193,7 +193,7 @@ if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.3.3}
+DATATYPES_VER=${DATATYPES_VER:-1.4.2}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
@@ -235,7 +235,7 @@ if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.8.4}
+STATISTICS_VER=${STATISTICS_VER:-1.9.3}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then
