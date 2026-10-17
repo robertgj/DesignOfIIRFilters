@@ -3,6 +3,8 @@
 // Inline and block-level code snippets. Includes tweaks to syntax highlighted
 // snippets from Pygments/Rouge and Gist embeds.
 
+@use "_variables" as *;
+
 code,
 pre {
   font-family: $code-font-family;
