@@ -3,7 +3,7 @@
 // Inline and block-level code snippets. Includes tweaks to syntax highlighted
 // snippets from Pygments/Rouge and Gist embeds.
 
-@use "_variables" as *;
+@use "variables" as *;
 
 code,
 pre {
