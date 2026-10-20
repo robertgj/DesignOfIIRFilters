@@ -1,5 +1,6 @@
 % schurOneMAPlattice_frm_hilbert_slb_exchange_constraints_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -50,7 +51,7 @@ Wpp=0.2 % Pass band phase weight
 % Calculate Schur one-multiplier lattice FRM Hilbert filter coefficients
 rm1=ones(length(r0),1);
 rm1(2:2:end)=-1;
-[k0,epsilon0,p0,~] = tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
+[k0,epsilon0,p0] = tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
 um1=ones((dmask/2)+1,1);
 um1(2:2:end)=-1;
 u0=aa0(1:2:(dmask+1)).*um1;
@@ -69,7 +70,7 @@ v1 = [   0.0003832266,   0.0017197905,  -0.0046597683,   0.0135556644, ...
         -0.0252428888,   0.0484350620,  -0.0964367347,   0.3154148817 ]';
 rm1=ones(length(r1),1);
 rm1(2:2:end)=-1;
-[k1,epsilon1,p1,~] = tf2schurOneMlattice(flipud(r1).*rm1,r1.*rm1);
+[k1,epsilon1,p1] = tf2schurOneMlattice(flipud(r1).*rm1,r1.*rm1);
 um1=ones(length(u1),1);
 um1(2:2:end)=-1;
 u1=u1.*um1;

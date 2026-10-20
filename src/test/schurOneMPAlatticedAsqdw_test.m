@@ -1,5 +1,6 @@
 % schurOneMPAlatticedAsqdw_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -19,8 +20,8 @@ for x=1:2
   %
   % Lattice decomposition
   %
-  [A1k,A1epsilon,A1p,~] = tf2schurOneMlattice(flipud(Da1),Da1);
-  [A2k,A2epsilon,A2p,~] = tf2schurOneMlattice(flipud(Db1),Db1);
+  [A1k,A1epsilon,A1p] = tf2schurOneMlattice(flipud(Da1),Da1);
+  [A2k,A2epsilon,A2p] = tf2schurOneMlattice(flipud(Db1),Db1);
 
   A1rng=1:length(A1k);
   A2rng=(length(A1k)+1):(length(A1k)+length(A2k));

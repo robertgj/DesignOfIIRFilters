@@ -46,7 +46,7 @@ dmax=0; % Unused
 %
 % Extract FRM filters
 %
-[k0,epsilon0,~,~]=tf2schurOneMlattice(flipud(r0),r0);
+[k0,epsilon0]=tf2schurOneMlattice(flipud(r0),r0);
 p0=ones(size(k0));
 k0=k0(:);
 u0=aa0(1:2:(dmask+1));

@@ -1,9 +1,9 @@
 % sdp_relaxation_schurOneMPAlattice_elliptic_lowpass_12_nbits_test.m
-% Copyright (C) 2023-2025 Robert G. Jenssen
-
 % SDP relaxation optimisation of a Schur parallel one-multiplier allpass
 % lattice elliptic lowpass filter with 12-bit signed-digit coefficients each
 % having 4 signed-digits.
+
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 test_common;
 
@@ -42,8 +42,8 @@ Was=1e7
 
 % Lattice decomposition of Da1 and Db1
 [Da1,Db1]=tf2pa(B,A);
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1(:)),Da1(:));
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db1(:)),Db1(:));
+[A1k0,A1epsilon0,A1p0] = tf2schurOneMlattice(flipud(Da1(:)),Da1(:));
+[A2k0,A2epsilon0,A2p0] = tf2schurOneMlattice(flipud(Db1(:)),Db1(:));
 difference=false;
 
 % Initialise coefficient range vectors

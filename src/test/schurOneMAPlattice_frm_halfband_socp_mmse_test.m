@@ -1,4 +1,5 @@
 % schurOneMAPlattice_frm_halfband_socp_mmse_test.m
+
 % Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
@@ -54,7 +55,7 @@ dmax=0; % Unused
 %
 % Extract FRM filters
 %
-[k0,epsilon0,~,~]=tf2schurOneMlattice(flipud(r0),r0);
+[k0,epsilon0]=tf2schurOneMlattice(flipud(r0),r0);
 p0=ones(size(k0));
 k0=k0(:);
 u0=aa0(1:2:(dmask+1));
@@ -107,7 +108,7 @@ endif
 
 % Plot the response
 r1=schurOneMAPlattice2tf(k1tmp,epsilon0,p0);
-[k1,epsilon1,p1,~] = tf2schurOneMlattice(flipud(r1),r1);
+[k1,epsilon1,p1] = tf2schurOneMlattice(flipud(r1),r1);
 schurOneMAPlattice_frm_halfband_socp_slb_plot ...
   (k1,epsilon1,p1,u1,v1,Mmodel,Dmodel,n,strt,strcat(strf,"_%s_%s"),"MMSE");
 

@@ -1,4 +1,5 @@
 % schurOneMPAlattice_slb_exchange_constraints_test.m
+
 % Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
@@ -82,8 +83,8 @@ Db0 = [  1.0000000000,   0.1561449789,  -0.3135750674,   0.3178485356, ...
         -0.0582212026 ]';
          
 % Lattice decomposition of Da0, Db0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
+[A1k0,A1epsilon0,A1p0] = tf2schurOneMlattice(flipud(Da0),Da0);
+[A2k0,A2epsilon0,A2p0] = tf2schurOneMlattice(flipud(Db0),Db0);
 
 % Response for Da0,Db0
 Asq0=schurOneMPAlatticeAsq(wa,A1k0,A1epsilon0,A1p0,A2k0,A2epsilon0,A2p0, ...
@@ -104,8 +105,8 @@ Db1 = [   1.0000000000,  -0.1344939785,  -0.0918734630,   0.4461033862, ...
           0.2105512466,  -0.0838522576,  -0.1001537312,   0.1080994566, ... 
          -0.0610732672 ]';
 % Lattice decomposition Da1,Db1
-[A1k1,A1epsilon1,A1p1,~] = tf2schurOneMlattice(flipud(Da1),Da1);
-[A2k1,A2epsilon1,A2p1,~] = tf2schurOneMlattice(flipud(Db1),Db1);
+[A1k1,A1epsilon1,A1p1] = tf2schurOneMlattice(flipud(Da1),Da1);
+[A2k1,A2epsilon1,A2p1] = tf2schurOneMlattice(flipud(Db1),Db1);
 % Response for Da1,Db1
 Asq1=schurOneMPAlatticeAsq(wa,A1k1,A1epsilon1,A1p1,A2k1,A2epsilon1,A2p1, ...
                            difference);

@@ -1,5 +1,6 @@
 % schurOneMAPlattice_frm_hilbertP_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -33,7 +34,7 @@ dmask=(na-1)/2; % FIR masking filter delay
 % Calculate Schur one-multiplier lattice FRM Hilbert filter coefficients
 rm1=ones(length(r0),1);
 rm1(2:2:end)=-1;
-[k0,epsilon0,~,~] = tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
+[k0,epsilon0] = tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
 p0=ones(1,length(k0));
 
 % Find the FRM Hilbert filter FIR masking filter coefficients

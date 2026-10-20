@@ -1,5 +1,6 @@
 % schurOneMAPlattice_frm_hilbert_socp_mmse_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -28,7 +29,7 @@ aa0 = [ -0.0019232288,   0.0038703625,   0.0038937068,  -0.0055310972, ...
 % Convert to Hilbert
 rm1=ones(size(r0));
 rm1(2:2:end)=-1;
-[k0,epsilon0,p0,~]=tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
+[k0,epsilon0,p0]=tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
 dmask=(length(aa0)-1)/2;
 u0=aa0(1:2:(dmask+1));
 um1=ones(size(u0));

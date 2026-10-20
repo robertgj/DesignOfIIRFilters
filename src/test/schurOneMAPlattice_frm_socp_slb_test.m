@@ -1,4 +1,5 @@
 % schurOneMAPlattice_frm_socp_slb_test.m
+
 % Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
@@ -49,7 +50,7 @@ Wpp=0.01 % Pass band phase weight
 rho=31/32 % Stability constraint on pole radius
 
 % Calculate Schur one-multiplier lattice FRM filter coefficients
-[k0,epsilon0,p0,~] = tf2schurOneMlattice(flipud(r0),r0);
+[k0,epsilon0,p0] = tf2schurOneMlattice(flipud(r0),r0);
 u0=aa0((dmask+1):end);
 v0=ac0((dmask+1):end);
 

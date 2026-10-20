@@ -1,4 +1,5 @@
 % schurOneMAPlatticeDoublyPipelined2H_test.m
+
 % Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
@@ -35,8 +36,8 @@ hAap2=freqz(fliplr(Aap2),Aap2,nplot);
 hAap12=(hAap1+hAap2)/2;
 
 % Lattice decomposition
-[A1k,~,~,~] = tf2schurOneMlattice(fliplr(Aap1),Aap1);
-[A2k,~,~,~] = tf2schurOneMlattice(fliplr(Aap2),Aap2);
+A1k = tf2schurOneMlattice(fliplr(Aap1),Aap1);
+A2k = tf2schurOneMlattice(fliplr(Aap2),Aap2);
 
 % Doubly pipelined state variable form where the Schur one-multiplier
 % lattice has z^-1 replaced by z^-2 with an extra z^-2 delay. In other

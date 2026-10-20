@@ -1,8 +1,9 @@
 % schurOneMAPlattice_frm_hilbert_allocsd_test.m
-% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Test case for Lims signed-digit allocation algorithm with coefficients of
 % a bandpass lattice filter in one multiplier form.
+
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -30,7 +31,7 @@ if 0
   % Convert to Hilbert
   rm1=ones(size(r0));
   rm1(2:2:end)=-1;
-  [k0,epsilon0,p0,~]=tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
+  [k0,epsilon0,p0]=tf2schurOneMlattice(flipud(r0).*rm1,r0.*rm1);
   dmask=(length(aa0)-1)/2;
   u0=aa0(1:2:(dmask+1));
   um1=ones(size(u0));

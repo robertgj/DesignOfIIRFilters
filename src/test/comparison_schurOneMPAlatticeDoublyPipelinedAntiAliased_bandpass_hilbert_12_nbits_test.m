@@ -47,8 +47,8 @@ parallel_allpass_socp_slb_bandpass_hilbert_R2_test_Db1_coef;
 % Convert the R=2 band-pass Hilbert filter to parallel Schur lattice filters
 Da0=Da1(:)';clear Da1;
 Db0=Db1(:)';clear Db1;
-[A1k0,~,~,~]=tf2schurOneMlattice(fliplr(Da0),Da0);
-[A2k0,~,~,~]=tf2schurOneMlattice(fliplr(Db0),Db0);
+A1k0=tf2schurOneMlattice(fliplr(Da0),Da0);
+A2k0=tf2schurOneMlattice(fliplr(Db0),Db0);
 print_polynomial(A1k0,"A1k0",strcat(strf,"_A1k0_coef.m"));
 print_polynomial(A2k0,"A2k0",strcat(strf,"_A2k0_coef.m"));
 
@@ -59,8 +59,8 @@ Aaa1_0(find(abs(Aaa1_0)<tol))=0;
 Aaa2_0(find(abs(Aaa2_0)<tol))=0;
 print_polynomial(Aaa1_0,"Aaa1_0",strcat(strf,"_Aaa1_0_coef.m"));
 print_polynomial(Aaa2_0,"Aaa2_0",strcat(strf,"_Aaa2_0_coef.m"));
-[Aaa1k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
-[Aaa2k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
+Aaa1k0=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
+Aaa2k0=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
 % The anti-aliasing filter is assumed to be Butterworth half-band (ie:R=2)!
 Aaa1k0(1:2:end)=0;
 Aaa2k0(1:2:end)=0;

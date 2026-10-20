@@ -65,16 +65,16 @@ faap=0.25;
 tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Da0_coef;Da0=Da0(:)';
 tarczynski_parallel_allpass_bandpass_hilbert_R2_test_Db0_coef;Db0=Db0(:)';
 % Convert the R=2 band-pass Hilbert filter to parallel Schur lattice filters
-[A1k0,~,~,~]=tf2schurOneMlattice(fliplr(Da0),Da0);
-[A2k0,~,~,~]=tf2schurOneMlattice(fliplr(Db0),Db0);
+A1k0=tf2schurOneMlattice(fliplr(Da0),Da0);
+A2k0=tf2schurOneMlattice(fliplr(Db0),Db0);
 NA1k=length(A1k0);
 NA2k=length(A2k0);
 
 % Half-band Butterworth anti-aliasing filter
 [Naa,Daa]=butter(maa,faap*2);
 [Aaa1_0,Aaa2_0]=tf2pa(Naa,Daa);
-[Aaa1k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
-[Aaa2k0,~,~,~]=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
+Aaa1k0=tf2schurOneMlattice(fliplr(Aaa1_0),Aaa1_0);
+Aaa2k0=tf2schurOneMlattice(fliplr(Aaa2_0),Aaa2_0);
 % The anti-aliasing filter is assumed to be Butterworth half-band (ie:R=2)!
 Aaa1k0(1:2:end)=0;
 Aaa2k0(1:2:end)=0;

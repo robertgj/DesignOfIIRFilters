@@ -1,5 +1,6 @@
 % schurOneMPAlatticeDoublyPipelinedT_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -22,8 +23,8 @@ npass=floor(nplot*fpass/0.5)+1;
 [Aap1,Aap2]=tf2pa(n,d);
 Aap1=transpose(Aap1(:));
 Aap2=transpose(Aap2(:));
-[A1k,~,~,~] = tf2schurOneMlattice(fliplr(Aap1),Aap1);
-[A2k,~,~,~] = tf2schurOneMlattice(fliplr(Aap2),Aap2);
+A1k = tf2schurOneMlattice(fliplr(Aap1),Aap1);
+A2k = tf2schurOneMlattice(fliplr(Aap2),Aap2);
 A1rng=1:length(A1k);
 A2rng=length(A1k)+(1:length(A2k));
 

@@ -1,5 +1,6 @@
 % schurOneMPAlatticeDoublyPipelinedAsq_svf_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -18,8 +19,8 @@ for difference=[false,true]
   [n,d]=butter(norder,2*fpass);
   % Convert to one-multiplier parallel-allpass lattice
   [Aap1,Aap2]=tf2pa(n,d);
-  [A1k,~,~,~] = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
-  [A2k,~,~,~] = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
+  A1k = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
+  A2k = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
   % Convert to state-variable form
   if difference
     [n,d]=butter(norder,2*fpass,"high");

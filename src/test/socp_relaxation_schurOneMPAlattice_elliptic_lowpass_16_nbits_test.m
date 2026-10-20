@@ -4,7 +4,7 @@
 % composed of parallel Schur one-multiplier all-pass lattice filters
 % with 16-bit 3-signed-digit coefficients.
 
-% Copyright (C) 2025 Robert G. Jenssen
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -41,8 +41,8 @@ print_polynomial(D0,"D0",strcat(strf,"_D0_coef.m"));
 
 % Lattice decomposition of Da1 and Db1
 [Da1,Db1]=tf2pa(N0,D0);
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da1(:)),Da1(:));
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db1(:)),Db1(:));
+[A1k0,A1epsilon0,A1p0] = tf2schurOneMlattice(flipud(Da1(:)),Da1(:));
+[A2k0,A2epsilon0,A2p0] = tf2schurOneMlattice(flipud(Db1(:)),Db1(:));
 difference=false;
 
 % Initialise coefficient range vectors

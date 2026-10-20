@@ -1,8 +1,9 @@
 % schurOneMPAlattice_socp_slb_bandpass_delay_test.m
-% Copyright (C) 2023-2026 Robert G. Jenssen
 %
 % Find a parallel all-pass one-multiplier Schur lattice bandpass filter for
 % which the phase at the phase pass-band lower edge is (w*tp)+(n*pi).
+
+% Copyright (C) 2023-2026 Robert G. Jenssen
 
 test_common;
 
@@ -125,8 +126,8 @@ tarczynski_parallel_allpass_bandpass_test_Da0_coef;
 tarczynski_parallel_allpass_bandpass_test_Db0_coef;
 
 % Lattice decomposition of Da0, Db0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(Da0),Da0);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(Db0),Db0);
+[A1k0,A1epsilon0,A1p0] = tf2schurOneMlattice(flipud(Da0),Da0);
+[A2k0,A2epsilon0,A2p0] = tf2schurOneMlattice(flipud(Db0),Db0);
 
 %
 % SOCP MMSE

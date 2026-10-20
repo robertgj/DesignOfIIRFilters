@@ -1,4 +1,5 @@
 % johanssonOneMlattice_slb_update_constraints_test.m
+
 % Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
@@ -42,8 +43,8 @@ a0 = [  1.00,  -0.57,   1.60,  -0.50, 0.73 ];
 a1 = [  1.00,  -0.26,   0.64 ];
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(a0),a0);
-[k1,epsilon1,~,~]=tf2schurOneMlattice(fliplr(a1),a1);
+[k0,epsilon0]=tf2schurOneMlattice(fliplr(a0),a0);
+[k1,epsilon1]=tf2schurOneMlattice(fliplr(a1),a1);
 
 % Update constraints
 Azp=johanssonOneMlatticeAzp(wa,fM,k0,epsilon0,k1,epsilon1);

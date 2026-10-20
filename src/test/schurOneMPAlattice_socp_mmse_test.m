@@ -1,4 +1,5 @@
 % schurOneMPAlattice_socp_mmse_test.m
+
 % Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
@@ -80,8 +81,8 @@ D2_0 = [   1.0000000000,   0.1561448318,  -0.3135751143,   0.3178486637, ...
           -0.0582212520 ]';
 
 % Lattice decomposition of D1_0, D2_0
-[A1k0,A1epsilon0,A1p0,~] = tf2schurOneMlattice(flipud(D1_0),D1_0);
-[A2k0,A2epsilon0,A2p0,~] = tf2schurOneMlattice(flipud(D2_0),D2_0);
+[A1k0,A1epsilon0,A1p0] = tf2schurOneMlattice(flipud(D1_0),D1_0);
+[A2k0,A2epsilon0,A2p0] = tf2schurOneMlattice(flipud(D2_0),D2_0);
 
 % Linear constraints
 dmax=inf;

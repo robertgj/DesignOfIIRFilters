@@ -1,5 +1,6 @@
 % schurOneMPAlatticeDoublyPipelinedAntiAliasedT_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 % Test the series combination of a doubly-pipelined parallel-allpass lattice
 % filter and a low-pass anti-aliasing filter. The doubly-pipelined lattice has
@@ -28,8 +29,8 @@ dBas_AA=40;
 % Anti-aliasing low pass filter lattice decomposition
 [Bn,Bd]=cheby2(norder_AA,dBas_AA,2*fstop_AA);
 [Bap1,Bap2]=tf2pa(Bn,Bd);
-[B1k,~,~,~] = tf2schurOneMlattice(flipud(Bap1(:)),Bap1(:));
-[B2k,~,~,~] = tf2schurOneMlattice(flipud(Bap2(:)),Bap2(:));
+B1k = tf2schurOneMlattice(flipud(Bap1(:)),Bap1(:));
+B2k = tf2schurOneMlattice(flipud(Bap2(:)),Bap2(:));
 % Check the expected group-delay response of the anti-aliasing filter
 TB=delayz(Bn,Bd,wplot(1:nstop_AA));
 TBap1=delayz(flipud(Bap1(:)),Bap1(:),wplot(1:nstop_AA));
@@ -60,8 +61,8 @@ for difference=[false,true]
     [~,Aap1]=tfp2g(flipud(Aap1p(:)),Aap1p(:),p,-1);
     [~,Aap2]=tfp2g(flipud(Aap2p(:)),Aap2p(:),p,-1);
     % Band-pass filter lattice decomposition
-    [A1k,~,~,~] = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
-    [A2k,~,~,~] = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
+    A1k = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
+    A2k = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
     % Check group delay in the pass-band
     nasl=floor(nplot*fasl/0.5)+1;
     napl=floor(nplot*fapl/0.5)+1;
@@ -78,8 +79,8 @@ for difference=[false,true]
     [An,Ad]=butter(norder_LP,2*(2*fpass_LP));
     % Prototype low pass filter lattice decomposition
     [Aap1,Aap2]=tf2pa(An,Ad);
-    [A1k,~,~,~] = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
-    [A2k,~,~,~] = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
+    A1k = tf2schurOneMlattice(flipud(Aap1(:)),Aap1(:));
+    A2k = tf2schurOneMlattice(flipud(Aap2(:)),Aap2(:));
     % Check group delay in the pass-band
     npass_LP=floor(nplot*fpass_LP/0.5)+1;
     wcheck=wplot(1:npass_LP);

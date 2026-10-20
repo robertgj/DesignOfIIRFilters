@@ -1,5 +1,6 @@
 % johanssonOneMlattice_socp_mmse_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -27,8 +28,8 @@ a0 = [    1.0000000000,  -0.5650802796,   1.6504647259,  -0.4790659039, ...
 a1 = [    1.0000000000,  -0.2594839587,   0.6383172372 ];
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0_0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(a0),a0);
-[k1_0,epsilon1,~,~]=tf2schurOneMlattice(fliplr(a1),a1);
+[k0_0,epsilon0]=tf2schurOneMlattice(fliplr(a0),a0);
+[k1_0,epsilon1]=tf2schurOneMlattice(fliplr(a1),a1);
 
 % Frequencies
 nf=2000

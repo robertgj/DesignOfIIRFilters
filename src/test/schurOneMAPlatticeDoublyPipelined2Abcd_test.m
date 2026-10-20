@@ -1,8 +1,9 @@
 % schurOneMAPlatticeDoublyPipelined2Abcd_test.m
-% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Create a state variable description of the doubly pipelined Schur
 % one-multiplier all-pass filter
+
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +19,7 @@ for N=1:7,
   %
   dBas=40;fc=0.1;
   [n,d]=cheby2(N,dBas,2*fc);
-  [k,~,~,~]=tf2schurOneMlattice(n,d);
+  k=tf2schurOneMlattice(n,d);
   [~,~,~,~,rapA,rapB,rapC,rapD]=schurOneMlatticeDoublyPipelined2Abcd(k);
   rapAbcd=[rapA,rapB;rapC,rapD];
   

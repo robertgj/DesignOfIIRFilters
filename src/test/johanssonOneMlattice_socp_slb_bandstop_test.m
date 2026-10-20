@@ -1,4 +1,5 @@
 % johanssonOneMlattice_socp_slb_bandstop_test.m
+
 % Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
@@ -31,8 +32,8 @@ johansson_cascade_allpass_bandstop_test_f1_coef;
 fM_0=f1(1:(length(f1)+1)/2);
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0_0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(bsA0),bsA0);
-[k1_0,epsilon1,~,~]=tf2schurOneMlattice(fliplr(bsA1),bsA1);
+[k0_0,epsilon0]=tf2schurOneMlattice(fliplr(bsA0),bsA0);
+[k1_0,epsilon1]=tf2schurOneMlattice(fliplr(bsA1),bsA1);
 
 % Frequencies
 nf=2000

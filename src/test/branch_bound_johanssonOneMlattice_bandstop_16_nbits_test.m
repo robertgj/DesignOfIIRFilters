@@ -1,8 +1,8 @@
 % branch_bound_johanssonOneMlattice_bandstop_16_nbits_test.m
-% Copyright (C) 2019-2026 Robert G. Jenssen
-
 % Branch-and-bound search of Johansson and Saramaki cascade all-pass band-stop
 % filter response with 16-bit 3-signed-digit coefficients
+
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -29,8 +29,8 @@ johansson_cascade_allpass_bandstop_test_f1_coef;
 fM=f1(1:(length(f1)+1)/2);
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(bsA0),bsA0);
-[k1,epsilon1,~,~]=tf2schurOneMlattice(fliplr(bsA1),bsA1);
+[k0,epsilon0]=tf2schurOneMlattice(fliplr(bsA0),bsA0);
+[k1,epsilon1]=tf2schurOneMlattice(fliplr(bsA1),bsA1);
 
 % Frequencies
 nf=5000;

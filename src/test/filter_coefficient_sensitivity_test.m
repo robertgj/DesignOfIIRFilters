@@ -15,7 +15,7 @@
 %    gain-pole-zero IIR
 %    globally optimised state-variable IIR
 %    parallel all-pass gain-pole-zero
-%
+
 % Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
@@ -166,8 +166,8 @@ close
 
 % Convert direct-form to parallel Schur one-multiplier all-pass lattice
 [a0,b0]=tf2pa(n0,d0);
-[A1k0,A1epsilon0,A1p0,~]=tf2schurOneMlattice(fliplr(a0),a0);
-[A2k0,A2epsilon0,A2p0,~]=tf2schurOneMlattice(fliplr(b0),b0);
+[A1k0,A1epsilon0,A1p0]=tf2schurOneMlattice(fliplr(a0),a0);
+[A2k0,A2epsilon0,A2p0]=tf2schurOneMlattice(fliplr(b0),b0);
 [A1_PA,B1_PA,C1_PA,D1_PA]=schurOneMAPlattice2Abcd(A1k0,A1epsilon0,A1p0);
 [A2_PA,B2_PA,C2_PA,D2_PA]=schurOneMAPlattice2Abcd(A2k0,A2epsilon0,A2p0);
 A12_PA=[A1_PA,zeros(rows(A1_PA),columns(A2_PA)); ...

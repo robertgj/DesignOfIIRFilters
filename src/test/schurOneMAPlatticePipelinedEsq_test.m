@@ -1,5 +1,6 @@
 % schurOneMAPlatticePipelinedEsq_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -22,7 +23,7 @@ for x=1:1,
   Wp=ones(size(wp));
   
   % Convert filter transfer function to Schur 1-multiplier lattice form
-  [k,epsilon,~,~]=tf2schurOneMlattice(n,d);
+  [k,epsilon]=tf2schurOneMlattice(n,d);
   Nk=length(k);
   kk=k(1:(Nk-1)).*k(2:Nk);
   Nkk=length(kk);

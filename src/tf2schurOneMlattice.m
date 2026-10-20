@@ -41,7 +41,7 @@ function [k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)
 % Reference: Chapter 12 of "VLSI Digital Signal Processing Systems: 
 % Design and Implementation", by K. K. Parhi, Wiley, ISBN 0-471-24186-5
 
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -62,7 +62,7 @@ function [k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)
 % SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 % Sanity check
-if (nargin < 2) || (nargin > 3) || (nargout < 4) || (nargout > 6)
+if (nargin < 2) || (nargin > 3) || (nargout > 6)
   print_usage("[k,epsilon,p,c,S,S1M] = tf2schurOneMlattice(n,d,fixed_epsilon)");
 endif
 
@@ -72,6 +72,10 @@ endif
 
 % Find the Schur decomposition of the denominator
 [k,S] = schurdecomp(d);
+
+if nargout == 1
+  return;
+endif
 
 % Scale the one-multiplier implementation
 if nargin == 3

@@ -1,4 +1,5 @@
 % schurOneMAPlattice_frm_slb_exchange_constraints_test.m
+
 % Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
@@ -86,10 +87,10 @@ ppr=0.005*pi; % Pass band phase ripple
 Wpp=0.01; % Pass band phase weight
 
 % Calculate Schur one-multiplier lattice FRM filter coefficients
-[k0,epsilon0,p0,~] = tf2schurOneMlattice(flipud(r0),r0);
+[k0,epsilon0,p0] = tf2schurOneMlattice(flipud(r0),r0);
 u0=aa0((dmask+1):end);
 v0=ac0((dmask+1):end);
-[k1,epsilon1,p1,~] = tf2schurOneMlattice(flipud(r1),r1);
+[k1,epsilon1,p1] = tf2schurOneMlattice(flipud(r1),r1);
 u1=aa1((dmask+1):end);
 v1=ac1((dmask+1):end);
 

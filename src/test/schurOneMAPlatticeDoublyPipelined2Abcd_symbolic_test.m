@@ -1,8 +1,9 @@
 % schurOneMAPlatticeDoublyPipelined2Abcd_symbolic_test .m
-% Copyright (C) 2022-2026 Robert G. Jenssen
 %
 % Create a symbolic description of the doubly pipelined Schur one-multiplier
 % all-pass filter
+
+% Copyright (C) 2022-2026 Robert G. Jenssen
 
 test_common;
 
@@ -20,7 +21,7 @@ for N=1:5,
   %
   dBas=40;fc=0.1;
   [~,d]=cheby2(N,dBas,2*fc);
-  [k,~,~,~]=tf2schurOneMlattice(flipud(d(:)),d(:));
+  k=tf2schurOneMlattice(flipud(d(:)),d(:));
   
   %
   % Build a state variable description of the allpass filter

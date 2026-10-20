@@ -1,4 +1,5 @@
 % schurOneMAPlattice_frm_halfband_slb_exchange_constraints_test.m
+
 % Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
@@ -44,7 +45,7 @@ dBas=45 % Stop band amplitude ripple
 Was=100 % Stop band amplitude weight
 
 % Calculate Schur one-multiplier lattice FRM filter coefficients
-[k0,epsilon0,~,~] = tf2schurOneMlattice(flipud(r0),r0);
+[k0,epsilon0] = tf2schurOneMlattice(flipud(r0),r0);
 p0=ones(size(k0));
 u0=aa0(1:2:dmask+1);
 v0=aa0(2:2:dmask);

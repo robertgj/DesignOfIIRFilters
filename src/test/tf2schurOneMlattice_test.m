@@ -1,5 +1,5 @@
 % tf2schurOneMlattice_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -7,13 +7,31 @@ delete("tf2schurOneMlattice_test.diary");
 delete("tf2schurOneMlattice_test.diary.tmp");
 diary tf2schurOneMlattice_test.diary.tmp
 
-
 % Low-pass fpass=0.2
 norder=7;
 fpass=0.2;
 dBpass=0.5;
 dBstop=60;
 [n0,d0]=ellip(norder,dBpass,dBstop,fpass*2);
+
+% Sanity checks on nargin and nargout
+try
+  k=tf2schurOneMlattice(n0);
+  error("Did not catch k=tf2schurOneMlattice(n0)");
+catch
+end_try_catch
+try
+  k=tf2schurOneMlattice(1,2,3,4);
+  error("Did not catch k=tf2schurOneMlattice(1,2,3,4)");
+catch
+end_try_catch
+try
+  [a,b,c,d,e,f,g] = tf2schurOneMlattice(n0,d0);
+  error("Did not catch [a,b,c,d,e,f,g] = tf2schurOneMlattice(n0,d0)");
+catch
+end_try_catch
+
+% Check k
 [k,epsilon,p,c]=tf2schurOneMlattice(n0,d0);
 [A,B,C,D,Cap,Dap]=schurOneMlattice2Abcd(k,epsilon,p,c);
 [n1,d1]=Abcd2tf(A,B,C,D);

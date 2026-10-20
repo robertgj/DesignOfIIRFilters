@@ -3,7 +3,7 @@
 % Design a low-pass filter implemented as a doubly-pipelined
 % parallel all-pass Schur one-multiplier lattice in series with a
 % parallel all-pass half-band anti-aliasing filter.
-%
+
 % Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
@@ -96,8 +96,8 @@ printf("Wa(nachk)=[");printf("%g ",Wa(nachk));printf(" ]\n");
 
 % Anti-aliasing filter
 [Aaa1,Aaa2]=tf2pa(Naa,Daa);
-[Aaa1k0,Aaa1kepsilon0,Aaa1kp0,~]=tf2schurOneMlattice(flipud(Aaa1(:)),Aaa1(:));
-[Aaa2k0,Aaa2kepsilon0,Aaa2kp0,~]=tf2schurOneMlattice(flipud(Aaa2(:)),Aaa2(:));
+[Aaa1k0,Aaa1kepsilon0,Aaa1kp0]=tf2schurOneMlattice(flipud(Aaa1(:)),Aaa1(:));
+[Aaa2k0,Aaa2kepsilon0,Aaa2kp0]=tf2schurOneMlattice(flipud(Aaa2(:)),Aaa2(:));
 Aaa1k0=Aaa1k0(:);Aaa1kepsilon0=Aaa1kepsilon0(:);Aaa1kp0=Aaa1kp0(:);
 Aaa2k0=Aaa2k0(:);Aaa2kepsilon0=Aaa2kepsilon0(:);Aaa2kp0=Aaa2kp0(:);
 Aaa1kones=ones(size(Aaa1k0));
@@ -134,8 +134,8 @@ endif
 % Example sanity check
 [Nc2,Dc2]=butter(ma+mb,2*2*fap);
 [Dac2,Dbc2]=tf2pa(Nc2,Dc2);
-[A1kc2,~,~,~]=tf2schurOneMlattice(fliplr(Dac2),Dac2);
-[A2kc2,~,~,~]=tf2schurOneMlattice(fliplr(Dbc2),Dbc2);
+A1kc2=tf2schurOneMlattice(fliplr(Dac2),Dac2);
+A2kc2=tf2schurOneMlattice(fliplr(Dbc2),Dbc2);
 Asq0c2=schurOneMPAlatticeDoublyPipelinedAntiAliasedAsq ...
          (wa,A1kc2,A2kc2,difference,Aaa1k0,Aaa2k0);
 P0c2=schurOneMPAlatticeDoublyPipelinedAntiAliasedP ...
@@ -250,8 +250,8 @@ print(strcat(strf,"_initial_response"),"-dpdflatex");
 close
 
 % Convert initial filter to parallel all-pass Schur one-multiplier lattice
-[A1k0,~,~,~]=tf2schurOneMlattice(flipud(Da0),Da0);
-[A2k0,~,~,~]=tf2schurOneMlattice(flipud(Db0),Db0);
+A1k0=tf2schurOneMlattice(flipud(Da0),Da0);
+A2k0=tf2schurOneMlattice(flipud(Db0),Db0);
 A1k0=A1k0(:);
 A2k0=A2k0(:);
 NA1k=length(A1k0);

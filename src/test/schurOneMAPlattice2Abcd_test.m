@@ -1,5 +1,6 @@
 % schurOneMAPlattice2Abcd_test.m
-% Copyright (C) 2024-2025 Robert G. Jenssen
+
+% Copyright (C) 2024-2026 Robert G. Jenssen
 
 test_common;
 
@@ -34,7 +35,7 @@ for x=1:4,
   endif
 
   % Convert filter transfer function to lattice form
-  [k,epsilon,p,~]=tf2schurOneMlattice(n,d);
+  [k,epsilon,p]=tf2schurOneMlattice(n,d);
 
   % Check [Aap,Bap,Cap,Dap]
   [Aap,Bap,Cap,Dap]=schurOneMAPlattice2Abcd(k,epsilon,p);

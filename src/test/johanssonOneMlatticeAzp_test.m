@@ -1,5 +1,6 @@
 % johanssonOneMlatticeAzp_test.m
-% Copyright (C) 2019-2025 Robert G. Jenssen
+
+% Copyright (C) 2019-2026 Robert G. Jenssen
 
 test_common;
 
@@ -17,8 +18,8 @@ a1 = [   1.0000000000,  -0.2594839587,   0.6383172372 ];
 
 
 % Convert all-pass filter transfer functions to Schur 1-multiplier lattice
-[k0,epsilon0,~,~]=tf2schurOneMlattice(fliplr(a0),a0);
-[k1,epsilon1,~,~]=tf2schurOneMlattice(fliplr(a1),a1);
+[k0,epsilon0]=tf2schurOneMlattice(fliplr(a0),a0);
+[k1,epsilon1]=tf2schurOneMlattice(fliplr(a1),a1);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,8 +1,8 @@
 % schurOneMAPlatticePipelined2Abcd_alternate_test.m
-% Copyright (C) 2025 Robert G. Jenssen
-%
 % Test cases for the pipelined Schur one-multiplier all-pass lattice filter
 % shown in the algorithm in DesignOfIIRFilters.tex
+
+% Copyright (C) 2025-2026 Robert G. Jenssen
 
 test_common;
 
@@ -18,7 +18,7 @@ tol=200*eps;
 for N=1:11
   printf("\nTesting N=%d\n",N);
   [n,d]=butter(N,2*fc);
-  [k,epsilon,~,~]=tf2schurOneMlattice(n,d);
+  [k,epsilon]=tf2schurOneMlattice(n,d);
 
   % Filter transfer function with epsilon
   try
