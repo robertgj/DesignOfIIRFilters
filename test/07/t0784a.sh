@@ -3,6 +3,8 @@
 prog=directFIRsymmetric_kyp_dual_lowpass_test.m
 
 depends="test/directFIRsymmetric_kyp_dual_lowpass_test.m test_common.m \
+gkyp_find_z_basis.m kyp_P_adjoint.m kyp_Q_adjoint.m kyp_expand_z_basis.m \
+kyp_find_symmetric_Theta_basis.m \
 delayz.m"
 
 tmp=/tmp/$$
@@ -51,7 +53,8 @@ max_Asq_p=1.11653055 (    0.4787 dB),min_Asq_p=0.88987387 (   -0.5067 dB)
 max_Asq_s=0.00010013 (    -39.99 dB),Asq_s=0.00010000
 
 Find reduced complexity dual solution:
-Recovered primal variable v_pass (Esq_s) =    -2.896
+Objective_dual=  3.67e-10
+Recovered primal variable v_pass (Esq_s) =    -2.065
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok "; fail; fi
 

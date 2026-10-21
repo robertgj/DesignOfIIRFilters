@@ -81,37 +81,12 @@ fprintf(fid,["Pass-band KYP primal maximum response error = %10.6g", ...
 %
 printf("\nSolve the dual problem for the pass-band maximum response error:\n")
 % Find a basis for Z 
-Fk=cell(1,N+2+N+2);
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-  Fk{k}=sparse([[Ek11,Ek12,zeros(N,1)];[Ek12',0,0];[zeros(1,N+2)]]);
-endfor
-Ek11=dlyap(A,(B*(B')));
-Fk{N+1}=sparse([[Ek11,zeros(N,2)];[zeros(2,N+2)]]);
-Fk{N+2}=sparse([[zeros(N,N+2)];[zeros(2,N),[1,0;0,0]]]);
-for k=1:(N+2)
-  Ek13=zeros(N+2);
-  Ek13(N+2,k)=1;
-  Ek13(k,N+2)=1;
-  Fk{N+2+k}=sparse(Ek13);
-endfor
+Fk=gkyp_find_z_basis(A,B);
 z_pass=sdpvar(1,length(Fk),"full","real");
-ZR_pass=zeros(N+2);
-for l=1:length(Fk),
-  ZR_pass=ZR_pass+(z_pass(l)*Fk{l});
-endfor
-ZR_pass11=ZR_pass(1:N,1:N);
-ZR_pass12=ZR_pass(1:N,N+1);
-ZR_pass22=ZR_pass(N+1,N+1);
+ZR_pass=kyp_expand_z_basis(Fk,z_pass);
 % Adjoint equality constraints
-Padj_pass=(A*ZR_pass11*(A'))-ZR_pass11+ ...
-          (B*(ZR_pass12')*(A'))+(A*ZR_pass12*(B'))+ ...
-          (B*ZR_pass22*(B'));
-Qadj_pass=ZR_pass11*(A') + A*ZR_pass11 - ...
-          c_pass*ZR_pass11 + ...
-          B*(ZR_pass12') + ZR_pass12*(B');
+Padj_pass=kyp_P_adjoint(ZR_pass,A,B);
+Qadj_pass=kyp_Q_adjoint(ZR_pass,A,B,Psi_pass);
 % Run YALMIP
 Constraints_dual = ...
   [ZR_pass>=0,trace(Theta1*ZR_pass)==-1,Qadj_pass==0,Padj_pass==0];
@@ -184,6 +159,6 @@ printf("Recovered primal variable v_pass=%g\n",G_pass\g_pass);
 fprintf(fid,"Recovered primal variable v_pass=%10.6g\n",G_pass\g_pass);
 
 % Done
-fclose(fid)
+fclose(fid);
 diary off
 movefile(strcat(strf,".diary.tmp"),strcat(strf,".diary"));

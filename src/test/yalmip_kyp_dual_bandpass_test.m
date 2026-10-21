@@ -44,13 +44,9 @@ C_pz=h_pz(end:-1:2);
 CD_pz=[C_pz,D;zeros(1,N),1];
 Phi=[-1,0;0,1];
 wc=2*pi*(fapu+fapl)/2;
-cwc=cos(wc);
-swc=sin(wc);
 e_p=e^(j*wc);
 wm=2*pi*(fapu-fapl)/2;
-cwm=cos(wm);
-swm=sin(wm);
-c_p=2*cwm;
+c_p=2*cos(wm);
 Psi_p=[0,e_p;conj(e_p),-c_p]; 
 
 % Esq basis
@@ -125,26 +121,13 @@ fprintf(fid,"\nvalue(Esq_pz)=%g,Esq_max_pz=%g\n\n",value(Esq_pz),Esq_max_pz);
 printf("\nChecking dual of KYP lemma:\n");
 
 Z=sdpvar(rows(Theta0),columns(Theta0),"symmetric","real");
-Z11=Z(1:N,1:N);
-Z12=Z(1:N,N+1);
-Z22=Z(N+1,N+1);
-
-Padj=(A*Z11*(A'))-Z11+(B*(Z12')*(A'))+(A*Z12*(B'))+(B*Z22*(B'));
-if 1
-  Qadj_real=(cwc*((Z11*(A'))+(A*(Z11'))+(B*(Z12'))+(Z12*(B'))) ...
-             -(2*cwm*Z11));
-  Qadj_imag=(swc*((Z11*(A'))-(A*(Z11'))-(B*(Z12'))+(Z12*(B'))));
-  Qadj_constraints=[Qadj_real==0,Qadj_imag==0];
-else
-  Qadj_complex=(e_p*Z11*(A'))+(conj(e_p)*A*Z11)-(c_p*Z11) + ...
-               (conj(e_p)*B*(Z12'))+(e_p*Z12*(B'));
-  Qadj_constraints=[Qadj_complex==0];
-endif
+Padj=kyp_P_adjoint(Z,A,B);
+Qadj=kyp_Q_adjoint(Z,A,B,Psi_p);
 
 %
 % Pass-band maximum response
 %
-Constraints=[Z>=0,Qadj_constraints,Padj==0,trace(Theta1*Z)==-1];
+Constraints=[Z>=0,Qadj==0,Padj==0,trace(Theta1*Z)==-1];
 Objective=[-trace(Theta0*Z)];
 Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,Objective,Options);
@@ -178,48 +161,16 @@ endif
 printf("\nChecking reduced dual of KYP lemma:\n");
 
 % Find a basis for Z 
-Fk=cell(1,N+2+N+2);
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-  Fk{k}=sparse([[Ek11,Ek12,zeros(N,1)];[Ek12',0,0];[zeros(1,N+2)]]);
-endfor
-Ek11=dlyap(A,(B*(B')));
-Fk{N+1}=sparse([[Ek11,zeros(N,2)];[zeros(2,N+2)]]);
-Fk{N+2}=sparse([[zeros(N,N+2)];[zeros(2,N),[1,0;0,0]]]);
-for k=1:(N+2)
-  Ek13=zeros(N+2);
-  Ek13(N+2,k)=1;
-  Ek13(k,N+2)=1;
-  Fk{N+2+k}=sparse(Ek13);
-endfor
-
+Fk=gkyp_find_z_basis(A,B);
 z=sdpvar(1,length(Fk),"full","real");
-ZR=zeros(size(Theta0));
-for l=1:length(z),
-  ZR=ZR+(z(l)*Fk{l});
-endfor
-ZR11=ZR(1:N,1:N);
-ZR12=ZR(1:N,N+1);
-ZR22=ZR(N+1,N+1);
-
-Padj=(A*ZR11*(A'))-ZR11+(B*(ZR12')*(A'))+(A*ZR12*(B'))+(B*ZR22*(B'));
-if 1
-  Qadj_real=(cwc*((ZR11*(A'))+(A*(ZR11'))+(B*(ZR12'))+(ZR12*(B'))) ...
-             -(2*cwm*ZR11));
-  Qadj_imag=(swc*((ZR11*(A'))-(A*ZR11)-(B*(ZR12'))+(ZR12*(B'))));
-  Qadj_constraints=[Qadj_real==0,Qadj_imag==0];
-else
-  Qadj_complex=(e_p*ZR11*(A'))+(conj(e_p)*A*ZR11)-(c_p*ZR11) + ...
-       (conj(e_p)*B*(ZR12'))+(e_p*ZR12*(B'));
-  Qadj_constraints=[Qadj_complex==0];
-endif
+ZR=kyp_expand_z_basis(Fk,z);
+Padj=kyp_P_adjoint(ZR,A,B);
+Qadj=kyp_Q_adjoint(ZR,A,B,Psi_p);
 
 %
 % Pass-band maximum response error
 %
-Constraints=[ZR>=0,Qadj_real==0,Padj==0,trace(Theta1*ZR)==-1];
+Constraints=[ZR>=0,Qadj==0,Padj==0,trace(Theta1*ZR)==-1];
 Objective=[-trace(Theta0_pz*ZR)];
 Options=sdpsettings("solver","sedumi");
 sol=optimize(Constraints,Objective,Options);

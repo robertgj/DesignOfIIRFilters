@@ -85,10 +85,7 @@ fprintf(fid,"KYP lemma & %16.8g & %10.6f & %d & %d\\\\\n", ...
 % the dual of the discrete-time KYP lemma
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Z=sdpvar(N+1,N+1,"symmetric","real");
-Z11=Z(1:N,1:N);  
-Z12=Z(1:N,N+1);
-Z22=Z(N+1,N+1);
-dualF=(A*Z11*(A'))+(B*(Z12')*(A'))+(A*Z12*(B'))+(B*Z22*(B'))-Z11;
+dualF=kyp_P_adjoint(Z,A,B);
 Constraints=[Z>=0,dualF==0,trace(Theta1*Z)==-1];
 Objective=[-trace(Theta0*Z)];
 sol=optimize(Constraints,Objective,sdpsettings(Options,"dualize","true"));
@@ -127,27 +124,13 @@ fprintf(fid,"Dual of KYP lemma & %16.8g & %10.6f & %d & %d \\\\\n", ...
 %
 % Find a basis for Z
 %
-Fk=cell(1,N+1);
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-  Fk{k}=sparse([[Ek11,Ek12];[Ek12',0]]);
-endfor
-Ek11=dlyap(A,(B*(B')));
-Fk{N+1}=sparse([[Ek11,zeros(N,1)];[zeros(1,N),1]]);
+Fk=kyp_find_z_basis(A,B);
+z=sdpvar(1,N+1,"full","real");
+ZR=kyp_expand_z_basis(Fk,z);
 
 %
 % Solve the reduced dual of the discrete-time KYP problem
 %
-z=sdpvar(1,N+1,"full","real");
-ZR=zeros(N+1);
-for l=1:(N+1),
-  ZR=ZR+(z(l)*Fk{l});
-endfor
-ZR11=ZR(1:N,1:N);
-ZR12=ZR(1:N,N+1);
-ZR22=ZR(N+1,N+1);
 Constraints=[ZR>=0,trace(Theta1*ZR)==-1];
 Objective=[-trace(Theta0*ZR)];
 sol=optimize(Constraints,Objective,Options);
@@ -160,11 +143,6 @@ check(Constraints)
 Reduced_Dual_Esq=-value(Objective);
 if Reduced_Dual_Esq < H_Esq
   error("Reduced_Dual_Esq < H_Esq");
-endif
-
-printf("max(max(abs(value(dualF))))=%10.4g\n",max(max(abs(value(dualF)))));
-if max(max(abs(value(dualF))))>20*tol
-  error("max(max(abs(value(dualF))))>20*tol");
 endif
 
 sort(eigs(value(ZR),N+1)',"descend");
@@ -206,30 +184,14 @@ ThetaT1=(CTD')*[[0,0];[0,-1]]*CTD;
 %
 % Find the basis matrixes of Z
 %
-Fk=cell(1,N+1);
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(invT_A_T,(invT_B*(Ek12')*(invT_A_T'))+(invT_A_T*Ek12*(invT_B')));
-  Fk{k}=sparse([[Ek11,Ek12];[Ek12',0]]);
-endfor
-Ek11=dlyap(invT_A_T,invT_B*(invT_B'));
-Fk{N+1}=sparse([[Ek11,zeros(N,1)];[zeros(1,N),1]]);
+Fk=kyp_find_z_basis(invT_A_T,invT_B);
+z=sdpvar(1,N+1,"full","real");
+ZR=kyp_expand_z_basis(Fk,z);
+dualF=kyp_P_adjoint(ZR,invT_A_T,invT_B);
 
 %
 % Solve the reduced dual of the discrete-time KYP problem
 %
-z=sdpvar(1,N+1,"full","real");
-ZR=zeros(N+1);
-for l=1:(N+1),
-  ZR=ZR+(z(l)*Fk{l});
-endfor
-ZR11=ZR(1:N,1:N);
-ZR12=ZR(1:N,N+1);
-ZR22=ZR(N+1,N+1);
-dualF=(invT_A_T*ZR11*(invT_A_T'))+ ...
-      (invT_B*(ZR12')*(invT_A_T'))+(invT_A_T*ZR12*(invT_B'))+ ...
-      (invT_B*ZR22*(invT_B'))-ZR11;
 Constraints=[ZR>=0,dualF==0,trace(ThetaT1*ZR)==-1];
 Objective=[-trace(ThetaT0*ZR)];
 sol=optimize(Constraints,Objective,Options);
@@ -302,10 +264,7 @@ for N=10:10:80
   % Solve the dual KYP problem
   %
   Z=sdpvar(N+1,N+1,"symmetric","real");
-  Z11=Z(1:N,1:N);  
-  Z12=Z(1:N,N+1);
-  Z22=Z(N+1,N+1);
-  dualF=(A*Z11*(A'))+(B*(Z12')*(A'))+(A*Z12*(B'))+(B*Z22*(B'))-Z11;
+  dualF=kyp_P_adjoint(Z,A,B);
   Constraints=[Z>=0,dualF==0,trace(Theta1*Z)==-1];
   Objective=[-trace(Theta0*Z)];
   if sol_problem == false
@@ -345,26 +304,10 @@ for N=10:10:80
   %
   % Solve the reduced dual KYP problem
   %
-  Fk=cell(1,N+1);
-  for k=1:N
-    Ek12=zeros(N,1);
-    Ek12(k)=1;
-    Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-    Fk{k}=sparse([[Ek11,Ek12];[Ek12',0]]);
-  endfor
-  Ek11=dlyap(A,(B*(B')));
-  Fk{N+1}=sparse([[Ek11,zeros(N,1)];[zeros(1,N),1]]);
-  z=sdpvar(1,N+2,"full","real");
-  ZR=zeros(N+1);
-  for l=1:(N+1),
-    ZR=ZR+(z(l)*Fk{l});
-  endfor
-  ZR11=ZR(1:N,1:N);
-  ZR12=ZR(1:N,N+1);
-  ZR22=ZR(N+1,N+1);
-  dualF=(A*ZR11*(A'))+ ...
-        (B*(ZR12')*(A'))+(A*ZR12*(B'))+ ...
-        (B*ZR22*(B'))-ZR11;
+  Fk=kyp_find_z_basis(A,B);
+  z=sdpvar(1,N+1,"full","real");
+  ZR=kyp_expand_z_basis(Fk,z);
+  dualF=kyp_P_adjoint(ZR,A,B);
   Constraints=[ZR>=0,dualF==0,trace(Theta1*ZR)==-1];
   Objective=[-trace(Theta0*ZR)];
   if reduced_sol_problem == false

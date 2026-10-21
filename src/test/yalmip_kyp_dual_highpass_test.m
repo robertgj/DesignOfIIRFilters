@@ -47,12 +47,12 @@ D=h(1);
 C_pz=C-[zeros(1,N-d),1,zeros(1,d-1)];
 Phi=[-1,0;0,1]; 
 c_pass=2*cos(2*pi*fap);
-Psi_pass=[0,-1;-1,c_pass];
+Psi_pass=[0,1;1,-c_pass];
 e_trans=e^(j*pi*(fap+fas));
 c_trans=2*cos(pi*(fap-fas));
 Psi_trans=[0,e_trans;conj(e_trans),-c_trans]; 
 c_stop=2*cos(2*pi*fas);
-Psi_stop=[0,1;1,-c_stop];
+Psi_stop=[0,-1;-1,c_stop];
 
 % Esq basis. This script finds Esq error here v
 Theta0=sparse([[zeros(N,N+1),C'];[zeros(1,N),-1,D'];[C,D,-1]]);
@@ -63,36 +63,14 @@ Theta0_stop=sparse([[zeros(N,N+1),C'];[zeros(1,N),0,D'];[C,D,-1]]);
 %
 % Find a basis for Z 
 %
-Fk=cell(1,N+2+N+2);
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-  Fk{k}=sparse([[Ek11,Ek12,zeros(N,1)];[Ek12',0,0];[zeros(1,N+2)]]);
-endfor
-Ek11=dlyap(A,(B*(B')));
-Fk{N+1}=sparse([[Ek11,zeros(N,2)];[zeros(2,N+2)]]);
-Fk{N+2}=sparse([[zeros(N,N+2)];[zeros(2,N),[1,0;0,0]]]);
-for k=1:(N+2)
-  Ek13=zeros(N+2);
-  Ek13(N+2,k)=1;
-  Ek13(k,N+2)=1;
-  Fk{N+2+k}=sparse(Ek13);
-endfor
+Fk=gkyp_find_z_basis(A,B);
 
 %
 % Overall maximum response
 %
 z_max=sdpvar(1,length(Fk),"full","real");
-ZR_max=zeros(N+2);
-for l=1:length(Fk),
-  ZR_max=ZR_max+(z_max(l)*Fk{l});
-endfor
-ZR_max11=ZR_max(1:N,1:N);
-ZR_max12=ZR_max(1:N,N+1);
-ZR_max22=ZR_max(N+1,N+1);
-Padj_max=(A*ZR_max11*(A'))-ZR_max11+ ...
-         (B*(ZR_max12')*(A'))+(A*ZR_max12*(B'))+(B*ZR_max22*(B'));
+ZR_max=kyp_expand_z_basis(Fk,z_max);
+Padj_max=kyp_P_adjoint(ZR_max,A,B);
 Constraints=[ZR_max>=0,Padj_max==0,trace(Theta1*ZR_max)==-1];
 Objective=[-trace(Theta0*ZR_max)];
 Options=sdpsettings("solver","sedumi");
@@ -114,19 +92,9 @@ endif
 % Pass-band maximum response
 %
 z_max_pass=sdpvar(1,length(Fk),"full","real");
-ZR_max_pass=zeros(N+2);
-for l=1:length(Fk),
-  ZR_max_pass=ZR_max_pass+(z_max_pass(l)*Fk{l});
-endfor
-ZR_max_pass11=ZR_max_pass(1:N,1:N);
-ZR_max_pass12=ZR_max_pass(1:N,N+1);
-ZR_max_pass22=ZR_max_pass(N+1,N+1);
-Padj_max_pass=(A*ZR_max_pass11*(A'))-ZR_max_pass11+ ...
-              (B*(ZR_max_pass12')*(A'))+(A*ZR_max_pass12*(B'))+ ...
-              (B*ZR_max_pass22*(B'));
-Qadj_max_pass=ZR_max_pass11*(A') + A*ZR_max_pass11 - ...
-              c_pass*ZR_max_pass11 + ...
-              B*(ZR_max_pass12') + ZR_max_pass12*(B');
+ZR_max_pass=kyp_expand_z_basis(Fk,z_max_pass)
+Padj_max_pass=kyp_P_adjoint(ZR_max_pass,A,B);
+Qadj_max_pass=kyp_Q_adjoint(ZR_max_pass,A,B,Psi_pass);
 Constraints=[ZR_max_pass>=0,Qadj_max_pass==0,Padj_max_pass==0, ...
              trace(Theta1*ZR_max_pass)==-1];
 Objective=[-trace(Theta0*ZR_max_pass)];
@@ -149,19 +117,9 @@ endif
 % Pass-band maximum response error
 %
 z_pass=sdpvar(1,length(Fk),"full","real");
-ZR_pass=zeros(N+2);
-for l=1:length(Fk),
-  ZR_pass=ZR_pass+(z_pass(l)*Fk{l});
-endfor
-ZR_pass11=ZR_pass(1:N,1:N);
-ZR_pass12=ZR_pass(1:N,N+1);
-ZR_pass22=ZR_pass(N+1,N+1);
-Padj_pass=(A*ZR_pass11*(A'))-ZR_pass11+ ...
-          (B*(ZR_pass12')*(A'))+(A*ZR_pass12*(B'))+ ...
-          (B*ZR_pass22*(B'));
-Qadj_pass=ZR_pass11*(A') + A*ZR_pass11 - ...
-          c_pass*ZR_pass11 + ...
-          B*(ZR_pass12') + ZR_pass12*(B');
+ZR_pass=kyp_expand_z_basis(Fk,z_pass);
+Padj_pass=kyp_P_adjoint(ZR_pass,A,B);
+Qadj_pass=kyp_Q_adjoint(ZR_pass,A,B,Psi_pass);
 Constraints=[ZR_pass>=0,Qadj_pass==0,Padj_pass==0,trace(Theta1*ZR_pass)==-1];
 Objective=[-trace(Theta0_pass*ZR_pass)];
 Options=sdpsettings("solver","sedumi");
@@ -183,18 +141,9 @@ endif
 % Stop-band maximum response
 %
 z_stop=sdpvar(1,length(Fk),"full","real");
-ZR_stop=zeros(N+2);
-for l=1:length(Fk),
-  ZR_stop=ZR_stop+(z_stop(l)*Fk{l});
-endfor
-ZR_stop11=ZR_stop(1:N,1:N);
-ZR_stop12=ZR_stop(1:N,N+1);
-ZR_stop22=ZR_stop(N+1,N+1);
-Padj_stop=(A*ZR_stop11*(A'))-ZR_stop11+ ...
-          (B*(ZR_stop12')*(A'))+(A*ZR_stop12*(B'))+ ...
-          (B*ZR_stop22*(B'));
-Qadj_stop=-ZR_stop11*(A') -A*ZR_stop11 +c_stop*ZR_stop11 ...
-          -B*(ZR_stop12') -ZR_stop12*(B');
+ZR_stop=kyp_expand_z_basis(Fk,z_stop);
+Padj_stop=kyp_P_adjoint(ZR_stop,A,B);
+Qadj_stop=kyp_Q_adjoint(ZR_stop,A,B,Psi_stop);
 Constraints=[ZR_stop>=0,Qadj_stop==0,Padj_stop==0,trace(Theta1*ZR_stop)==-1];
 Objective=[-trace(Theta0_stop*ZR_stop)];
 Options=sdpsettings("solver","sedumi");

@@ -2,6 +2,7 @@
 
 prog=yalmip_kyp_dual_test.m
 depends="test/yalmip_kyp_dual_test.m test_common.m \
+kyp_find_z_basis.m kyp_expand_z_basis.m kyp_P_adjoint.m \
 Abcd2tf.oct"
 
 tmp=/tmp/$$

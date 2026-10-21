@@ -3,6 +3,8 @@
 prog=directFIRnonsymmetric_kyp_dual_lowpass_test.m
 
 depends="test/directFIRnonsymmetric_kyp_dual_lowpass_test.m test_common.m \
+gkyp_find_z_basis.m kyp_P_adjoint.m kyp_Q_adjoint.m kyp_expand_z_basis.m \
+kyp_find_Theta_basis.m \
 delayz.m"
 
 tmp=/tmp/$$
@@ -42,6 +44,7 @@ cat > test.ok << 'EOF'
 max_Esq_z=0.00008103,Esq_z=0.00010000
 max_Asq_s=0.00000069,Asq_s=0.00000100
 Recovered primal duality gap=3.90084e-08
+max_Asq_s=-61.5807,Asq_s=-77.7900 (dB)
 Recovered primal variable v_stop (Esq_s) =-13.6878
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test.ok "; fail; fi

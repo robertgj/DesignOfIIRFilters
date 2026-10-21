@@ -118,63 +118,23 @@ Theta0_pass=sparse([[zeros(N,N+1),-C_d'];[zeros(1,N),-Esq_z,0];[-C_d,0,-1]]);
 Theta_Esq=sparse(zeros(N+2,N+2));
 Theta_Esq(N+1,N+1)=-1;
 % Basis for [C,D]
-Theta=cell(1,N+1);
-Theta=cell(1,N+1);
-for k=1:(N+1), 
-  Theta{k}=sparse(zeros(N+2,N+2));
-  Theta{k}(N+2,k)=1;
-  Theta{k}(k,N+2)=1;
-endfor
-
+Theta=kyp_find_Theta_basis(N);
 % Common basis for ZR
-Fk=cell(1,N+2+N+2);
-% Basis for adjoint matrixes
-for k=1:N
-  Ek12=zeros(N,1);
-  Ek12(k)=1;
-  Ek11=dlyap(A,(B*(Ek12')*(A'))+(A*Ek12*(B')));
-  Fk{k}=sparse([[Ek11,Ek12,zeros(N,1)];[Ek12',0,0];[zeros(1,N+2)]]);
-endfor
-Ek11=dlyap(A,(B*(B')));
-Fk{N+1}=sparse([[Ek11,zeros(N,2)];[zeros(2,N+2)]]);
-Fk{N+2}=sparse([[zeros(N,N+2)];[zeros(2,N),[1,0;0,0]]]);
-% Basis for h and ZR(N+2,N+2)
-for k=1:(N+2),
-  Ek13=zeros(N+2);
-  Ek13(N+2,k)=1;
-  Ek13(k,N+2)=1;
-  Fk{N+2+k}=sparse(Ek13);
-endfor
+Fk=gkyp_find_z_basis(A,B);
 
 % Construct Z_stop
 z_stop=sdpvar(1,length(Fk),"full","real");
-Z_stop=zeros(N+2);
-for k=1:length(Fk),
-  Z_stop=Z_stop+(z_stop(k)*Fk{k});
-endfor
-Z_stop11=Z_stop(1:N,1:N);
-Z_stop12=Z_stop(1:N,N+1);
-Z_stop22=Z_stop(N+1,N+1);
+Z_stop=kyp_expand_z_basis(Fk,z_stop);
 
 % Construct Z_pass
 z_pass=sdpvar(1,length(Fk),"full","real");
-Z_pass=zeros(N+2);
-for k=1:length(Fk),
-  Z_pass=Z_pass+(z_pass(k)*Fk{k});
-endfor
-Z_pass11=Z_pass(1:N,1:N);
-Z_pass12=Z_pass(1:N,N+1);
-Z_pass22=Z_pass(N+1,N+1);
+Z_pass=kyp_expand_z_basis(Fk,z_pass);
 
 % Construct adjoint matrix mappings
-Padj_stop=(A*Z_stop11*(A')) -Z_stop11 ...
-          +(B*(Z_stop12')*(A')) +(A*Z_stop12*(B')) +(B*Z_stop22*(B'));
-Padj_pass=(A*Z_pass11*(A')) -Z_pass11 ...
-          +(B*(Z_pass12')*(A')) +(A*Z_pass12*(B')) +(B*Z_pass22*(B'));
-Qadj_stop=-Z_stop11*(A') -A*(Z_stop11') +c_stop*Z_stop11 ...
-          -(B*(Z_stop12')) -(Z_stop12*(B'));
-Qadj_pass=Z_pass11*(A') + A*(Z_pass11') -c_pass*Z_pass11 ...
-          +(B*(Z_pass12')) +(Z_pass12*(B'));
+Padj_stop=kyp_P_adjoint(Z_stop,A,B);
+Padj_pass=kyp_P_adjoint(Z_pass,A,B);
+Qadj_stop=kyp_Q_adjoint(Z_stop,A,B,Psi_stop);
+Qadj_pass=kyp_Q_adjoint(Z_pass,A,B,Psi_pass);
 
 % Dual constraints
 Constraints_dual=[Z_stop>=0,Z_pass>=0, ...
@@ -186,19 +146,28 @@ for k=1:length(Theta),
 endfor
 Constraints_dual=[Constraints_dual,trace(Theta_Esq*Z_stop)==-1];
 
-% Call solver. Objective function = Esq_stop
+% Call solver. Asq_s is the objective function 
 Objective_dual=[-trace(Theta0_stop*Z_stop)];
 Options_dual=sdpsettings(Options,"sedumi.eps",1e-7,"dualize",false);
 sol=optimize(Constraints_dual,Objective_dual,Options_dual);
 if sol.problem
   error("YALMIP failed : %s",sol.info);
 endif
+
 % Sanity checks
 check(Constraints_dual)
 V_stop=dual(Constraints_dual(1));
 printf("Recovered primal duality gap=%g\n",trace(value(V_stop)*value(Z_stop)));
 fprintf(fid,"Recovered primal duality gap=%g\n", ...
         trace(value(V_stop)*value(Z_stop)));
+
+% Objective
+max_Asq_s=max(abs(H(nas:end)).^2);
+Asq_s=value(Objective_dual);
+printf("\n\nmax_Asq_s=%7.4f,Asq_s=%7.4f (dB)\n", ...
+       10*log10(max_Asq_s),10*log10(Asq_s));
+fprintf(fid,"max_Asq_s=%7.4f,Asq_s=%7.4f (dB)\n", ...
+        10*log10(max_Asq_s),10*log10(Asq_s));
 
 % Find g_stop
 g_stop=sparse(zeros(length(Fk),1));

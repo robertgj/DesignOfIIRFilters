@@ -1,7 +1,9 @@
 #!/bin/sh
 
 prog=yalmip_kyp_dual_bandpass_test.m
-depends="test/yalmip_kyp_dual_bandpass_test.m test_common.m Abcd2H.oct"
+depends="test/yalmip_kyp_dual_bandpass_test.m test_common.m \
+gkyp_find_z_basis.m kyp_expand_z_basis.m kyp_P_adjoint.m kyp_Q_adjoint.m \
+Abcd2H.oct"
 
 tmp=/tmp/$$
 here=`pwd`
