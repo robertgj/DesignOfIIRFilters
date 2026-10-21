@@ -13,7 +13,7 @@ function Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
 % Output:
 %  Da0 - allpass denominator polynomial
   
-% Copyright (C) 2024-2025 Robert G. Jenssen
+% Copyright (C) 2024-2026 Robert G. Jenssen
 %
 % Permission is hereby granted, free of charge, to any person
 % obtaining a copy of this software and associated documentation
@@ -50,7 +50,7 @@ function Da0=allpass_delay_wise_lowpass(m,DD,fap,fas,Was,td,ftp,Wtp)
   Ad=[ones(nap,1);zeros(n-nap,1)];
   Wa=[Wap*ones(nap,1);zeros(nas-nap-1,1);Was*ones(n-nas+1,1)];
   if nargin == 8
-    ntp=floor(ftp*n/0.5)+1;
+    ntp=ceil(ftp*n/0.5)+1;
     Td=td*ones(ntp,1);
     Wt=Wtp*ones(ntp,1);
   else
