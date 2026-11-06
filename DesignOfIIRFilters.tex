@@ -46818,17 +46818,17 @@ amplitude of the filter design.
 \section*{\label{sec:Software-requirements}Software requirements}
 I currently use the Fedora 44 distribution of Linux~\cite{Fedora_website} with:
 \begin{itemize}
-\item \texttt{uname -r} is \emph{7.2.7-200.fc44.x86\_64}
-\item \emph{gcc} version \emph{16.2.1 20260819 (Red Hat 16.2.1-2))}
+\item \texttt{uname -r} is \emph{7.2.15-300.fc45.x86\_64}
+\item \emph{gcc} version \emph{16.2.1 20261029 (Red Hat 16.2.1-3))}
 \item a local build of \emph{octave-11.3.0} with the \emph{struct}, \emph{io},
   \emph{statistics}, \emph{optim}, \emph{control}, \emph{signal},
   \emph{symbolic}\footnote{The \emph{symbolic} Octave-Forge package assumes that
   the \emph{python3-sympy} Fedora package is installed.} and \emph{parallel}
   Octave-Forge packages
 \item the Octave scripts use the \emph{qt} graphics toolkit with
-  \emph{qt6-qtbase-6.11.2-2} and a local build of \emph{GraphicsMagick}
-\item \emph{texlive-2025-1} and various packages are installed
-\item \emph{dia-0.97.3-32} is used for line drawings
+  \emph{qt6-qtbase-6.11.2-3} and a local build of \emph{GraphicsMagick}
+\item \emph{texlive-2025-2} and various packages are installed
+\item \emph{dia-0.97.3-34} is used for line drawings
 \end{itemize}
 
 The local build of \emph{octave-11.3.0} and Octave-Forge packages assumes that
@@ -46893,7 +46893,7 @@ texlive-collection-fontsrecommended texlive-fontsize
 \end{verbatim}
 \end{small}
   
-This project builds and runs on a Fedora \emph{qemu-10.2.2-1.fc44} QEMU/KVM
+This project builds and runs on a Fedora \emph{qemu-11.1.3-1.fc45} QEMU/KVM
 emulation of the Intel \emph{i7-7700K} CPU in my PC.
 
 \pdfbookmark[0]{Makefile}{makefile}
@@ -46943,9 +46943,9 @@ libraries:
   are compiled with the \texttt{-freal-8-real-16} flag by modifying
   \emph{INSTALL/make.inc.gfortran-quad make.inc} from the LAPACK distribution.},
 \emph{qrupdate-1.1.2}~\cite{QRUPDATE_website},
-\emph{SuiteSparse-7.14.0}~\cite{SUITESPARSE_website},
+\emph{SuiteSparse-7.14.1}~\cite{SUITESPARSE_website},
 \emph{sundials-7.9.0}~\cite{SUNDIALS_website} and
-\emph{GraphicsMagick-1.3.48}~\cite{GraphicsMagick_website}.
+\emph{GraphicsMagick-1.3.49}~\cite{GraphicsMagick_website}.
 
 Display the Octave internal build configuration with:
 \begin{small}
@@ -47216,6 +47216,26 @@ The Octave source distribution includes \emph{etc/gdbinit}, a script
 that contains useful macros for debugging oct-files with \emph{gdb}. The
 oct-file and the Octave interpreter must be compiled with debugging symbols.
 
+I use the following \emph{~/.gdbinit} file:
+\begin{small}
+\begin{verbatim}
+set debuginfod enabled off
+set debuginfod verbose 0
+set auto-load safe-path /
+set auto-load local-gdbinit on
+set mi-async on
+\end{verbatim}
+\end{small}
+
+To avoid annoying \emph{debuginfod} messages from \emph{gdb}:
+\begin{small}
+\begin{verbatim}
+$ sudo mv /usr/share/gdb/python/gdb/command/rpm-suggestions.py \
+          /usr/share/gdb/python/gdb/command/rpm-suggestions.py.disabled
+\end{verbatim}
+\end{small}
+See \url{https://bugs.mageia.org/show_bug.cgi?id=36276}.
+
 \subsubsection*{Installing Octave-Forge packages}
 To install Octave packages from a remote Octave-Forge file-server:
 \begin{small}
@@ -47308,11 +47328,11 @@ export OCTAVE_CONFIG_OPTIONS=" \
 \begin{tabular}{lr} \toprule
 Octave build & IIR benchmark execution time (seconds) \\
 \midrule
-Debug, shared reference lapack and blas     & 505.8 \\
-Shared reference lapack and blas            &  48.4 \\
-Shared reference lapack and blas, LTO       &  48.0 \\
-Shared reference lapack and blas, PGO       &  49.5 \\
-Shared reference lapack and blas, LTO, PGO  &  48.2 \\
+Debug, shared reference lapack and blas     & 499.9 \\
+Shared reference lapack and blas            &  47.7 \\
+Shared reference lapack and blas, LTO       &  47.7 \\
+Shared reference lapack and blas, PGO       &  48.6 \\
+Shared reference lapack and blas, LTO, PGO  &  47.9 \\
 \bottomrule
 \end{tabular}
 \egroup
@@ -47346,13 +47366,13 @@ Previous versions of \emph{atlas} produced slightly different results on each
 run.}:
 \begin{small}
 \begin{verbatim}
-atlas.x86_64            3.10.3-30.fc43
-blas.x86_64             3.12.0-11.fc44
-lapack.x86_64           3.12.0-11.fc44
-gsl.x86_64              2.8-3.fc44
-gsl-devel.x86_64        2.8-3.fc44
-openblas.x86_64         0.3.29-2.fc43
-openblas-threads.x86_64 0.3.29-2.fc43
+atlas.x86_64            3.10.3-33.fc45
+blas.x86_64             3.12.0-12.fc45
+lapack.x86_64           3.12.0-12.fc45
+gsl.x86_64              2.8-4.fc45
+gsl-devel.x86_64        2.8-4.fc45
+openblas.x86_64         0.3.34-1.fc45
+openblas-threads.x86_64 0.3.34-1.fc45
 \end{verbatim}
 \end{small}
 
@@ -47389,18 +47409,18 @@ between two values. The largest is shown.
 \cmidrule{2-5}                  & MFLOPS & Normalised & Execution time & Execution time \\
                                 &        & residual   & (seconds)      & (seconds) \\
 \midrule
-x86-64 libblas/liblapack        &  6485  & 21.3       &  48.0          &  55.8 \\
-Nehalem libblas/liblapack       &  6489  & 21.3       &  48.0          &  56.0 \\
-Haswell libblas/liblapack       &  9392  & 18.5       &  47.8          &  50.2 \\
-Skylake libblas/liblapack       &  9769  & 18.5       &  47.8          &  50.2 \\
-Fedora libblas/liblapack        &  6481  & 21.3       &  48.0          &  55.9 \\
-Nehalem libgslcblas             &  6488  & 21.3       &  48.0          &  55.9 \\
-Nehalem libsatlas               & 13303  & 12.1       &  49.2          &  60.5 \\
-Nehalem libtatlas               & 20120  & 12.8       &  48.6          &  60.7 \\
-Nehalem libopenblas             & 33095  &  9.9       &  47.3          &  50.1 \\
-Nehalem libopenblasp (1 thread) & 33118  &  9.9       &  47.3          &  50.6 \\
-Nehalem libopenblasp (2 threads)& 46459  & 12.1       &  47.4          &  50.6 \\
-Nehalem libopenblasp (4 threads)& 58397  & 10.8       &  47.6          &  50.6 \\
+x86-64 libblas/liblapack        &  6508  & 21.3       &  47.7          &  55.0 \\
+Nehalem libblas/liblapack       &  6473  & 21.3       &  47.8          &  55.0 \\
+Haswell libblas/liblapack       &  8381  & 18.5       &  47.6          &  49.4 \\
+Skylake libblas/liblapack       &  9051  & 18.5       &  47.6          &  49.4 \\
+Fedora libblas/liblapack        &  6599  & 21.3       &  47.8          &  54.9 \\
+Nehalem libgslcblas             &  6516  & 21.3       &  47.8          &  55.0 \\
+Nehalem libsatlas               & 13334  & 13.6       &  48.4          &  59.0 \\
+Nehalem libtatlas               & 20105  & 13.1       &  48.7          &  59.0 \\
+Nehalem libopenblas             & 33504  &  9.9       &  47.1          &  49.5 \\
+Nehalem libopenblasp (1 thread) & 33380  &  9.9       &  47.2          &  50.0 \\
+Nehalem libopenblasp (2 threads)& 46709  & 12.1       &  47.4          &  50.1 \\
+Nehalem libopenblasp (4 threads)& 59343  & 10.8       &  47.3          &  50.1 \\
 \bottomrule
 \end{tabular}
 \egroup{}

@@ -30,7 +30,7 @@ fas3l=0.25;
 dBas1=20;dBap1=1;dBas2=20;dBap2=1;dBas3=20;
 Was1=1;Wap1=1;Was2=1;Wap2=1;Was3=1;
 tp1=23;tpr1=2;tp2=13;tpr2=2;
-Wtp1=0.1;Wtp2=0.1;
+Wtp1=0.2;Wtp2=0.2;
 
 % Prototype lowpass (fc=0.5 corresponds to 0.5*Fs/2)
 n=5;fc=0.25;dBap=0.5;dBas=40;

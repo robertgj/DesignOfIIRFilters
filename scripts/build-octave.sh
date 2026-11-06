@@ -118,7 +118,7 @@ if ! test -f $ARPACK_ARCHIVE; then
   wget -c $ARPACK_URL -O $ARPACK_ARCHIVE
 fi
 
-SUITESPARSE_VER=${SUITESPARSE_VER:-7.14.0}
+SUITESPARSE_VER=${SUITESPARSE_VER:-7.14.1}
 SUITESPARSE_ARCHIVE=SuiteSparse-$SUITESPARSE_VER".tar.gz"
 SUITESPARSE_URL=https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v$SUITESPARSE_VER".tar.gz"
 if ! test -f $SUITESPARSE_ARCHIVE; then
@@ -154,7 +154,7 @@ if ! test -f $SUNDIALS_ARCHIVE; then
   wget -c $SUNDIALS_URL
 fi
 
-GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.48}
+GRAPHICSMAGICK_VER=${GRAPHICSMAGICK_VER:-1.3.49}
 GRAPHICSMAGICK_ARCHIVE=GraphicsMagick-$GRAPHICSMAGICK_VER".tar.xz"
 GRAPHICSMAGICK_URL=https://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/$GRAPHICSMAGICK_VER/GraphicsMagick-$GRAPHICSMAGICK_VER.tar.xz
 if ! test -f $GRAPHICSMAGICK_ARCHIVE; then
@@ -193,7 +193,7 @@ if ! test -f $CONTROL_ARCHIVE; then
   wget -c $CONTROL_URL 
 fi
 
-DATATYPES_VER=${DATATYPES_VER:-1.4.2}
+DATATYPES_VER=${DATATYPES_VER:-1.6.1}
 DATATYPES_ARCHIVE=datatypes-$DATATYPES_VER".tar.gz"
 DATATYPES_URL="https://github.com/pr0m1th3as/datatypes/releases/download/release-$DATATYPES_VER/$DATATYPES_ARCHIVE"
 if ! test -f $DATATYPES_ARCHIVE; then
@@ -235,7 +235,7 @@ if ! test -f $SIGNAL_ARCHIVE; then
   wget -c $SIGNAL_URL 
 fi
 
-STATISTICS_VER=${STATISTICS_VER:-1.9.3}
+STATISTICS_VER=${STATISTICS_VER:-2.1.1}
 STATISTICS_ARCHIVE=statistics-$STATISTICS_VER".tar.gz"
 STATISTICS_URL="https://github.com/gnu-octave/statistics/archive/refs/tags/release-"$STATISTICS_VER".tar.gz"
 if ! test -f $STATISTICS_ARCHIVE; then

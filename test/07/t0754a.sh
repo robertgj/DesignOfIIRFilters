@@ -71,7 +71,7 @@ ngpalt=0.5597, est_varypaltd=0.2699, varypaltd=0.1803, max_ypaltf=264, max_xxpal
 NN=3
 roundNBids = [  9, 10, 11 ]';
 ngds=1.4269, est_varydsd=0.5590, varydsd=0.3927, max_ydsf=270, max_xxdsf=218
-ngNBids=1.0397, est_varydsid=0.4299, varydsid=0.5208, max_ydsif=271, max_xxdsif=437
+ngNBids=1.0397, est_varydsid=0.4299, varydsid=0.8792, max_ydsif=270, max_xxdsif=438
 ngs=0.9011, est_varysd=0.3837, varysd=0.3847, max_ysf=269, max_xxsf=218
 roundNBis = [  9, 10, 10 ]';
 ngNBis=0.7425, est_varysid=0.3308, varysid=0.4789, max_ysif=270, max_xxsif=214

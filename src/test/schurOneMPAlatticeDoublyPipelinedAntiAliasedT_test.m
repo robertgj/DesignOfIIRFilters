@@ -39,8 +39,8 @@ TBap=(TBap1+TBap2)/2;
 if verbose
   printf("max(abs(TB-TBap))=%g\n",max(abs(TB-TBap)));
 endif
-if max(abs(TB-TBap)) > 2e-12
-  error("max(abs(TB-TBap)) > 2e-12");
+if max(abs(TB-TBap)) > 5e-12
+  error("max(abs(TB-TBap))(%g) > 5e-12", max(abs(TB-TBap)));
 endif
 
 

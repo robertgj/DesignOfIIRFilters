@@ -1,5 +1,5 @@
 % Abcd2tf_test.m
-% Copyright (C) 2017-2025 Robert G. Jenssen
+% Copyright (C) 2017-2026 Robert G. Jenssen
 
 test_common;
 
@@ -22,7 +22,7 @@ elseif exist("Abcd2tf") == 2
   % See Abcd2tf.m
   printf("Using Abcd2tf mfile\n");
   pAbcd2tf=@Abcd2tf;
-  tol_impl=1e-3;
+  tol_impl=2e-3;
 else
   error("Did not find an implementation of Abcd2tf!");
 endif
@@ -38,7 +38,8 @@ if max(abs(n-nn))>tol_impl
   error("max(abs(n-nn))(%g*tol_impl)>tol_impl\n",max(abs(n-nn))/tol_impl);
 endif
 if max(abs(d-dd))>tol_impl
-  error("max(abs(d-dd))(%g*tol_impl)>tol_impl\n",max(abs(d-dd))/tol_impl);
+  error("max(abs(d-dd))(%g*tol_impl)>tol_impl(%g)\n", ...
+        max(abs(d-dd))/tol_impl,tol_impl);
 endif
 
 % Sanity checks

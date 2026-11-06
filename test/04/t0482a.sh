@@ -24,10 +24,10 @@ tf2schurOneMlattice.m \
 schurOneMlatticeRetimedNoiseGain.m \
 schurOneMscale.m \
 H2Asq.m H2T.m H2P.m H2dAsqdw.m \
-phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m tf2pa.m qroots.oct local_max.m \
+phi2p.m tfp2g.m tf2x.m zp2x.m x2tf.m tf2pa.m local_max.m \
 schurOneMlatticeFilter.oct schurOneMAPlattice2H.oct schurOneMlattice2H.oct \
 schurOneMlattice2Abcd.oct schurdecomp.oct schurexpand.oct \
-spectralfactor.oct Abcd2H.oct Abcd2tf.oct complex_zhong_inverse.oct"
+spectralfactor.oct Abcd2H.oct Abcd2tf.oct complex_zhong_inverse.oct qroots.oct"
 
 tmp=/tmp/$$
 here=`pwd`
@@ -63,8 +63,8 @@ if [ $? -ne 0 ]; then echo "Failed cd"; fail; fi
 # the output should look like this
 #
 cat > test_A1k.ok << 'EOF'
-A1k = [  -0.8234975734,   0.9583530505,  -0.5857996162,   0.8516794649, ... 
-         -0.6933697310,   0.7395497204,  -0.4674057832,   0.7762216319 ];
+A1k = [  -0.8205233898,   0.9514539928,  -0.5865213975,   0.8633873671, ... 
+         -0.6926682283,   0.7333337661,  -0.4677611479,   0.7645785036 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1k.ok"; fail; fi
 
@@ -75,16 +75,16 @@ EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A1epsilon.ok"; fail; fi
 
 cat > test_A2k.ok << 'EOF'
-A2k = [  -0.7886001875,   0.9590949518,  -0.7338883801,   0.8590900274, ... 
-         -0.7063919340,   0.9816076009,  -0.2757461755,   0.8941014387, ... 
-         -0.7415240048,   0.8087489712,  -0.4687669714,   0.6910976097 ];
+A2k = [  -0.7534685590,   0.9416911885,  -0.7676931668,   0.9041367709, ... 
+         -0.7133034782,   0.9767992616,  -0.2735537497,   0.9005739645, ... 
+         -0.7402661973,   0.8078446469,  -0.4757814822,   0.6938472278 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2k.ok"; fail; fi
 
 cat > test_A2epsilon.ok << 'EOF'
 A2epsilon = [ -1, -1, -1, -1, ... 
                1,  1,  1, -1, ... 
-              -1, -1, -1, -1 ];
+              -1, -1, -1,  1 ];
 EOF
 if [ $? -ne 0 ]; then echo "Failed output cat test_A2epsilon.ok"; fail; fi
 

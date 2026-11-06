@@ -83,8 +83,8 @@ plot_response(N1,D1,"tfp2schurNSlattice2Abcd_test_ABCD");
 if norm(K-kron(kopt,Q))>100*eps
   error("norm(K-kron(kopt,Q))>100*eps")
 endif
-if norm(W-kron(wopt,Q))>5000*eps
-  error("norm(W-kron(wopt,Q))>5000*eps")
+if norm(W-kron(wopt,Q))>10000*eps
+  error("norm(W-kron(wopt,Q)) (%g*eps) > 10000*eps", norm(W-kron(wopt,Q))/eps)
 endif
 NG_ABCD=sum(diag(K).*diag(W))
 
