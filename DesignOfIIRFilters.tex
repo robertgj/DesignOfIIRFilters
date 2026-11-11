@@ -52,7 +52,10 @@ rmargin=1.5cm,headheight=1cm,headsep=1cm,footskip=1cm}
   2. Use the command:
     pdflatex '\newcommand\DesignOfIIRFiltersMono{}\input{DesignOfIIRFilters}'
   \end{comment}
-  \usepackage[hidelinks,colorlinks=false]{hyperref}
+  \usepackage[unicode=true,pdfusetitle,bookmarks=true,backref=page,
+              bookmarksnumbered=false,bookmarksopen=false,breaklinks=true,
+              pdfborder={1 0 0},colorlinks=false]{hyperref}
+  \usepackage[all]{hypcap} % Needed to help hyperlinks direct correctly
 \else
   \usepackage[unicode=true,pdfusetitle,bookmarks=true,backref=page,
               bookmarksnumbered=false,bookmarksopen=false,breaklinks=true,

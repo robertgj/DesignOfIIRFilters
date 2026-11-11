@@ -150,7 +150,6 @@ $(1).pdf : $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	-@for warnstr in $(TEX_CHECK_STRINGS); do \
 		$(GREP) -e "$$$$warnstr" $(1).log || true ; done ;
 	-@echo Build complete
-endef
 
 .PHONY: $(1)_monochrome
 $(1)_monochrome: $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
@@ -159,6 +158,8 @@ $(1)_monochrome: $(1).tex $(1).bib $(TARGET_DEPENDENCIES)
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS) && \
 	$(PDFLATEX) $(PDFLATEX_FLAGS) $(PDF_MONO_FLAGS)
+
+endef
 
 #
 # Intermediate file dependencies
