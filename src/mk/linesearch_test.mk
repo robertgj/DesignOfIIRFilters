@@ -1,6 +1,6 @@
-linesearch_test_EXTRA_DIARY_FILES=linesearch_test.diary.warning
+linesearch_test_EXTRA_DIARY_FILES=linesearch_test.diary.output
 
-linesearch_test.diary.warning : linesearch_test.diary
+linesearch_test.diary.output : linesearch_test.diary
 	grep -v warning $^ > $@
 
 linesearch_test_FILES = \
