@@ -2064,15 +2064,15 @@ Table~\ref{tab:Comp-schurOneMPAlattice-doubly-pipelined-bandpass-hilbert-12-nbit
 compares, for each filter, a cost function, the maximum pass band and stop band
 response errors, the total number of signed-digits required by the $12$-bit 
 coefficients and the number of shift-and-add operations required to implement
-the correction filter coefficient multiplications of the correction filter.
+the coefficient multiplications.
 
 \begin{table}
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrrr} \\ \toprule
-&Correction&Max. pass&Max. pass &Max. stop&Max. pass   &Max. pass  &$12$-bit&Shift-\\
-&filter    &amplitude&amplitude &amplitude&phase error &delay error&signed  &and- \\
-&cost      &error(dB)&rel. error&error(dB)&(rad./$\pi$)&(samples)  &digits  &adds \\
+&Band pass&Max. pass&Max. stop&Max. pass   &Max. pass  &$12$-bit&Shift-\\
+&Hilbert  &amplitude&amplitude&phase error &delay error&signed  &and- \\
+&cost     &error(dB)&(dB)     &(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -2219,7 +2219,7 @@ SOCP-relaxation optimised FIR filters.
 \begin{tabular}{lrrrrrrr} \\ \toprule
 &Band pass&Max. pass&Max. stop&Max. pass        &Max. pass     &$12$-bit&Shift-\\
 &Hilbert  &amplitude&amplitude&phase            &delay         &signed  &and-  \\
-&cost     &error(dB)&error(dB)&error(rad./$\pi$)&error(samples)&digits  &adds  \\
+&cost     &error(dB)&(dB)     &error(rad./$\pi$)&error(samples)&digits  &adds  \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_h_min_cost.tab}
 \\ \bottomrule
@@ -2308,7 +2308,7 @@ truncated FIR and Schur lattice filters.
 \begin{tabular}{lrrrrrrr} \\ \toprule
 &Band pass&Max. pass&Max. stop&Max. pass        &Max. pass     &$12$-bit&Shift-\\
 &Hilbert  &amplitude&amplitude&phase            &delay         &signed  &and-  \\
-&cost     &error(dB)&error(dB)&error(rad./$\pi$)&error(samples)&digits  &adds  \\
+&cost     &error(dB)&(dB)     &error(rad./$\pi$)&error(samples)&digits  &adds  \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_cost.tab}
 \\ \bottomrule
@@ -2351,7 +2351,7 @@ compares the group delay responses.
 \label{fig:Comp-schurOneMPAlattice-doubly-pipelined-bandpass-hilbert-12-nbits-Schur-FIR-pass}
 \end{figure}
 
-y\begin{figure}
+\begin{figure}
 \centering
 \scalebox{\DesignOfSchurLatticeFiltersPdfScale}{\input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_stop}}
 \caption{Comparison of the stop band amplitude responses of a

@@ -274,7 +274,7 @@ exact_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate "exact" errors
 exact_Asq_pass_error=max(abs(10*log10(exact_Asq(Rap))));
 exact_Asq_stop_error=min(abs(10*log10(exact_Asq(Ras))));
-exact_P_pass_error=max(abs(exact_P(Rpp)-Pz2-Pd+(2*pi))/pi);
+exact_P_pass_error=mod(max(abs(exact_P(Rpp)-Pz2-Pd+(2*pi))/pi),2);
 exact_T_pass_error=max(abs(exact_T(Rtp)-Tz2-Td));
 exact_dAsqdw_pass_error=max(abs(exact_dAsqdw(Rdp)-Dd));
 exact_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
@@ -294,7 +294,7 @@ exact_sd_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate signed-digit errors
 exact_sd_Asq_pass_error=max(abs(10*log10(exact_sd_Asq(Rap))));
 exact_sd_Asq_stop_error=min(abs(10*log10(exact_sd_Asq(Ras))));
-exact_sd_P_pass_error=max(abs(exact_sd_P(Rpp)-Pz2-Pd+(2*pi))/pi);
+exact_sd_P_pass_error=mod(max(abs(exact_sd_P(Rpp)-Pz2-Pd+(2*pi))/pi),2);
 exact_sd_T_pass_error=max(abs(exact_sd_T(Rtp)-Tz2-Td));
 exact_sd_dAsqdw_pass_error=max(abs(exact_sd_dAsqdw(Rdp)-Dd));
 exact_sd_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
@@ -314,7 +314,7 @@ exact_Lim_sd_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate signed-digit Lim errors
 exact_Lim_sd_Asq_pass_error=max(abs(10*log10(exact_Lim_sd_Asq(Rap))));
 exact_Lim_sd_Asq_stop_error=min(abs(10*log10(exact_Lim_sd_Asq(Ras))));
-exact_Lim_sd_P_pass_error=max(abs(exact_Lim_sd_P(Rpp)-Pz2-Pd+(2*pi))/pi);
+exact_Lim_sd_P_pass_error=mod(max(abs(exact_Lim_sd_P(Rpp)-Pz2-Pd+(2*pi))/pi),2);
 exact_Lim_sd_T_pass_error=max(abs(exact_Lim_sd_T(Rtp)-Tz2-Td));
 exact_Lim_sd_dAsqdw_pass_error=max(abs(exact_Lim_sd_dAsqdw(Rdp)-Dd));
 exact_Lim_sd_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
@@ -334,7 +334,7 @@ bandb_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate branch-and-bound errors
 bandb_Asq_pass_error=max(abs(10*log10(bandb_Asq(Rap))));
 bandb_Asq_stop_error=min(abs(10*log10(bandb_Asq(Ras))));
-bandb_P_pass_error=max(abs(bandb_P(Rpp)-Pz2-Pd+(2*pi))/pi);
+bandb_P_pass_error=mod(max(abs(bandb_P(Rpp)-Pz2-Pd+(2*pi))/pi),2);
 bandb_T_pass_error=max(abs(bandb_T(Rtp)-Tz2-Td));
 bandb_dAsqdw_pass_error=max(abs(bandb_dAsqdw(Rdp)-Dd));
 bandb_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
@@ -354,7 +354,7 @@ socp_dAsqdw=schurOneMPAlatticeDoublyPipelinedAntiAliaseddAsqdw ...
 % Calculate SOCP-relaxation errors
 socp_Asq_pass_error=max(abs(10*log10(socp_Asq(Rap))));
 socp_Asq_stop_error=min(abs(10*log10(socp_Asq(Ras))));
-socp_P_pass_error=max(abs(socp_P(Rpp)-Pz2-Pd)/pi);
+socp_P_pass_error=mod(max(abs(socp_P(Rpp)-Pz2-Pd+(2*pi))/pi),2);
 socp_T_pass_error=max(abs(socp_T(Rtp)-Tz2-Td));
 socp_dAsqdw_pass_error=max(abs(socp_dAsqdw(Rdp)-Dd));
 socp_Esq=schurOneMPAlatticeDoublyPipelinedAntiAliasedEsq ...
@@ -583,7 +583,7 @@ Asq_exact_h=directFIRnonsymmetricAsq(w,exact_h);
 Asq_exact_h_pass_error=max(abs(10*log10(Asq_exact_h(Rap))));
 Asq_exact_h_stop_error=min(abs(10*log10(Asq_exact_h(Ras))));
 P_exact_h=directFIRnonsymmetricP(w,exact_h);
-P_exact_h_pass_error=max(abs(P_exact_h(Rpp)-Pd+(6*pi))/pi);
+P_exact_h_pass_error=mod(max(abs(P_exact_h(Rpp)-Pd+(6*pi))/pi),2);
 T_exact_h=directFIRnonsymmetricT(w,exact_h);
 T_exact_h_pass_error=max(abs(T_exact_h(Rtp)-Td));
 Esq_exact_h=directFIRnonsymmetricEsq ...
@@ -593,7 +593,7 @@ Asq_exact_h_sd=directFIRnonsymmetricAsq(w,exact_h_sd);
 Asq_exact_h_sd_pass_error=max(abs(10*log10(Asq_exact_h_sd(Rap))));
 Asq_exact_h_sd_stop_error=min(abs(10*log10(Asq_exact_h_sd(Ras))));
 P_exact_h_sd=directFIRnonsymmetricP(w,exact_h_sd);
-P_exact_h_sd_pass_error=max(abs(P_exact_h_sd(Rpp)-Pd+(6*pi))/pi);
+P_exact_h_sd_pass_error=mod(max(abs(P_exact_h_sd(Rpp)-Pd+(6*pi))/pi),2);
 T_exact_h_sd=directFIRnonsymmetricT(w,exact_h_sd);
 T_exact_h_sd_pass_error=max(abs(T_exact_h_sd(Rtp)-Td));
 Esq_exact_h_sd=directFIRnonsymmetricEsq ...
@@ -603,7 +603,7 @@ Asq_exact_h_Lim_sd=directFIRnonsymmetricAsq(w,exact_h_Lim_sd);
 Asq_exact_h_Lim_sd_pass_error=max(abs(10*log10(Asq_exact_h_Lim_sd(Rap))));
 Asq_exact_h_Lim_sd_stop_error=min(abs(10*log10(Asq_exact_h_Lim_sd(Ras))));
 P_exact_h_Lim_sd=directFIRnonsymmetricP(w,exact_h_Lim_sd);
-P_exact_h_Lim_sd_pass_error=max(abs(P_exact_h_Lim_sd(Rpp)-Pd+(6*pi))/pi);
+P_exact_h_Lim_sd_pass_error=mod(max(abs(P_exact_h_Lim_sd(Rpp)-Pd+(6*pi))/pi),2);
 T_exact_h_Lim_sd=directFIRnonsymmetricT(w,exact_h_Lim_sd);
 T_exact_h_Lim_sd_pass_error=max(abs(T_exact_h_Lim_sd(Rtp)-Td));
 Esq_exact_h_Lim_sd=directFIRnonsymmetricEsq ...
@@ -613,7 +613,7 @@ Asq_socp_h_min=directFIRnonsymmetricAsq(w,socp_h_min);
 Asq_socp_h_min_pass_error=max(abs(10*log10(Asq_socp_h_min(Rap))));
 Asq_socp_h_min_stop_error=min(abs(10*log10(Asq_socp_h_min(Ras))));
 P_socp_h_min=directFIRnonsymmetricP(w,socp_h_min);
-P_socp_h_min_pass_error=max(abs(P_socp_h_min(Rpp)-Pd+(6*pi))/pi);
+P_socp_h_min_pass_error=mod(max(abs(P_socp_h_min(Rpp)-Pd+(6*pi))/pi),2);
 T_socp_h_min=directFIRnonsymmetricT(w,socp_h_min);
 T_socp_h_min_pass_error=max(abs(T_socp_h_min(Rtp)-Td));
 Esq_socp_h_min=directFIRnonsymmetricEsq ...
@@ -623,7 +623,7 @@ Asq_bandb_h_min=directFIRnonsymmetricAsq(w,bandb_h_min);
 Asq_bandb_h_min_pass_error=max(abs(10*log10(Asq_bandb_h_min(Rap))));
 Asq_bandb_h_min_stop_error=min(abs(10*log10(Asq_bandb_h_min(Ras))));
 P_bandb_h_min=directFIRnonsymmetricP(w,bandb_h_min);
-P_bandb_h_min_pass_error=max(abs(P_bandb_h_min(Rpp)-Pd+(6*pi))/pi);
+P_bandb_h_min_pass_error=mod(max(abs(P_bandb_h_min(Rpp)-Pd+(6*pi))/pi),2);
 T_bandb_h_min=directFIRnonsymmetricT(w,bandb_h_min);
 T_bandb_h_min_pass_error=max(abs(T_bandb_h_min(Rtp)-Td));
 Esq_bandb_h_min=directFIRnonsymmetricEsq ...
@@ -854,9 +854,8 @@ print(strcat(strf,"_Schur_FIR_stop"),"-dpdflatex");
 close
 
 % Plot Schur-FIR phase response
-P_Schur_FIR=[bandb_P+(w*Tz2),socp_P+(w*Tz2), ...
-             P_bandb_h_min+(4*pi),P_socp_h_min+(4*pi)];
-ha = plot(w*0.5/pi,(unwrap(P_Schur_FIR)+(w*tp))/pi);
+P_Schur_FIR=[bandb_P+(w*Tz2),socp_P+(w*Tz2),P_bandb_h_min,P_socp_h_min];
+ha = plot(w*0.5/pi,mod((unwrap(P_Schur_FIR)+(w*tp))/pi,2));
 % Set line style
 hls={"-",":","--","-."};
 for c=1:4,

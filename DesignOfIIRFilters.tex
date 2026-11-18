@@ -26197,9 +26197,9 @@ the filter coefficient multiplications.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Correction&Max. pass&Max. stop  &Max. pass &Max. pass&$12$-bit&Shift-and-adds\\
- &filter    &amp. error&amp. error&phase error&delay error&signed& \\
- &cost      &          &        &(rad./$\pi$)&(samples)  &digits& \\
+ &Correction&Max. pass &Max. stop  &Max. pass  &Max. pass  &$12$-bit&Shift-\\
+ &filter    &amp. error&amp. error &phase error&delay error&signed  &and- \\
+ &cost      &          &           &(rad./$\pi$)&(samples) &digits  &adds \\
 \midrule
 \input{comparison_schurOneMlattice_lowpass_differentiator_R2_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -26229,13 +26229,13 @@ pipelining a $6$th order tapped Schur one-multiplier lattice with coefficients
 only in $z^{-2}$.
 
 Tne Octave script
-\emph{schurOneMlattice\_socp\_slb\_bandpass\_hilbert\_R2\_test},
+\emph{schurOneMlattice\_socp\_slb\_bandpass\_hilbert\_R2\_test.m},
 described in
 Section~\ref{sec:Design-IIR-one-multiplier-Schur-lattice-band-pass-hilbert-R2-SOCP},
 designs the filter with floating point coefficients.
 
 The Octave script
-\emph{branch\_bound\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test},
+\emph{branch\_bound\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test.m},
 described in
 Section~\ref{sec:Branch-and-bound-search-13-bit-one-mult-Schur-lattice-R2-bandpass-hilbert},
 performs branch-and-bound search for $13$-bit coefficients with an average of
@@ -26244,14 +26244,14 @@ signed-digit approximation and the remaining un-fixed coefficients are
 SOCP-optimised.
 
 The Octave script
-\emph{socp\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test},
+\emph{socp\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test.m},
 described in
 Section~\ref{sec:SOCP-relaxation-search-signed-digit-coefficients-bandpass-hilbert-lattice-IIR},
 performs SOCP-relaxation search for $13$-bit coefficients with an average of
 $3$-signed-digits.
 
 The Octave script
-\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test}
+\emph{pop\_relaxation\_schurOneMlattice\_bandpass\_hilbert\_R2\_13\_nbits\_test.m}
 performs POP-relaxation search for $13$-bit coefficients with an average of
 $3$-signed-digits. 
 
@@ -26352,9 +26352,9 @@ the filter coefficient multiplications.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$13$-bit&Shift-and-adds\\
- &filter &amplitude &amplitude &phase error &delay error&signed& \\
- &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass  &$13$-bit&Shift- \\
+ &filter &amplitude &amplitude &phase error &delay error&signed  &and- \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_cost.tab}
 \\ \bottomrule
@@ -26389,9 +26389,9 @@ compares the responses and numbers of signed digits.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$13$-bit&Shift-and-adds\\
- &filter &amplitude &amplitude &phase error &delay error&signed& \\
- &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass  &$13$-bit&Shift-\\
+ &filter &amplitude &amplitude &phase error &delay error&signed  &and-  \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples)  &digits  &adds  \\
 \midrule
 \input{comparison_schurOneMlattice_bandpass_hilbert_R2_13_nbits_test_Schur_FIR_cost.tab}
 \\ \bottomrule
@@ -26481,9 +26481,9 @@ coefficients are:
 \verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A1k0_coef.m}
 \verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_A2k0_coef.m}
 \end{small}
-For this script, the anti-aliasing filter is fixed as an $11$-th order
-Butterworth half-band filter. The anti-aliasing filter is not required to be
-implemented as parallel doubly-pipelined all-pass
+For this script, the initial floating-point anti-aliasing filter is fixed as an
+$11$-th order Butterworth half-band filter. The anti-aliasing filter is not
+required to be implemented as parallel doubly-pipelined all-pass
 lattices~\cite{VaidyanathanMitraNuevo_LowSensitivityIIRDigitalFilters, VaidyanathanMitra_LowPassbandSensitivityDigitalFilters}
 but it is so in this example. The denominator polynomials of the corresponding
 parallel all-pass filters are:
@@ -26516,8 +26516,7 @@ $3$-signed-digits allocated with the method of \emph{Lim et al.}:
 \verbatiminput{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Aaa2k_Lim_sd_coef.m}
 \end{small}
 
-The Octave script
-\emph{branch\_bound\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test},
+The Octave script \emph{branch\_bound\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test.m}, \\ % Avoid overfull warning
 described in
 Section~\ref{sec:Branch-and-bound-search-signed-digit-coefficients-doubly-pipelined-antialiased-bandpass-Hilbert},
 performs branch-and-bound search for $12$-bit coefficients with an average of
@@ -26534,7 +26533,7 @@ are:
 \end{small}
 
 The Octave script
-\emph{socp\_relaxation\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test}, \\ % Avoid overfull warning
+\emph{socp\_relaxation\_schurOneMPAlatticeDoublyPipelinedAntiAliased\_bandpass\_hilbert\_12\_nbits\_test.m}, \\ % Avoid overfull warning
 described in
 Section~\ref{sec:SOCP-relaxation-search-signed-digit-coefficients-doubly-pipelined-antialiased-bandpass-Hilbert},
 performs SOCP-relaxation search for $12$-bit coefficients with an average of
@@ -26571,9 +26570,9 @@ the filter coefficient multiplications.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$12$-bit&Shift-and-adds\\
- &filter &amplitude &amplitude &phase error &delay error&signed& \\
- &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass  &$12$-bit&Shift-\\
+ &filter &amplitude &amplitude &phase error &delay error&signed  &and- \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples)  &digits  &adds \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_cost.tab}
 \\ \bottomrule
@@ -26689,9 +26688,9 @@ compares the responses and numbers of signed digits.
 \centering
 \begin{threeparttable}
 \begin{tabular}{lrrrrrrr} \\ \toprule
- &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass &$12$-bit&Shift-and-adds\\
- &filter &amplitude &amplitude &phase error &delay error&signed& \\
- &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples) &digits& \\
+ &Hilbert&Max. pass &Max. stop &Max. pass   &Max. pass  &$12$-bit&Shift-\\
+ &filter &amplitude &amplitude &phase error &delay error&signed  &and-  \\
+ &cost   &error(dB) & (dB)     &(rad./$\pi$)&(samples)  &digits  &adds  \\
 \midrule
 \input{comparison_schurOneMPAlatticeDoublyPipelinedAntiAliased_bandpass_hilbert_12_nbits_test_Schur_FIR_cost.tab}
 \\ \bottomrule
